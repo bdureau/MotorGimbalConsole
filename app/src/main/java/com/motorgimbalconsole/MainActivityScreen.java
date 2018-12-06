@@ -65,7 +65,7 @@ public class MainActivityScreen extends AppCompatActivity {
         btnCalibrate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                myBT.write("c;\n".toString());
             }
         });
 

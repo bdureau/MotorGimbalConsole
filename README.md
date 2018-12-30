@@ -1,5 +1,12 @@
 # Rocket Gimbal Console
-This is a simple Android and Processing application that show rocket movmentsusing an accelerometer and a gyroscope board. 
+This is a simple Android and Processing application that show rocket movments using an accelerometer and a gyroscope board. 
+This will display the output of my accelerometer program
+
+https://github.com/bdureau/mpu6050STM32
+
+or my rocket motor gimbal application
+
+https://github.com/bdureau/RocketMotorPIDGimbal
 
 
 

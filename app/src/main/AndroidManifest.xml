@@ -3,6 +3,7 @@
     package="com.motorgimbalconsole">
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-feature android:name="android.hardware.usb.host" />
     <application
         android:name=".ConsoleApplication"
         android:allowBackup="true"
@@ -17,12 +18,25 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+            </intent-filter>
+            <meta-data
+                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+                android:resource="@xml/device_filter" />
         </activity>
         <activity
             android:name=".SearchBluetooth"
             android:label="Select Bluetooth device"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".AboutActivity"
+            android:label="about_screen"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AppConfigActivity"
+            android:label="titre_application_pref"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

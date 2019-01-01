@@ -17,7 +17,7 @@ public class BluetoothConnection {
     BluetoothAdapter myBluetooth = null;
     BluetoothSocket btSocket = null;
     private boolean isBtConnected = false;
-    private String address = null;
+    //private String address = null;
     //SPP UUID. Look for it
     static final UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
@@ -97,11 +97,11 @@ public class BluetoothConnection {
         }
     }
 
-    public void setAddress(String bTAddress) {
+    /*public void setAddress(String bTAddress) {
 
         address = bTAddress;
 
     }
     public String getAddress () {return address;}
-
+*/
 }

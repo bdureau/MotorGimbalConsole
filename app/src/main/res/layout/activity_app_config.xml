@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.motorgimbalconsole.AppConfigActivity">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save config"
+        android:id="@+id/butSave"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dismiss config"
+        android:id="@+id/butDismiss"
+        android:layout_alignTop="@+id/butSave"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Default config"
+        android:id="@+id/butDefault"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="application langage config"
+        android:id="@+id/txtViewAppLang"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerLanguage"
+        android:layout_alignParentTop="true"
+        android:layout_width="175dp"
+        android:layout_alignTop="@+id/txtViewAppLang"
+        android:layout_alignParentRight="true"
+        android:focusableInTouchMode="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="graph color config"
+        android:id="@+id/txtViewGraphColor"
+        android:layout_below="@+id/txtViewAppLang"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="18dp" />
+
+    <Spinner
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerGraphColor"
+        android:layout_width="175dp"
+        android:layout_alignTop="@+id/txtViewGraphColor"
+        android:layout_alignParentRight="true"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="application units config"
+        android:id="@+id/txtViewUnits"
+        android:layout_below="@+id/txtViewGraphColor"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="18dp" />
+
+    <Spinner
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerUnits"
+        android:layout_alignTop="@+id/txtViewUnits"
+        android:layout_width="175dp"
+        android:layout_alignParentRight="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="graph back color config"
+        android:id="@+id/txtViewGraphBackColor"
+        android:layout_below="@+id/txtViewUnits"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="18dp" />
+
+
+    <Spinner
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerGraphBackColor"
+        android:layout_alignTop="@+id/txtViewGraphBackColor"
+        android:layout_width="175dp"
+        android:layout_alignParentRight="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="font_size"
+        android:id="@+id/txtViewFontSize"
+        android:layout_below="@+id/txtViewGraphBackColor"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="18dp" />
+
+    <Spinner
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerFontSize"
+        android:layout_alignTop="@+id/txtViewFontSize"
+        android:layout_width="175dp"
+        android:layout_alignParentRight="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Baud rate"
+        android:id="@+id/textViewBaudRate"
+        android:layout_below="@+id/txtViewFontSize"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="18dp" />
+
+    <Spinner
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerBaudRate"
+        android:layout_alignTop="@+id/textViewBaudRate"
+        android:layout_width="175dp"
+        android:layout_alignParentRight="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Connection type"
+        android:id="@+id/textConnectionType"
+        android:layout_below="@+id/textViewBaudRate"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="18dp" />
+    <Spinner
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerConnectionType"
+        android:layout_alignTop="@+id/textConnectionType"
+        android:layout_width="175dp"
+        android:layout_alignParentRight="true" />
+</RelativeLayout>

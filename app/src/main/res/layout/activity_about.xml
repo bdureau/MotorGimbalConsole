@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+
+    tools:context="com.motorgimbalconsole.AboutActivity">
+
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/ic_launcher"
+        android:layout_above="@+id/txtViewTitle"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dismiss"
+        android:id="@+id/butDismiss"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Version:"
+        android:id="@+id/txtViewTitle"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Copyright (c) Boris du Reau 2016-2018"
+        android:id="@+id/txtViewCopyright"
+        android:layout_below="@+id/txtViewTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp" />
+    <!-- android:layout_alignLeft="@+id/imageView"
+        android:layout_alignStart="@+id/imageView"-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtViewVersion"
+        android:text="1.0"
+        android:layout_above="@+id/txtViewCopyright"
+        android:layout_alignRight="@+id/txtViewCopyright" />
+</RelativeLayout>

@@ -1,6 +1,14 @@
 <resources>
     <string name="app_name">MotorGimbalConsole</string>
 
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_console_tab_config">ConsoleTabConfigActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="title_activity_console_tab_status">ConsoleTabStatusActivity</string>
+    <string name="msg9">You have changed the baud rate, the altimeter might not be able to connect. Are you sure?</string>
+
 </resources>

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.motorgimbalconsole">
+
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
     <uses-feature android:name="android.hardware.usb.host" />
+
     <application
         android:name=".ConsoleApplication"
         android:allowBackup="true"
@@ -12,6 +15,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".ConsoleTabStatusActivity"
+            android:label="@string/title_activity_console_tab_status"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".ConsoleTabConfigActivity"
+            android:label="@string/title_activity_console_tab_config"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivityScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,6 +32,7 @@
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
             </intent-filter>
+
             <meta-data
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />

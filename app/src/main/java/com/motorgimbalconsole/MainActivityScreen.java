@@ -18,17 +18,16 @@ import android.widget.Toast;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import processing.android.PFragment;
-import processing.core.PApplet;
+
 
 public class MainActivityScreen extends AppCompatActivity {
-    private PApplet sketch;
-    Button btnConnectDisconnect, btnOrientation, btnCalibrate;
-    //PFragment fragment;
-    //private BluetoothConnection BTCon = null;
+
+    Button btnConnectDisconnect, btnConfig, btnStatus;
+
     private String address;
     ConsoleApplication myBT;
     private ProgressDialog progress;
@@ -78,75 +77,43 @@ public class MainActivityScreen extends AppCompatActivity {
         btnConnectDisconnect = (Button)findViewById(R.id.button);
         btnConnectDisconnect.setText("connect");
 
-        btnCalibrate = (Button)findViewById(R.id.butCalibrate);
-        btnOrientation = (Button)findViewById(R.id.butOrientation);
+
+
+        btnConfig = (Button)findViewById(R.id.butGimbalConfig);
+        btnStatus = (Button)findViewById(R.id.butGimbalStatus);
         DisableUI();
         //get the bluetooth and USB Application pointer
         myBT = (ConsoleApplication) getApplication();
 
-        sketch = new Sketch();
-        ((Sketch) sketch).setMyApp(myBT);
-        //((Sketch) sketch).setApp(myBT);
-        PFragment fragment = new PFragment(sketch);
-        getSupportFragmentManager().beginTransaction().add(R.id.container, fragment).commit();
 
 
+        btnConfig.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 /*if(myBT.getConnected()) {
+                     myBT.flush();
+                     myBT.clearInput();
 
-        //BTCon = new BluetoothConnection();
-        //fragment =(PFragment)findViewById(R.id.fragment);
-        /*FrameLayout frame = new FrameLayout(this);
-        frame.setId(CompatUtils.getUniqueViewId());
-        setContentView(frame, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-
-        sketch = new Sketch();
-        PFragment fragment = new PFragment(sketch);
-        fragment.setView(frame, this);*/
-
-        btnOrientation.setOnClickListener(new View.OnClickListener() {
+                     myBT.write("y0;\n".toString());
+                 }*/
+                 readConfig();
+                 Intent i = new Intent(MainActivityScreen.this, ConsoleTabConfigActivity.class);
+                 startActivity(i);
+             }
+         });
+        btnStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((Sketch) sketch).setOrientation('h');
+                if(myBT.getConnected()) {
+                    myBT.flush();
+                    myBT.clearInput();
+
+                    myBT.write("y1;\n".toString());
+                }
+                Intent i = new Intent(MainActivityScreen.this, ConsoleTabStatusActivity.class);
+                startActivity(i);
             }
         });
-        btnCalibrate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myBT.write("c;\n".toString());
-            }
-        });
-
-         /*btnConnectDisconnect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                if (myBT.getConnected()) {
-                    // msg("disconnecting");
-                    Disconnect(); //close connection
-                    DisableUI();
-                    btnConnectDisconnect.setText("connect");
-                }
-                else {
-
-                        address = myBT.getAddress();
-
-                        if (address != null ) {
-                            new ConnectBT().execute(); //Call the class to connect
-                            if (myBT.getConnected()) {
-                                EnableUI();
-                                btnConnectDisconnect.setText("disconnect");
-                            }
-                        } else {
-                            // choose the bluetooth device
-                            Intent i = new Intent(MainActivityScreen.this, SearchBluetooth.class);
-                            startActivity(i);
-                        }
-
-
-                }
-            }
-        });*/
         btnConnectDisconnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,18 +124,18 @@ public class MainActivityScreen extends AppCompatActivity {
                     myBT.setConnectionType("usb");
 
                 if (myBT.getConnected()) {
-                    // msg("disconnecting");
+
                     Disconnect(); //close connection
                     DisableUI();
                     btnConnectDisconnect.setText("connect");
                 }
                 else {
-                    // msg(myBT.getConnectionType());
                     if (myBT.getConnectionType().equals( "bluetooth")) {
                         address = myBT.getAddress();
 
                         if (address != null ) {
                             new ConnectBT().execute(); //Call the class to connect
+
                             if (myBT.getConnected()) {
                                 EnableUI();
                                 btnConnectDisconnect.setText("disconnect");
@@ -205,16 +172,15 @@ public class MainActivityScreen extends AppCompatActivity {
     }
 
     private void DisableUI () {
-        btnCalibrate.setEnabled(false);
-        btnOrientation.setEnabled(false);
+        btnConfig.setEnabled(false);
+        btnStatus.setEnabled(false);
 
     }
     private void EnableUI () {
-        btnCalibrate.setEnabled(true);
-        btnOrientation.setEnabled(true);
-
+        btnConfig.setEnabled(true);
+        btnStatus.setEnabled(true);
     }
-    @Override
+    /*@Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         if (sketch != null) {
             sketch.onRequestPermissionsResult(
@@ -227,10 +193,59 @@ public class MainActivityScreen extends AppCompatActivity {
         if (sketch != null) {
             sketch.onNewIntent(intent);
         }
-    }
+    }*/
     private void Disconnect() {
         myBT.Disconnect();
     }
+    private void readConfig()
+    {
+        // ask for config
+        if(myBT.getConnected()) {
+
+            //msg("Retreiving altimeter config...");
+            myBT.setDataReady(false);
+
+            myBT.flush();
+            myBT.clearInput();
+
+            myBT.write("b;\n".toString());
+
+            myBT.flush();
+
+
+            //get the results
+            //wait for the result to come back
+            try {
+                while (myBT.getInputStream().available() <= 0) ;
+            } catch (IOException e) {
+
+            }
+        }
+        //reading the config
+        if(myBT.getConnected()) {
+            String myMessage = "";
+            long timeOut = 10000;
+            long startTime = System.currentTimeMillis();
+
+            myMessage =myBT.ReadResult(10000);
+
+            if (myMessage.equals( "start alticonfig end") )
+            {
+                try {
+                    //GimbalCfg= myBT.getAltiConfigData();
+                }
+                catch (Exception e) {
+                    //  msg("pb ready data");
+                }
+            }
+            else
+            {
+                // msg("data not ready");
+            }
+        }
+
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -265,8 +280,8 @@ public class MainActivityScreen extends AppCompatActivity {
             return true;
         }
         if (id == R.id.action_about) {
-           /* Intent i = new Intent(MainActivityScreen.this, AboutActivity.class);
-            startActivity(i);*/
+            Intent i = new Intent(MainActivityScreen.this, AboutActivity.class);
+            startActivity(i);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -302,7 +317,6 @@ public class MainActivityScreen extends AppCompatActivity {
         protected Void doInBackground(Void... devices) //while the progress dialog is shown, the connection is done in background
         {
 
-            //if (myBT.getBtSocket() == null || !myBT.getConnected()) {
             if ( !myBT.getConnected()) {
 
                 if (myBT.connect())
@@ -321,11 +335,10 @@ public class MainActivityScreen extends AppCompatActivity {
             if (!ConnectSuccess) {
                 //Connection Failed. Is it a SPP Bluetooth? Try again.
                 msg("Connection Failed");
-                //finish();
+
             } else {
                 //Connected.
                 msg("Connected");
-                //isBtConnected = true;
                 myBT.setConnected(true);
                 EnableUI();
                 btnConnectDisconnect.setText("disconnect");

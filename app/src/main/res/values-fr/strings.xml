@@ -1,0 +1,102 @@
+<resources>
+    <string name="app_name">Motor Gimbal Console</string>
+    <string name="Flight_list">Liste des vols</string>
+    <string name="titre_application_pref">Préférences application</string>
+    <string name="Yes">Oui</string>
+    <string name="No">Non</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_activity_console_tab_config">Console Config</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="title_activity_console_tab_status">Etat Console</string>
+    <string name="msg9">Vous avez changé le baud rate, l\'altimètre sera potentiellement dans l\'incapacité de se connecter. Etes vous certain?</string>
+    <!-- About -->
+    <string name="dismiss_about">Fermer</string>
+    <string name="version">Version:</string>
+    <!-- app config -->
+    <string name="save_config">Sauvegarder</string>
+    <string name="dismiss_config">Fermer</string>
+    <string name="default_config">Cfg par def</string>
+    <string name="application_langage_config">Langue application</string>
+    <string name="graph_color_config">Couleur graphique</string>
+    <string name="application_units_config">application units config</string>
+    <string name="graph_back_color_config">Couleur de fond du graphique</string>
+    <string name="font_size">Taille police</string>
+    <string name="baud_rate">Baud rate</string>
+    <string name="connection_type">Type de Connexion</string>
+    <string name="upload">Sauvegarder</string>
+    <string name="dismiss_tabconfig">Fermer</string>
+    <string name="dismiss_tab_status">Fermer</string>
+    <string name="select_device_to_use">Choisir périphérique</string>
+    <string name="show_paired_devices">Montrer les périphériques</string>
+    <!-- Main Screen-->
+    <string name="connect_disconnect">Connexion</string>
+    <string name="gimbal_config">Config Gimbal</string>
+    <string name="gimbal_status">Etat Gimbal</string>
+    <string name="gimbal_fight">Vols</string>
+    <string name="gimbal_reset">Reset</string>
+    <!-- app config tab 1-->
+    <string name="accelerometer_offsets">Offsets Accelerométre</string>
+    <string name="axoffset">AxOffset</string>
+    <string name="ayoffset">AyOffset</string>
+    <string name="azoffset">AzOffset</string>
+    <string name="gxoffset">GxOffset</string>
+    <string name="gyoffset">GyOffset</string>
+    <string name="gzoffset">GzOffset</string>
+    <!-- app config tab 2-->
+    <string name="pid_values">Valeurs PID</string>
+    <string name="kpx">KpX</string>
+    <string name="kix">KiX</string>
+    <string name="kdx">KdX</string>
+    <string name="kpy">KpY</string>
+    <string name="kiy">KiY</string>
+    <string name="kdy">KdY</string>
+    <!-- app config tab 3-->
+    <string name="general">Géneral</string>
+    <string name="alti_name">Nom alti</string>
+    <string name="units">Unités</string>
+    <string name="beep_freq">Freq bip</string>
+    <string name="baudrate">Baud Rate</string>
+    <string name="altimeterresolution">Résolution altimètre</string>
+    <string name="eepromsize">Taille eeprom</string>
+    <string name="endrecordaltitude">Fin Alt Enregistrement</string>
+    <string name="servo">Servo</string>
+    <string name="servo_x_min">Servo X Min</string>
+    <string name="servo_x_max">Servo X Max</string>
+    <string name="servo_y_min">Servo Y Min</string>
+    <string name="servo_y_max">Servo Y Max</string>
+    <!-- app status tab 1-->
+    <string name="axis_values">Valeurs des Axes</string>
+    <string name="gyroscopes_deg_s">Gyroscopes (deg/s)</string>
+    <string name="accelerometers_m_s_2">Accéléromètres (m/s^2)</string>
+    <string name="orientation_deg">Orientation (deg)</string>
+    <!-- app status tab 2-->
+    <string name="other_sensors">Autres capteurs</string>
+    <string name="temperature_c">Température(C°):</string>
+    <string name="pressure_mbar">Pression(mbar):</string>
+    <string name="altitude_meters">Altitude(mètres):</string>
+    <string name="battery_voltage_v">Tension Batterie(V):</string>
+    <!-- app status tab 3-->
+    <string name="rocket_orientation">Orientation de la fusée</string>
+    <!-- menu-->
+    <string name="application_settings">Config Application</string>
+    <string name="help">Aide</string>
+    <string name="bluetooth_device">Périphériques Bluetooth</string>
+    <string name="about">A propos</string>
+
+    <!-- main screen msg-->
+    <string name="MS_msg1">Connection...</string>
+    <string name="MS_msg2">Attendez svp!!!</string>
+    <string name="MS_msg3">La connexion a échouée. Vérifiez le module Bluetooth et ré-essayez.</string>
+    <string name="MS_msg4">Connecté.</string>
+    <string name="disconnect">disconnect</string>
+
+    <string name="msg7">Chargement des vols...</string>
+    <string name="msg8">Attendez SVP!!!</string>
+
+    <string name="Meters_fview">Metres</string>
+    <string name="Feet_fview">Pieds</string>
+    <string name="dismiss_flight_list">Fermer</string>
+    <string name="dismiss_flight_list_view">Fermer</string>
+    <string name="close">Fermer</string>
+</resources>

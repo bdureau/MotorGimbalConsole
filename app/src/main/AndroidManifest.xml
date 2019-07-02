@@ -47,8 +47,14 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".AppConfigActivity"
-            android:label="titre_application_pref"
+            android:label="@string/titre_application_pref"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".FlightListActivity"
+            android:label="@string/Flight_list"
+            android:screenOrientation="portrait" />
+        <activity android:name=".FlightViewActivity" />
+        <activity android:name=".HelpActivity" />
     </application>
 
 </manifest>

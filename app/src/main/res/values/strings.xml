@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Motor Gimbal Console</string>
-
+    <string name="Flight_list">Flight list</string>
+    <string name="titre_application_pref">Application preference</string>
     <string name="Yes">Yes</string>
     <string name="No">No</string>
     <!-- TODO: Remove or change this placeholder text -->

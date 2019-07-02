@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txtViewStatusTab1Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:elegantTextHeight="true"
+        android:gravity="center_horizontal"
+        android:text="@string/axis_values"
+        android:textSize="36sp" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/txtViewStatusTab1Title"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal|fill_horizontal">
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center|center_horizontal|fill_horizontal"
+            android:gravity="center"
+            android:layoutMode="opticalBounds">
+
+            <TextView
+                android:id="@+id/textViewX"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="X      "
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/textViewY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center_horizontal"
+                android:text="Y"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/textViewZ"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="      Z"
+                android:textSize="24sp" />
+
+        </TableRow>
+
+        <TableRow android:gravity="center_horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            <TextView
+                android:id="@+id/textViewGyroXValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="0.0000" />
+
+            <TextView
+                android:id="@+id/textViewGyroYValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="0.0000" />
+
+            <TextView
+                android:id="@+id/textViewGyroZValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="0.0000" />
+        </TableRow>
+
+        <TableRow android:gravity="center_horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            <TextView />
+            <TextView
+                android:id="@+id/textViewGyro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/gyroscopes_deg_s"
+                 />
+            <TextView />
+        </TableRow>
+
+        <TableRow android:gravity="center_horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            <TextView
+                android:id="@+id/textViewAccelXValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="0.0000" />
+
+            <TextView
+                android:id="@+id/textViewAccelYValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="0.0000" />
+
+            <TextView
+                android:id="@+id/textViewAccelZValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="0.0000" />
+        </TableRow>
+
+        <TableRow android:gravity="center_horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView />
+            <TextView
+                android:id="@+id/textViewAccel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/accelerometers_m_s_2" />
+            <TextView />
+        </TableRow>
+        <TableRow android:gravity="center_horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            <TextView
+                android:id="@+id/textViewOrientXValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="0.0000" />
+
+            <TextView
+                android:id="@+id/textViewOrientYValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="0.0000" />
+
+            <TextView
+                android:id="@+id/textViewOrientZValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="0.0000" />
+        </TableRow>
+        <TableRow android:gravity="center_horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView />
+            <TextView
+                android:id="@+id/textViewOrient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/orientation_deg" />
+            <TextView />
+        </TableRow>
+    </TableLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txtViewTab1Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elegantTextHeight="true"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center_horizontal"
+        android:text="@string/accelerometer_offsets"
+        android:textSize="36sp" />
+    <TextView
+        android:id="@+id/txtAxOffset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtViewTab1Title"
+        android:layout_marginTop="40dp"
+        android:text="@string/axoffset" />
+
+    <EditText
+        android:id="@+id/editTxtAxOffset"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txtAxOffset"
+        android:layout_alignParentEnd="true"
+        android:ems="10"
+        android:inputType="number"
+        android:singleLine="true"
+        android:text="100"
+        android:textAlignment="textEnd"
+        android:textIsSelectable="false"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/txtAyOffset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtAxOffset"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="18dp"
+        android:text="@string/ayoffset" />
+
+    <EditText
+        android:id="@+id/editTxtAyOffset"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txtAyOffset"
+        android:layout_alignParentEnd="true"
+        android:ems="10"
+        android:inputType="number"
+        android:singleLine="true"
+        android:text="100"
+        android:textAlignment="textEnd"
+        android:textIsSelectable="false"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/txtAzOffset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtAyOffset"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="18dp"
+        android:text="@string/azoffset" />
+
+    <EditText
+        android:id="@+id/editTxtAzOffset"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txtAzOffset"
+        android:layout_alignParentEnd="true"
+        android:ems="10"
+        android:inputType="number"
+        android:singleLine="true"
+        android:text="100"
+        android:textAlignment="textEnd"
+        android:textIsSelectable="false"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/txtGxOffset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtAzOffset"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="18dp"
+        android:text="@string/gxoffset" />
+
+    <EditText
+        android:id="@+id/editTxtGxOffset"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txtGxOffset"
+        android:layout_alignParentEnd="true"
+        android:ems="10"
+        android:inputType="number"
+        android:singleLine="true"
+        android:text="100"
+        android:textAlignment="textEnd"
+        android:textIsSelectable="false"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/txtGyOffset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtGxOffset"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="18dp"
+        android:text="@string/gyoffset" />
+
+    <EditText
+        android:id="@+id/editTxtGyOffset"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txtGyOffset"
+        android:layout_alignParentEnd="true"
+        android:ems="10"
+        android:inputType="number"
+        android:singleLine="true"
+        android:text="100"
+        android:textAlignment="textEnd"
+        android:textIsSelectable="false"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/txtGzOffset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtGyOffset"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="18dp"
+        android:text="@string/gzoffset" />
+
+    <EditText
+        android:id="@+id/editTxtGzOffset"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txtGzOffset"
+        android:layout_alignParentEnd="true"
+        android:ems="10"
+        android:inputType="number"
+        android:singleLine="true"
+        android:text="100"
+        android:textAlignment="textEnd"
+        android:textIsSelectable="false"
+        android:textSize="13sp" />
+
+
+
+</RelativeLayout>

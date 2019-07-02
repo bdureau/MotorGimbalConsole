@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/txtViewTab2Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elegantTextHeight="true"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center_horizontal"
+        android:text="@string/pid_values"
+        android:textSize="36sp" />
+    <TextView
+        android:id="@+id/txtKpX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtViewTab2Title"
+        android:layout_marginTop="40dp"
+        android:text="@string/kpx" />
+
+    <EditText
+        android:id="@+id/editTxtKpX"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txtKpX"
+        android:layout_alignParentEnd="true"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:singleLine="true"
+        android:text="100"
+        android:textAlignment="textEnd"
+        android:textIsSelectable="false"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/txtKiX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtKpX"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="18dp"
+        android:text="@string/kix" />
+
+    <EditText
+        android:id="@+id/editTxtKiX"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txtKiX"
+        android:layout_alignParentEnd="true"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:singleLine="true"
+        android:text="100"
+        android:textAlignment="textEnd"
+        android:textIsSelectable="false"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/txtKdX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtKiX"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="18dp"
+        android:text="@string/kdx" />
+
+    <EditText
+        android:id="@+id/editTxtKdX"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txtKdX"
+        android:layout_alignParentEnd="true"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:singleLine="true"
+        android:text="100"
+        android:textAlignment="textEnd"
+        android:textIsSelectable="false"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/txtKpY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtKdX"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="18dp"
+        android:text="@string/kpy" />
+
+    <EditText
+        android:id="@+id/editTxtKpY"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txtKpY"
+        android:layout_alignParentEnd="true"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:singleLine="true"
+        android:text="100"
+        android:textAlignment="textEnd"
+        android:textIsSelectable="false"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/txtKiY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtKpY"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="18dp"
+        android:text="@string/kiy" />
+
+    <EditText
+        android:id="@+id/editTxtKiY"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txtKiY"
+        android:layout_alignParentEnd="true"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:singleLine="true"
+        android:text="100"
+        android:textAlignment="textEnd"
+        android:textIsSelectable="false"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/txtKdY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtKiY"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="18dp"
+        android:text="@string/kdy" />
+
+    <EditText
+        android:id="@+id/editTxtKdY"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txtKdY"
+        android:layout_alignParentEnd="true"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:singleLine="true"
+        android:text="100"
+        android:textAlignment="textEnd"
+        android:textIsSelectable="false"
+        android:textSize="13sp" />
+
+
+</RelativeLayout>

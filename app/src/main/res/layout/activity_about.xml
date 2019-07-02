@@ -20,7 +20,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dismiss"
+        android:text="@string/dismiss_about"
         android:id="@+id/butDismiss"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
@@ -28,7 +28,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Version:"
+        android:text="@string/version"
         android:id="@+id/txtViewTitle"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />

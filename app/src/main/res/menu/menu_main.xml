@@ -3,21 +3,21 @@
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:title="Application settings"
+        android:title="@string/application_settings"
          />
     <item
         android:id="@+id/action_help"
         android:orderInCategory="100"
-        android:title="Help"
+        android:title="@string/help"
         />
     <item
         android:id="@+id/action_bluetooth"
         android:orderInCategory="100"
-        android:title="Bluetooth Device"
+        android:title="@string/bluetooth_device"
          />
     <item
         android:id="@+id/action_about"
         android:orderInCategory="100"
-        android:title="About"
+        android:title="@string/about"
          />
 </menu>

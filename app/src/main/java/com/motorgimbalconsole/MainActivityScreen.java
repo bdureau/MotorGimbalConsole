@@ -1,9 +1,11 @@
 package com.motorgimbalconsole;
 
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -27,10 +29,11 @@ import java.util.Map;
 public class MainActivityScreen extends AppCompatActivity {
 
     Button btnConnectDisconnect, btnConfig, btnStatus;
+    Button btnReset, btnFlight;
 
     private String address;
     ConsoleApplication myBT;
-    private ProgressDialog progress;
+    //private ProgressDialog progress;
     UsbManager usbManager;
     UsbDevice device;
     public final String ACTION_USB_PERMISSION = "com.altimeter.bdureau.bearconsole.USB_PERMISSION";
@@ -45,7 +48,7 @@ public class MainActivityScreen extends AppCompatActivity {
                         myBT.setConnected(true);
                         EnableUI();
                         myBT.setConnectionType("usb");
-                        btnConnectDisconnect.setText("disconnect");
+                        btnConnectDisconnect.setText(getResources().getString(R.string.disconnect));
                     }
                 } else {
                     msg("PERM NOT GRANTED");
@@ -56,7 +59,7 @@ public class MainActivityScreen extends AppCompatActivity {
                 if(myBT.getConnectionType().equals("usb"))
                     if(myBT.getConnected()) {
                         myBT.Disconnect();
-                        btnConnectDisconnect.setText("connect");
+                        btnConnectDisconnect.setText(getResources().getString(R.string.connect_disconnect));
                     }
             }
         }
@@ -76,8 +79,8 @@ public class MainActivityScreen extends AppCompatActivity {
 
         btnConnectDisconnect = (Button)findViewById(R.id.button);
         btnConnectDisconnect.setText("connect");
-
-
+        btnReset= (Button)findViewById(R.id.butGimbalReset);
+        btnFlight= (Button)findViewById(R.id.butGimbalFlight);
 
         btnConfig = (Button)findViewById(R.id.butGimbalConfig);
         btnStatus = (Button)findViewById(R.id.butGimbalStatus);
@@ -127,7 +130,7 @@ public class MainActivityScreen extends AppCompatActivity {
 
                     Disconnect(); //close connection
                     DisableUI();
-                    btnConnectDisconnect.setText("connect");
+                    btnConnectDisconnect.setText(getResources().getString(R.string.connect_disconnect));
                 }
                 else {
                     if (myBT.getConnectionType().equals( "bluetooth")) {
@@ -138,7 +141,7 @@ public class MainActivityScreen extends AppCompatActivity {
 
                             if (myBT.getConnected()) {
                                 EnableUI();
-                                btnConnectDisconnect.setText("disconnect");
+                                btnConnectDisconnect.setText(getResources().getString(R.string.disconnect));
                             }
                         } else {
                             // choose the bluetooth device
@@ -304,13 +307,29 @@ public class MainActivityScreen extends AppCompatActivity {
     /* This is the Bluetooth connection sub class */
     private class ConnectBT extends AsyncTask<Void, Void, Void>  // UI thread
     {
+        private  AlertDialog.Builder builder=null;
+        private AlertDialog alert;
         private boolean ConnectSuccess = true; //if it's here, it's almost connected
 
         @Override
         protected void onPreExecute() {
             //"Connecting...", "Please wait!!!"
-            progress = ProgressDialog.show(MainActivityScreen.this,
-                    "Connecting...", "Please wait!!!");  //show a progress dialog
+           /* progress = ProgressDialog.show(MainActivityScreen.this,
+                    "Connecting...", "Please wait!!!"); */ //show a progress dialog
+            builder = new AlertDialog.Builder(MainActivityScreen.this);
+            //Connecting...
+            builder.setMessage(getResources().getString(R.string.MS_msg1))
+                    .setTitle(getResources().getString(R.string.MS_msg2))
+                    .setCancelable(false)
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, final int id) {
+                            dialog.cancel();
+                            myBT.setExit(true);
+                            myBT.Disconnect();
+                        }
+                    });
+            alert = builder.create();
+            alert.show();
         }
 
         @Override
@@ -343,7 +362,8 @@ public class MainActivityScreen extends AppCompatActivity {
                 EnableUI();
                 btnConnectDisconnect.setText("disconnect");
             }
-            progress.dismiss();
+            //progress.dismiss();
+            alert.dismiss();
         }
     }
 }

@@ -130,7 +130,12 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                 try {
                    // getGimbalConfigData
                     GimbalCfg= myBT.getGimbalConfigData();
-                    msg("we have a config");
+
+                    String conf;
+                    conf = GimbalCfg.getKpX() +","+ GimbalCfg.getKpY()+
+                            ","+ GimbalCfg.getKiY()+","+ GimbalCfg.getKdY();
+                    msg("we have a config: "+conf );
+
                 }
                 catch (Exception e) {
                      msg("pb ready data");
@@ -246,6 +251,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                 GimbalCfg.getGxOffset()+","+
                 GimbalCfg.getGyOffset()+","+
                 GimbalCfg.getGzOffset()+","+
+                //configPage2.getKpX()+","+
                 GimbalCfg.getKpX()+","+
                 GimbalCfg.getKiX()+","+
                 GimbalCfg.getKdX()+","+
@@ -418,76 +424,87 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         private EditText editTxtKpY, editTxtKiY, editTxtKdY;
 
         public void setTxtKpXValue(double value) {
-            this.editTxtKpX.setText(String.format("%.2f",value));
+            //this.editTxtKpX.setText(String.format("%.2f",value));
+            this.editTxtKpX.setText(Double.toString(value));
         }
+        /*public String getKpX() {
+            return this.editTxtKpX.getText().toString();
+        }*/
         public double getTxtKpXValue() {
             double ret;
             try {
                 ret = Double.parseDouble(this.editTxtKpX.getText().toString());
+
+
             } catch (Exception e) {
-                ret = 0;
+                ret = 0.0;
             }
             return ret;
         }
         public void setTxtKiXValue(double value) {
-            this.editTxtKiX.setText(String.format("%.2f",value));
+            //this.editTxtKiX.setText(String.format("%.2f",value));
+            this.editTxtKiX.setText(Double.toString(value));
         }
         public double getTxtKiXValue() {
             double ret;
             try {
                 ret = Double.parseDouble(this.editTxtKiX.getText().toString());
             } catch (Exception e) {
-                ret = 0;
+                ret = 0.0;
             }
             return ret;
         }
         public void setTxtKdXValue(double value) {
-            this.editTxtKdX.setText(String.format("%.2f",value));
+            //this.editTxtKdX.setText(String.format("%.2f",value));
+            this.editTxtKdX.setText(Double.toString(value));
         }
         public double getTxtKdXValue() {
             double ret;
             try {
                 ret = Double.parseDouble(this.editTxtKdX.getText().toString());
             } catch (Exception e) {
-                ret = 0;
+                ret = 0.0;
             }
             return ret;
 
         }
 
         public void setTxtKpYValue(double value) {
-            this.editTxtKpY.setText(String.format("%.2f",value));
+            //this.editTxtKpY.setText(String.format("%.2f",value));
+            this.editTxtKpY.setText(Double.toString(value));
         }
         public double getTxtKpYValue() {
             double ret;
             try {
                 ret = Double.parseDouble(this.editTxtKpY.getText().toString());
             } catch (Exception e) {
-                ret = 0;
+                ret = 0.0;
             }
             return ret;
         }
         public void setTxtKiYValue(double value) {
-            this.editTxtKiY.setText(String.format("%.2f",value));
+            //this.editTxtKiY.setText(String.format("%.2f",value));
+            this.editTxtKiY.setText(Double.toString(value));
         }
         public double getTxtKiYValue() {
             double ret;
             try {
                 ret = Double.parseDouble(this.editTxtKiY.getText().toString());
             } catch (Exception e) {
-                ret = 0;
+                ret = 0.0;
             }
             return ret;
         }
         public void setTxtKdYValue(double value) {
-            this.editTxtKdY.setText(String.format("%.2f",value));
+            //this.editTxtKdY.setText(String.format("%.2f",value));
+            this.editTxtKdY.setText(Double.toString(value));
         }
         public double getTxtKdYValue() {
             double ret;
             try {
                 ret = Double.parseDouble(this.editTxtKdY.getText().toString());
             } catch (Exception e) {
-                ret = 0;
+                ret = 0.0;
             }
             return ret;
         }

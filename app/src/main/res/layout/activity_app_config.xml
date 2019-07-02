@@ -9,7 +9,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save config"
+        android:text="@string/save_config"
         android:id="@+id/butSave"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
@@ -18,7 +18,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dismiss config"
+        android:text="@string/dismiss_config"
         android:id="@+id/butDismiss"
         android:layout_alignTop="@+id/butSave"
         android:layout_alignParentRight="true"
@@ -26,7 +26,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Default config"
+        android:text="@string/default_config"
         android:id="@+id/butDefault"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
@@ -34,7 +34,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="application langage config"
+        android:text="@string/application_langage_config"
         android:id="@+id/txtViewAppLang"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -52,7 +52,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="graph color config"
+        android:text="@string/graph_color_config"
         android:id="@+id/txtViewGraphColor"
         android:layout_below="@+id/txtViewAppLang"
         android:layout_alignParentLeft="true"
@@ -70,7 +70,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="application units config"
+        android:text="@string/application_units_config"
         android:id="@+id/txtViewUnits"
         android:layout_below="@+id/txtViewGraphColor"
         android:layout_alignParentLeft="true"
@@ -87,7 +87,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="graph back color config"
+        android:text="@string/graph_back_color_config"
         android:id="@+id/txtViewGraphBackColor"
         android:layout_below="@+id/txtViewUnits"
         android:layout_alignParentLeft="true"
@@ -105,7 +105,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="font_size"
+        android:text="@string/font_size"
         android:id="@+id/txtViewFontSize"
         android:layout_below="@+id/txtViewGraphBackColor"
         android:layout_alignParentLeft="true"
@@ -122,7 +122,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Baud rate"
+        android:text="@string/baud_rate"
         android:id="@+id/textViewBaudRate"
         android:layout_below="@+id/txtViewFontSize"
         android:layout_alignParentLeft="true"
@@ -138,7 +138,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Connection type"
+        android:text="@string/connection_type"
         android:id="@+id/textConnectionType"
         android:layout_below="@+id/textViewBaudRate"
         android:layout_alignParentLeft="true"

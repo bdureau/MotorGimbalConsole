@@ -39,12 +39,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|bottom"
-        android:text="upload" />
+        android:text="@string/upload" />
 
     <Button
         android:id="@+id/butDismiss"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:text="dismiss_config" />
+        android:text="@string/dismiss_tabconfig" />
 </android.support.design.widget.CoordinatorLayout>

@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select device to use"
+        android:text="@string/select_device_to_use"
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -19,7 +19,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Show paired devices"
+        android:text="@string/show_paired_devices"
         android:id="@+id/button"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"

@@ -298,73 +298,88 @@ public class ConsoleApplication extends Application {
                             case "telemetry":
                                 if (mHandler != null) {
                                     // Value 1 contains the altimeter name
+                                    if (currentSentence.length > 1)
                                     mHandler.obtainMessage(0, String.valueOf(currentSentence[1])).sendToTarget();
                                     // Value 1 contains the GyroX
+                                    if (currentSentence.length > 2)
                                     if(currentSentence[2].matches("\\d+(?:\\.\\d+)?"))
                                         mHandler.obtainMessage(1, String.valueOf(currentSentence[2])).sendToTarget();
                                     else
                                         mHandler.obtainMessage(1, String.valueOf(-0.0)).sendToTarget();
                                     // Value 2 contains the GyroY
+                                    if (currentSentence.length > 3)
                                     if(currentSentence[3].matches("\\d+(?:\\.\\d+)?"))
                                         mHandler.obtainMessage(2, String.valueOf(currentSentence[3])).sendToTarget();
                                     else
                                         mHandler.obtainMessage(2, String.valueOf(-0.0)).sendToTarget();
                                     // Value 3 contains the GyroZ
+                                    if (currentSentence.length > 4)
                                     if(currentSentence[4].matches("\\d+(?:\\.\\d+)?"))
                                         mHandler.obtainMessage(3, String.valueOf(currentSentence[4])).sendToTarget();
                                     else
                                         mHandler.obtainMessage(3, String.valueOf(-0.0)).sendToTarget();
                                     //Value 4 contains the AccelX
+                                    if (currentSentence.length > 5)
                                     if(currentSentence[5].matches("\\d+(?:\\.\\d+)?"))
                                         mHandler.obtainMessage(4, String.valueOf(currentSentence[5])).sendToTarget();
                                     else
                                         mHandler.obtainMessage(4, String.valueOf(-0.0)).sendToTarget();
                                     // Value 5 contains the AccelY
+                                    if (currentSentence.length > 6)
                                     if(currentSentence[6].matches("\\d+(?:\\.\\d+)?"))
                                         mHandler.obtainMessage(5, String.valueOf(currentSentence[6])).sendToTarget();
                                     else
                                         mHandler.obtainMessage(5, String.valueOf(-0.0)).sendToTarget();
                                     // Value 6 contains the AccelZ
+                                    if (currentSentence.length > 7)
                                     if(currentSentence[7].matches("\\d+(?:\\.\\d+)?"))
                                         mHandler.obtainMessage(6, String.valueOf(currentSentence[7])).sendToTarget();
                                     else
                                         mHandler.obtainMessage(6, String.valueOf(-0.0)).sendToTarget();
                                     // Value 7 contains the OrientX
+                                    if (currentSentence.length > 8)
                                     if(currentSentence[8].matches("\\d+(?:\\.\\d+)?"))
                                         mHandler.obtainMessage(7, String.valueOf(currentSentence[8])).sendToTarget();
                                     else
                                         mHandler.obtainMessage(7, String.valueOf(-0.0)).sendToTarget();
                                     // value 8 contains the OrientY
+                                    if (currentSentence.length > 9)
                                     if(currentSentence[9].matches("\\d+(?:\\.\\d+)?"))
                                         mHandler.obtainMessage(8, String.valueOf(currentSentence[9])).sendToTarget();
                                     else
                                         mHandler.obtainMessage(8, String.valueOf(-0.0)).sendToTarget();
                                     // Value 9 contains the OrientZ
+                                    if (currentSentence.length > 10)
                                     if(currentSentence[10].matches("\\d+(?:\\.\\d+)?"))
                                         mHandler.obtainMessage(9, String.valueOf(currentSentence[10])).sendToTarget();
                                     else
                                         mHandler.obtainMessage(9, String.valueOf(-0.0)).sendToTarget();
                                     // Value 10 contains the altitude
+                                    if (currentSentence.length > 11)
                                     if(currentSentence[11].matches("\\d+(?:\\.\\d+)?"))
                                         mHandler.obtainMessage(10, String.valueOf(currentSentence[11])).sendToTarget();
                                     else
                                         mHandler.obtainMessage(10, String.valueOf(-0)).sendToTarget();
                                     // Value 11 contains the temperature
+                                    if (currentSentence.length > 12)
                                     if(currentSentence[12].matches("\\d+(?:\\.\\d+)?"))
                                         mHandler.obtainMessage(11, String.valueOf(currentSentence[12])).sendToTarget();
                                     else
                                         mHandler.obtainMessage(11, String.valueOf(-0.0)).sendToTarget();
                                     // Value 12 contains the pressure
+                                    if (currentSentence.length > 13)
                                     if(currentSentence[13].matches("\\d+(?:\\.\\d+)?"))
                                         mHandler.obtainMessage(12, String.valueOf(currentSentence[13])).sendToTarget();
                                     else
                                         mHandler.obtainMessage(12, String.valueOf(-0.0)).sendToTarget();
                                     // Value 13 contains the battery voltage
+                                    if (currentSentence.length > 14)
                                     if(currentSentence[14].matches("\\d+(?:\\.\\d+)?"))
                                         mHandler.obtainMessage(13, String.valueOf(currentSentence[14])).sendToTarget();
                                     else
                                         mHandler.obtainMessage(13, String.valueOf(-0.0)).sendToTarget();
                                     // Value 14 contains graph
+                                    if (currentSentence.length > 18)
                                     mHandler.obtainMessage(14, String.valueOf(currentSentence[15]+","+
                                             currentSentence[16]+","+currentSentence[17]+","+currentSentence[18])).sendToTarget();
                                    /* // Value 15 contains graph2
@@ -383,6 +398,7 @@ public class ConsoleApplication extends Application {
                             //  break;
                             case "data":
                                 // Value 1 contain the flight number
+                                if (currentSentence.length > 1)
                                 if(currentSentence[1].matches("\\d+(?:\\.\\d+)?"))
                                     currentFlightNbr = Integer.valueOf( currentSentence[1]) + 1;
                                 // Value 2 contain the time
@@ -401,119 +417,144 @@ public class ConsoleApplication extends Application {
                             case "alticonfig":
 
                                 // Value 0 contains the AltimeterName
+                                if (currentSentence.length > 1)
                                 GimbalCfg.setAltimeterName(currentSentence[1]);
                                 //Value 1 contains ax_offset
+                                if (currentSentence.length > 2)
                                 if(currentSentence[2].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
                                     GimbalCfg.setAxOffset(Integer.valueOf(currentSentence[2]));
                                 else
                                     GimbalCfg.setAxOffset(0);
                                 // Value 2 contains ay_offset
+                                if (currentSentence.length > 3)
                                 if(currentSentence[3].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
                                     GimbalCfg.setAyOffset(Integer.valueOf(currentSentence[3]));
                                 else
                                     GimbalCfg.setAyOffset(0);
                                 // Value 3 contains az_offset
+                                if (currentSentence.length > 4)
                                 if(currentSentence[4].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
                                     GimbalCfg.setAzOffset(Integer.valueOf(currentSentence[4]));
                                 else
                                     GimbalCfg.setAzOffset(0);
                                 // Value 4 contains gx_offset
+                                if (currentSentence.length > 5)
                                 if(currentSentence[5].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
                                     GimbalCfg.setGxOffset(Integer.valueOf(currentSentence[5]));
                                 else
                                     GimbalCfg.setGxOffset(0);
                                 // Value 5 contains gy_offset
+                                if (currentSentence.length > 6)
                                 if(currentSentence[6].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
                                     GimbalCfg.setGyOffset(Integer.valueOf(currentSentence[6]));
                                 else
                                     GimbalCfg.setGyOffset(0);
                                 // Value 6 contains gz_offset
+                                if (currentSentence.length > 7)
                                 if(currentSentence[7].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
                                     GimbalCfg.setGzOffset(Integer.valueOf(currentSentence[7]));
                                 else
                                     GimbalCfg.setGzOffset(0);
                                 // Value 7 contains KpX
+                                if (currentSentence.length > 8)
                                 if(currentSentence[8].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
                                     GimbalCfg.setKpX(Double.valueOf(currentSentence[8]));
                                 else
                                     GimbalCfg.setKpX(0.0);
                                 // Value 8 contains KiX
+                                if (currentSentence.length > 9)
                                 if(currentSentence[9].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
                                     GimbalCfg.setKiX(Double.valueOf(currentSentence[9]));
                                 else
                                     GimbalCfg.setKiX(0.0);
                                 // Value 9 contains KdX
+                                if (currentSentence.length > 10)
                                 if(currentSentence[10].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
                                     GimbalCfg.setKdX(Double.valueOf(currentSentence[10]));
                                 else
                                     GimbalCfg.setKdX(0.0);
                                 // Value 10 contains KpY
+                                if (currentSentence.length > 11)
                                 if(currentSentence[11].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
                                     GimbalCfg.setKpY(Double.valueOf(currentSentence[11]));
                                 else
                                     GimbalCfg.setKpY(0.0);
                                 // Value 11 contains KiY
+                                if (currentSentence.length > 12)
                                 if(currentSentence[12].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
                                     GimbalCfg.setKiY(Double.valueOf(currentSentence[12]));
                                 else
                                     GimbalCfg.setKiY(0.0);
                                 // Value 12 contains KdY
+                                if (currentSentence.length > 13)
                                 if(currentSentence[13].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
                                     GimbalCfg.setKdY(Double.valueOf(currentSentence[13]));
                                 else
                                     GimbalCfg.setKdY(0.0);
                                 // Value 13 contains servoXMin
+                                if (currentSentence.length > 14)
                                 if(currentSentence[14].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
                                     GimbalCfg.setServoXMin(Integer.valueOf(currentSentence[14]));
                                 else
                                     GimbalCfg.setServoXMin(0);
                                 // Value 14 contains servoXMax
+                                if (currentSentence.length > 15)
                                 if(currentSentence[15].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
                                     GimbalCfg.setServoXMax(Integer.valueOf(currentSentence[15]));
                                 else
                                     GimbalCfg.setServoXMax(0);
                                 // Value 15 contains servoYMin
+                                if (currentSentence.length > 16)
                                 if(currentSentence[16].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
                                     GimbalCfg.setServoXMin(Integer.valueOf(currentSentence[16]));
                                 else
                                     GimbalCfg.setServoXMin(0);
                                 // Value 16 contains servoYMax
+                                if (currentSentence.length > 17)
                                 if(currentSentence[17].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
                                     GimbalCfg.setServoXMax(Integer.valueOf(currentSentence[17]));
                                 else
                                     GimbalCfg.setServoXMax(0);
                                 // Value 17 contains the connection speed
+                                if (currentSentence.length > 18)
                                 if(currentSentence[18].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
                                     GimbalCfg.setConnectionSpeed(Integer.valueOf(currentSentence[18]));
                                 else
                                     GimbalCfg.setConnectionSpeed(38400);
                                 // Value 18 contains the altimeter resolution
+                                if (currentSentence.length > 19)
                                 if(currentSentence[19].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
                                     GimbalCfg.setAltimeterResolution(Integer.valueOf(currentSentence[19]));
                                 else
                                     GimbalCfg.setAltimeterResolution(0);
                                 // Value 19 contains the eeprom size
+                                if (currentSentence.length > 20)
                                 if(currentSentence[20].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
                                     GimbalCfg.setEepromSize(Integer.valueOf(currentSentence[20]));
                                 else
                                     GimbalCfg.setEepromSize(512);
                                 // Value 20
+                                if (currentSentence.length > 21)
                                 if(currentSentence[21].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
                                     GimbalCfg.setAltiMajorVersion(Integer.valueOf(currentSentence[21]));
                                 // Value 21
+                                if (currentSentence.length > 22)
                                 if(currentSentence[22].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
                                     GimbalCfg.setAltiMinorVersion(Integer.valueOf(currentSentence[22]));
                                 // Value 22 units
+                                if (currentSentence.length > 23)
                                 if(currentSentence[23].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
                                     GimbalCfg.setUnits(Integer.valueOf(currentSentence[23]));
                                 else
                                     GimbalCfg.setUnits(0);
                                 // Value 23 endRecordAltitude
+                                if (currentSentence.length > 24)
                                 if(currentSentence[24].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
                                     GimbalCfg.setEndRecordAltitude(Integer.valueOf(currentSentence[24]));
                                 else
                                     GimbalCfg.setEndRecordAltitude(5);
                                 // Value 24 beepingFrequency
+                                if (currentSentence.length > 25)
                                 if(currentSentence[25].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
                                     GimbalCfg.setBeepingFrequency(Integer.valueOf(currentSentence[25]));
                                 else
@@ -523,6 +564,7 @@ public class ConsoleApplication extends Application {
                                 break;
                             case "nbrOfFlight":
                                 // Value 1 contains the number of flight
+                                if (currentSentence.length > 1)
                                 NbrOfFlight = (Integer.valueOf(currentSentence[1]));
                                 break;
                             case "start":
@@ -540,17 +582,20 @@ public class ConsoleApplication extends Application {
                                 break;
                             case "OK":
                                 setDataReady(true);
+                                if (currentSentence.length > 0)
                                 commandRet = currentSentence[0];
                                 myMessage = "OK";
                                 exit=true;
                                 break;
                             case "KO":
                                 setDataReady(true);
+                                if (currentSentence.length > 0)
                                 commandRet = currentSentence[0];
 
                                 break;
                             case "UNKNOWN":
                                 setDataReady(true);
+                                if (currentSentence.length > 0)
                                 commandRet = currentSentence[0];
 
                                 break;

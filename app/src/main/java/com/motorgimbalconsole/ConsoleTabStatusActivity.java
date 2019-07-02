@@ -329,6 +329,7 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
         private static final String TAG = "Tab3StatusFragment";
         private PApplet myRocket;
         boolean ViewCreated = false;
+        private PFragment fragment;
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -338,13 +339,20 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
             myRocket = new Rocket();
 
 
-            PFragment fragment = new PFragment(myRocket);
+             fragment = new PFragment(myRocket);
 
             getChildFragmentManager().beginTransaction().add(R.id.container, fragment).commit();
             ViewCreated = true;
             return view;
         }
 
+        @Override
+        public void onResume() {
+            super.onResume();
+            fragment.requestDraw();
+            //retrieveData(0, false, rootView);
+        }
+        //
         public void setInputString(String value) {
             if (ViewCreated)
                 ((Rocket) myRocket).setInputString(value);

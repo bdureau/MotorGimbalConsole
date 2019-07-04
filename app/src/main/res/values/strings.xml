@@ -102,5 +102,8 @@
     <string name="dismiss_flight_list">Dismiss</string>
     <string name="dismiss_flight_list_view">Dismiss</string>
     <string name="close">Close</string>
+    <string name="Altitude_time">Altitude / Time</string>
+    <string name="Time_fv">Time (ms)</string>
+    <string name="Altitude">Altitude</string>
 
 </resources>

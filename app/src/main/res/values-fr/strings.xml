@@ -99,4 +99,7 @@
     <string name="dismiss_flight_list">Fermer</string>
     <string name="dismiss_flight_list_view">Fermer</string>
     <string name="close">Fermer</string>
+    <string name="Altitude_time">Altitude / Time</string>
+    <string name="Time_fv">Time (ms)</string>
+    <string name="Altitude">Altitude</string>
 </resources>

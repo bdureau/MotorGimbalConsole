@@ -32,4 +32,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation files('libs/processing-core.jar')
     implementation files('libs/usbserial.jar')
+    implementation files('libs/afreechart-0.0.4.jar')
 }

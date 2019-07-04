@@ -1,11 +1,10 @@
-//package com.altimeter.bdureau.bearconsole;
 package com.motorgimbalconsole;
 import android.content.Intent;
 
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-/*import org.afree.chart.ChartFactory;
+import org.afree.chart.ChartFactory;
 import org.afree.chart.AFreeChart;
 import org.afree.chart.axis.NumberAxis;
 import org.afree.chart.axis.ValueAxis;
@@ -14,7 +13,7 @@ import org.afree.chart.plot.XYPlot;
 import org.afree.data.category.DefaultCategoryDataset;
 import org.afree.data.xy.XYSeriesCollection;
 import org.afree.graphics.SolidColor;
-import org.afree.graphics.geom.Font;*/
+import org.afree.graphics.geom.Font;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.Button;
@@ -47,9 +46,9 @@ public class FlightViewActivity extends AppCompatActivity {
      Intent newint = getIntent();
      FlightName = newint.getStringExtra(FlightListActivity.SELECTED_FLIGHT);
 
-     //myflight= myBT.getFlightData();
-     //XYSeriesCollection flightData;
-     //flightData = myflight.GetFlightData(FlightName);
+     myflight= myBT.getFlightData();
+     XYSeriesCollection flightData;
+     flightData = myflight.GetFlightData(FlightName);
 
 
      //DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -77,7 +76,7 @@ public class FlightViewActivity extends AppCompatActivity {
          myUnits = getResources().getString(R.string.Feet_fview);
 
      //font
-     /*Font font = new PShapeSVG.Font("Dialog", Typeface.NORMAL,fontSize);
+     Font font = new Font("Dialog", Typeface.NORMAL,fontSize);
 
      AFreeChart chart = ChartFactory.createXYLineChart(
              getResources().getString(R.string.Altitude_time),
@@ -126,11 +125,11 @@ public class FlightViewActivity extends AppCompatActivity {
      YAxis.setLabelFont(font);
 
      //Xaxis label color
-     Xaxis.setLabelPaintType(new SolidColor(labelColor));*/
+     Xaxis.setLabelPaintType(new SolidColor(labelColor));
      /*this make it crash
      axis.setAutoRangeMinimumSize(0);
      rangeAxis.setAutoRangeMinimumSize(0);*/
-     /*Xaxis.setTickMarkPaintType(new SolidColor(axisColor));
+     Xaxis.setTickMarkPaintType(new SolidColor(axisColor));
      Xaxis.setTickLabelPaintType(new SolidColor(nbrColor));
      //Y axis label color
      YAxis.setLabelPaintType(new SolidColor(labelColor));
@@ -145,8 +144,9 @@ public class FlightViewActivity extends AppCompatActivity {
 
 
      plot.setDataset(0, flightData);
+
      ChartView chartView = (ChartView) findViewById(R.id.chartView1);
-     chartView.setChart(chart);*/
+     chartView.setChart(chart);
      buttonDismiss.setOnClickListener(new View.OnClickListener()
      {
          @Override

@@ -29,6 +29,7 @@ public class ConsoleApplication extends Application {
     private static boolean DataReady = false;
     // Store number of flight
     public int NbrOfFlight = 0;
+    private FlightData MyFlight = null;
     private GlobalConfig AppConf=null;
     private String address;
     private String myTypeOfConnection ="bluetooth";// "USB";//"bluetooth";
@@ -44,9 +45,11 @@ public class ConsoleApplication extends Application {
     public String lastData;
     public int currentFlightNbr = 0;
     public String commandRet = "";
+    private double FEET_IN_METER = 1;
     @Override
     public void onCreate() {
         super.onCreate();
+        MyFlight = new FlightData();
         BTCon = new BluetoothConnection();
         UsbCon = new UsbConnection();
         AppConf = new GlobalConfig();
@@ -126,7 +129,9 @@ public class ConsoleApplication extends Application {
 
         return state;
     }
-
+    public FlightData getFlightData() {
+        return MyFlight;
+    }
     // connect to the USB
     public boolean connect(UsbManager usbManager,UsbDevice device, int baudRate) {
         boolean state=false;
@@ -214,7 +219,16 @@ public class ConsoleApplication extends Application {
         }
     }
 
+    public void initFlightData() {
+        MyFlight = new FlightData();
 
+        //if(AppConf.getUnits().equals("0"))
+        if (AppConf.getUnitsValue().equals("Meters")) {
+            FEET_IN_METER = 1;
+        } else {
+            FEET_IN_METER = 3.28084;
+        }
+    }
     public void appendLog(String text)
     {
         File logFile = new File("sdcard/debugfile.txt");

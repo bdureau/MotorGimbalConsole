@@ -1,4 +1,3 @@
-//package com.altimeter.bdureau.bearconsole;
 package com.motorgimbalconsole;
 
 
@@ -9,8 +8,8 @@ package com.motorgimbalconsole;
 import java.util.*;
 
 
-//import org.afree.data.xy.XYSeries;
-//import org.afree.data.xy.XYSeriesCollection;
+import org.afree.data.xy.XYSeries;
+import org.afree.data.xy.XYSeriesCollection;
 
 public class FlightData {
     // Create a hash map
@@ -57,10 +56,10 @@ public class FlightData {
         hm =null;
         hm = new HashMap();
         // create one empty flight data collection
-        //hm.put("Flight 01", createFlight("Flight 01"));
+        hm.put("Flight 01", createFlight("Flight 01"));
     }
 
-  /*  public XYSeriesCollection  GetFlightData(String flightName)
+    public XYSeriesCollection  GetFlightData(String flightName)
     {
         XYSeriesCollection  flightData=null;
 
@@ -76,7 +75,7 @@ public class FlightData {
                 flightData = (XYSeriesCollection ) me.getValue();
         }
         return flightData;
-    }*/
+    }
     public boolean FlightExist(String flightName)
     {
         boolean exist = false;
@@ -100,23 +99,23 @@ public class FlightData {
 
         //Find out if the flight exist
         //If it exist append the data to the flight and if not create a new flight
-        //XYSeriesCollection  flightData=null;
+        XYSeriesCollection  flightData=null;
         if (!FlightExist(flightName))
         {
             //System.out.println("flight does not exist\n");
             //if the flight name does not exist let'create uit first
-           // hm.put(flightName, createFlight(flightName));
+            hm.put(flightName, createFlight(flightName));
         }
 
-       // flightData = GetFlightData(flightName);
-        //flightData.getSeries(0).add(X, Y);
+        flightData = GetFlightData(flightName);
+        flightData.getSeries(0).add(X, Y);
 
     }
     //not sure that I will be using that one
-    /*public void AddFlightData (XYSeriesCollection  flightData, String flightName)
+    public void AddFlightData (XYSeriesCollection  flightData, String flightName)
     {
-      //  hm.put(flightName, flightData);
-    }*/
+        hm.put(flightName, flightData);
+    }
 
     public void AddData (int flightNbr , int X, int Y )
     {
@@ -124,11 +123,11 @@ public class FlightData {
     }
 
 
-    /*private XYSeriesCollection  createFlight(final String name) {
+    private XYSeriesCollection  createFlight(final String name) {
 
         final XYSeries series = new XYSeries(name) ;
 
         return new XYSeriesCollection (series);
-    }*/
+    }
 
 }

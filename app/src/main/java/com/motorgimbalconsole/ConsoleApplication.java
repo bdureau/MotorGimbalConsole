@@ -411,22 +411,46 @@ public class ConsoleApplication extends Application {
                             // }
                             //  break;
                             case "data":
+                                long time =0;
                                 // Value 1 contain the flight number
                                 if (currentSentence.length > 1)
                                 if(currentSentence[1].matches("\\d+(?:\\.\\d+)?"))
                                     currentFlightNbr = Integer.valueOf( currentSentence[1]) + 1;
+                                // value
                                 // Value 2 contain the time
+                                if (currentSentence.length > 2)
+                                if(currentSentence[2].matches("\\d+(?:\\.\\d+)?"))
+                                    time = Long.valueOf(currentSentence[2]);
                                 // Value 3 contain the altitude
-                                // To do
-                               /* if (currentFlightNbr < 10)
-                                    MyFlight.AddToFlight(currentSentence.value2,
-                                            (long) (currentSentence.value3 * FEET_IN_METER), "Flight "
-                                                    + "0" + currentFlightNbr);
-                                else
-                                    MyFlight.AddToFlight(currentSentence.value2,
-                                            (long) (currentSentence.value3 * FEET_IN_METER), "Flight "
-                                                    + currentFlightNbr);
-*/
+                                double altitude=0;
+                                if (currentSentence.length > 3) {
+                                    if (currentSentence[3].matches("\\d+(?:\\.\\d+)?"))
+                                        altitude = Double.valueOf(currentSentence[3]);
+                                    // To do
+                                    if (currentFlightNbr < 10)
+                                        MyFlight.AddToFlight(time,
+                                                (long) (altitude * FEET_IN_METER), "Flight "
+                                                        + "0" + currentFlightNbr);
+                                    else
+                                        MyFlight.AddToFlight(time,
+                                                (long) (altitude * FEET_IN_METER), "Flight "
+                                                        + currentFlightNbr);
+                                }
+                                //Value 4 contains the temperature
+                                double temperature=0;
+                                if (currentSentence.length > 4) {
+                                    if (currentSentence[4].matches("\\d+(?:\\.\\d+)?"))
+                                        temperature = Double.valueOf(currentSentence[4]);
+                                    // To do
+                                    if (currentFlightNbr < 10)
+                                        MyFlight.AddToFlight(time,
+                                                (long) (temperature) , "Flight "
+                                                        + "0" + currentFlightNbr);
+                                    else
+                                        MyFlight.AddToFlight(time,
+                                                (long) (temperature), "Flight "
+                                                        + currentFlightNbr);
+                                }
                                 break;
                             case "alticonfig":
 

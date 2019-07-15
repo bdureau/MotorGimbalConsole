@@ -100,7 +100,7 @@ public class FlightListActivity extends AppCompatActivity {
 
                 flightNames = new ArrayList<String>();
 
-                //myflight = myBT.getFlightData();
+                myflight = myBT.getFlightData();
                 flightNames = myflight.getAllFlightNames2();
             }
         }

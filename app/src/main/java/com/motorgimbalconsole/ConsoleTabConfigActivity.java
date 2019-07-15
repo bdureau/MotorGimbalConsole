@@ -123,7 +123,10 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             long startTime = System.currentTimeMillis();
 
             myMessage =myBT.ReadResult(3000);
-
+            if (myMessage.equals("OK")) {
+                myBT.setDataReady(false);
+                myMessage =myBT.ReadResult(10000);
+            }
             //msg(myMessage);
             if (myMessage.equals( "start alticonfig end") )
             {
@@ -252,12 +255,12 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                 GimbalCfg.getGyOffset()+","+
                 GimbalCfg.getGzOffset()+","+
                 //configPage2.getKpX()+","+
-                GimbalCfg.getKpX()+","+
-                GimbalCfg.getKiX()+","+
-                GimbalCfg.getKdX()+","+
-                GimbalCfg.getKpY()+","+
-                GimbalCfg.getKiY()+","+
-                GimbalCfg.getKdY()+","+
+                (int) (GimbalCfg.getKpX()*100)+","+
+                (int) (GimbalCfg.getKiX()*100)+","+
+                (int) (GimbalCfg.getKdX()*100)+","+
+                (int) (GimbalCfg.getKpY()*100)+","+
+                (int) (GimbalCfg.getKiY()*100)+","+
+                (int) (GimbalCfg.getKdY()*100)+","+
                 GimbalCfg.getServoXMin() +","+
                 GimbalCfg.getServoXMax() +","+
                 GimbalCfg.getServoYMin() +","+
@@ -271,15 +274,37 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
 
 
                 gimbalCfgStr = gimbalCfgStr +  ";\n";
-         msg(gimbalCfgStr.toString());
+         //msg(gimbalCfgStr.toString());
 
         if(myBT.getConnected())
+            myBT.flush();
+        myBT.clearInput();
+        myBT.setDataReady(false);
             //send back the config
             myBT.write(gimbalCfgStr.toString());
 
         //msg(getResources().getString(R.string.msg3));//+altiCfgStr.toString());
 
         myBT.flush();
+        //get the results
+        //wait for the result to come back
+        try {
+            while (myBT.getInputStream().available() <= 0) ;
+        } catch (IOException e) {
+
+        }
+
+        String myMessage = "";
+        long timeOut = 10000;
+        long startTime = System.currentTimeMillis();
+
+        myMessage =myBT.ReadResult(3000);
+        if (myMessage.equals("OK")) {
+            msg("Sent OK:" +gimbalCfgStr.toString());
+        }
+        if (myMessage.equals("K0")) {
+            msg("Unable to send the config, please try again");
+        }
 
         //return true;
     }

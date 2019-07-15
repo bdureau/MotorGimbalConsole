@@ -437,7 +437,7 @@ public class ConsoleApplication extends Application {
                                                         + currentFlightNbr);
                                 }
                                 //Value 4 contains the temperature
-                                double temperature=0;
+                                /*double temperature=0;
                                 if (currentSentence.length > 4) {
                                     if (currentSentence[4].matches("\\d+(?:\\.\\d+)?"))
                                         temperature = Double.valueOf(currentSentence[4]);
@@ -450,7 +450,7 @@ public class ConsoleApplication extends Application {
                                         MyFlight.AddToFlight(time,
                                                 (long) (temperature), "Flight "
                                                         + currentFlightNbr);
-                                }
+                                }*/
                                 break;
                             case "alticonfig":
 
@@ -496,37 +496,37 @@ public class ConsoleApplication extends Application {
                                 // Value 7 contains KpX
                                 if (currentSentence.length > 8)
                                 if(currentSentence[8].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                    GimbalCfg.setKpX(Double.valueOf(currentSentence[8]));
+                                    GimbalCfg.setKpX(Double.valueOf(currentSentence[8])/100);
                                 else
                                     GimbalCfg.setKpX(0.0);
                                 // Value 8 contains KiX
                                 if (currentSentence.length > 9)
                                 if(currentSentence[9].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                    GimbalCfg.setKiX(Double.valueOf(currentSentence[9]));
+                                    GimbalCfg.setKiX(Double.valueOf(currentSentence[9])/100);
                                 else
                                     GimbalCfg.setKiX(0.0);
                                 // Value 9 contains KdX
                                 if (currentSentence.length > 10)
                                 if(currentSentence[10].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                    GimbalCfg.setKdX(Double.valueOf(currentSentence[10]));
+                                    GimbalCfg.setKdX(Double.valueOf(currentSentence[10])/100);
                                 else
                                     GimbalCfg.setKdX(0.0);
                                 // Value 10 contains KpY
                                 if (currentSentence.length > 11)
                                 if(currentSentence[11].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                    GimbalCfg.setKpY(Double.valueOf(currentSentence[11]));
+                                    GimbalCfg.setKpY(Double.valueOf(currentSentence[11])/100);
                                 else
                                     GimbalCfg.setKpY(0.0);
                                 // Value 11 contains KiY
                                 if (currentSentence.length > 12)
                                 if(currentSentence[12].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                    GimbalCfg.setKiY(Double.valueOf(currentSentence[12]));
+                                    GimbalCfg.setKiY(Double.valueOf(currentSentence[12])/100);
                                 else
                                     GimbalCfg.setKiY(0.0);
                                 // Value 12 contains KdY
                                 if (currentSentence.length > 13)
                                 if(currentSentence[13].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                    GimbalCfg.setKdY(Double.valueOf(currentSentence[13]));
+                                    GimbalCfg.setKdY(Double.valueOf(currentSentence[13])/100);
                                 else
                                     GimbalCfg.setKdY(0.0);
                                 // Value 13 contains servoXMin
@@ -544,15 +544,15 @@ public class ConsoleApplication extends Application {
                                 // Value 15 contains servoYMin
                                 if (currentSentence.length > 16)
                                 if(currentSentence[16].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                    GimbalCfg.setServoXMin(Integer.valueOf(currentSentence[16]));
+                                    GimbalCfg.setServoYMin(Integer.valueOf(currentSentence[16]));
                                 else
-                                    GimbalCfg.setServoXMin(0);
+                                    GimbalCfg.setServoYMin(0);
                                 // Value 16 contains servoYMax
                                 if (currentSentence.length > 17)
                                 if(currentSentence[17].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                    GimbalCfg.setServoXMax(Integer.valueOf(currentSentence[17]));
+                                    GimbalCfg.setServoYMax(Integer.valueOf(currentSentence[17]));
                                 else
-                                    GimbalCfg.setServoXMax(0);
+                                    GimbalCfg.setServoYMax(0);
                                 // Value 17 contains the connection speed
                                 if (currentSentence.length > 18)
                                 if(currentSentence[18].matches("^-?[0-9]\\d*(\\.\\d+)?$"))

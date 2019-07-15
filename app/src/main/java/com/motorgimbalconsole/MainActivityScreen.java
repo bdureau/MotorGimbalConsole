@@ -104,6 +104,13 @@ public class MainActivityScreen extends AppCompatActivity {
                  startActivity(i);
              }
          });
+        btnFlight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivityScreen.this, FlightListActivity.class);
+                startActivity(i);
+            }
+        });
         btnStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,6 +121,14 @@ public class MainActivityScreen extends AppCompatActivity {
                     myBT.write("y1;\n".toString());
                 }
                 Intent i = new Intent(MainActivityScreen.this, ConsoleTabStatusActivity.class);
+                startActivity(i);
+            }
+        });
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(MainActivityScreen.this, ResetSettingsActivity.class);
                 startActivity(i);
             }
         });
@@ -177,11 +192,15 @@ public class MainActivityScreen extends AppCompatActivity {
     private void DisableUI () {
         btnConfig.setEnabled(false);
         btnStatus.setEnabled(false);
+        btnFlight.setEnabled(false);
+        btnReset.setEnabled(false);
 
     }
     private void EnableUI () {
         btnConfig.setEnabled(true);
         btnStatus.setEnabled(true);
+        btnFlight.setEnabled(true);
+        btnReset.setEnabled(true);
     }
     /*@Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
@@ -231,7 +250,10 @@ public class MainActivityScreen extends AppCompatActivity {
             long startTime = System.currentTimeMillis();
 
             myMessage =myBT.ReadResult(10000);
-
+            if (myMessage.equals("OK")) {
+                myBT.setDataReady(false);
+                myMessage =myBT.ReadResult(10000);
+            }
             if (myMessage.equals( "start alticonfig end") )
             {
                 try {

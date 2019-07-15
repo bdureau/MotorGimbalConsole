@@ -50,6 +50,9 @@
             android:label="@string/titre_application_pref"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ResetSettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".FlightListActivity"
             android:label="@string/Flight_list"
             android:screenOrientation="portrait" />

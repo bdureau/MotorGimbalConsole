@@ -124,10 +124,13 @@ public class FlightData {
 
 
     private XYSeriesCollection  createFlight(final String name) {
-
-        final XYSeries series = new XYSeries(name) ;
-
-        return new XYSeriesCollection (series);
+        XYSeriesCollection ret;
+        //final XYSeries series = new XYSeries("altitude") ;
+        ret = new XYSeriesCollection (new XYSeries("altitude"));
+        //ret.addSeries(new XYSeries("w"));
+        //ret.addSeries(new XYSeries("x"));
+        //ret.addSeries(new XYSeries("y"));
+        return ret;
     }
 
 }

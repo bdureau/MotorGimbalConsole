@@ -39,7 +39,7 @@ public class FlightViewActivity extends AppCompatActivity {
      //get the bluetooth Application pointer
      myBT = (ConsoleApplication) getApplication();
      //Check the local and force it if needed
-     getApplicationContext().getResources().updateConfiguration(myBT.getAppLocal(), null);
+    getApplicationContext().getResources().updateConfiguration(myBT.getAppLocal(), null);
 
      setContentView(R.layout.activity_flight_view);
      buttonDismiss =  (Button) findViewById(R.id.butDismiss);
@@ -51,7 +51,7 @@ public class FlightViewActivity extends AppCompatActivity {
      flightData = myflight.GetFlightData(FlightName);
 
 
-     //DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+     DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
      // Read the application config
      myBT.getAppConf().ReadConfig();

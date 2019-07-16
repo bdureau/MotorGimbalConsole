@@ -79,7 +79,7 @@ public class FlightListActivity extends AppCompatActivity {
                 //clear anything on the connection
                 myBT.flush();
                 myBT.clearInput();
-                //myBT.getFlightData().ClearFlight();
+                myBT.getFlightData().ClearFlight();
                 // Send command to retrieve the config
                 myBT.write("a;\n".toString());
                 myBT.flush();

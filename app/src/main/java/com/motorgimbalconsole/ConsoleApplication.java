@@ -441,7 +441,7 @@ public class ConsoleApplication extends Application {
                                 double temperature = 0;
                                 if (currentSentence.length > 4) {
                                     if (currentSentence[4].matches("\\d+(?:\\.\\d+)?"))
-                                        temperature = Double.valueOf(currentSentence[4]);
+                                        temperature = Long.valueOf(currentSentence[4]);
                                     // To do
 
                                     MyFlight.AddToFlight(time,
@@ -451,7 +451,7 @@ public class ConsoleApplication extends Application {
                                 double pressure = 0;
                                 if (currentSentence.length > 5) {
                                     if (currentSentence[5].matches("\\d+(?:\\.\\d+)?"))
-                                        pressure = Double.valueOf(currentSentence[5]);
+                                        pressure = Long.valueOf(currentSentence[5]);
                                     // To do
 
                                     MyFlight.AddToFlight(time,
@@ -459,39 +459,70 @@ public class ConsoleApplication extends Application {
 
                                 }
                                 // Then get the quaternion
+                                QuaternionUtils quatUtils= new QuaternionUtils();
+                                float quat[]=new float[4];
                                 //w
-                                String w;
+                                //String w;
                                 if (currentSentence.length > 6) {
-                                    w = currentSentence[6];
+                                    quat[0] = quatUtils.decodeFloat(currentSentence[6]);
                                 }
                                 //x
-                                String x;
+                                //String x;
                                 if (currentSentence.length > 7) {
-                                    x = currentSentence[7];
+                                    quat[1] = quatUtils.decodeFloat(currentSentence[7]);
                                 }
                                 //y
-                                String y;
+                                //String y;
                                 if (currentSentence.length > 8) {
-                                    y = currentSentence[8];
+                                    quat[2] = quatUtils.decodeFloat(currentSentence[8]);
                                 }
                                 //z
-                                String z;
+                                //String z;
                                 if (currentSentence.length > 9) {
-                                    z = currentSentence[9];
+                                    quat[3] = quatUtils.decodeFloat(currentSentence[9]);
+
+                                    float [] gravity = null;
+                                    gravity = quatUtils.quaternionToGravity(quat);
+                                    MyFlight.AddToFlight(time,
+                                            (long)gravity[0], flightName, 3);
+                                    MyFlight.AddToFlight(time,
+                                            (long)gravity[1], flightName, 4);
+                                    MyFlight.AddToFlight(time,
+                                            (long)gravity[2], flightName, 5);
+
+                                    float [] euler = null;
+                                    euler = quatUtils.quaternionToEuler(quat);
+                                    MyFlight.AddToFlight(time,
+                                            (long)euler[0], flightName, 6);
+                                    MyFlight.AddToFlight(time,
+                                            (long)euler[1], flightName, 7);
+                                    MyFlight.AddToFlight(time,
+                                            (long)euler[2], flightName, 8);
+
+                                    float [] ypr = null;
+                                    ypr = quatUtils.quaternionToYawPitchRoll(quat, gravity);
+                                    MyFlight.AddToFlight(time,
+                                            (long)ypr[0], flightName, 9);
+                                    MyFlight.AddToFlight(time,
+                                            (long)ypr[1], flightName, 10);
+                                    MyFlight.AddToFlight(time,
+                                            (long)ypr[2], flightName, 11);
                                 }
                                 //outputX
                                 long outputX=0;
                                 if (currentSentence.length > 10) {
-                                    if (currentSentence[10].matches("\\d+(?:\\.\\d+)?"))
+                                    if (currentSentence[10].matches("\\d+(?:\\.\\d+)?")) {
                                         outputX = Long.valueOf(currentSentence[10]);
-                                   // MyFlight.AddToFlight(time,(long) (outputX), flightName, 1);
+                                        MyFlight.AddToFlight(time, (long) (outputX), flightName, 12);
+                                    }
                                 }
                                 //outputY
                                 long outputY=0;
                                 if (currentSentence.length > 11) {
-                                    if (currentSentence[10].matches("\\d+(?:\\.\\d+)?"))
+                                    if (currentSentence[10].matches("\\d+(?:\\.\\d+)?")) {
                                         outputY = Long.valueOf(currentSentence[10]);
-                                    // MyFlight.AddToFlight(time,(long) (outputY), flightName, 1);
+                                        MyFlight.AddToFlight(time, (long) (outputY), flightName, 13);
+                                    }
                                 }
                                 break;
                             case "alticonfig":

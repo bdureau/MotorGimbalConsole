@@ -4,8 +4,7 @@ import android.app.AlertDialog;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.Context;
-import android.content.DialogInterface;
+
 import android.graphics.Typeface;
 
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +27,7 @@ import android.widget.Button;
 
 import android.widget.Toast;
 
+import java.util.Arrays;
 import java.util.List;
 
 import processing.core.PShapeSVG;
@@ -49,9 +49,68 @@ public class FlightViewActivity extends AppCompatActivity {
     XYSeriesCollection allFlightData;
     XYSeriesCollection flightData;
     XYPlot plot;
+    ValueAxis Xaxis;
+    ValueAxis Yaxis;
+    Font font;
+    AFreeChart chart;
 
     private void msg(String s) {
         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+    }
+
+    private void drawGraph() {
+        int graphBackColor;//= Color.WHITE;
+        graphBackColor = myBT.getAppConf().ConvertColor(Integer.parseInt(myBT.getAppConf().getGraphBackColor()));
+
+
+        // NOW DO SOME OPTIONAL CUSTOMISATION OF THE CHART...
+        chart.getTitle().setFont(font);
+        // set the background color for the chart...
+
+
+        chart.setBackgroundPaintType(new SolidColor(graphBackColor));
+
+        // get a reference to the plot for further customisation...
+        plot = chart.getXYPlot();
+
+        plot.setDomainGridlinesVisible(false);
+        plot.setRangeGridlinesVisible(false);
+
+        plot.setBackgroundPaintType(new SolidColor(graphBackColor));
+        plot.setOutlinePaintType(new SolidColor(Color.YELLOW));
+        plot.setDomainZeroBaselinePaintType(new SolidColor(Color.GREEN));
+        //plot.setRangeTickBandPaintType(new SolidColor(Color.GREEN)); //rajoute des bandes
+        //plot.setOutlinePaintType(new SolidColor(Color.MAGENTA));
+        plot.setRangeZeroBaselinePaintType(new SolidColor(Color.MAGENTA));
+        int axisColor;
+        axisColor = myBT.getAppConf().ConvertColor(Integer.parseInt(myBT.getAppConf().getGraphColor()));
+
+        int labelColor = Color.BLACK;
+
+        int nbrColor = Color.BLACK;
+        Xaxis = plot.getDomainAxis();
+        Xaxis.setAutoRange(true);
+        Xaxis.setAxisLinePaintType(new SolidColor(axisColor));
+
+        Yaxis = plot.getRangeAxis();
+
+        Yaxis.setAxisLinePaintType(new SolidColor(axisColor));
+
+
+        Xaxis.setTickLabelFont(font);
+        Xaxis.setLabelFont(font);
+
+        Yaxis.setTickLabelFont(font);
+        Yaxis.setLabelFont(font);
+
+        //Xaxis label color
+        Xaxis.setLabelPaintType(new SolidColor(labelColor));
+
+        Xaxis.setTickMarkPaintType(new SolidColor(axisColor));
+        Xaxis.setTickLabelPaintType(new SolidColor(nbrColor));
+        //Y axis label color
+        Yaxis.setLabelPaintType(new SolidColor(labelColor));
+        Yaxis.setTickLabelPaintType(new SolidColor(nbrColor));
     }
 
     @Override
@@ -76,7 +135,6 @@ public class FlightViewActivity extends AppCompatActivity {
 
         // by default we will display the altitude
         // but then the user will be able to change the data
-
         flightData = new XYSeriesCollection();
         flightData.addSeries(allFlightData.getSeries("altitude"));
 
@@ -88,26 +146,13 @@ public class FlightViewActivity extends AppCompatActivity {
             curvesNames[i] = allFlightData.getSeries(i).getKey().toString();
         }
 
-
-        //msg(allFlightData.getSeries(0).getKey().toString());
-
-
-        //DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-
         // Read the application config
         myBT.getAppConf().ReadConfig();
-        int graphBackColor;//= Color.WHITE;
-        graphBackColor = myBT.getAppConf().ConvertColor(Integer.parseInt(myBT.getAppConf().getGraphBackColor()));
 
         int fontSize;
         fontSize = myBT.getAppConf().ConvertFont(Integer.parseInt(myBT.getAppConf().getFontSize()));
 
-        int axisColor;//=Color.BLACK;
-        axisColor = myBT.getAppConf().ConvertColor(Integer.parseInt(myBT.getAppConf().getGraphColor()));
 
-        int labelColor = Color.BLACK;
-
-        int nbrColor = Color.BLACK;
         String myUnits = "";
         if (myBT.getAppConf().getUnits().equals("0"))
             //Meters
@@ -117,9 +162,9 @@ public class FlightViewActivity extends AppCompatActivity {
             myUnits = getResources().getString(R.string.Feet_fview);
 
         //font
-        Font font = new Font("Dialog", Typeface.NORMAL, fontSize);
+        font = new Font("Dialog", Typeface.NORMAL, fontSize);
 
-        AFreeChart chart = ChartFactory.createXYLineChart(
+        chart = ChartFactory.createXYLineChart(
                 getResources().getString(R.string.Altitude_time),
                 getResources().getString(R.string.Time_fv),
                 getResources().getString(R.string.Altitude) + " (" + myUnits + ")",
@@ -130,58 +175,12 @@ public class FlightViewActivity extends AppCompatActivity {
                 false                     // URLs?
         );
 
-        // NOW DO SOME OPTIONAL CUSTOMISATION OF THE CHART...
-
-        chart.getTitle().setFont(font);
-        // set the background color for the chart...
 
 
-        chart.setBackgroundPaintType(new SolidColor(graphBackColor));
+        drawGraph();
 
-        // get a reference to the plot for further customisation...
-        plot = chart.getXYPlot();
-
-        plot.setDomainGridlinesVisible(false);
-        plot.setRangeGridlinesVisible(false);
-
-        plot.setBackgroundPaintType(new SolidColor(graphBackColor));
-        plot.setOutlinePaintType(new SolidColor(Color.YELLOW));
-        plot.setDomainZeroBaselinePaintType(new SolidColor(Color.GREEN));
-        //plot.setRangeTickBandPaintType(new SolidColor(Color.GREEN)); //rajoute des bandes
-        //plot.setOutlinePaintType(new SolidColor(Color.MAGENTA));
-        plot.setRangeZeroBaselinePaintType(new SolidColor(Color.MAGENTA));
-
-        final ValueAxis Xaxis = plot.getDomainAxis();
-        Xaxis.setAutoRange(true);
-        Xaxis.setAxisLinePaintType(new SolidColor(axisColor));
-
-        final ValueAxis YAxis = plot.getRangeAxis();
-        YAxis.setAxisLinePaintType(new SolidColor(axisColor));
-
-
-        Xaxis.setTickLabelFont(font);
-        Xaxis.setLabelFont(font);
-
-        YAxis.setTickLabelFont(font);
-        YAxis.setLabelFont(font);
-
-        //Xaxis label color
-        Xaxis.setLabelPaintType(new SolidColor(labelColor));
-     /*this make it crash
-     axis.setAutoRangeMinimumSize(0);
-     rangeAxis.setAutoRangeMinimumSize(0);*/
-        Xaxis.setTickMarkPaintType(new SolidColor(axisColor));
-        Xaxis.setTickLabelPaintType(new SolidColor(nbrColor));
-        //Y axis label color
-        YAxis.setLabelPaintType(new SolidColor(labelColor));
-        YAxis.setTickLabelPaintType(new SolidColor(nbrColor));
         final NumberAxis rangeAxis2 = new NumberAxis("Range Axis 2");
         rangeAxis2.setAutoRangeIncludesZero(false);
-
-        //plot.setLabelFont(new Font("SansSerif", Typeface.NORMAL, 8));
-        //plot.
-        // plot.setCircular(false);
-        //plot.setLabelLinksVisible(false);
 
 
         plot.setDataset(0, flightData);
@@ -200,12 +199,20 @@ public class FlightViewActivity extends AppCompatActivity {
         butSelectCurves.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                int numberOfCurves = flightData.getSeries().size();
+                String currentCurvesNames[] = new String[numberOfCurves];
+                for (int i = 0; i < numberOfCurves; i++) {
+                    currentCurvesNames[i] = flightData.getSeries(i).getKey().toString();
+                }
                 // Set up the alert builder
                 AlertDialog.Builder builder = new AlertDialog.Builder(FlightViewActivity.this);
                 builder.setTitle("Select flight curve");
                 checkedItems = new boolean[curvesNames.length];
                 // Add a checkbox list
                 for (int i = 0; i < curvesNames.length; i++) {
+                    if(Arrays.asList(currentCurvesNames).contains(curvesNames[i]))
+                        checkedItems[i] = true;
+                    else
                     checkedItems[i] = false;
                 }
                 // boolean[] checkedItems = {true, false, false, true, false};
@@ -228,12 +235,14 @@ public class FlightViewActivity extends AppCompatActivity {
                             }
                         }
                         //flightData.addSeries(allFlightData.getSeries("altitude"));
+                        drawGraph();
+
                         plot.setDataset(0, flightData);
                     }
                 });
                 builder.setNegativeButton("Cancel", null);
 
-// Create and show the alert dialog
+                // Create and show the alert dialog
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }

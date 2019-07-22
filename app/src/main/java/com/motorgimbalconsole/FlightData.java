@@ -127,10 +127,6 @@ public class FlightData {
 
         flightData = GetFlightData(flightName);
         flightData.getSeries(serie).add(X, Y);
-        //flightData.getSeries(serie);
-        //flightData.a
-
-
 
     }
     //not sure that I will be using that one
@@ -150,9 +146,18 @@ public class FlightData {
         //final XYSeries series = new XYSeries("altitude") ;
         ret = new XYSeriesCollection (new XYSeries("altitude"));
         ret.addSeries(new XYSeries("temperature"));
-        //ret.addSeries(new XYSeries("pressure"));
-        //ret.addSeries(new XYSeries("outputX"));
-        //ret.addSeries(new XYSeries("outputY"));
+        ret.addSeries(new XYSeries("pressure"));
+        ret.addSeries(new XYSeries("Gravity X"));
+        ret.addSeries(new XYSeries("Gravity Y"));
+        ret.addSeries(new XYSeries("Gravity Z"));
+        ret.addSeries(new XYSeries("Euler X"));
+        ret.addSeries(new XYSeries("Euler Y"));
+        ret.addSeries(new XYSeries("Euler Z"));
+        ret.addSeries(new XYSeries("Yaw"));
+        ret.addSeries(new XYSeries("Pitch"));
+        ret.addSeries(new XYSeries("Roll"));
+        ret.addSeries(new XYSeries("outputX"));
+        ret.addSeries(new XYSeries("outputY"));
         return ret;
     }
 

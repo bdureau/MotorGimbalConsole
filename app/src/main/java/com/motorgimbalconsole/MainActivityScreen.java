@@ -339,6 +339,7 @@ public class MainActivityScreen extends AppCompatActivity {
            /* progress = ProgressDialog.show(MainActivityScreen.this,
                     "Connecting...", "Please wait!!!"); */ //show a progress dialog
             builder = new AlertDialog.Builder(MainActivityScreen.this);
+
             //Connecting...
             builder.setMessage(getResources().getString(R.string.MS_msg1))
                     .setTitle(getResources().getString(R.string.MS_msg2))

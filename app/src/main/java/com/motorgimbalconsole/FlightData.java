@@ -110,6 +110,28 @@ public class FlightData {
         flightData = GetFlightData(flightName);
         flightData.getSeries(0).add(X, Y);
 
+
+    }
+    public void AddToFlight (long X, long Y, String flightName, int serie)
+    {
+
+        //Find out if the flight exist
+        //If it exist append the data to the flight and if not create a new flight
+        XYSeriesCollection  flightData=null;
+        if (!FlightExist(flightName))
+        {
+            //System.out.println("flight does not exist\n");
+            //if the flight name does not exist let's create it first
+            hm.put(flightName, createFlight(flightName));
+        }
+
+        flightData = GetFlightData(flightName);
+        flightData.getSeries(serie).add(X, Y);
+        //flightData.getSeries(serie);
+        //flightData.a
+
+
+
     }
     //not sure that I will be using that one
     public void AddFlightData (XYSeriesCollection  flightData, String flightName)
@@ -127,9 +149,10 @@ public class FlightData {
         XYSeriesCollection ret;
         //final XYSeries series = new XYSeries("altitude") ;
         ret = new XYSeriesCollection (new XYSeries("altitude"));
-        //ret.addSeries(new XYSeries("w"));
-        //ret.addSeries(new XYSeries("x"));
-        //ret.addSeries(new XYSeries("y"));
+        ret.addSeries(new XYSeries("temperature"));
+        //ret.addSeries(new XYSeries("pressure"));
+        //ret.addSeries(new XYSeries("outputX"));
+        //ret.addSeries(new XYSeries("outputY"));
         return ret;
     }
 

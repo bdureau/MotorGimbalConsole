@@ -10,7 +10,9 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
+import android.os.Environment;
 import android.os.Handler;
+import android.widget.Toast;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -66,7 +68,9 @@ public class ConsoleApplication extends Application {
     public void setConnectionType(String TypeOfConnection) {
         myTypeOfConnection = TypeOfConnection;
     }
-
+    private void msg(String s) {
+        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+    }
     public String getConnectionType() {
         return myTypeOfConnection;
     }
@@ -234,10 +238,16 @@ public class ConsoleApplication extends Application {
     }
 
     public void appendLog(String text) {
-        File logFile = new File("sdcard/debugfile.txt");
+        //File logFile = new File("sdcard/debugfile.txt");
+        //File logFile = new File(Environment.getDataDirectory() +"/debugfile.txt");
+        //getExternalStorageDirectory()
+
+        File logFile = new File(Environment.getExternalStorageDirectory() +"/test/debugfile.txt");
+        //Environment.getDownloadCacheDirectory()
         if (!logFile.exists()) {
             try {
                 logFile.createNewFile();
+
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -411,6 +421,7 @@ public class ConsoleApplication extends Application {
                             // }
                             //  break;
                             case "data":
+                                appendLog(currentSentence + "\n");
                                 String flightName = "FlightXX";
                                 long time = 0;
                                 // Value 1 contain the flight number
@@ -462,51 +473,47 @@ public class ConsoleApplication extends Application {
                                 QuaternionUtils quatUtils= new QuaternionUtils();
                                 float quat[]=new float[4];
                                 //w
-                                //String w;
                                 if (currentSentence.length > 6) {
                                     quat[0] = quatUtils.decodeFloat(currentSentence[6]);
                                 }
                                 //x
-                                //String x;
                                 if (currentSentence.length > 7) {
                                     quat[1] = quatUtils.decodeFloat(currentSentence[7]);
                                 }
                                 //y
-                                //String y;
                                 if (currentSentence.length > 8) {
                                     quat[2] = quatUtils.decodeFloat(currentSentence[8]);
                                 }
                                 //z
-                                //String z;
                                 if (currentSentence.length > 9) {
                                     quat[3] = quatUtils.decodeFloat(currentSentence[9]);
 
                                     float [] gravity = null;
                                     gravity = quatUtils.quaternionToGravity(quat);
                                     MyFlight.AddToFlight(time,
-                                            (long)gravity[0], flightName, 3);
+                                            gravity[0], flightName, 3);
                                     MyFlight.AddToFlight(time,
-                                            (long)gravity[1], flightName, 4);
+                                            gravity[1], flightName, 4);
                                     MyFlight.AddToFlight(time,
-                                            (long)gravity[2], flightName, 5);
+                                            gravity[2], flightName, 5);
 
                                     float [] euler = null;
                                     euler = quatUtils.quaternionToEuler(quat);
                                     MyFlight.AddToFlight(time,
-                                            (long)euler[0], flightName, 6);
+                                            euler[0]*180/3.14, flightName, 6);
                                     MyFlight.AddToFlight(time,
-                                            (long)euler[1], flightName, 7);
+                                            euler[1]*180/3.14, flightName, 7);
                                     MyFlight.AddToFlight(time,
-                                            (long)euler[2], flightName, 8);
+                                            euler[2]*180/3.14, flightName, 8);
 
                                     float [] ypr = null;
                                     ypr = quatUtils.quaternionToYawPitchRoll(quat, gravity);
                                     MyFlight.AddToFlight(time,
-                                            (long)ypr[0], flightName, 9);
+                                            ypr[0]*180/3.14, flightName, 9);
                                     MyFlight.AddToFlight(time,
-                                            (long)ypr[1], flightName, 10);
+                                            ypr[1]*180/3.14, flightName, 10);
                                     MyFlight.AddToFlight(time,
-                                            (long)ypr[2], flightName, 11);
+                                            ypr[2]*180/3.14, flightName, 11);
                                 }
                                 //outputX
                                 long outputX=0;
@@ -519,9 +526,30 @@ public class ConsoleApplication extends Application {
                                 //outputY
                                 long outputY=0;
                                 if (currentSentence.length > 11) {
-                                    if (currentSentence[10].matches("\\d+(?:\\.\\d+)?")) {
-                                        outputY = Long.valueOf(currentSentence[10]);
+                                    if (currentSentence[11].matches("\\d+(?:\\.\\d+)?")) {
+                                        outputY = Long.valueOf(currentSentence[11]);
                                         MyFlight.AddToFlight(time, (long) (outputY), flightName, 13);
+                                    }
+                                }
+                                long accelX =0;
+                                if (currentSentence.length > 12) {
+                                    if (currentSentence[12].matches("\\d+(?:\\.\\d+)?")) {
+                                        accelX = Long.valueOf(currentSentence[12]);
+                                        MyFlight.AddToFlight(time, (long) (accelX), flightName, 14);
+                                    }
+                                }
+                                long accelY =0;
+                                if (currentSentence.length > 13) {
+                                    if (currentSentence[13].matches("\\d+(?:\\.\\d+)?")) {
+                                        accelY = Long.valueOf(currentSentence[13]);
+                                        MyFlight.AddToFlight(time, (long) (accelY), flightName, 15);
+                                    }
+                                }
+                                long accelZ =0;
+                                if (currentSentence.length > 14) {
+                                    if (currentSentence[14].matches("\\d+(?:\\.\\d+)?")) {
+                                        accelZ = Long.valueOf(currentSentence[14]);
+                                        MyFlight.AddToFlight(time, (long) (accelZ), flightName, 16);
                                     }
                                 }
                                 break;
@@ -732,37 +760,7 @@ public class ConsoleApplication extends Application {
         return DataReady;
     }
 
-    /* public class Sentence {
 
-         public String keyword;
-         public String value0;
-         public String value1;
-         public String value2;
-         public String value3;
-         public String value4;
-         public String value5;
-         public String value6;
-         public String value7;
-         public String value8;
-         public String value9;
-         public String value10;
-         public String value11;
-         public String value12;
-         public String value13;
-         public String value14;
-         public String value15;
-         public String value16;
-         public String value17;
-         public String value18;
-         public String value19;
-         public String value20;
-         public String value21;
-         public String value22;
-         public String value23;
-         public String value24;
-         public String value25;
-
-     }*/
     public Configuration getAppLocal() {
 
         Locale locale = null;
@@ -970,7 +968,6 @@ public class ConsoleApplication extends Application {
         }
 
         public void setBaudRate(String value) {
-
             baudRate = value;
         }
 
@@ -987,7 +984,6 @@ public class ConsoleApplication extends Application {
                 case 0:
                     myColor = Color.BLACK;
                     break;
-
                 case 1:
                     myColor = Color.WHITE;
                     break;
@@ -1022,185 +1018,5 @@ public class ConsoleApplication extends Application {
             return myColor;
         }
     }
-/*public Sentence readSentence(String tempBuff) {
-        // we have a sentence let's find out what it is
-        String tempArray[] = tempBuff.split(",");
-        Sentence sentence = new Sentence();
-
-        sentence.keyword = tempArray[0];
-        if (tempArray.length > 1)
-            sentence.value0 = tempArray[1];
-
-        if (tempArray.length > 2)
-            if(tempArray[2].matches("\\d+(?:\\.\\d+)?"))
-                sentence.value1 = Long.parseLong(tempArray[2]);
-            else
-                sentence.value1 =-1;
-        if (tempArray.length > 3)
-            if(tempArray[3].matches("\\d+(?:\\.\\d+)?"))
-                sentence.value2 = Long.parseLong(tempArray[3]);
-            else
-                sentence.value2 =-1;
-
-        if (tempArray.length > 4)
-            if(tempArray[4].matches("\\d+(?:\\.\\d+)?"))
-                sentence.value3 = Long.parseLong(tempArray[4]);
-            else
-                sentence.value3 =-1;
-
-        if (tempArray.length > 5)
-            if(tempArray[5].matches("\\d+(?:\\.\\d+)?"))
-                sentence.value4 = Long.parseLong(tempArray[5]);
-            else
-                sentence.value4 = -1;
-
-        if (tempArray.length > 6)
-            if(tempArray[6].matches("\\d+(?:\\.\\d+)?"))
-                sentence.value5 = Long.parseLong(tempArray[6]);
-            else
-                sentence.value5 = -1;
-
-        if (tempArray.length > 7)
-            if(tempArray[7].matches("\\d+(?:\\.\\d+)?"))
-                sentence.value6 = Long.parseLong(tempArray[7]);
-            else
-                sentence.value6 = -1;
-
-        if (tempArray.length > 8)
-            if(tempArray[8].matches("\\d+(?:\\.\\d+)?"))
-                sentence.value7 = Double.parseDouble(tempArray[8]);
-            else
-                sentence.value7 = -1;
-
-
-        if (tempArray.length > 9)
-            if(tempArray[9].matches("\\d+(?:\\.\\d+)?"))
-                sentence.value8 = Double.parseDouble(tempArray[9]);
-            else
-                sentence.value8 = -1;
-
-        if (tempArray.length > 10)
-            if(tempArray[10].matches("\\d+(?:\\.\\d+)?"))
-                sentence.value9 = Double.parseDouble(tempArray[10]);
-            else
-                sentence.value9 = -1;
-
-        if (tempArray.length > 11)
-            if(tempArray[11].matches("\\d+(?:\\.\\d+)?"))
-                sentence.value10 = Double.parseDouble(tempArray[11]);
-            else
-                sentence.value10 = -1;
-
-        if (tempArray.length > 12)
-            if(tempArray[12].matches("\\d+(?:\\.\\d+)?"))
-                sentence.value11 = Double.parseDouble(tempArray[12]);
-            else
-                sentence.value11 = -1;
-
-        if (tempArray.length > 13)
-            if(tempArray[13].matches("\\d+(?:\\.\\d+)?"))
-                sentence.value12 = Double.parseDouble(tempArray[13]);
-            else
-                sentence.value12 = -1;
-
-        if (tempArray.length > 14)
-            if(tempArray[14].matches("\\d+(?:\\.\\d+)?"))
-                sentence.value13 = Integer.parseInt(tempArray[14]);
-            else
-                sentence.value13 = -1;
-        if (tempArray.length > 15)
-            if(tempArray[15].matches("\\d+(?:\\.\\d+)?"))
-                sentence.value14 = Integer.parseInt(tempArray[15]);
-            else
-                sentence.value14 = -1;
-        if (tempArray.length > 16)
-            if(tempArray[16].matches("\\d+(?:\\.\\d+)?"))
-                sentence.value15 = Integer.parseInt(tempArray[16]);
-            else
-                sentence.value15 = -1;
-        if (tempArray.length > 17)
-            if(tempArray[17].matches("\\d+(?:\\.\\d+)?"))
-                sentence.value16 = Integer.parseInt(tempArray[17]);
-            else
-                sentence.value16 = -1;
-        if (tempArray.length > 18)
-            if(tempArray[18].matches("\\d+(?:\\.\\d+)?"))
-                sentence.value17 = Integer.parseInt(tempArray[18]);
-            else
-                sentence.value17 = -1;
-        if (tempArray.length > 19)
-            if(tempArray[19].matches("\\d+(?:\\.\\d+)?"))
-                sentence.value18 = Integer.parseInt(tempArray[19]);
-            else
-                sentence.value18 = -1;
-        if (tempArray.length > 20)
-            if(tempArray[20].matches("\\d+(?:\\.\\d+)?"))
-                sentence.value19 = Integer.parseInt(tempArray[20]);
-            else
-                sentence.value19 = -1;
-        if (tempArray.length > 21)
-            if(tempArray[21].matches("\\d+(?:\\.\\d+)?"))
-                sentence.value20 = Integer.parseInt(tempArray[21]);
-            else
-                sentence.value20 = -1;
-
-        if (tempArray.length > 22)
-            if(tempArray[22].matches("\\d+(?:\\.\\d+)?"))
-                sentence.value21 = Integer.parseInt(tempArray[22]);
-            else
-                sentence.value21 = -1;
-
-        if (tempArray.length > 23)
-            if(tempArray[23].matches("\\d+(?:\\.\\d+)?"))
-                sentence.value22 = Integer.parseInt(tempArray[23]);
-            else
-                sentence.value22 = -1;
-
-        if (tempArray.length > 24)
-            if(tempArray[24].matches("\\d+(?:\\.\\d+)?"))
-                sentence.value23 = Integer.parseInt(tempArray[24]);
-            else
-                sentence.value23 = -1;
-
-        if (tempArray.length > 25)
-            if(tempArray[25].matches("\\d+(?:\\.\\d+)?"))
-                sentence.value24 = Integer.parseInt(tempArray[25]);
-            else
-                sentence.value24 = -1;
-        return sentence;
-    }*/
-
-
-   /*public class Sentence {
-
-        public String keyword;
-        public String value0;
-        public long value1;
-        public long value2;
-        public long value3;
-        public long value4;
-        public long value5;
-        public long value6;
-        public double value7;
-        public double value8;
-        public double value9;
-        public double value10;
-        public double value11;
-        public double value12;
-        public int value13;
-        public int value14;
-        public int value15;
-        public int value16;
-        public long value17;
-        public int value18;
-        public int value19;
-        public int value20;
-        public int value21;
-        public int value22;
-        public int value23;
-        public int value24;
-        public int value25;
-
-    }*/
 
 }

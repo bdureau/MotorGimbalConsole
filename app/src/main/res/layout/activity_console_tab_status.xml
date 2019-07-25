@@ -34,7 +34,12 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-
+    <Button
+        android:id="@+id/butRecording"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:text="@string/recording_tab_status" />
 
     <Button
         android:id="@+id/butDismiss"

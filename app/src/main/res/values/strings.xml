@@ -26,7 +26,7 @@
     <string name="connection_type">Connection type</string>
     <string name="upload">upload</string>
     <string name="dismiss_tabconfig">Dismiss</string>
-    <string name="dismiss_tab_status">Dismiss</string>
+
     <!-- Reset screen -->
     <string name="dismiss_reset">Dismiss</string>
     <string name="clear_flights">Clear Flights</string>
@@ -53,7 +53,7 @@
     <string name="gxoffset">GxOffset</string>
     <string name="gyoffset">GyOffset</string>
     <string name="gzoffset">GzOffset</string>
-    <!-- app config tab 3-->
+    <!-- app config tab 2-->
     <string name="pid_values">PID values</string>
     <string name="kpx">KpX</string>
     <string name="kix">KiX</string>
@@ -75,6 +75,10 @@
     <string name="servo_x_max">Servo X Max</string>
     <string name="servo_y_min">Servo Y Min</string>
     <string name="servo_y_max">Servo Y Max</string>
+    <!-- app status -->
+    <string name="dismiss_tab_status">Dismiss</string>
+    <string name="recording_tab_status">Recording</string>
+    <string name="stop_recording_tab_status">Stop</string>
     <!-- app status tab 1-->
     <string name="axis_values">Axis values</string>
     <string name="gyroscopes_deg_s">Gyroscopes (deg/s)</string>

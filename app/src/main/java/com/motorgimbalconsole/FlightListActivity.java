@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,6 +18,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -110,7 +115,83 @@ public class FlightListActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
     }
 
+    public void appendLog(String text) {
+        //File logFile = new File("sdcard/debugfile.txt");
+        //File logFile = new File(Environment.getDataDirectory() +"/debugfile.txt");
+        //getExternalStorageDirectory()
 
+        //File logFile = new File(Environment.getExternalStorageDirectory().toString() ,"debugfile.txt");
+        File logFile = new File(Environment.getExternalStorageState().toString() ,"debugfile.txt");
+
+        //Environment.getDownloadCacheDirectory()
+        if (!logFile.exists()) {
+            try {
+                logFile.createNewFile();
+
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        try {
+            //BufferedWriter for performance, true to set append to file flag
+            BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
+            buf.append(text);
+            buf.newLine();
+            buf.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public void appendLog2 () {
+       /*FileOutputStream stream=null;
+
+        File directory = new File(Environment.getExternalStorageState()+"/toto");
+        try {
+            if(!directory.exists()) {
+                directory.createNewFile();
+            }
+            File dataFile = new File(directory, "toto.txt");
+            stream = new FileOutputStream(dataFile, true); // true if append is required.
+            stream.write("test".getBytes());
+            stream.flush();
+            if (null != stream) {
+                stream.close();
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            //if (null != stream) {
+            // stream.close();
+            //}
+        }*/
+
+        FileOutputStream fos ;
+
+        try {
+            fos = new FileOutputStream("/sdcard/filename.txt", true);
+
+            FileWriter fWriter;
+
+            try {
+                fWriter = new FileWriter(fos.getFD());
+                fWriter.write("hi");
+                fWriter.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                fos.getFD().sync();
+                fos.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
     private class RetrieveFlights extends AsyncTask<Void, Void, Void>  // UI thread
     {
         private  AlertDialog.Builder builder=null;
@@ -164,7 +245,9 @@ public class FlightListActivity extends AppCompatActivity {
 
                 flightList.setAdapter(adapter);
             flightList.setOnItemClickListener(myListClickListener);
-
+            //if(Environment.getExternalStorageState()!=null)
+               // msg(Environment.getExternalStorageDirectory().toString());
+                appendLog2();
             //progress.dismiss();
             alert.dismiss();
             if (myflight.getNbrOfFlight()==0 )

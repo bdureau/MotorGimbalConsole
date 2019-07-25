@@ -31,10 +31,11 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
     Tab1StatusFragment statusPage1 =null;
     Tab2StatusFragment statusPage2 =null;
     Tab3StatusFragment statusPage3 =null;
-    private Button btnDismiss;
+    private Button btnDismiss, btnRecording;
     ConsoleApplication myBT ;
     Thread altiStatus;
     boolean status = true;
+    boolean recording = false;
 
     Handler handler = new Handler () {
         @Override
@@ -125,7 +126,7 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
         setupViewPager(mViewPager);
         myBT.setHandler(handler);
         btnDismiss = (Button)findViewById(R.id.butDismiss);
-
+        btnRecording = (Button)findViewById(R.id.butRecording);
         btnDismiss.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -147,6 +148,33 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
                     myBT.write("y0;\n".toString());
                 }
                 finish();      //exit the  activity
+            }
+        });
+
+        btnRecording.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (recording) {
+
+                    recording = false;
+                    myBT.write("w0;\n".toString());
+
+                    //myBT.setExit(true);
+                    myBT.clearInput();
+                    myBT.flush();
+                    btnRecording.setText("Start Rec");
+                }
+                else
+                {
+                    recording = true;
+                    myBT.write("w1;\n".toString());
+                    myBT.clearInput();
+                    myBT.flush();
+                    btnRecording.setText("Stop");
+                }
+
             }
         });
 

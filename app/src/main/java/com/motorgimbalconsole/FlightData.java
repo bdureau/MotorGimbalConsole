@@ -94,7 +94,7 @@ public class FlightData {
 
         return exist;
     }
-    public void AddToFlight (long X, long Y, String flightName)
+    public void AddToFlight (long X, double Y, String flightName)
     {
 
         //Find out if the flight exist
@@ -102,7 +102,6 @@ public class FlightData {
         XYSeriesCollection  flightData=null;
         if (!FlightExist(flightName))
         {
-            //System.out.println("flight does not exist\n");
             //if the flight name does not exist let'create uit first
             hm.put(flightName, createFlight(flightName));
         }
@@ -112,7 +111,7 @@ public class FlightData {
 
 
     }
-    public void AddToFlight (long X, long Y, String flightName, int serie)
+    public void AddToFlight (long X, double Y, String flightName, int serie)
     {
 
         //Find out if the flight exist
@@ -120,7 +119,6 @@ public class FlightData {
         XYSeriesCollection  flightData=null;
         if (!FlightExist(flightName))
         {
-            //System.out.println("flight does not exist\n");
             //if the flight name does not exist let's create it first
             hm.put(flightName, createFlight(flightName));
         }
@@ -158,6 +156,9 @@ public class FlightData {
         ret.addSeries(new XYSeries("Roll"));
         ret.addSeries(new XYSeries("outputX"));
         ret.addSeries(new XYSeries("outputY"));
+        ret.addSeries(new XYSeries("accelX"));
+        ret.addSeries(new XYSeries("accelY"));
+        ret.addSeries(new XYSeries("accelZ"));
         return ret;
     }
 

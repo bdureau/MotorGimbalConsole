@@ -34,6 +34,7 @@ public class GimbalConfigData {
     private int units = 0;
     private int endRecordAltitude =3;
     private int beepingFrequency = 440;
+    private int liftOffDetect =0; //0 = barometer 1 =accelerometer
 
     public GimbalConfigData()
     {
@@ -220,6 +221,16 @@ public class GimbalConfigData {
     //Minimum recording Altitude
     public void setEndRecordAltitude(int value) {endRecordAltitude =value;}
     public int getEndRecordAltitude(){return endRecordAltitude;}
+
+    //LiftOff detect
+    public void setLiftOffDetect (int value)
+    {
+        liftOffDetect = value;
+    }
+    public int getLiftOffDetect()
+    {
+        return liftOffDetect;
+    }
 
 
 }

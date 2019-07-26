@@ -28,9 +28,9 @@
     <string name="dismiss_tabconfig">Fermer</string>
 
     <!-- Reset screen -->
-    <string name="dismiss_reset">Dismiss</string>
-    <string name="clear_flights">Clear Flights</string>
-    <string name="reset_msg1">You are about to erase all flight data, are you sure you want to do it?</string>
+    <string name="dismiss_reset">Fermer</string>
+    <string name="clear_flights">Effacer les vol</string>
+    <string name="reset_msg1">Vous allez effacer toutes les données de vols, etes vous certain?</string>
     <string name="reset_msg2">You are about to reset your altimeter config, are you sure you want to do it?</string>
 
     <!-- Bluetooth-->
@@ -41,9 +41,9 @@
     <string name="gimbal_config">Config Gimbal</string>
     <string name="gimbal_status">Etat Gimbal</string>
     <string name="gimbal_fight">Vols</string>
-    <string name="gimbal_reset">Reset</string>
-    <string name="those_functions_will_reset_the_altimeter">Those functions will reset the altimeter</string>
-    <string name="restore_alti_config">Restore Alti config</string>
+    <string name="gimbal_reset">Réinitialisation</string>
+    <string name="those_functions_will_reset_the_altimeter">Ces fonctions réinitialiseront l\'altimètre</string>
+    <string name="restore_alti_config">Réinitialisation de config</string>
 
     <!-- app config tab 1-->
     <string name="accelerometer_offsets">Offsets Accelerométre</string>
@@ -70,6 +70,7 @@
     <string name="altimeterresolution">Résolution altimètre</string>
     <string name="eepromsize">Taille eeprom</string>
     <string name="endrecordaltitude">Fin Alt Enregistrement</string>
+    <string name="launch_detect">Dectection décolage</string>
     <string name="servo">Servo</string>
     <string name="servo_x_min">Servo X Min</string>
     <string name="servo_x_max">Servo X Max</string>
@@ -84,6 +85,7 @@
     <string name="gyroscopes_deg_s">Gyroscopes (deg/s)</string>
     <string name="accelerometers_m_s_2">Accéléromètres (m/s^2)</string>
     <string name="orientation_deg">Orientation (deg)</string>
+    <string name="calibrate_tabconfig">Calibration</string>
     <!-- app status tab 2-->
     <string name="other_sensors">Autres capteurs</string>
     <string name="temperature_c">Température(C°):</string>
@@ -99,11 +101,11 @@
     <string name="about">A propos</string>
 
     <!-- main screen msg-->
-    <string name="MS_msg1">Connection...</string>
+    <string name="MS_msg1">Connexion...</string>
     <string name="MS_msg2">Attendez svp!!!</string>
     <string name="MS_msg3">La connexion a échouée. Vérifiez le module Bluetooth et ré-essayez.</string>
     <string name="MS_msg4">Connecté.</string>
-    <string name="disconnect">disconnect</string>
+    <string name="disconnect">Deconnexion</string>
 
     <string name="msg7">Chargement des vols...</string>
     <string name="msg8">Attendez SVP!!!</string>
@@ -113,7 +115,7 @@
     <string name="dismiss_flight_list">Fermer</string>
     <string name="dismiss_flight_list_view">Fermer</string>
     <string name="close">Fermer</string>
-    <string name="Altitude_time">Altitude / Time</string>
-    <string name="Time_fv">Time (ms)</string>
+    <string name="Altitude_time">Altitude / Temps</string>
+    <string name="Time_fv">Temps (ms)</string>
     <string name="Altitude">Altitude</string>
 </resources>

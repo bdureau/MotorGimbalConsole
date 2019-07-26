@@ -310,7 +310,7 @@ public class ConsoleApplication extends Application {
                         }
 
                         //Sentence currentSentence = null;
-                        String currentSentence[] = new String[25];
+                        String currentSentence[] = new String[30];
                         if (!tempBuff.isEmpty()) {
                             //currentSentence = readSentence(tempBuff);
                             currentSentence = tempBuff.split(",");
@@ -697,6 +697,12 @@ public class ConsoleApplication extends Application {
                                         GimbalCfg.setBeepingFrequency(Integer.valueOf(currentSentence[25]));
                                     else
                                         GimbalCfg.setBeepingFrequency(440);
+                                // value 25 LaunchDetect
+                                if (currentSentence.length > 26)
+                                    if (currentSentence[26].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                        GimbalCfg.setLiftOffDetect(Integer.valueOf(currentSentence[26]));
+                                    else
+                                        GimbalCfg.setLiftOffDetect(0);
                                 //DataReady = true;
                                 myMessage = myMessage + " " + "alticonfig";
                                 break;

@@ -157,5 +157,12 @@
         android:textSize="13sp" />
 
 
-
+    <Button
+        android:id="@+id/butCalibrate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtGzOffset"
+        android:layout_gravity="end|bottom"
+        android:gravity="center_horizontal"
+        android:text="@string/calibrate_tabconfig" />
 </RelativeLayout>

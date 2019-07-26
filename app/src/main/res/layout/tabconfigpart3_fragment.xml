@@ -107,7 +107,7 @@
         android:layout_alignParentRight="true"
         android:spinnerMode="dropdown" />
 
-    <TextView
+       <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/eepromsize"
@@ -146,13 +146,31 @@
         android:textSize="13sp" />
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/launch_detect"
+        android:id="@+id/txtViewLaunchDetect"
+        android:layout_marginTop="18dp"
+        android:layout_below="@+id/txtViewEndRecordAltitude"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:id="@+id/spinnerLaunchDetect"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txtViewLaunchDetect"
+        android:layout_alignParentRight="true"
+        android:spinnerMode="dropdown" />
+
+    <TextView
         android:id="@+id/txtViewTab3-1Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elegantTextHeight="true"
         android:fontFamily="sans-serif-black"
         android:gravity="center_horizontal"
-        android:layout_below="@+id/txtViewEndRecordAltitude"
+        android:layout_below="@+id/txtViewLaunchDetect"
         android:text="@string/servo"
         android:layout_marginTop="28dp"
         android:textSize="36sp" />

@@ -34,7 +34,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
     Tab3Fragment configPage3 =null;
 
     private Button btnDismiss, btnUpload;
-    ConsoleApplication myBT ;
+    static ConsoleApplication myBT ;
     private static GimbalConfigData GimbalCfg = null;
 
     private ProgressDialog progress;
@@ -198,6 +198,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             GimbalCfg.setServoXMax(configPage3.getServoXMax());
             GimbalCfg.setServoYMin(configPage3.getServoYMin());
             GimbalCfg.setServoYMax(configPage3.getServoYMax());
+            GimbalCfg.setLiftOffDetect(configPage3.getLiftOffDetect());
         }
 
 
@@ -270,7 +271,8 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                 GimbalCfg.getEepromSize()+"," +
                 GimbalCfg.getUnits() +","+
                 GimbalCfg.getEndRecordAltitude()+ ","+
-                GimbalCfg.getBeepingFrequency();
+                GimbalCfg.getBeepingFrequency() +","+
+                GimbalCfg.getLiftOffDetect();
 
 
                 gimbalCfgStr = gimbalCfgStr +  ";\n";
@@ -341,6 +343,8 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         private boolean ViewCreated = false;
         private EditText txtViewAxOffset, txtViewAyOffset, txtViewAzOffset;
         private EditText txtViewGxOffset, txtViewGyOffset, txtViewGzOffset;
+        private Button btnCalibrate;
+
 
         public void setAxOffsetValue(long value) {
             this.txtViewAxOffset.setText(String.valueOf(value));
@@ -438,6 +442,21 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                 setGyOffsetValue(GimbalCfg.getGyOffset());
                 setGzOffsetValue(GimbalCfg.getGzOffset());
             }
+            btnCalibrate = (Button)view.findViewById(R.id.butCalibrate);
+
+            btnCalibrate.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    //ConsoleApplication myBT;
+                    //myBT = (ConsoleApplication) getApplication();
+                    myBT.flush();
+                    myBT.clearInput();
+                    myBT.write("c;\n".toString());
+                    //wait for ok and put the result back
+                }
+            });
             ViewCreated = true;
             return view;
         }
@@ -576,9 +595,10 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         private String[] itemsBaudRate;
         private String[] itemsAltimeterResolution;
         private String[] itemsEEpromSize;
+        private String[] itemsLaunchDetect;
 
         private Spinner dropdownBaudRate;
-        private Spinner dropdownAltimeterResolution, dropdownEEpromSize;
+        private Spinner dropdownAltimeterResolution, dropdownEEpromSize, dropdownLaunchDetect;
 
         private EditText EndRecordAltitude;
         private Spinner dropdownUnits;
@@ -666,6 +686,15 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             this.EndRecordAltitude.setText(String.valueOf(EndRecordAltitude));
         }
 
+        public int getLiftOffDetect() {
+            int ret;
+            try {
+                ret =(int)dropdownLaunchDetect.getSelectedItemId();
+            } catch (Exception e) {
+                ret = 0;
+            }
+            return ret;
+        }
         public void setServoXMin (int value) {
             this.editTxtViewServoXMin.setText(String.valueOf(value));
         }
@@ -774,6 +803,13 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             // nbr of meters to stop recording altitude
             EndRecordAltitude = (EditText)view.findViewById(R.id.editTxtEndRecordAltitude);
 
+            //spinnerLaunchDetect
+            dropdownLaunchDetect = (Spinner)view.findViewById(R.id.spinnerLaunchDetect);
+            itemsLaunchDetect =new String[]{"Baro","Accel"};
+            ArrayAdapter<String> adapterLaunchDetect= new ArrayAdapter<String>(this.getActivity(),
+                    android.R.layout.simple_spinner_dropdown_item, itemsLaunchDetect);
+            dropdownLaunchDetect.setAdapter(adapterLaunchDetect);
+
             editTxtViewServoXMin = (EditText)view.findViewById(R.id.editTxtServoXMin);
             editTxtViewServoXMax = (EditText)view.findViewById(R.id.editTxtServoXMax);
             editTxtViewServoYMin = (EditText)view.findViewById(R.id.editTxtServoYMin);
@@ -792,6 +828,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
 
                 dropdownUnits.setSelection(GimbalCfg.getUnits());
                 Freq.setText(String.valueOf(GimbalCfg.getBeepingFrequency()));
+                dropdownLaunchDetect.setSelection(GimbalCfg.getLiftOffDetect());
                 setServoXMin(GimbalCfg.getServoXMin());
                 setServoXMax(GimbalCfg.getServoXMax());
                 setServoYMax(GimbalCfg.getServoYMax());

@@ -70,6 +70,7 @@
     <string name="altimeterresolution">Altimeter Resolution</string>
     <string name="eepromsize">eeprom Size</string>
     <string name="endrecordaltitude">End Record Altitude</string>
+    <string name="launch_detect">Launch detect</string>
     <string name="servo">Servo</string>
     <string name="servo_x_min">Servo X Min</string>
     <string name="servo_x_max">Servo X Max</string>
@@ -84,6 +85,7 @@
     <string name="gyroscopes_deg_s">Gyroscopes (deg/s)</string>
     <string name="accelerometers_m_s_2">Accelerometers (m/s^2)</string>
     <string name="orientation_deg">Orientation (deg)</string>
+    <string name="calibrate_tabconfig">Calibrate</string>
     <!-- app status tab 2-->
     <string name="other_sensors">Other sensors</string>
     <string name="temperature_c">Temperature(C°):</string>

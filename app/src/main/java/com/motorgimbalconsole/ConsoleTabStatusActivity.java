@@ -367,7 +367,7 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
             myRocket = new Rocket();
 
 
-             fragment = new PFragment(myRocket);
+            fragment = new PFragment(myRocket);
 
             getChildFragmentManager().beginTransaction().add(R.id.container, fragment).commit();
             ViewCreated = true;

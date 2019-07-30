@@ -16,7 +16,7 @@ import org.afree.chart.axis.NumberAxis;
 import org.afree.chart.axis.ValueAxis;
 import org.afree.chart.plot.PlotOrientation;
 import org.afree.chart.plot.XYPlot;
-import org.afree.data.category.DefaultCategoryDataset;
+
 import org.afree.data.xy.XYSeriesCollection;
 import org.afree.graphics.SolidColor;
 import org.afree.graphics.geom.Font;
@@ -28,9 +28,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.Arrays;
-import java.util.List;
 
-import processing.core.PShapeSVG;
 
 import static android.view.View.*;
 
@@ -43,7 +41,7 @@ public class FlightViewActivity extends AppCompatActivity {
     String FlightName = null;
     ConsoleApplication myBT;
     private FlightData myflight = null;
-    private Button buttonDismiss, butSelectCurves;
+    private Button buttonDismiss, butSelectCurves, btnPlay;
     String curvesNames[] = null;
     boolean[] checkedItems =null;
     XYSeriesCollection allFlightData;
@@ -53,21 +51,46 @@ public class FlightViewActivity extends AppCompatActivity {
     ValueAxis Yaxis;
     Font font;
     AFreeChart chart;
+    public static String SELECTED_FLIGHT = "MyFlight";
 
     private void msg(String s) {
         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
     }
 
     private void drawGraph() {
-        int graphBackColor;//= Color.WHITE;
-        graphBackColor = myBT.getAppConf().ConvertColor(Integer.parseInt(myBT.getAppConf().getGraphBackColor()));
 
+        int fontSize;
+        fontSize = myBT.getAppConf().ConvertFont(Integer.parseInt(myBT.getAppConf().getFontSize()));
+
+        String myUnits = "";
+        if (myBT.getAppConf().getUnits().equals("0"))
+            //Meters
+            myUnits = getResources().getString(R.string.Meters_fview);
+        else
+            //Feet
+            myUnits = getResources().getString(R.string.Feet_fview);
+
+        //font
+        font = new Font("Dialog", Typeface.NORMAL, fontSize);
+
+        int numberOfCurves = flightData.getSeries().size();
+        String chartTitle= "";
+        //String currentCurvesNames[] = new String[numberOfCurves];
+        for (int i = 0; i < numberOfCurves; i++) {
+            //currentCurvesNames[i] = flightData.getSeries(i).getKey().toString();
+            if(i < (numberOfCurves -1) )
+                chartTitle = chartTitle  + flightData.getSeries(i).getKey().toString()+ "-";
+            else
+                chartTitle = chartTitle  + flightData.getSeries(i).getKey().toString();
+        }
+        chart.setTitle(chartTitle);
+
+        int graphBackColor;
+        graphBackColor = myBT.getAppConf().ConvertColor(Integer.parseInt(myBT.getAppConf().getGraphBackColor()));
 
         // NOW DO SOME OPTIONAL CUSTOMISATION OF THE CHART...
         chart.getTitle().setFont(font);
         // set the background color for the chart...
-
-
         chart.setBackgroundPaintType(new SolidColor(graphBackColor));
 
         // get a reference to the plot for further customisation...
@@ -79,8 +102,7 @@ public class FlightViewActivity extends AppCompatActivity {
         plot.setBackgroundPaintType(new SolidColor(graphBackColor));
         plot.setOutlinePaintType(new SolidColor(Color.YELLOW));
         plot.setDomainZeroBaselinePaintType(new SolidColor(Color.GREEN));
-        //plot.setRangeTickBandPaintType(new SolidColor(Color.GREEN)); //rajoute des bandes
-        //plot.setOutlinePaintType(new SolidColor(Color.MAGENTA));
+
         plot.setRangeZeroBaselinePaintType(new SolidColor(Color.MAGENTA));
         int axisColor;
         axisColor = myBT.getAppConf().ConvertColor(Integer.parseInt(myBT.getAppConf().getGraphColor()));
@@ -125,12 +147,12 @@ public class FlightViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_flight_view);
         buttonDismiss = (Button) findViewById(R.id.butDismiss);
         butSelectCurves = (Button) findViewById(R.id.butSelectCuves);
+        btnPlay = (Button) findViewById(R.id.butPlay);
         Intent newint = getIntent();
         FlightName = newint.getStringExtra(FlightListActivity.SELECTED_FLIGHT);
 
         myflight = myBT.getFlightData();
         // get all the data that we have recorded for the current flight
-
         allFlightData = myflight.GetFlightData(FlightName);
 
         // by default we will display the altitude
@@ -149,34 +171,16 @@ public class FlightViewActivity extends AppCompatActivity {
         // Read the application config
         myBT.getAppConf().ReadConfig();
 
-        int fontSize;
-        fontSize = myBT.getAppConf().ConvertFont(Integer.parseInt(myBT.getAppConf().getFontSize()));
-
-
-        String myUnits = "";
-        if (myBT.getAppConf().getUnits().equals("0"))
-            //Meters
-            myUnits = getResources().getString(R.string.Meters_fview);
-        else
-            //Feet
-            myUnits = getResources().getString(R.string.Feet_fview);
-
-        //font
-        font = new Font("Dialog", Typeface.NORMAL, fontSize);
-
         chart = ChartFactory.createXYLineChart(
-                getResources().getString(R.string.Altitude_time),
+                "", //getResources().getString(R.string.Altitude_time),
                 getResources().getString(R.string.Time_fv),
-                getResources().getString(R.string.Altitude) + " (" + myUnits + ")",
+                "",//getResources().getString(R.string.Altitude) + " (" + myUnits + ")",
                 null,
                 PlotOrientation.VERTICAL, // orientation
                 true,                     // include legend
                 true,                     // tooltips?
                 false                     // URLs?
         );
-
-
-
         drawGraph();
 
         final NumberAxis rangeAxis2 = new NumberAxis("Range Axis 2");
@@ -195,7 +199,14 @@ public class FlightViewActivity extends AppCompatActivity {
             }
         });
 
-
+        btnPlay.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(FlightViewActivity.this, PlayFlight.class);
+                i.putExtra(SELECTED_FLIGHT, FlightName);
+                startActivity(i);
+            }
+        });
         butSelectCurves.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

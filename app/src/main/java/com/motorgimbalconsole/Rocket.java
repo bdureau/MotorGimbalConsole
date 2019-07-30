@@ -18,7 +18,9 @@ public class Rocket extends PApplet {
     float[] RealEuler = new float[3];
     float[] Gravity = new float[3];
     float[] YPR = new float[3];
+    long currentTime=0;
 
+    boolean useQuaternion = true;
     int lf = 10; // 10 is '\n' in ASCII
     long run = 0;
 
@@ -38,7 +40,17 @@ public class Rocket extends PApplet {
             q[2] = decodeFloat(inputStringArr[2]);
             q[3] = decodeFloat(inputStringArr[3]);
         }
+        useQuaternion = true;
     }
+
+    public void setInputString(float X, float Y, float Z, long time) {
+        Euler[2] = Z*(3.14f/180);
+        Euler[1] = Y*(3.14f/180);
+        Euler[0] = X*(3.14f/180);
+        currentTime = time;
+        useQuaternion = false;
+    }
+
     public void setup() {
         fill(255);
         stroke(color(44, 48, 32));
@@ -73,32 +85,7 @@ public class Rocket extends PApplet {
 
     void readQ() {
 
-        /*try {
-            if (myBT.getInputStream().available() > 18) {
 
-                String inputString = "";
-                char ch = '\0';
-                while (ch != '\n') {
-                    // this is not the end of our command
-                    ch = (char) myBT.getInputStream().read();
-                    if (ch != '\n')
-                        inputString = inputString + Character.toString(ch);
-                }
-
-                if (inputString != null && inputString.length() > 0) {
-                    String[] inputStringArr = split(inputString, ",");
-                    if (inputStringArr.length >= 5) { // q1,q2,q3,q4,\r\n so we have 5 elements
-                        q[0] = decodeFloat(inputStringArr[0]);
-                        q[1] = decodeFloat(inputStringArr[1]);
-                        q[2] = decodeFloat(inputStringArr[2]);
-                        q[3] = decodeFloat(inputStringArr[3]);
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            text("We have problems", 20, VIEW_SIZE_Y - 30);
-        }*/
     }
 
 
@@ -118,47 +105,40 @@ public class Rocket extends PApplet {
         popMatrix();
     }
 
+
     public void draw() {
-        //
+
         background(0, 128, 255);
-        //fill(#ffffff);
-        /*if (myBT.getConnected()) {
-            for (int i = 0; i < 100 + 1; ++i) {
-                readQ();
-            }
-            //run++;
-            //text("Connected:"+run, 20, VIEW_SIZE_Y - 30);
-        } else {
-            text("DisConnected:" + run, 20, VIEW_SIZE_Y - 30);
-        }*/
-
-        if (hq != null) { // use home quaternion
-            quaternionToEuler(quatProd(hq, q), Euler);
-            text("Disable home position by pressing \"n\"", 20, VIEW_SIZE_Y - 30);
-        } else {
-            quaternionToEuler(q, Euler);
-            //text("Point FreeIMU's X axis to your monitor then press \"h\"", 20, VIEW_SIZE_Y - 30);
-        }
-
-
         textFont(font, 30);
         textAlign(LEFT, TOP);
-        quaternionToEuler(q, RealEuler);
-        quaternionToGravity(q, Gravity);
-        quaternionToYawPitchRoll(q, Gravity, YPR);
 
-        text("Q:\n" + q[0] + "\n" + q[1] + "\n" + q[2] + "\n" + q[3], 20, 20);
-        text(/*"Euler Angles:\nYaw (psi)  : " + degrees(Euler[0]) +
+        if (useQuaternion) {
+            if (hq != null) { // use home quaternion
+                quaternionToEuler(quatProd(hq, q), Euler);
+                text("Disable home position by pressing \"n\"", 20, VIEW_SIZE_Y - 30);
+            } else {
+                quaternionToEuler(q, Euler);
+
+            }
+            quaternionToEuler(q, RealEuler);
+            quaternionToGravity(q, Gravity);
+            quaternionToYawPitchRoll(q, Gravity, YPR);
+
+            text("Q:\n" + q[0] + "\n" + q[1] + "\n" + q[2] + "\n" + q[3], 20, 20);
+            text(/*"Euler Angles:\nYaw (psi)  : " + degrees(Euler[0]) +
                 "\nPitch (theta): " + degrees(Euler[1]) +
                 "\nRoll (phi)  : " + degrees(Euler[2])+*/
-                "YPR Angles:\nYaw (psi)  : " + degrees(YPR[0]) +
-        "\nPitch (theta): " + degrees(YPR[1]) +
-                "\nRoll (phi)  : " + degrees(YPR[2])+
-                "\nRealYaw (psi)  : " + degrees(RealEuler[0]) +
-                "\nRealPitch (theta): " + degrees(RealEuler[1]) +
-                "\nRealRoll (phi)  : " + degrees(RealEuler[2]), 250, 20);
-        //text("Euler Angles:\nYaw (psi)  : " + degrees(Euler[2]) + "\nPitch (theta): " + degrees(Euler[0]) + "\nRoll (phi)  : " + degrees(Euler[1]), 200, 20);
-
+                    "YPR Angles:\nYaw (psi)  : " + degrees(YPR[0]) +
+                            "\nPitch (theta): " + degrees(YPR[1]) +
+                            "\nRoll (phi)  : " + degrees(YPR[2]) +
+                            "\nRealYaw (psi)  : " + degrees(RealEuler[0]) +
+                            "\nRealPitch (theta): " + degrees(RealEuler[1]) +
+                            "\nRealRoll (phi)  : " + degrees(RealEuler[2]), 250, 20);
+            //text("Euler Angles:\nYaw (psi)  : " + degrees(Euler[2]) + "\nPitch (theta): " + degrees(Euler[0]) + "\nRoll (phi)  : " + degrees(Euler[1]), 200, 20);
+        }
+        else {
+            text("Time:"+ currentTime, 20, 20);
+        }
         drawRotatingRocket();
 
     }
@@ -173,6 +153,7 @@ public class Rocket extends PApplet {
             hq = null;
         }
     }
+
     /*
     From what I understand, as long as you receive the quaternion from your Arduino board you can  get
     the Euler angles
@@ -188,20 +169,21 @@ Get Euler angles from quaternion
         euler[2] = atan2(2 * q[2] * q[3] - 2 * q[0] * q[1], 2 * q[0] * q[0] + 2 * q[3] * q[3] - 1); // phi
     }
 
-    void quaternionToGravity(float[] q, float [] gravity) {
-        gravity[0]= 2 * (q[1]*q[3]-q[0]*q[0]);
-        gravity[1]= 2 * (q[0]*q[1]+q[2]*q[3]);
-        gravity[2]= q[0]*q[0]-q[1]*q[1]-q[2]*q[2]+q[3]*q[3];
+    void quaternionToGravity(float[] q, float[] gravity) {
+        gravity[0] = 2 * (q[1] * q[3] - q[0] * q[0]);
+        gravity[1] = 2 * (q[0] * q[1] + q[2] * q[3]);
+        gravity[2] = q[0] * q[0] - q[1] * q[1] - q[2] * q[2] + q[3] * q[3];
     }
 
-    void quaternionToYawPitchRoll(float [] q, float [] gravity, float [] ypr) {
+    void quaternionToYawPitchRoll(float[] q, float[] gravity, float[] ypr) {
         //yaw
-        ypr[0] = atan2(2*q[1]*q[2]-2*q[0]*q[3], 2 * q[0] * q[0] + 2 * q[1] * q[1] - 1);
+        ypr[0] = atan2(2 * q[1] * q[2] - 2 * q[0] * q[3], 2 * q[0] * q[0] + 2 * q[1] * q[1] - 1);
         //pitch
-        ypr[1] =atan(gravity[0]/sqrt(gravity[1]*gravity[1]+gravity[2]*gravity[2]));
+        ypr[1] = atan(gravity[0] / sqrt(gravity[1] * gravity[1] + gravity[2] * gravity[2]));
         //roll
-        ypr[2] =atan(gravity[1]/sqrt(gravity[0]*gravity[0]+gravity[2]*gravity[2]));
+        ypr[2] = atan(gravity[1] / sqrt(gravity[0] * gravity[0] + gravity[2] * gravity[2]));
     }
+
     float[] quatProd(float[] a, float[] b) {
         float[] q = new float[4];
 

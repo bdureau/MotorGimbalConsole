@@ -32,6 +32,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
     Tab1Fragment configPage1 =null;
     Tab2Fragment configPage2 =null;
     Tab3Fragment configPage3 =null;
+    Tab4Fragment configPage4 =null;
 
     private Button btnDismiss, btnUpload;
     static ConsoleApplication myBT ;
@@ -80,10 +81,12 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         configPage1 = new Tab1Fragment();
         configPage2 = new Tab2Fragment();
         configPage3 = new Tab3Fragment();
+        configPage4 = new Tab4Fragment();
 
         adapter.addFragment(configPage1, "TAB1");
         adapter.addFragment(configPage2, "TAB2");
         adapter.addFragment(configPage3, "TAB3");
+        adapter.addFragment(configPage4, "TAB4");
 
 
         viewPager.setAdapter(adapter);
@@ -193,12 +196,14 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             GimbalCfg.setAltimeterResolution(configPage3.getAltimeterResolution());
             GimbalCfg.setEepromSize(configPage3.getEEpromSize());
             GimbalCfg.setEndRecordAltitude(configPage3.getEndRecordAltitude());
-
-            GimbalCfg.setServoXMin(configPage3.getServoXMin());
-            GimbalCfg.setServoXMax(configPage3.getServoXMax());
-            GimbalCfg.setServoYMin(configPage3.getServoYMin());
-            GimbalCfg.setServoYMax(configPage3.getServoYMax());
             GimbalCfg.setLiftOffDetect(configPage3.getLiftOffDetect());
+        }
+        if(configPage4.isViewCreated()) {
+            GimbalCfg.setServoXMin(configPage4.getServoXMin());
+            GimbalCfg.setServoXMax(configPage4.getServoXMax());
+            GimbalCfg.setServoYMin(configPage4.getServoYMin());
+            GimbalCfg.setServoYMax(configPage4.getServoYMax());
+
         }
 
 
@@ -605,7 +610,6 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         private TextView altiName;
         private EditText Freq;
 
-        private EditText editTxtViewServoXMin, editTxtViewServoXMax, editTxtViewServoYMin, editTxtViewServoYMax;
         //txtAltiNameValue
         //spinnerUnit
         //editTxtBipFreq
@@ -695,61 +699,11 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             }
             return ret;
         }
-        public void setServoXMin (int value) {
-            this.editTxtViewServoXMin.setText(String.valueOf(value));
-        }
 
-        public int getServoXMin () {
-            int ret;
-            try {
-                ret = Integer.parseInt(this.editTxtViewServoXMin.getText().toString());
-            } catch (Exception e) {
-                ret = 0;
-            }
-            return ret;
-        }
 
-        public void setServoXMax (int value) {
-            this.editTxtViewServoXMax.setText(String.valueOf(value));
-        }
 
-        public int getServoXMax () {
-            int ret;
-            try {
-                ret = Integer.parseInt(this.editTxtViewServoXMax.getText().toString());
-            } catch (Exception e) {
-                ret = 0;
-            }
-            return ret;
-        }
-        public void setServoYMin (int value) {
-            this.editTxtViewServoYMin.setText(String.valueOf(value));
-        }
 
-        public int getServoYMin () {
-            int ret;
-            try {
-                ret = Integer.parseInt(this.editTxtViewServoYMin.getText().toString());
-            } catch (Exception e) {
-                ret = 0;
-            }
-            return ret;
-        }
 
-        public void setServoYMax (int value) {
-            this.editTxtViewServoYMax.setText(String.valueOf(value));
-        }
-
-        public int getServoYMax () {
-            int ret;
-            try {
-                ret = Integer.parseInt(this.editTxtViewServoYMax.getText().toString());
-            } catch (Exception e) {
-                ret = 0;
-            }
-            return ret;
-        }
-        //, editTxtViewServoXMax, editTxtViewServoYMin, editTxtViewServoYMax;
         public boolean isViewCreated() {
             return ViewCreated;
         }
@@ -810,11 +764,6 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                     android.R.layout.simple_spinner_dropdown_item, itemsLaunchDetect);
             dropdownLaunchDetect.setAdapter(adapterLaunchDetect);
 
-            editTxtViewServoXMin = (EditText)view.findViewById(R.id.editTxtServoXMin);
-            editTxtViewServoXMax = (EditText)view.findViewById(R.id.editTxtServoXMax);
-            editTxtViewServoYMin = (EditText)view.findViewById(R.id.editTxtServoYMin);
-            editTxtViewServoYMax = (EditText)view.findViewById(R.id.editTxtServoYMax);
-
             if (GimbalCfg != null) {
                 setBaudRate(GimbalCfg.getConnectionSpeed());
                 //dropdownBaudRate.setSelection(GimbalCfg.arrayIndex(itemsBaudRate,String.valueOf(GimbalCfg.getConnectionSpeed())));
@@ -829,6 +778,92 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                 dropdownUnits.setSelection(GimbalCfg.getUnits());
                 Freq.setText(String.valueOf(GimbalCfg.getBeepingFrequency()));
                 dropdownLaunchDetect.setSelection(GimbalCfg.getLiftOffDetect());
+
+            }
+            ViewCreated = true;
+            return view;
+        }
+    }
+
+    public static class Tab4Fragment extends Fragment {
+        private static final String TAG = "Tab4Fragment";
+        private boolean ViewCreated = false;
+
+        private EditText editTxtViewServoXMin, editTxtViewServoXMax, editTxtViewServoYMin, editTxtViewServoYMax;
+
+
+        public void setServoXMin(int value) {
+            this.editTxtViewServoXMin.setText(String.valueOf(value));
+        }
+
+        public int getServoXMin() {
+            int ret;
+            try {
+                ret = Integer.parseInt(this.editTxtViewServoXMin.getText().toString());
+            } catch (Exception e) {
+                ret = 0;
+            }
+            return ret;
+        }
+
+        public void setServoXMax(int value) {
+            this.editTxtViewServoXMax.setText(String.valueOf(value));
+        }
+
+        public int getServoXMax() {
+            int ret;
+            try {
+                ret = Integer.parseInt(this.editTxtViewServoXMax.getText().toString());
+            } catch (Exception e) {
+                ret = 0;
+            }
+            return ret;
+        }
+
+        public void setServoYMin(int value) {
+            this.editTxtViewServoYMin.setText(String.valueOf(value));
+        }
+
+        public int getServoYMin() {
+            int ret;
+            try {
+                ret = Integer.parseInt(this.editTxtViewServoYMin.getText().toString());
+            } catch (Exception e) {
+                ret = 0;
+            }
+            return ret;
+        }
+
+        public void setServoYMax(int value) {
+            this.editTxtViewServoYMax.setText(String.valueOf(value));
+        }
+
+        public int getServoYMax() {
+            int ret;
+            try {
+                ret = Integer.parseInt(this.editTxtViewServoYMax.getText().toString());
+            } catch (Exception e) {
+                ret = 0;
+            }
+            return ret;
+        }
+
+        //, editTxtViewServoXMax, editTxtViewServoYMin, editTxtViewServoYMax;
+        public boolean isViewCreated() {
+            return ViewCreated;
+        }
+
+        @Nullable
+        @Override
+        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.tabconfigpart4_fragment, container, false);
+
+            editTxtViewServoXMin = (EditText) view.findViewById(R.id.editTxtServoXMin);
+            editTxtViewServoXMax = (EditText) view.findViewById(R.id.editTxtServoXMax);
+            editTxtViewServoYMin = (EditText) view.findViewById(R.id.editTxtServoYMin);
+            editTxtViewServoYMax = (EditText) view.findViewById(R.id.editTxtServoYMax);
+
+            if (GimbalCfg != null) {
                 setServoXMin(GimbalCfg.getServoXMin());
                 setServoXMax(GimbalCfg.getServoXMax());
                 setServoYMax(GimbalCfg.getServoYMax());

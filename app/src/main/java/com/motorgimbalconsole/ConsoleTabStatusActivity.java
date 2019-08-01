@@ -25,6 +25,10 @@ import java.util.List;
 import processing.android.PFragment;
 import processing.core.PApplet;
 
+/**
+ * @description: Gimbal real time telemetry
+ * @author: boris.dureau@neuf.fr
+ **/
 public class ConsoleTabStatusActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     SectionsStatusPageAdapter adapter;

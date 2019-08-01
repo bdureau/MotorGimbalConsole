@@ -1,7 +1,7 @@
 package com.motorgimbalconsole;
 /**
- *   @description: Not really the main activity, this will have to be renamed. This is to select the
- *   bluetooth module.
+ *   @description:  This is to select the bluetooth module.
+ *
  *   @author: boris.dureau@neuf.fr
  **/
 
@@ -40,8 +40,7 @@ public class SearchBluetooth extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //Check the local and force it if needed
         myBT = (ConsoleApplication) getApplication();
-        //getApplicationContext().getResources().updateConfiguration(myBT.getAppLocal(), null);
-        //
+
         setContentView(R.layout.activity_main);
 
         //Calling widgets
@@ -92,7 +91,7 @@ public class SearchBluetooth extends AppCompatActivity {
         else
         {
             //"No Paired Bluetooth Devices Found."
-           Toast.makeText(getApplicationContext(), "No Paired Bluetooth Devices Found.", Toast.LENGTH_LONG).show();
+           Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_paired_device), Toast.LENGTH_LONG).show();
         }
 
         final ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, list);

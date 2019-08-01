@@ -344,7 +344,7 @@ public class MainActivityScreen extends AppCompatActivity {
             builder.setMessage(getResources().getString(R.string.MS_msg1))
                     .setTitle(getResources().getString(R.string.MS_msg2))
                     .setCancelable(false)
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(getResources().getString(R.string.MS_cancel), new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, final int id) {
                             dialog.cancel();
                             myBT.setExit(true);
@@ -376,14 +376,14 @@ public class MainActivityScreen extends AppCompatActivity {
 
             if (!ConnectSuccess) {
                 //Connection Failed. Is it a SPP Bluetooth? Try again.
-                msg("Connection Failed");
+                msg(getResources().getString(R.string.MS_msg5));
 
             } else {
                 //Connected.
-                msg("Connected");
+                //msg("Connected");
                 myBT.setConnected(true);
                 EnableUI();
-                btnConnectDisconnect.setText("disconnect");
+                btnConnectDisconnect.setText(getResources().getString(R.string.disconnect));
             }
             //progress.dismiss();
             alert.dismiss();

@@ -37,7 +37,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="false"
         android:gravity="center_horizontal|center_vertical"
-        android:text="Select curves" />
+        android:text="@string/select_curves" />
 
     <Button
         android:id="@+id/butPlay"
@@ -46,6 +46,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal|center_vertical"
-        android:text="Play" />
+        android:text="@string/play" />
 
 </RelativeLayout>

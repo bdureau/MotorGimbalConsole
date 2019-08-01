@@ -5,7 +5,10 @@ import java.io.IOException;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
-
+/**
+ * @description: Gimbal rocket orientation. This display the rocket orientation
+ * @author: boris.dureau@neuf.fr
+ **/
 public class Rocket extends PApplet {
     public void settings() {
         //size(800, 600);

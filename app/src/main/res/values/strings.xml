@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Motor Gimbal Console</string>
-    <string name="Flight_list">Flight list</string>
-    <string name="titre_application_pref">Application preference</string>
+
+    <string name="titre_application_pref">Application preferences</string>
     <string name="Yes">Yes</string>
     <string name="No">No</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -36,6 +36,7 @@
     <!-- Bluetooth-->
     <string name="select_device_to_use">Select device to use</string>
     <string name="show_paired_devices">Show paired devices</string>
+    <string name="no_paired_device">No Paired Bluetooth Devices Found.</string>
     <!-- Main Screen-->
     <string name="connect_disconnect">Connect</string>
     <string name="gimbal_config">Gimbal Config</string>
@@ -71,6 +72,7 @@
     <string name="eepromsize">eeprom Size</string>
     <string name="endrecordaltitude">End Record Altitude</string>
     <string name="launch_detect">Launch detect</string>
+    <!-- app config tab 4-->
     <string name="servo">Servo</string>
     <string name="servo_x_min">Servo X Min</string>
     <string name="servo_x_max">Servo X Max</string>
@@ -107,11 +109,17 @@
     <string name="MS_msg3">Connection Failed. Is it a SPP Bluetooth? Try again.</string>
     <string name="MS_msg4">Connected.</string>
     <string name="disconnect">disconnect</string>
+    <string name="MS_msg5">Connection Failed</string>
+    <string name="MS_cancel">Cancel</string>
 
-
+    <!-- Flights list -->
+    <string name="Flight_list">Flight list</string>
+    <string name="Flight_list_cancel">Cancel</string>
     <string name="msg7">Retrieving flights...</string>
     <string name="msg8">Please wait!!!</string>
+    <string name="FL_msg9">No flights have been recorded</string>
 
+    <!-- flight list view -->
     <string name="Meters_fview">Meters</string>
     <string name="Feet_fview">Feet</string>
     <string name="dismiss_flight_list">Dismiss</string>
@@ -120,5 +128,7 @@
     <string name="Altitude_time">Altitude / Time</string>
     <string name="Time_fv">Time (ms)</string>
     <string name="Altitude">Altitude</string>
+    <string name="select_curves">Display</string>
+    <string name="play">Play</string>
 
 </resources>

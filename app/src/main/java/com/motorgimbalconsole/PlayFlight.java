@@ -14,7 +14,10 @@ import java.util.concurrent.TimeUnit;
 import processing.android.PFragment;
 import processing.core.PApplet;
 
-
+/**
+ * @description: This will allow play back of the current flight
+ * @author: boris.dureau@neuf.fr
+ **/
 public class PlayFlight extends AppCompatActivity {
     private PApplet rocket;
     Button btnDismiss;
@@ -46,8 +49,6 @@ public class PlayFlight extends AppCompatActivity {
         PFragment fragment = new PFragment(rocket);
         getSupportFragmentManager().beginTransaction().add(R.id.container, fragment).commit();
 
-
-        msg(String.valueOf( allFlightData.getSeries("Euler X").getItemCount()));
         btnDismiss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

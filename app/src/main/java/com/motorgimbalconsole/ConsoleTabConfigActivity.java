@@ -26,6 +26,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @description: Gimbal configuration
+ * @author: boris.dureau@neuf.fr
+ **/
 public class ConsoleTabConfigActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     SectionsPageAdapter adapter;

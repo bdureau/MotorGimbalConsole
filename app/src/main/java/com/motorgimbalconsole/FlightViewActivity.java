@@ -33,7 +33,8 @@ import java.util.Arrays;
 import static android.view.View.*;
 
 /**
- * @description: This will display each flight
+ * @description: This will display each flight. You can select which curve you want to display.
+ * You can also  play back the flight
  * @author: boris.dureau@neuf.fr
  **/
 
@@ -226,7 +227,7 @@ public class FlightViewActivity extends AppCompatActivity {
                     else
                     checkedItems[i] = false;
                 }
-                // boolean[] checkedItems = {true, false, false, true, false};
+
 
                 builder.setMultiChoiceItems(curvesNames, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override

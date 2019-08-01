@@ -8,6 +8,10 @@ import static processing.core.PApplet.cos;
 import static processing.core.PApplet.sin;
 import static processing.core.PApplet.sqrt;
 import static processing.core.PApplet.unhex;
+/**
+ * @description: This class will have all the quaternions functions
+ * @author: boris.dureau@neuf.fr
+ **/
 
 public class QuaternionUtils {
     float decodeFloat(String inString) {

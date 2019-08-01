@@ -211,7 +211,7 @@ public class FlightListActivity extends AppCompatActivity {
             builder.setMessage(getResources().getString(R.string.msg7))
                     .setTitle(getResources().getString(R.string.msg8))
                     .setCancelable(false)
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(getResources().getString(R.string.Flight_list_cancel), new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, final int id) {
                             dialog.cancel();
                             myBT.setExit(true);
@@ -247,11 +247,11 @@ public class FlightListActivity extends AppCompatActivity {
             flightList.setOnItemClickListener(myListClickListener);
             //if(Environment.getExternalStorageState()!=null)
                // msg(Environment.getExternalStorageDirectory().toString());
-                appendLog2();
+               // appendLog2();
             //progress.dismiss();
             alert.dismiss();
             if (myflight.getNbrOfFlight()==0 )
-                msg("No flights have been recorded");
+                msg(getResources().getString(R.string.FL_msg9));
         }
     }
 

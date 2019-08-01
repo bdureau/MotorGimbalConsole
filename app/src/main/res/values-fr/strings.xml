@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">Motor Gimbal Console</string>
-    <string name="Flight_list">Liste des vols</string>
+
+
     <string name="titre_application_pref">Préférences application</string>
     <string name="Yes">Oui</string>
     <string name="No">Non</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <!-- Config gimbal -->
     <string name="title_activity_console_tab_config">Console Config</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
@@ -19,7 +20,7 @@
     <string name="default_config">Cfg par def</string>
     <string name="application_langage_config">Langue application</string>
     <string name="graph_color_config">Couleur graphique</string>
-    <string name="application_units_config">application units config</string>
+    <string name="application_units_config">Config unités application</string>
     <string name="graph_back_color_config">Couleur de fond du graphique</string>
     <string name="font_size">Taille police</string>
     <string name="baud_rate">Baud rate</string>
@@ -29,13 +30,14 @@
 
     <!-- Reset screen -->
     <string name="dismiss_reset">Fermer</string>
-    <string name="clear_flights">Effacer les vol</string>
+    <string name="clear_flights">Effacer les vols</string>
     <string name="reset_msg1">Vous allez effacer toutes les données de vols, etes vous certain?</string>
-    <string name="reset_msg2">You are about to reset your altimeter config, are you sure you want to do it?</string>
+    <string name="reset_msg2">Vous allez réinitialiser la configuration de votre altimètre, etes vous certains?</string>
 
     <!-- Bluetooth-->
     <string name="select_device_to_use">Choisir périphérique</string>
     <string name="show_paired_devices">Montrer les périphériques</string>
+    <string name="no_paired_device">Aucun modules bluetooth trouvés</string>
     <!-- Main Screen-->
     <string name="connect_disconnect">Connexion</string>
     <string name="gimbal_config">Config Gimbal</string>
@@ -46,7 +48,7 @@
     <string name="restore_alti_config">Réinitialisation de config</string>
 
     <!-- app config tab 1-->
-    <string name="accelerometer_offsets">Offsets Accelerométre</string>
+    <string name="accelerometer_offsets">Offsets Acceléromètre</string>
     <string name="axoffset">AxOffset</string>
     <string name="ayoffset">AyOffset</string>
     <string name="azoffset">AzOffset</string>
@@ -70,7 +72,8 @@
     <string name="altimeterresolution">Résolution altimètre</string>
     <string name="eepromsize">Taille eeprom</string>
     <string name="endrecordaltitude">Fin Alt Enregistrement</string>
-    <string name="launch_detect">Dectection décolage</string>
+    <string name="launch_detect">Détection décolage</string>
+    <!-- app config tab 4-->
     <string name="servo">Servo</string>
     <string name="servo_x_min">Servo X Min</string>
     <string name="servo_x_max">Servo X Max</string>
@@ -105,12 +108,19 @@
     <string name="MS_msg2">Attendez svp!!!</string>
     <string name="MS_msg3">La connexion a échouée. Vérifiez le module Bluetooth et ré-essayez.</string>
     <string name="MS_msg4">Connecté.</string>
-    <string name="disconnect">Deconnexion</string>
+    <string name="disconnect">Déconnexion</string>
+    <string name="MS_msg5">La connexion a échouée</string>
+    <string name="MS_cancel">Annuler</string>
+    <string name="FL_msg9">Aucun vols ont été enregistrés</string>
 
+    <!-- Flights list -->
+    <string name="Flight_list">Liste des vols</string>
+    <string name="Flight_list_cancel">Annuler</string>
     <string name="msg7">Chargement des vols...</string>
     <string name="msg8">Attendez SVP!!!</string>
 
-    <string name="Meters_fview">Metres</string>
+    <!-- flight list view -->
+    <string name="Meters_fview">Mètres</string>
     <string name="Feet_fview">Pieds</string>
     <string name="dismiss_flight_list">Fermer</string>
     <string name="dismiss_flight_list_view">Fermer</string>
@@ -118,4 +128,6 @@
     <string name="Altitude_time">Altitude / Temps</string>
     <string name="Time_fv">Temps (ms)</string>
     <string name="Altitude">Altitude</string>
+    <string name="select_curves">Affichage</string>
+    <string name="play">Visu</string>
 </resources>

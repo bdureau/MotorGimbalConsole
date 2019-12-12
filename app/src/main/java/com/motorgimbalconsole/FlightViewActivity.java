@@ -140,6 +140,7 @@ public class FlightViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         //get the bluetooth Application pointer
         myBT = (ConsoleApplication) getApplication();
         //Check the local and force it if needed
@@ -151,7 +152,7 @@ public class FlightViewActivity extends AppCompatActivity {
         btnPlay = (Button) findViewById(R.id.butPlay);
         Intent newint = getIntent();
         FlightName = newint.getStringExtra(FlightListActivity.SELECTED_FLIGHT);
-
+        this.setTitle(FlightName);
         myflight = myBT.getFlightData();
         // get all the data that we have recorded for the current flight
         allFlightData = myflight.GetFlightData(FlightName);
@@ -218,7 +219,7 @@ public class FlightViewActivity extends AppCompatActivity {
                 }
                 // Set up the alert builder
                 AlertDialog.Builder builder = new AlertDialog.Builder(FlightViewActivity.this);
-                builder.setTitle("Select flight curve");
+                builder.setTitle(getResources().getString(R.string.flight_data_title));
                 checkedItems = new boolean[curvesNames.length];
                 // Add a checkbox list
                 for (int i = 0; i < curvesNames.length; i++) {
@@ -236,7 +237,7 @@ public class FlightViewActivity extends AppCompatActivity {
                     }
                 });
                 // Add OK and Cancel buttons
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(getResources().getString(R.string.fv_ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // The user clicked OK
@@ -252,7 +253,7 @@ public class FlightViewActivity extends AppCompatActivity {
                         plot.setDataset(0, flightData);
                     }
                 });
-                builder.setNegativeButton("Cancel", null);
+                builder.setNegativeButton(getResources().getString(R.string.fv_cancel), null);
 
                 // Create and show the alert dialog
                 AlertDialog dialog = builder.create();

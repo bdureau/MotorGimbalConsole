@@ -138,6 +138,15 @@ public class FlightData {
 
     }
 
+    private void  flightToCSV(final String flightName) {
+        XYSeriesCollection  flight;
+        flight = GetFlightData( flightName);
+       for (int i =0; i <  flight.getSeries().size() ; i++) {
+           XYSeries curve;
+           curve = flight.getSeries(i);
+
+       }
+    }
 
     private XYSeriesCollection  createFlight(final String name) {
         XYSeriesCollection ret;

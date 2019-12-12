@@ -1,15 +1,18 @@
 <resources>
     <string name="app_name">Motor Gimbal Console</string>
 
+    <!-- Config application -->
     <string name="titre_application_pref">Application preferences</string>
     <string name="Yes">Yes</string>
     <string name="No">No</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <!-- Config screen -->
     <string name="title_activity_console_tab_config">Console Config</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
     <string name="title_activity_console_tab_status">Console Status</string>
     <string name="msg9">You have changed the baud rate, the altimeter might not be able to connect. Are you sure?</string>
+    <string name="conf_msg1">data not ready</string>
+    <string name="conf_msg2">Unable to send the config, please try again</string>
     <!-- About -->
     <string name="dismiss_about">Dismiss</string>
     <string name="version">Version:</string>
@@ -130,5 +133,8 @@
     <string name="Altitude">Altitude</string>
     <string name="select_curves">Display</string>
     <string name="play">Play</string>
-
+    <string name="playF_dismiss">Dismiss</string>
+    <string name="fv_cancel">Cancel</string>
+    <string name="fv_ok">Ok</string>
+    <string name="flight_data_title">Flight data to display</string>
 </resources>

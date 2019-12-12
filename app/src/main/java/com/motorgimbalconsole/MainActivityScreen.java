@@ -78,7 +78,7 @@ public class MainActivityScreen extends AppCompatActivity {
         registerReceiver(broadcastReceiver, filter);
 
         btnConnectDisconnect = (Button)findViewById(R.id.button);
-        btnConnectDisconnect.setText("connect");
+        btnConnectDisconnect.setText(getResources().getString(R.string.connect_disconnect));
         btnReset= (Button)findViewById(R.id.butGimbalReset);
         btnFlight= (Button)findViewById(R.id.butGimbalFlight);
 

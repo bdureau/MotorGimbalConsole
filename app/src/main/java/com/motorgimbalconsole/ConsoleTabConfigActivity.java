@@ -144,7 +144,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                     String conf;
                     conf = GimbalCfg.getKpX() +","+ GimbalCfg.getKpY()+
                             ","+ GimbalCfg.getKiY()+","+ GimbalCfg.getKdY();
-                    msg("we have a config: "+conf );
+                    //msg("we have a config: "+conf );
 
                 }
                 catch (Exception e) {
@@ -153,7 +153,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             }
             else
             {
-                 msg("data not ready");
+                 msg(getResources().getString(R.string.conf_msg1));
                 //msg(myMessage);
             }
         }
@@ -314,7 +314,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             msg("Sent OK:" +gimbalCfgStr.toString());
         }
         if (myMessage.equals("K0")) {
-            msg("Unable to send the config, please try again");
+            msg(getResources().getString(R.string.conf_msg2));
         }
 
         //return true;

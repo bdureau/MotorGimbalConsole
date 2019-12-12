@@ -23,7 +23,7 @@
                 android:id="@+id/btnDismiss"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Dismiss" />
+                android:text="@string/playF_dismiss" />
 
         </LinearLayout>
 

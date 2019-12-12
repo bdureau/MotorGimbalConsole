@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Motor Gimbal Console</string>
 
-
+    <!-- Config application -->
     <string name="titre_application_pref">Préférences application</string>
     <string name="Yes">Oui</string>
     <string name="No">Non</string>
@@ -11,6 +11,9 @@
     <string name="tab_text_2">Tab 2</string>
     <string name="title_activity_console_tab_status">Etat Console</string>
     <string name="msg9">Vous avez changé le baud rate, l\'altimètre sera potentiellement dans l\'incapacité de se connecter. Etes vous certain?</string>
+    <string name="conf_msg1">Les données ne sont pas pretes</string>
+    <string name="conf_msg2">Unable to send the config, please try again</string>
+
     <!-- About -->
     <string name="dismiss_about">Fermer</string>
     <string name="version">Version:</string>
@@ -111,7 +114,7 @@
     <string name="disconnect">Déconnexion</string>
     <string name="MS_msg5">La connexion a échouée</string>
     <string name="MS_cancel">Annuler</string>
-    <string name="FL_msg9">Aucun vols ont été enregistrés</string>
+    <string name="FL_msg9">Aucun vols n\'ont été enregistrés</string>
 
     <!-- Flights list -->
     <string name="Flight_list">Liste des vols</string>
@@ -130,4 +133,8 @@
     <string name="Altitude">Altitude</string>
     <string name="select_curves">Affichage</string>
     <string name="play">Visu</string>
+    <string name="playF_dismiss">Fermer</string>
+    <string name="fv_cancel">Annuler</string>
+    <string name="fv_ok">Ok</string>
+    <string name="flight_data_title">Données du vol à afficher</string>
 </resources>

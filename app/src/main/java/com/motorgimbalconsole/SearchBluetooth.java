@@ -107,14 +107,7 @@ public class SearchBluetooth extends AppCompatActivity {
             String info = ((TextView) v).getText().toString();
             String address = info.substring(info.length() - 17);
 
-            // Make an intent to start next activity.
-           // Intent i= new Intent(MainActivity.this, MainScreenActivity.class);
-            ////////////////////>>>>>>Intent i = new Intent(MainActivity.this, ledControl.class);
 
-
-            //Change the activity.
-            //i.putExtra(EXTRA_ADDRESS, address); //this will be received at ledControl (class) Activity
-            //startActivity(i);
             myBT.setAddress(address);
             finish();
         }

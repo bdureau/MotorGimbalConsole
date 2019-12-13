@@ -30,6 +30,7 @@
     <string name="connection_type">Type de Connexion</string>
     <string name="upload">Sauvegarder</string>
     <string name="dismiss_tabconfig">Fermer</string>
+    <string name="graphiclib_type">Graphics lib </string>
 
     <!-- Reset screen -->
     <string name="dismiss_reset">Fermer</string>

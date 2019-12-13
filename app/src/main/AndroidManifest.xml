@@ -60,6 +60,7 @@
             android:label="@string/Flight_list"
             android:screenOrientation="portrait" />
         <activity android:name=".FlightViewActivity" />
+        <activity android:name=".FlightViewMPActivity" />
         <activity android:name=".HelpActivity" />
     </application>
 

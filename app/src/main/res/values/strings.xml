@@ -29,6 +29,7 @@
     <string name="connection_type">Connection type</string>
     <string name="upload">upload</string>
     <string name="dismiss_tabconfig">Dismiss</string>
+    <string name="graphiclib_type">Graphics lib </string>
 
     <!-- Reset screen -->
     <string name="dismiss_reset">Dismiss</string>

@@ -199,6 +199,7 @@ public class FlightListActivity extends AppCompatActivity {
     {
         private  AlertDialog.Builder builder=null;
         private AlertDialog alert;
+        private Boolean canceled = false;
         @Override
         protected void onPreExecute()
         {
@@ -216,8 +217,10 @@ public class FlightListActivity extends AppCompatActivity {
                     .setCancelable(false)
                     .setNegativeButton(getResources().getString(R.string.Flight_list_cancel), new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, final int id) {
+                            //myBT.setExit(true);
+                            canceled = true;
                             dialog.cancel();
-                            myBT.setExit(true);
+
                         }
                     });
             alert = builder.create();
@@ -235,25 +238,24 @@ public class FlightListActivity extends AppCompatActivity {
         protected void onPostExecute(Void result) //after the doInBackground, it checks if everything went fine
         {
             super.onPostExecute(result);
+            if (!canceled) {
+                final ArrayAdapter adapter = new ArrayAdapter(FlightListActivity.this, android.R.layout.simple_list_item_1, flightNames);
+                adapter.sort(new Comparator<String>() {
+                    public int compare(String object1, String object2) {
+                        return object1.compareTo(object2);
+                    }
+                });
 
-            final ArrayAdapter adapter = new ArrayAdapter(FlightListActivity.this, android.R.layout.simple_list_item_1, flightNames);
-            adapter.sort(new Comparator<String>() {
-                public int compare(String object1, String object2) {
-                    return object1.compareTo(object2);
-                }
-            });
-
-            flightList = (ListView) findViewById(R.id.listViewFlightList);
+                flightList = (ListView) findViewById(R.id.listViewFlightList);
 
 
                 flightList.setAdapter(adapter);
-            flightList.setOnItemClickListener(myListClickListener);
-            //if(Environment.getExternalStorageState()!=null)
-               // msg(Environment.getExternalStorageDirectory().toString());
-               // appendLog2();
-            //progress.dismiss();
+                flightList.setOnItemClickListener(myListClickListener);
+            }
             alert.dismiss();
-            if (myflight.getNbrOfFlight()==0 )
+            if (canceled)
+                msg("Flight retrieval has been canceled by user");
+            if (myflight.getNbrOfFlight()==0 && !canceled)
                 msg(getResources().getString(R.string.FL_msg9));
         }
     }

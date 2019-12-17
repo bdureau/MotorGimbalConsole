@@ -78,15 +78,24 @@ public class MainActivityScreen extends AppCompatActivity {
         registerReceiver(broadcastReceiver, filter);
 
         btnConnectDisconnect = (Button)findViewById(R.id.button);
-        btnConnectDisconnect.setText(getResources().getString(R.string.connect_disconnect));
+
         btnReset= (Button)findViewById(R.id.butGimbalReset);
         btnFlight= (Button)findViewById(R.id.butGimbalFlight);
 
         btnConfig = (Button)findViewById(R.id.butGimbalConfig);
         btnStatus = (Button)findViewById(R.id.butGimbalStatus);
-        DisableUI();
         //get the bluetooth and USB Application pointer
         myBT = (ConsoleApplication) getApplication();
+
+        if (myBT.getConnected())
+        {
+            EnableUI();
+            btnConnectDisconnect.setText(getResources().getString(R.string.disconnect));
+        }
+        else {
+            DisableUI();
+            btnConnectDisconnect.setText(getResources().getString(R.string.connect_disconnect));
+        }
 
 
 

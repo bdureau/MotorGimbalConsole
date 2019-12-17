@@ -100,6 +100,18 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
     {
         // ask for config
         if(myBT.getConnected()) {
+
+            //wait for previous result to come back
+            /*try {
+                while (myBT.getInputStream().available()> 0) {
+                   try { Thread.sleep(1000);}
+                   catch (InterruptedException e){
+
+                   }
+                }
+            } catch (IOException e) {
+
+            }*/
             //make sure that telemetry is off
             //myBT.write("y0;\n".toString());
             myBT.flush();

@@ -34,7 +34,7 @@ public class ConsoleApplication extends Application {
     private FlightData MyFlight = null;
     private GlobalConfig AppConf = null;
     private String address;
-    private String myTypeOfConnection = "bluetooth";// "USB";//"bluetooth";
+    private String myTypeOfConnection = "bluetooth";// "USB";
     private BluetoothConnection BTCon = null;
     private UsbConnection UsbCon = null;
     private GimbalConfigData GimbalCfg = null;
@@ -83,6 +83,9 @@ public class ConsoleApplication extends Application {
         return address;
     }
 
+    public int getNbrOfFlights () {
+        return NbrOfFlight;
+    }
     public InputStream getInputStream() {
         InputStream tmpIn = null;
         if (myTypeOfConnection.equals("bluetooth")) {
@@ -709,7 +712,9 @@ public class ConsoleApplication extends Application {
                             case "nbrOfFlight":
                                 // Value 1 contains the number of flight
                                 if (currentSentence.length > 1)
-                                    NbrOfFlight = (Integer.valueOf(currentSentence[1]));
+                                    if (currentSentence[1].matches("\\d+(?:\\.\\d+)?"))
+                                        NbrOfFlight = (Integer.valueOf(currentSentence[1]));
+                                myMessage = myMessage + " " + "nbrOfFlight";
                                 break;
                             case "start":
                                 //appendLog("Start");

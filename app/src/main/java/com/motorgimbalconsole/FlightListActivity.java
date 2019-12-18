@@ -38,6 +38,7 @@ public class FlightListActivity extends AppCompatActivity {
     List<String> flightNames = null;
     private FlightData myflight = null;
     private ProgressDialog progress;
+    private Boolean canceled = false;
 
     private Button buttonDismiss;
 
@@ -98,10 +99,10 @@ public class FlightListActivity extends AppCompatActivity {
         } catch (IOException e) {
            // msg("Failed to retrieve flights");
         }
-       // if (myBT.getConnected()) {
+
             String myMessage = "";
             myBT.setDataReady(false);
-           // myBT.initFlightData();
+
             myMessage = myBT.ReadResult(60000);
 
             if (myMessage.equals("start end")) {
@@ -113,7 +114,67 @@ public class FlightListActivity extends AppCompatActivity {
             }
         }
     }
+    private void getFlightsV2() {
+    int nbrOfFlight = 0;
+        //get flights
+        if (myBT.getConnected()) {
+            //clear anything on the connection
+            myBT.flush();
+            myBT.clearInput();
+            // clear flight object
+            myBT.getFlightData().ClearFlight();
+            //retrieve the number of flight
+            myBT.write("n;\n".toString());
+            myBT.flush();
+            try {
+                //wait for data to arrive
+                while (myBT.getInputStream().available() <= 0) ;
+            } catch (IOException e) {
+                // msg("Failed to retrieve flights");
+            }
 
+            String myMessage1 = "";
+            myBT.setDataReady(false);
+
+            myMessage1 = myBT.ReadResult(60000);
+
+            if (myMessage1.equals("start nbrOfFlight end")) {
+                nbrOfFlight = myBT.getNbrOfFlights();
+            }
+//msg("nbr of flight:" + nbrOfFlight);
+            if (nbrOfFlight >0) {
+                // Send command to retrieve the config
+                for (int i =0; i < nbrOfFlight; i++) {
+                    myBT.write(("r"+ i+";\n").toString());
+                    myBT.flush();
+
+                    try {
+                        //wait for data to arrive
+                        while (myBT.getInputStream().available() <= 0) ;
+                    } catch (IOException e) {
+                        // msg("Failed to retrieve flights");
+                    }
+
+                    String myMessage = "";
+                    myBT.setDataReady(false);
+
+                    myMessage = myBT.ReadResult(60000);
+
+                    if (myMessage.equals("start end")) {
+
+
+                    }
+                    //if canceled then exit the for loop
+                    if(canceled)
+                        i= nbrOfFlight;
+                }
+                flightNames = new ArrayList<String>();
+
+                myflight = myBT.getFlightData();
+                flightNames = myflight.getAllFlightNames2();
+            }
+        }
+    }
     private void msg(String s) {
         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
     }
@@ -197,9 +258,9 @@ public class FlightListActivity extends AppCompatActivity {
     }
     private class RetrieveFlights extends AsyncTask<Void, Void, Void>  // UI thread
     {
-        private  AlertDialog.Builder builder=null;
+        private AlertDialog.Builder builder=null;
         private AlertDialog alert;
-        private Boolean canceled = false;
+
         @Override
         protected void onPreExecute()
         {
@@ -231,14 +292,15 @@ public class FlightListActivity extends AppCompatActivity {
         protected Void doInBackground(Void... devices) //while the progress dialog is shown, the connection is done in background
         {
 
-            getFlights();
+            //getFlights();
+            getFlightsV2();
             return null;
         }
         @Override
         protected void onPostExecute(Void result) //after the doInBackground, it checks if everything went fine
         {
             super.onPostExecute(result);
-            if (!canceled) {
+            //if (!canceled) {
                 final ArrayAdapter adapter = new ArrayAdapter(FlightListActivity.this, android.R.layout.simple_list_item_1, flightNames);
                 adapter.sort(new Comparator<String>() {
                     public int compare(String object1, String object2) {
@@ -251,7 +313,7 @@ public class FlightListActivity extends AppCompatActivity {
 
                 flightList.setAdapter(adapter);
                 flightList.setOnItemClickListener(myListClickListener);
-            }
+            //}
             alert.dismiss();
             if (canceled)
                 msg("Flight retrieval has been canceled by user");

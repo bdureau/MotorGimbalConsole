@@ -1,4 +1,4 @@
-package com.motorgimbalconsole;
+package com.motorgimbalconsole.config;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+
+import com.motorgimbalconsole.ConsoleApplication;
+import com.motorgimbalconsole.R;
 
 /**
  *   @description: In this activity you should be able to choose the application languages and looks and feel.

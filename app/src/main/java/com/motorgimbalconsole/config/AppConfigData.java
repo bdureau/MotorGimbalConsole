@@ -1,4 +1,4 @@
-package com.motorgimbalconsole;
+package com.motorgimbalconsole.config;
 
 /**
  *   @description: This class define all the values for the application conf drop down

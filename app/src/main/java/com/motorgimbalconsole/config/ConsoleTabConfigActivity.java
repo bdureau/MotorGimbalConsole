@@ -1,4 +1,4 @@
-package com.motorgimbalconsole;
+package com.motorgimbalconsole.config;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -21,6 +21,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.motorgimbalconsole.ConsoleApplication;
+import com.motorgimbalconsole.R;
 
 import java.io.IOException;
 import java.util.ArrayList;

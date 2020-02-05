@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
 
 
-    tools:context="com.motorgimbalconsole.AboutActivity">
+    tools:context="com.motorgimbalconsole.help.AboutActivity">
 
 
 

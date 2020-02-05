@@ -1,4 +1,4 @@
-package com.motorgimbalconsole;
+package com.motorgimbalconsole.flights;
 
 import android.app.AlertDialog;
 
@@ -10,15 +10,9 @@ import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import org.afree.chart.ChartFactory;
-import org.afree.chart.AFreeChart;
-import org.afree.chart.axis.NumberAxis;
-import org.afree.chart.axis.ValueAxis;
-import org.afree.chart.plot.PlotOrientation;
-import org.afree.chart.plot.XYPlot;
 
 import org.afree.data.xy.XYSeriesCollection;
-import org.afree.graphics.SolidColor;
+
 import org.afree.graphics.geom.Font;
 
 import android.graphics.Color;
@@ -27,6 +21,16 @@ import android.widget.Button;
 
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.motorgimbalconsole.ConsoleApplication;
+import com.motorgimbalconsole.R;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -38,20 +42,25 @@ import static android.view.View.*;
  * @author: boris.dureau@neuf.fr
  **/
 
-public class FlightViewActivity extends AppCompatActivity {
+public class FlightViewMPActivity extends AppCompatActivity {
     String FlightName = null;
     ConsoleApplication myBT;
     private FlightData myflight = null;
     private Button buttonDismiss, butSelectCurves, btnPlay;
-    String curvesNames[] = null;
-    boolean[] checkedItems =null;
+    private String curvesNames[] = null;
+    private String currentCurvesNames[] =null;
+    boolean[] checkedItems = null;
     XYSeriesCollection allFlightData;
     XYSeriesCollection flightData;
-    XYPlot plot;
-    ValueAxis Xaxis;
-    ValueAxis Yaxis;
+    ArrayList<ILineDataSet> dataSets;
+    int colors []= {Color.RED, Color.BLUE, Color.BLACK,
+            Color.GREEN, Color.CYAN, Color.GRAY, Color.MAGENTA, Color.YELLOW,Color.RED,
+            Color.BLUE, Color.BLACK,
+            Color.GREEN, Color.CYAN, Color.GRAY, Color.MAGENTA, Color.YELLOW, Color.RED, Color.BLUE, Color.BLACK,
+            Color.GREEN, Color.CYAN, Color.GRAY, Color.MAGENTA, Color.YELLOW};
     Font font;
-    AFreeChart chart;
+
+    private LineChart mChart;
     public static String SELECTED_FLIGHT = "MyFlight";
 
     private void msg(String s) {
@@ -75,78 +84,70 @@ public class FlightViewActivity extends AppCompatActivity {
         font = new Font("Dialog", Typeface.NORMAL, fontSize);
 
         int numberOfCurves = flightData.getSeries().size();
-        String chartTitle= "";
-        //String currentCurvesNames[] = new String[numberOfCurves];
+        String chartTitle = "";
+
         for (int i = 0; i < numberOfCurves; i++) {
-            //currentCurvesNames[i] = flightData.getSeries(i).getKey().toString();
-            if(i < (numberOfCurves -1) )
-                chartTitle = chartTitle  + flightData.getSeries(i).getKey().toString()+ "-";
+
+            if (i < (numberOfCurves - 1))
+                chartTitle = chartTitle + flightData.getSeries(i).getKey().toString() + "-";
             else
-                chartTitle = chartTitle  + flightData.getSeries(i).getKey().toString();
+                chartTitle = chartTitle + flightData.getSeries(i).getKey().toString();
         }
-        chart.setTitle(chartTitle);
+        //chart.setTitle(chartTitle);
 
         int graphBackColor;
         graphBackColor = myBT.getAppConf().ConvertColor(Integer.parseInt(myBT.getAppConf().getGraphBackColor()));
 
-        // NOW DO SOME OPTIONAL CUSTOMISATION OF THE CHART...
-        chart.getTitle().setFont(font);
-        // set the background color for the chart...
-        chart.setBackgroundPaintType(new SolidColor(graphBackColor));
 
-        // get a reference to the plot for further customisation...
-        plot = chart.getXYPlot();
-
-        plot.setDomainGridlinesVisible(false);
-        plot.setRangeGridlinesVisible(false);
-
-        plot.setBackgroundPaintType(new SolidColor(graphBackColor));
-        plot.setOutlinePaintType(new SolidColor(Color.YELLOW));
-        plot.setDomainZeroBaselinePaintType(new SolidColor(Color.GREEN));
-
-        plot.setRangeZeroBaselinePaintType(new SolidColor(Color.MAGENTA));
         int axisColor;
         axisColor = myBT.getAppConf().ConvertColor(Integer.parseInt(myBT.getAppConf().getGraphColor()));
 
         int labelColor = Color.BLACK;
 
         int nbrColor = Color.BLACK;
-        Xaxis = plot.getDomainAxis();
-        Xaxis.setAutoRange(true);
-        Xaxis.setAxisLinePaintType(new SolidColor(axisColor));
 
-        Yaxis = plot.getRangeAxis();
-
-        Yaxis.setAxisLinePaintType(new SolidColor(axisColor));
-
-
-        Xaxis.setTickLabelFont(font);
-        Xaxis.setLabelFont(font);
-
-        Yaxis.setTickLabelFont(font);
-        Yaxis.setLabelFont(font);
-
-        //Xaxis label color
-        Xaxis.setLabelPaintType(new SolidColor(labelColor));
-
-        Xaxis.setTickMarkPaintType(new SolidColor(axisColor));
-        Xaxis.setTickLabelPaintType(new SolidColor(nbrColor));
-        //Y axis label color
-        Yaxis.setLabelPaintType(new SolidColor(labelColor));
-        Yaxis.setTickLabelPaintType(new SolidColor(nbrColor));
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putStringArray("CURRENT_CURVES_NAMES_KEY", currentCurvesNames);
+        outState.putBooleanArray("CHECKED_ITEMS_KEY",checkedItems);
+
+    }
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        currentCurvesNames = savedInstanceState.getStringArray("CURRENT_CURVES_NAMES_KEY");
+        checkedItems = savedInstanceState.getBooleanArray("CHECKED_ITEMS_KEY");
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // recovering the instance state
+        if (savedInstanceState != null) {
+            currentCurvesNames = savedInstanceState.getStringArray("CURRENT_CURVES_NAMES_KEY");
+            checkedItems = savedInstanceState.getBooleanArray("CHECKED_ITEMS_KEY");
+        }
 
         //get the bluetooth Application pointer
         myBT = (ConsoleApplication) getApplication();
         //Check the local and force it if needed
         getApplicationContext().getResources().updateConfiguration(myBT.getAppLocal(), null);
 
-        setContentView(R.layout.activity_flight_view);
+        setContentView(R.layout.activity_flight_view_mp);
         buttonDismiss = (Button) findViewById(R.id.butDismiss);
         butSelectCurves = (Button) findViewById(R.id.butSelectCuves);
         btnPlay = (Button) findViewById(R.id.butPlay);
@@ -173,27 +174,66 @@ public class FlightViewActivity extends AppCompatActivity {
         // Read the application config
         myBT.getAppConf().ReadConfig();
 
-        chart = ChartFactory.createXYLineChart(
-                "", //getResources().getString(R.string.Altitude_time),
-                getResources().getString(R.string.Time_fv),
-                "",//getResources().getString(R.string.Altitude) + " (" + myUnits + ")",
-                null,
-                PlotOrientation.VERTICAL, // orientation
-                true,                     // include legend
-                true,                     // tooltips?
-                false                     // URLs?
-        );
+
         drawGraph();
 
-        final NumberAxis rangeAxis2 = new NumberAxis("Range Axis 2");
-        rangeAxis2.setAutoRangeIncludesZero(false);
+        if (currentCurvesNames == null) {
+            //This is the first time so only display the altitude
+            currentCurvesNames = new String[curvesNames.length];
+            currentCurvesNames[0] ="altitude";
+            checkedItems = new boolean[curvesNames.length];
+            checkedItems[0] = true;
+        }
+        mChart = (LineChart) findViewById(R.id.linechart);
+        mChart.setDragEnabled(true);
+        mChart.setScaleEnabled(true);
+        /*int nbrData = flightData.getSeries(0).getItemCount();
+
+        ArrayList<Entry> yValues = new ArrayList<>();
+
+        for (int i = 0; i < nbrData; i++) {
+            yValues.add(new Entry(flightData.getSeries(0).getX(i).longValue(), flightData.getSeries(0).getY(i).longValue()));
+        }*/
+        dataSets = new ArrayList<>();
+        for (int i = 0; i < curvesNames.length; i++) {
+            if (checkedItems[i]) {
+                flightData.addSeries(allFlightData.getSeries(curvesNames[i]));
+
+                int nbrData = allFlightData.getSeries(i).getItemCount();
+
+                ArrayList<Entry> yValues = new ArrayList<>();
+
+                for (int k = 0; k < nbrData; k++) {
+                    yValues.add(new Entry(allFlightData.getSeries(i).getX(k).floatValue(), allFlightData.getSeries(i).getY(k).floatValue()));
+                }
+
+                LineDataSet set1 = new LineDataSet(yValues, "Altitude/Time");
+                set1.setColor(colors[i]);
+
+                set1.setDrawValues(false);
+                set1.setDrawCircles(false);
+                set1.setLabel(curvesNames[i]);
+
+                dataSets.add(set1);
 
 
-        plot.setDataset(0, flightData);
+            }
+        }
 
+        /*LineDataSet set1 = new LineDataSet(yValues, "Altitude/Time");
 
-        ChartView chartView = (ChartView) findViewById(R.id.chartView1);
-        chartView.setChart(chart);
+        set1.setDrawCircles(false);
+        set1.setDrawValues(false);
+        set1.setLabel("Altitude");*/
+        //dataSets = new ArrayList<>();
+        //dataSets.add(set1);
+
+        LineData data = new LineData(dataSets);
+        mChart.setData(data);
+        Description desc = new Description();
+        desc.setText("test");
+        mChart.setDescription(desc);
+
         buttonDismiss.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -204,7 +244,7 @@ public class FlightViewActivity extends AppCompatActivity {
         btnPlay.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(FlightViewActivity.this, PlayFlight.class);
+                Intent i = new Intent(FlightViewMPActivity.this, PlayFlight.class);
                 i.putExtra(SELECTED_FLIGHT, FlightName);
                 startActivity(i);
             }
@@ -213,20 +253,21 @@ public class FlightViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int numberOfCurves = flightData.getSeries().size();
-                String currentCurvesNames[] = new String[numberOfCurves];
+                currentCurvesNames = new String[numberOfCurves];
+
                 for (int i = 0; i < numberOfCurves; i++) {
                     currentCurvesNames[i] = flightData.getSeries(i).getKey().toString();
                 }
                 // Set up the alert builder
-                AlertDialog.Builder builder = new AlertDialog.Builder(FlightViewActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(FlightViewMPActivity.this);
                 builder.setTitle(getResources().getString(R.string.flight_data_title));
                 checkedItems = new boolean[curvesNames.length];
                 // Add a checkbox list
                 for (int i = 0; i < curvesNames.length; i++) {
-                    if(Arrays.asList(currentCurvesNames).contains(curvesNames[i]))
+                    if (Arrays.asList(currentCurvesNames).contains(curvesNames[i]))
                         checkedItems[i] = true;
                     else
-                    checkedItems[i] = false;
+                        checkedItems[i] = false;
                 }
 
 
@@ -241,16 +282,39 @@ public class FlightViewActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // The user clicked OK
+                        drawGraph();
+                        dataSets.clear();
+
                         flightData = new XYSeriesCollection();
                         for (int i = 0; i < curvesNames.length; i++) {
-                            if(checkedItems[i]) {
+                            if (checkedItems[i]) {
                                 flightData.addSeries(allFlightData.getSeries(curvesNames[i]));
+
+                                int nbrData = allFlightData.getSeries(i).getItemCount();
+
+                                ArrayList<Entry> yValues = new ArrayList<>();
+
+                                for (int k = 0; k < nbrData; k++) {
+                                    yValues.add(new Entry(allFlightData.getSeries(i).getX(k).floatValue(), allFlightData.getSeries(i).getY(k).floatValue()));
+                                }
+
+                                LineDataSet set1 = new LineDataSet(yValues, "Altitude/Time");
+                                set1.setColor(colors[i]);
+
+                                set1.setDrawValues(false);
+                                set1.setDrawCircles(false);
+                                set1.setLabel(curvesNames[i]);
+
+                                dataSets.add(set1);
+
+
                             }
                         }
-                        //flightData.addSeries(allFlightData.getSeries("altitude"));
-                        drawGraph();
 
-                        plot.setDataset(0, flightData);
+                        LineData data = new LineData(dataSets);
+                        mChart.clear();
+                        mChart.setData(data);
+
                     }
                 });
                 builder.setNegativeButton(getResources().getString(R.string.fv_cancel), null);

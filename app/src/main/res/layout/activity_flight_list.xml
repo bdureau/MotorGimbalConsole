@@ -8,7 +8,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    tools:context="com.motorgimbalconsole.FlightListActivity">
+    tools:context="com.motorgimbalconsole.flights.FlightListActivity">
 
     <FrameLayout
         android:layout_width="match_parent"

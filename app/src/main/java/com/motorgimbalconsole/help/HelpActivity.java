@@ -1,5 +1,5 @@
 //package com.altimeter.bdureau.bearconsole;
-package com.motorgimbalconsole;
+package com.motorgimbalconsole.help;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +7,9 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
+
+import com.motorgimbalconsole.ConsoleApplication;
+import com.motorgimbalconsole.R;
 
 import java.util.Locale;
 /**

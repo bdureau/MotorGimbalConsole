@@ -1,5 +1,5 @@
 //package com.altimeter.bdureau.bearconsole;
-package com.motorgimbalconsole;
+package com.motorgimbalconsole.flights;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -17,6 +17,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.motorgimbalconsole.ConsoleApplication;
+import com.motorgimbalconsole.R;
 
 import java.io.BufferedWriter;
 import java.io.File;

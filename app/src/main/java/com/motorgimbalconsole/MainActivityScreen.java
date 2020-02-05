@@ -2,7 +2,6 @@ package com.motorgimbalconsole;
 
 import android.app.AlertDialog;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,6 +18,11 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
+
+import com.motorgimbalconsole.config.AppConfigActivity;
+import com.motorgimbalconsole.config.ConsoleTabConfigActivity;
+import com.motorgimbalconsole.flights.FlightListActivity;
+import com.motorgimbalconsole.help.AboutActivity;
 
 import java.io.IOException;
 import java.util.HashMap;

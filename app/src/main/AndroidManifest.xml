@@ -17,13 +17,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PlayFlight"></activity>
+        <activity android:name=".flights.PlayFlight"></activity>
         <activity
             android:name=".ConsoleTabStatusActivity"
             android:label="@string/title_activity_console_tab_status"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ConsoleTabConfigActivity"
+            android:name=".config.ConsoleTabConfigActivity"
             android:label="@string/title_activity_console_tab_config"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivityScreen">
@@ -45,23 +45,23 @@
             android:label="Select Bluetooth device"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AboutActivity"
+            android:name=".help.AboutActivity"
             android:label="about_screen"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AppConfigActivity"
+            android:name=".config.AppConfigActivity"
             android:label="@string/titre_application_pref"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ResetSettingsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".FlightListActivity"
+            android:name=".flights.FlightListActivity"
             android:label="@string/Flight_list"
             android:screenOrientation="portrait" />
-        <activity android:name=".FlightViewActivity" />
-        <activity android:name=".FlightViewMPActivity" />
-        <activity android:name=".HelpActivity" />
+        <activity android:name=".flights.FlightViewActivity" />
+        <activity android:name=".flights.FlightViewMPActivity" />
+        <activity android:name=".help.HelpActivity" />
     </application>
 
 </manifest>

@@ -171,11 +171,12 @@ public class FlightListActivity extends AppCompatActivity {
                     if(canceled)
                         i= nbrOfFlight;
                 }
-                flightNames = new ArrayList<String>();
 
-                myflight = myBT.getFlightData();
-                flightNames = myflight.getAllFlightNames2();
             }
+            flightNames = new ArrayList<String>();
+
+            myflight = myBT.getFlightData();
+            flightNames = myflight.getAllFlightNames2();
         }
     }
     private void msg(String s) {

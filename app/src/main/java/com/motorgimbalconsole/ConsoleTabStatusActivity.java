@@ -101,11 +101,14 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
                     //Value 13 contains the battery voltage
                     String voltage = (String)msg.obj;
                     if(voltage.matches("\\d+(?:\\.\\d+)?")) {
-                        double batVolt;
+                       /* double batVolt;
 
                         batVolt =  (3.05*((Double.parseDouble(voltage) * 3300) / 4096)/1000);
 
-                        statusPage2.setBatteryVoltage(batVolt);
+                        statusPage2.setBatteryVoltage(batVolt);*/
+                        statusPage2.setBatteryVoltage(voltage + " Volts");
+                        //statusPage2.setBatteryVoltage(Double.parseDouble(voltage ));
+
                     }
                     else {
                         //txtViewVoltage.setText("NA");
@@ -339,8 +342,8 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
         public void setTempValue(String value) {
             this.txtViewTempValue.setText(value);
         }
-        public void setBatteryVoltage(double value) {
-            this.txtViewBatteryVoltage.setText(String.format("%.2f",value));
+        public void setBatteryVoltage(String value) {
+            this.txtViewBatteryVoltage.setText(value);
         }
 
         @Nullable

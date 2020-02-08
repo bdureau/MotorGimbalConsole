@@ -1,4 +1,4 @@
-package com.motorgimbalconsole;
+package com.motorgimbalconsole.connection;
 import android.app.Application;
 import android.app.PendingIntent;
 import android.app.Service;

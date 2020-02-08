@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.motorgimbalconsole.config.AppConfigData;
 import com.motorgimbalconsole.config.GimbalConfigData;
+import com.motorgimbalconsole.connection.BluetoothConnection;
+import com.motorgimbalconsole.connection.UsbConnection;
 import com.motorgimbalconsole.flights.FlightData;
 
 import java.io.BufferedWriter;

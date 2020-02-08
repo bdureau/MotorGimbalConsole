@@ -5,7 +5,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    android:paddingBottom="16dp" tools:context=".SearchBluetooth">
+    android:paddingBottom="16dp" tools:context=".connection.SearchBluetooth">
 
     <TextView
         android:layout_width="wrap_content"

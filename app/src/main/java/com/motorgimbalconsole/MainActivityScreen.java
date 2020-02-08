@@ -21,6 +21,7 @@ import android.hardware.usb.UsbManager;
 
 import com.motorgimbalconsole.config.AppConfigActivity;
 import com.motorgimbalconsole.config.ConsoleTabConfigActivity;
+import com.motorgimbalconsole.connection.SearchBluetooth;
 import com.motorgimbalconsole.flights.FlightListActivity;
 import com.motorgimbalconsole.help.AboutActivity;
 

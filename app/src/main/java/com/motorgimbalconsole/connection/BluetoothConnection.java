@@ -1,4 +1,4 @@
-package com.motorgimbalconsole;
+package com.motorgimbalconsole.connection;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;

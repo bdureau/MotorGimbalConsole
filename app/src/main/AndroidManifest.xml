@@ -46,7 +46,7 @@
             android:screenOrientation="portrait"
              />
         <activity
-            android:name=".SearchBluetooth"
+            android:name=".connection.SearchBluetooth"
             android:label="Select Bluetooth device"
             android:screenOrientation="portrait" />
         <activity

@@ -1,4 +1,4 @@
-package com.motorgimbalconsole;
+package com.motorgimbalconsole.connection;
 /**
  *   @description:  This is to select the bluetooth module.
  *
@@ -10,8 +10,6 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,6 +17,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.motorgimbalconsole.ConsoleApplication;
+import com.motorgimbalconsole.R;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -41,7 +42,7 @@ public class SearchBluetooth extends AppCompatActivity {
         //Check the local and force it if needed
         myBT = (ConsoleApplication) getApplication();
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_search_bluetooth);
 
         //Calling widgets
         btnPaired = (Button)findViewById(R.id.button);

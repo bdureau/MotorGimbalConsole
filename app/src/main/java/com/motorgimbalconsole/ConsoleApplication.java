@@ -1,6 +1,6 @@
 package com.motorgimbalconsole;
 /**
- * @description:
+ * @description: This manages all the data retrieval
  * @author: boris.dureau@neuf.fr
  **/
 
@@ -415,20 +415,18 @@ public class ConsoleApplication extends Application {
                                     if (currentSentence.length > 18)
                                         mHandler.obtainMessage(14, String.valueOf(currentSentence[15] + "," +
                                                 currentSentence[16] + "," + currentSentence[17] + "," + currentSentence[18])).sendToTarget();
-                                   /* // Value 15 contains graph2
-                                    mHandler.obtainMessage(15, String.valueOf(currentSentence[16])).sendToTarget();
-                                    // Value 16 contains graph3
+                                   // Value 19 contains the eeprom usage
+                                    if (currentSentence.length > 19)
+                                        if (currentSentence[19].matches("\\d+(?:\\.\\d+)?"))
+                                            mHandler.obtainMessage(19, String.valueOf(currentSentence[19])).sendToTarget();
+                                   /* // Value 16 contains graph3
                                     mHandler.obtainMessage(16, String.valueOf(currentSentence[17])).sendToTarget();
                                     // Value 17 contains graph4
                                     mHandler.obtainMessage(17, String.valueOf(currentSentence[18])).sendToTarget();
 */
                                 }
                                 break;
-                            //case "alti_status":
-                            //  if (mHandler != null) {
 
-                            // }
-                            //  break;
                             case "data":
                                 appendLog(currentSentence + "\n");
                                 String flightName = "FlightXX";

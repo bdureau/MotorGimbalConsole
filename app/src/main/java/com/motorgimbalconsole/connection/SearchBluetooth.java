@@ -3,6 +3,7 @@ package com.motorgimbalconsole.connection;
  *   @description:  This is to select the bluetooth module.
  *
  *   @author: boris.dureau@neuf.fr
+ *
  **/
 
 import android.bluetooth.BluetoothAdapter;

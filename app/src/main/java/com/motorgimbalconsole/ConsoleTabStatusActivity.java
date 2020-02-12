@@ -118,6 +118,10 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
                     //Value 14 contains the graphic
                     statusPage3.setInputString((String)msg.obj+",");
                     break;
+                case 19:
+                    //Value 19 contains the eeprom usage
+                    statusPage2.setEEpromUsage((String)msg.obj+"%");
+                    break;
             }
         }
     };
@@ -331,7 +335,8 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
         private static final String TAG = "Tab2StatusFragment";
         private TextView txtViewVoltage;
         private boolean ViewCreated = false;
-        private TextView txtViewBatteryVoltage,txtViewAltitudeValue,txtViewPressureValue,txtViewTempValue;
+        private TextView txtViewBatteryVoltage,txtViewAltitudeValue;
+        private TextView txtViewPressureValue,txtViewTempValue, txtViewEEpromUsageValue;
 
         public void setAltitudeValue(String value) {
             this.txtViewAltitudeValue.setText(value);
@@ -345,6 +350,9 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
         public void setBatteryVoltage(String value) {
             this.txtViewBatteryVoltage.setText(value);
         }
+        public void setEEpromUsage(String value) {
+            this.txtViewEEpromUsageValue.setText(value);
+        }
 
         @Nullable
         @Override
@@ -356,6 +364,7 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
             txtViewTempValue = (TextView)view.findViewById(R.id.txtTempValue);
             txtViewVoltage=(TextView)view.findViewById(R.id.txtBatteryVoltage);
             txtViewBatteryVoltage=(TextView)view.findViewById(R.id.txtBatteryVoltageValue);
+            txtViewEEpromUsageValue =(TextView)view.findViewById(R.id.txtEEpromUsageValue);
             ViewCreated = true;
             return view;
         }

@@ -3,6 +3,7 @@ package com.motorgimbalconsole.config;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -30,22 +31,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @description: Gimbal configuration
+ * @description: Gimbal configuration. This is done with several tabs so that it can be manageable
+ * on a small screen
  * @author: boris.dureau@neuf.fr
  **/
 public class ConsoleTabConfigActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     SectionsPageAdapter adapter;
-    Tab1Fragment configPage1 =null;
-    Tab2Fragment configPage2 =null;
-    Tab3Fragment configPage3 =null;
-    Tab4Fragment configPage4 =null;
+    Tab1Fragment configPage1 = null;
+    Tab2Fragment configPage2 = null;
+    Tab3Fragment configPage3 = null;
+    Tab4Fragment configPage4 = null;
 
     private Button btnDismiss, btnUpload;
-    static ConsoleApplication myBT ;
+    static ConsoleApplication myBT;
     private static GimbalConfigData GimbalCfg = null;
 
     private ProgressDialog progress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,29 +57,22 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         readConfig();
         setContentView(R.layout.activity_console_tab_config);
 
-        mViewPager =(ViewPager) findViewById(R.id.container);
+        mViewPager = (ViewPager) findViewById(R.id.container);
         setupViewPager(mViewPager);
-        btnDismiss = (Button)findViewById(R.id.butDismiss);
+        btnDismiss = (Button) findViewById(R.id.butDismiss);
 
-        btnDismiss.setOnClickListener(new View.OnClickListener()
-        {
+        btnDismiss.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
 
-                //myBT.flush();
-                //myBT.clearInput();
-                //myBT.write("y0;\n".toString());
                 finish();      //exit the  activity
             }
         });
-        btnUpload = (Button)findViewById(R.id.butUpload);
-        btnUpload.setOnClickListener(new View.OnClickListener()
-        {
+        btnUpload = (Button) findViewById(R.id.butUpload);
+        btnUpload.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 //send back the config to the altimeter and exit if successful
                 sendConfig();
             }
@@ -95,28 +91,12 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         adapter.addFragment(configPage3, "TAB3");
         adapter.addFragment(configPage4, "TAB4");
 
-
         viewPager.setAdapter(adapter);
     }
 
-    private void readConfig()
-    {
+    static void readConfig() {
         // ask for config
-        if(myBT.getConnected()) {
-
-            //wait for previous result to come back
-            /*try {
-                while (myBT.getInputStream().available()> 0) {
-                   try { Thread.sleep(1000);}
-                   catch (InterruptedException e){
-
-                   }
-                }
-            } catch (IOException e) {
-
-            }*/
-            //make sure that telemetry is off
-            //myBT.write("y0;\n".toString());
+        if (myBT.getConnected()) {
             myBT.flush();
             myBT.clearInput();
             //msg("Retreiving altimeter config...");
@@ -124,11 +104,8 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
 
             myBT.flush();
             myBT.clearInput();
-
             myBT.write("b;\n".toString());
-
             myBT.flush();
-
 
             //get the results
             //wait for the result to come back
@@ -139,65 +116,52 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             }
         }
         //reading the config
-        if(myBT.getConnected()) {
+        if (myBT.getConnected()) {
             String myMessage = "";
-            long timeOut = 10000;
-            long startTime = System.currentTimeMillis();
 
-            myMessage =myBT.ReadResult(3000);
+            myMessage = myBT.ReadResult(3000);
             if (myMessage.equals("OK")) {
                 myBT.setDataReady(false);
-                myMessage =myBT.ReadResult(10000);
+                myMessage = myBT.ReadResult(10000);
             }
-            //msg(myMessage);
-            if (myMessage.equals( "start alticonfig end") )
-            {
+
+            if (myMessage.equals("start alticonfig end")) {
                 try {
-                   // getGimbalConfigData
-                    GimbalCfg= myBT.getGimbalConfigData();
+                    // getGimbalConfigData
+                    GimbalCfg = myBT.getGimbalConfigData();
 
-                    String conf;
-                    conf = GimbalCfg.getKpX() +","+ GimbalCfg.getKpY()+
-                            ","+ GimbalCfg.getKiY()+","+ GimbalCfg.getKdY();
-                    //msg("we have a config: "+conf );
+                    //String conf;
+                    //conf = GimbalCfg.getKpX() + "," + GimbalCfg.getKpY() +
+                      //      "," + GimbalCfg.getKiY() + "," + GimbalCfg.getKdY();
 
+                } catch (Exception e) {
+                   // msg("pb ready data");
                 }
-                catch (Exception e) {
-                     msg("pb ready data");
-                }
-            }
-            else
-            {
-                 msg(getResources().getString(R.string.conf_msg1));
-                //msg(myMessage);
+            } else {
+                //msg(getResources().getString(R.string.conf_msg1));
             }
         }
-
-    }
-    private void msg(String s)
-    {
-        Toast.makeText(getApplicationContext(),s,Toast.LENGTH_LONG).show();
     }
 
-    private boolean sendConfig()
-    {
-        //final boolean exit_no_save = false;
+    public void msg(String s) {
+        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+    }
+
+    private boolean sendConfig() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         long prevBaudRate = GimbalCfg.getConnectionSpeed();
 
         // check if the baud rate has changed
-
-        if(configPage1.isViewCreated()) {
+        if (configPage1.isViewCreated()) {
             GimbalCfg.setAxOffset(configPage1.getAxOffsetValue());
             GimbalCfg.setAyOffset(configPage1.getAyOffsetValue());
             GimbalCfg.setAzOffset(configPage1.getAzOffsetValue());
             GimbalCfg.setGxOffset(configPage1.getGxOffsetValue());
             GimbalCfg.setGyOffset(configPage1.getGyOffsetValue());
             GimbalCfg.setGzOffset(configPage1.getGzOffsetValue());
-
         }
-        if(configPage2.isViewCreated()) {
+        if (configPage2.isViewCreated()) {
 
             GimbalCfg.setKpX(configPage2.getTxtKpXValue());
             GimbalCfg.setKiX(configPage2.getTxtKiXValue());
@@ -205,11 +169,9 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             GimbalCfg.setKpY(configPage2.getTxtKpYValue());
             GimbalCfg.setKiY(configPage2.getTxtKiYValue());
             GimbalCfg.setKdY(configPage2.getTxtKdYValue());
-
-
         }
 
-        if(configPage3.isViewCreated()) {
+        if (configPage3.isViewCreated()) {
             GimbalCfg.setBeepingFrequency(configPage3.getFreq());
             GimbalCfg.setUnits(configPage3.getDropdownUnits());
             GimbalCfg.setAltimeterResolution(configPage3.getAltimeterResolution());
@@ -217,23 +179,17 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             GimbalCfg.setEndRecordAltitude(configPage3.getEndRecordAltitude());
             GimbalCfg.setLiftOffDetect(configPage3.getLiftOffDetect());
         }
-        if(configPage4.isViewCreated()) {
+        if (configPage4.isViewCreated()) {
             GimbalCfg.setServoXMin(configPage4.getServoXMin());
             GimbalCfg.setServoXMax(configPage4.getServoXMax());
             GimbalCfg.setServoYMin(configPage4.getServoYMin());
             GimbalCfg.setServoYMax(configPage4.getServoYMax());
-
         }
 
 
-
-
-
-
-        if(configPage3.isViewCreated()) {
+        if (configPage3.isViewCreated()) {
             //GimbalCfg.setConnectionSpeed(configPage3.getBaudRate());
-            if(GimbalCfg.getConnectionSpeed() != configPage3.getBaudRate())
-            {
+            if (GimbalCfg.getConnectionSpeed() != configPage3.getBaudRate()) {
                 //final AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 //You are about to change the baud rate, are you sure you want to do it?
                 builder.setMessage(getResources().getString(R.string.msg9))
@@ -242,74 +198,66 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                             public void onClick(final DialogInterface dialog, final int id) {
                                 dialog.cancel();
                                 GimbalCfg.setConnectionSpeed(configPage3.getBaudRate());
-                                sendAltiCfg ();
+                                sendAltiCfg();
                                 finish();
                             }
                         })
                         .setNegativeButton(getResources().getString(R.string.No), new DialogInterface.OnClickListener() {
                             public void onClick(final DialogInterface dialog, final int id) {
                                 dialog.cancel();
-
                             }
                         });
                 final AlertDialog alert = builder.create();
                 alert.show();
-            }
-            else
-            {
-                sendAltiCfg ();
+            } else {
+                sendAltiCfg();
                 finish();
             }
-        }
-        else
-        {
-            sendAltiCfg ();
+        } else {
+            sendAltiCfg();
             finish();
         }
-
         return true;
     }
-    private void sendAltiCfg () {
-        String gimbalCfgStr="";
+
+    private void sendAltiCfg() {
+        String gimbalCfgStr = "";
 
         gimbalCfgStr = "s," +
-                GimbalCfg.getAxOffset()+","+
-                GimbalCfg.getAyOffset()+","+
-                GimbalCfg.getAzOffset()+","+
-                GimbalCfg.getGxOffset()+","+
-                GimbalCfg.getGyOffset()+","+
-                GimbalCfg.getGzOffset()+","+
+                GimbalCfg.getAxOffset() + "," +
+                GimbalCfg.getAyOffset() + "," +
+                GimbalCfg.getAzOffset() + "," +
+                GimbalCfg.getGxOffset() + "," +
+                GimbalCfg.getGyOffset() + "," +
+                GimbalCfg.getGzOffset() + "," +
                 //configPage2.getKpX()+","+
-                (int) (GimbalCfg.getKpX()*100)+","+
-                (int) (GimbalCfg.getKiX()*100)+","+
-                (int) (GimbalCfg.getKdX()*100)+","+
-                (int) (GimbalCfg.getKpY()*100)+","+
-                (int) (GimbalCfg.getKiY()*100)+","+
-                (int) (GimbalCfg.getKdY()*100)+","+
-                GimbalCfg.getServoXMin() +","+
-                GimbalCfg.getServoXMax() +","+
-                GimbalCfg.getServoYMin() +","+
-                GimbalCfg.getServoYMax() +","+
-                GimbalCfg.getConnectionSpeed()+ ","+
-                GimbalCfg.getAltimeterResolution()+ ","+
-                GimbalCfg.getEepromSize()+"," +
-                GimbalCfg.getUnits() +","+
-                GimbalCfg.getEndRecordAltitude()+ ","+
-                GimbalCfg.getBeepingFrequency() +","+
+                (int) (GimbalCfg.getKpX() * 100) + "," +
+                (int) (GimbalCfg.getKiX() * 100) + "," +
+                (int) (GimbalCfg.getKdX() * 100) + "," +
+                (int) (GimbalCfg.getKpY() * 100) + "," +
+                (int) (GimbalCfg.getKiY() * 100) + "," +
+                (int) (GimbalCfg.getKdY() * 100) + "," +
+                GimbalCfg.getServoXMin() + "," +
+                GimbalCfg.getServoXMax() + "," +
+                GimbalCfg.getServoYMin() + "," +
+                GimbalCfg.getServoYMax() + "," +
+                GimbalCfg.getConnectionSpeed() + "," +
+                GimbalCfg.getAltimeterResolution() + "," +
+                GimbalCfg.getEepromSize() + "," +
+                GimbalCfg.getUnits() + "," +
+                GimbalCfg.getEndRecordAltitude() + "," +
+                GimbalCfg.getBeepingFrequency() + "," +
                 GimbalCfg.getLiftOffDetect();
 
 
-                gimbalCfgStr = gimbalCfgStr +  ";\n";
-         //msg(gimbalCfgStr.toString());
+        gimbalCfgStr = gimbalCfgStr + ";\n";
 
-        if(myBT.getConnected())
+        if (myBT.getConnected())
             myBT.flush();
         myBT.clearInput();
         myBT.setDataReady(false);
-            //send back the config
-            myBT.write(gimbalCfgStr.toString());
-
-        //msg(getResources().getString(R.string.msg3));//+altiCfgStr.toString());
+        //send back the config
+        myBT.write(gimbalCfgStr.toString());
 
         myBT.flush();
         //get the results
@@ -324,25 +272,27 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         long timeOut = 10000;
         long startTime = System.currentTimeMillis();
 
-        myMessage =myBT.ReadResult(3000);
+        myMessage = myBT.ReadResult(3000);
         if (myMessage.equals("OK")) {
-            msg("Sent OK:" +gimbalCfgStr.toString());
+            msg("Sent OK:" + gimbalCfgStr.toString());
         }
         if (myMessage.equals("K0")) {
             msg(getResources().getString(R.string.conf_msg2));
         }
 
-        //return true;
     }
+
+
     public class SectionsPageAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList();
-        private final List<String> mFragmentTitleList= new ArrayList();
+        private final List<String> mFragmentTitleList = new ArrayList();
 
         public void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
         }
-        public SectionsPageAdapter (FragmentManager fm){
+
+        public SectionsPageAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -352,10 +302,12 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return super.getPageTitle(position);
         }
+
         @Override
         public Fragment getItem(int position) {
             return mFragmentList.get(position);
         }
+
         @Override
         public int getCount() {
             return mFragmentList.size();
@@ -373,6 +325,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         public void setAxOffsetValue(long value) {
             this.txtViewAxOffset.setText(String.valueOf(value));
         }
+
         public long getAxOffsetValue() {
             long ret;
             try {
@@ -382,9 +335,11 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             }
             return ret;
         }
+
         public void setAyOffsetValue(long value) {
             this.txtViewAyOffset.setText(String.valueOf(value));
         }
+
         public long getAyOffsetValue() {
             long ret;
             try {
@@ -394,9 +349,11 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             }
             return ret;
         }
+
         public void setAzOffsetValue(long value) {
             this.txtViewAzOffset.setText(String.valueOf(value));
         }
+
         public long getAzOffsetValue() {
             long ret;
             try {
@@ -410,6 +367,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         public void setGxOffsetValue(long value) {
             this.txtViewGxOffset.setText(String.valueOf(value));
         }
+
         public long getGxOffsetValue() {
             long ret;
             try {
@@ -419,9 +377,11 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             }
             return ret;
         }
+
         public void setGyOffsetValue(long value) {
             this.txtViewGyOffset.setText(String.valueOf(value));
         }
+
         public long getGyOffsetValue() {
             long ret;
             try {
@@ -431,9 +391,11 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             }
             return ret;
         }
+
         public void setGzOffsetValue(long value) {
             this.txtViewGzOffset.setText(String.valueOf(value));
         }
+
         public long getGzOffsetValue() {
             long ret;
             try {
@@ -447,17 +409,18 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         public boolean isViewCreated() {
             return ViewCreated;
         }
+
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.tabconfigpart1_fragment,container,false);
-            txtViewAxOffset= (EditText)view.findViewById(R.id.editTxtAxOffset);
-            txtViewAyOffset= (EditText)view.findViewById(R.id.editTxtAyOffset);
-            txtViewAzOffset= (EditText)view.findViewById(R.id.editTxtAzOffset);
+            View view = inflater.inflate(R.layout.tabconfigpart1_fragment, container, false);
+            txtViewAxOffset = (EditText) view.findViewById(R.id.editTxtAxOffset);
+            txtViewAyOffset = (EditText) view.findViewById(R.id.editTxtAyOffset);
+            txtViewAzOffset = (EditText) view.findViewById(R.id.editTxtAzOffset);
 
-            txtViewGxOffset= (EditText)view.findViewById(R.id.editTxtGxOffset);
-            txtViewGyOffset= (EditText)view.findViewById(R.id.editTxtGyOffset);
-            txtViewGzOffset= (EditText)view.findViewById(R.id.editTxtGzOffset);
+            txtViewGxOffset = (EditText) view.findViewById(R.id.editTxtGxOffset);
+            txtViewGyOffset = (EditText) view.findViewById(R.id.editTxtGyOffset);
+            txtViewGzOffset = (EditText) view.findViewById(R.id.editTxtGzOffset);
             if (GimbalCfg != null) {
                 setAxOffsetValue(GimbalCfg.getAxOffset());
                 setAyOffsetValue(GimbalCfg.getAyOffset());
@@ -466,25 +429,82 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                 setGyOffsetValue(GimbalCfg.getGyOffset());
                 setGzOffsetValue(GimbalCfg.getGzOffset());
             }
-            btnCalibrate = (Button)view.findViewById(R.id.butCalibrate);
+            btnCalibrate = (Button) view.findViewById(R.id.butCalibrate);
 
-            btnCalibrate.setOnClickListener(new View.OnClickListener()
-            {
+            btnCalibrate.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v)
-                {
-                    //ConsoleApplication myBT;
-                    //myBT = (ConsoleApplication) getApplication();
-                    myBT.flush();
-                    myBT.clearInput();
-                    myBT.write("c;\n".toString());
-                    //wait for ok and put the result back
+                public void onClick(View v) {
+
+                    new Calibration().execute();
                 }
             });
             ViewCreated = true;
             return view;
         }
+        // calibration
+        private class Calibration extends AsyncTask<Void, Void, Void>  // UI thread
+        {
+            private AlertDialog.Builder builder = null;
+            private AlertDialog alert;
+            private Boolean canceled = false;
+
+            @Override
+            protected void onPreExecute() {
+                //"Calibration in progress..."
+                //"Please wait!!!"
+                //this.getActivity()
+            builder = new AlertDialog.Builder(Tab1Fragment.this.getContext());
+
+            builder.setMessage("Calibration...")
+                    .setTitle("Calibration")
+                    .setCancelable(false)
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, final int id) {
+                            myBT.setExit(true);
+                            canceled = true;
+                            dialog.cancel();
+                        }
+                    });
+            alert = builder.create();
+            alert.show();
+            }
+
+            @Override
+            protected Void doInBackground(Void... devices) //while the progress dialog is shown, the connection is done in background
+            {
+
+                myBT.flush();
+                myBT.clearInput();
+                myBT.write("c;\n".toString());
+                //wait for ok and put the result back
+                String myMessage = "";
+
+                myMessage = myBT.ReadResult(3000);
+                if (myMessage.equals("OK")) {
+                    readConfig();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void result) //after the doInBackground, it checks if everything went fine
+            {
+                super.onPostExecute(result);
+                if (!canceled) {
+                    readConfig();
+                    setAxOffsetValue(GimbalCfg.getAxOffset());
+                    setAyOffsetValue(GimbalCfg.getAyOffset());
+                    setAzOffsetValue(GimbalCfg.getAzOffset());
+                    setGxOffsetValue(GimbalCfg.getGxOffset());
+                    setGyOffsetValue(GimbalCfg.getGyOffset());
+                    setGzOffsetValue(GimbalCfg.getGzOffset());
+                    alert.dismiss();
+                }
+
+            }
+        }
     }
+
     public static class Tab2Fragment extends Fragment {
         private static final String TAG = "Tab2Fragment";
         private boolean ViewCreated = false;
@@ -492,12 +512,9 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         private EditText editTxtKpY, editTxtKiY, editTxtKdY;
 
         public void setTxtKpXValue(double value) {
-            //this.editTxtKpX.setText(String.format("%.2f",value));
             this.editTxtKpX.setText(Double.toString(value));
         }
-        /*public String getKpX() {
-            return this.editTxtKpX.getText().toString();
-        }*/
+
         public double getTxtKpXValue() {
             double ret;
             try {
@@ -509,10 +526,11 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             }
             return ret;
         }
+
         public void setTxtKiXValue(double value) {
-            //this.editTxtKiX.setText(String.format("%.2f",value));
             this.editTxtKiX.setText(Double.toString(value));
         }
+
         public double getTxtKiXValue() {
             double ret;
             try {
@@ -522,10 +540,11 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             }
             return ret;
         }
+
         public void setTxtKdXValue(double value) {
-            //this.editTxtKdX.setText(String.format("%.2f",value));
             this.editTxtKdX.setText(Double.toString(value));
         }
+
         public double getTxtKdXValue() {
             double ret;
             try {
@@ -538,9 +557,9 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         }
 
         public void setTxtKpYValue(double value) {
-            //this.editTxtKpY.setText(String.format("%.2f",value));
             this.editTxtKpY.setText(Double.toString(value));
         }
+
         public double getTxtKpYValue() {
             double ret;
             try {
@@ -550,10 +569,12 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             }
             return ret;
         }
+
         public void setTxtKiYValue(double value) {
             //this.editTxtKiY.setText(String.format("%.2f",value));
             this.editTxtKiY.setText(Double.toString(value));
         }
+
         public double getTxtKiYValue() {
             double ret;
             try {
@@ -563,10 +584,11 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             }
             return ret;
         }
+
         public void setTxtKdYValue(double value) {
-            //this.editTxtKdY.setText(String.format("%.2f",value));
             this.editTxtKdY.setText(Double.toString(value));
         }
+
         public double getTxtKdYValue() {
             double ret;
             try {
@@ -576,21 +598,23 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             }
             return ret;
         }
+
         public boolean isViewCreated() {
             return ViewCreated;
         }
+
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.tabconfigpart2_fragment,container,false);
+            View view = inflater.inflate(R.layout.tabconfigpart2_fragment, container, false);
 
-            editTxtKpX = (EditText)view.findViewById(R.id.editTxtKpX);
-            editTxtKiX = (EditText)view.findViewById(R.id.editTxtKiX);
-            editTxtKdX = (EditText)view.findViewById(R.id.editTxtKdX);
+            editTxtKpX = (EditText) view.findViewById(R.id.editTxtKpX);
+            editTxtKiX = (EditText) view.findViewById(R.id.editTxtKiX);
+            editTxtKdX = (EditText) view.findViewById(R.id.editTxtKdX);
 
-            editTxtKpY = (EditText)view.findViewById(R.id.editTxtKpY);
-            editTxtKiY = (EditText)view.findViewById(R.id.editTxtKiY);
-            editTxtKdY = (EditText)view.findViewById(R.id.editTxtKdY);
+            editTxtKpY = (EditText) view.findViewById(R.id.editTxtKpY);
+            editTxtKiY = (EditText) view.findViewById(R.id.editTxtKiY);
+            editTxtKdY = (EditText) view.findViewById(R.id.editTxtKdY);
 
             if (GimbalCfg != null) {
                 setTxtKpXValue(GimbalCfg.getKpX());
@@ -613,6 +637,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             return view;
         }
     }
+
     public static class Tab3Fragment extends Fragment {
         private static final String TAG = "Tab3Fragment";
         private boolean ViewCreated = false;
@@ -646,18 +671,21 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             return ret;
 
         }
+
         public void setFreq(int freq) {
             Freq.setText(freq);
         }
+
         public void setAltiName(String altiName) {
             this.altiName.setText(altiName);
         }
+
         public String getAltiName() {
             return (String) this.altiName.getText();
         }
 
         public int getDropdownUnits() {
-            return (int)this.dropdownUnits.getSelectedItemId();
+            return (int) this.dropdownUnits.getSelectedItemId();
         }
 
         public void setDropdownUnits(int Units) {
@@ -666,36 +694,41 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
 
 
         public int getAltimeterResolution() {
-            return (int)this.dropdownAltimeterResolution.getSelectedItemId();
+            return (int) this.dropdownAltimeterResolution.getSelectedItemId();
         }
-        public void setAltimeterResolution(int AltimeterResolution ) {
+
+        public void setAltimeterResolution(int AltimeterResolution) {
             this.dropdownAltimeterResolution.setSelection(AltimeterResolution);
         }
 
         public int getEEpromSize() {
             int ret;
             try {
-                ret = Integer.parseInt(itemsEEpromSize[(int)dropdownEEpromSize.getSelectedItemId()]);
+                ret = Integer.parseInt(itemsEEpromSize[(int) dropdownEEpromSize.getSelectedItemId()]);
             } catch (Exception e) {
                 ret = 0;
             }
             return ret;
         }
-        public void setEEpromSize(int EEpromSize ) {
+
+        public void setEEpromSize(int EEpromSize) {
             this.dropdownEEpromSize.setSelection(GimbalCfg.arrayIndex(itemsEEpromSize, String.valueOf(EEpromSize)));
         }
+
         public long getBaudRate() {
             long ret;
             try {
-                ret = Long.parseLong(itemsBaudRate[(int)this.dropdownBaudRate.getSelectedItemId()]);
+                ret = Long.parseLong(itemsBaudRate[(int) this.dropdownBaudRate.getSelectedItemId()]);
             } catch (Exception e) {
                 ret = 0;
             }
             return ret;
         }
-        public void setBaudRate(long BaudRate ) {
-            this.dropdownBaudRate.setSelection(GimbalCfg.arrayIndex(itemsBaudRate,String.valueOf(BaudRate)));
+
+        public void setBaudRate(long BaudRate) {
+            this.dropdownBaudRate.setSelection(GimbalCfg.arrayIndex(itemsBaudRate, String.valueOf(BaudRate)));
         }
+
         public int getEndRecordAltitude() {
             int ret;
             try {
@@ -705,14 +738,15 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             }
             return ret;
         }
-        public void setEndRecordAltitude(int EndRecordAltitude ) {
+
+        public void setEndRecordAltitude(int EndRecordAltitude) {
             this.EndRecordAltitude.setText(String.valueOf(EndRecordAltitude));
         }
 
         public int getLiftOffDetect() {
             int ret;
             try {
-                ret =(int)dropdownLaunchDetect.getSelectedItemId();
+                ret = (int) dropdownLaunchDetect.getSelectedItemId();
             } catch (Exception e) {
                 ret = 0;
             }
@@ -720,32 +754,30 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         }
 
 
-
-
-
         public boolean isViewCreated() {
             return ViewCreated;
         }
+
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.tabconfigpart3_fragment,container,false);
+            View view = inflater.inflate(R.layout.tabconfigpart3_fragment, container, false);
 
             //units
-            dropdownUnits = (Spinner)view.findViewById(R.id.spinnerUnit);
+            dropdownUnits = (Spinner) view.findViewById(R.id.spinnerUnit);
             String[] items2 = new String[]{"Meters", "Feet"};
             ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this.getActivity(),
                     android.R.layout.simple_spinner_dropdown_item, items2);
             dropdownUnits.setAdapter(adapter2);
 
             //Altimeter name
-            altiName = (TextView)view.findViewById(R.id.txtAltiNameValue);
+            altiName = (TextView) view.findViewById(R.id.txtAltiNameValue);
             //here you can set the beep frequency
-            Freq=(EditText)view.findViewById(R.id.editTxtBipFreq);
+            Freq = (EditText) view.findViewById(R.id.editTxtBipFreq);
 
             //baud rate
-            dropdownBaudRate = (Spinner)view.findViewById(R.id.spinnerBaudRate);
-            itemsBaudRate = new String[]{ "300",
+            dropdownBaudRate = (Spinner) view.findViewById(R.id.spinnerBaudRate);
+            itemsBaudRate = new String[]{"300",
                     "1200",
                     "2400",
                     "4800",
@@ -761,25 +793,25 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                     android.R.layout.simple_spinner_dropdown_item, itemsBaudRate);
             dropdownBaudRate.setAdapter(adapterBaudRate);
             // altimeter resolution
-            dropdownAltimeterResolution = (Spinner)view.findViewById(R.id.spinnerAltimeterResolution);
-            itemsAltimeterResolution = new String[]{"ULTRALOWPOWER", "STANDARD","HIGHRES","ULTRAHIGHRES"};
-            ArrayAdapter<String> adapterAltimeterResolution= new ArrayAdapter<String>(this.getActivity(),
+            dropdownAltimeterResolution = (Spinner) view.findViewById(R.id.spinnerAltimeterResolution);
+            itemsAltimeterResolution = new String[]{"ULTRALOWPOWER", "STANDARD", "HIGHRES", "ULTRAHIGHRES"};
+            ArrayAdapter<String> adapterAltimeterResolution = new ArrayAdapter<String>(this.getActivity(),
                     android.R.layout.simple_spinner_dropdown_item, itemsAltimeterResolution);
             dropdownAltimeterResolution.setAdapter(adapterAltimeterResolution);
 
             //Altimeter external eeprom size
-            dropdownEEpromSize = (Spinner)view.findViewById(R.id.spinnerEEpromSize);
-            itemsEEpromSize = new String[]{"32", "64","128","256","512", "1024"};
-            ArrayAdapter<String> adapterEEpromSize= new ArrayAdapter<String>(this.getActivity(),
+            dropdownEEpromSize = (Spinner) view.findViewById(R.id.spinnerEEpromSize);
+            itemsEEpromSize = new String[]{"32", "64", "128", "256", "512", "1024"};
+            ArrayAdapter<String> adapterEEpromSize = new ArrayAdapter<String>(this.getActivity(),
                     android.R.layout.simple_spinner_dropdown_item, itemsEEpromSize);
             dropdownEEpromSize.setAdapter(adapterEEpromSize);
             // nbr of meters to stop recording altitude
-            EndRecordAltitude = (EditText)view.findViewById(R.id.editTxtEndRecordAltitude);
+            EndRecordAltitude = (EditText) view.findViewById(R.id.editTxtEndRecordAltitude);
 
             //spinnerLaunchDetect
-            dropdownLaunchDetect = (Spinner)view.findViewById(R.id.spinnerLaunchDetect);
-            itemsLaunchDetect =new String[]{"Baro","Accel"};
-            ArrayAdapter<String> adapterLaunchDetect= new ArrayAdapter<String>(this.getActivity(),
+            dropdownLaunchDetect = (Spinner) view.findViewById(R.id.spinnerLaunchDetect);
+            itemsLaunchDetect = new String[]{"Baro", "Accel"};
+            ArrayAdapter<String> adapterLaunchDetect = new ArrayAdapter<String>(this.getActivity(),
                     android.R.layout.simple_spinner_dropdown_item, itemsLaunchDetect);
             dropdownLaunchDetect.setAdapter(adapterLaunchDetect);
 
@@ -790,8 +822,8 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                 dropdownEEpromSize.setSelection(GimbalCfg.arrayIndex(itemsEEpromSize, String.valueOf(GimbalCfg.getEepromSize())));
                 EndRecordAltitude.setText(String.valueOf(GimbalCfg.getEndRecordAltitude()));
 
-                altiName.setText(GimbalCfg.getAltimeterName()+ " ver: " +
-                        GimbalCfg.getAltiMajorVersion()+"."+GimbalCfg.getAltiMinorVersion());
+                altiName.setText(GimbalCfg.getAltimeterName() + " ver: " +
+                        GimbalCfg.getAltiMajorVersion() + "." + GimbalCfg.getAltiMinorVersion());
 
 
                 dropdownUnits.setSelection(GimbalCfg.getUnits());
@@ -892,4 +924,5 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             return view;
         }
     }
+
 }

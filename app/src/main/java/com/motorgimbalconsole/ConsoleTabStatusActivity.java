@@ -4,14 +4,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+//import android.support.design.widget.FloatingActionButton;
+//import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+//import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +24,7 @@ import java.util.List;
 
 import processing.android.PFragment;
 import processing.core.PApplet;
+import processing.core.PConstants;
 
 /**
  * @description: Gimbal real time telemetry
@@ -203,6 +204,20 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
         altiStatus = new Thread(r);
         altiStatus.start();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(myBT.getConnected() && !status) {
+            myBT.flush();
+            myBT.clearInput();
+
+            myBT.write("y1;\n".toString());
+            status = true;
+            altiStatus.start();
+        }
+    }
     @Override
     protected void onStop() {
         super.onStop();
@@ -228,9 +243,9 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
         }
         String myMessage = "";
         long timeOut = 10000;
-        long startTime = System.currentTimeMillis();
+        //long startTime = System.currentTimeMillis();
 
-        myMessage =myBT.ReadResult(10000);
+        myMessage =myBT.ReadResult(timeOut);
     }
     private void setupViewPager(ViewPager viewPager) {
         adapter = new SectionsStatusPageAdapter(getSupportFragmentManager());
@@ -274,7 +289,12 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
             return mFragmentList.size();
         }
     }
-
+/*
+This is the first tab which contains
+The gyros values
+the accelerometer
+the orientation on all axis
+ */
     public static class Tab1StatusFragment extends Fragment {
         private static final String TAG = "Tab1StatusFragment";
         private boolean ViewCreated = false;
@@ -283,15 +303,12 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
         private TextView txtViewOrientXValue, txtViewOrientYValue, txtViewOrientZValue;
 
         public void setGyroXValue(String value) {
-            //this.txtViewGyroXValue.setText(String.format("%.2f",value));
             this.txtViewGyroXValue.setText(value);
         }
         public void setGyroYValue(String value) {
-            //this.txtViewGyroYValue.setText(String.format("%.2f",value));
             this.txtViewGyroYValue.setText(value);
         }
         public void setGyroZValue(String value) {
-            //this.txtViewGyroZValue.setText(String.format("%.2f",value));
             this.txtViewGyroZValue.setText(value);
         }
         public void setAccelXValue(String value) {
@@ -331,6 +348,15 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
             return view;
         }
     }
+    /*
+    This is the second tab
+    it contains
+    The current altitude
+    the battery voltage
+    the current pressure
+    the current temperature of the sensor
+    the % of eeprom used
+     */
     public static class Tab2StatusFragment extends Fragment {
         private static final String TAG = "Tab2StatusFragment";
         private TextView txtViewVoltage;
@@ -369,36 +395,53 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
             return view;
         }
     }
+    /*
+    This is the third tab
+    it displays the rocket orientation
+     */
     public static class Tab3StatusFragment extends Fragment {
         private static final String TAG = "Tab3StatusFragment";
         private PApplet myRocket;
         boolean ViewCreated = false;
         private PFragment fragment;
+        View view;
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-            View view = inflater.inflate(R.layout.tabstatuspart3_fragment,container,false);
+            view = inflater.inflate(R.layout.tabstatuspart3_fragment,container,false);
 
             myRocket = new Rocket();
-
 
             fragment = new PFragment(myRocket);
 
             getChildFragmentManager().beginTransaction().add(R.id.container, fragment).commit();
             ViewCreated = true;
+
             return view;
         }
 
         @Override
+        public void onStart() {
+            super.onStart();
+            fragment.requestDraw();
+            view.refreshDrawableState();
+            view.bringToFront();
+        }
+        @Override
         public void onResume() {
             super.onResume();
-            fragment.requestDraw();
-            //retrieveData(0, false, rootView);
+
+            fragment.onResume(); //perahps we can remove that
+            //This is the only way I can redraw the rocket after leaving the tab
+            getChildFragmentManager().beginTransaction().replace(R.id.container,fragment).commit();
+
+
         }
-        //
+        //send the quaternion to the processing widget
         public void setInputString(String value) {
-            if (ViewCreated)
+            //if (ViewCreated)
+            if(view != null)
                 ((Rocket) myRocket).setInputString(value);
         }
     }

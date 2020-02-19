@@ -7,12 +7,16 @@ import processing.core.PFont;
 import processing.core.PImage;
 /**
  * @description: Gimbal rocket orientation. This display the rocket orientation
+ * This is using a processing class so you need to add the processing-core.jar
+ * library to your project. You will also need the font added to your assets directory
+ *
  * @author: boris.dureau@neuf.fr
  **/
 public class Rocket extends PApplet {
     public void settings() {
         //size(800, 600);
-        size(1200, 1200, P3D);
+        // This might not work on all screens. So far it is ok on all my phones and tablets
+        size(1200, 1200, P3D); 
     }
 
     float[] q = new float[4];
@@ -55,6 +59,7 @@ public class Rocket extends PApplet {
     }
 
     public void setup() {
+        //size(1200, 1200, P3D);
         fill(255);
         stroke(color(44, 48, 32));
 

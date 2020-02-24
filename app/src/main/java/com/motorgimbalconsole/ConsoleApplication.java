@@ -419,11 +419,16 @@ public class ConsoleApplication extends Application {
                                     if (currentSentence.length > 19)
                                         if (currentSentence[19].matches("\\d+(?:\\.\\d+)?"))
                                             mHandler.obtainMessage(19, String.valueOf(currentSentence[19])).sendToTarget();
-                                   /* // Value 16 contains graph3
-                                    mHandler.obtainMessage(16, String.valueOf(currentSentence[17])).sendToTarget();
-                                    // Value 17 contains graph4
-                                    mHandler.obtainMessage(17, String.valueOf(currentSentence[18])).sendToTarget();
-*/
+                                   // Value 20 contains the correction
+                                    if (currentSentence.length > 20)
+                                        mHandler.obtainMessage(20, String.valueOf(currentSentence[20])).sendToTarget();
+                                    // Value 21 contains graph4
+                                    if (currentSentence.length > 21 )
+                                        mHandler.obtainMessage(21, String.valueOf(currentSentence[21])).sendToTarget();
+                                    // Value 22 contains graph4
+                                    if (currentSentence.length > 22 )
+                                        mHandler.obtainMessage(22, String.valueOf(currentSentence[22])).sendToTarget();
+
                                 }
                                 break;
 

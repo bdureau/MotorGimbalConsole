@@ -40,7 +40,7 @@ Get Euler angles from quaternion
 
     float [] quaternionToGravity(float[] q) {
         float [] gravity = new float[3];
-        gravity[0]= 2 * (q[1]*q[3]-q[0]*q[0]);
+        gravity[0]= 2 * (q[1]*q[3]-q[0]*q[2]);
         gravity[1]= 2 * (q[0]*q[1]+q[2]*q[3]);
         gravity[2]= q[0]*q[0]-q[1]*q[1]-q[2]*q[2]+q[3]*q[3];
         return gravity;

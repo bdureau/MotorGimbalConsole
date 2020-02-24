@@ -4,14 +4,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-//import android.support.design.widget.FloatingActionButton;
-//import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-//import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,6 +119,19 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
                 case 19:
                     //Value 19 contains the eeprom usage
                     statusPage2.setEEpromUsage((String)msg.obj+"%");
+                    break;
+                case 20:
+                    //Value 20 contains the angle correction
+
+                    statusPage3.setInputCorrect((String)msg.obj);
+                    break;
+                case 21:
+                    //Value 21 contains the servoX
+                    statusPage3.setServoX((String)msg.obj);
+                    break;
+                case 22:
+                    //Value 21 contains the servoX
+                    statusPage3.setServoY((String)msg.obj);
                     break;
             }
         }
@@ -443,6 +453,18 @@ the orientation on all axis
             //if (ViewCreated)
             if(view != null)
                 ((Rocket) myRocket).setInputString(value);
+        }
+        public void setInputCorrect(String value) {
+            if(view != null)
+                ((Rocket) myRocket).setInputCorrect(value);
+        }
+        public void setServoX(String value) {
+            if(view != null)
+                ((Rocket) myRocket).setServoX(value);
+        }
+        public void setServoY(String value) {
+            if(view != null)
+                ((Rocket) myRocket).setServoY(value);
         }
     }
 }

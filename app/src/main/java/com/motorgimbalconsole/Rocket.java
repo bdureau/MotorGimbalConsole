@@ -16,7 +16,7 @@ public class Rocket extends PApplet {
     public void settings() {
         //size(800, 600);
         // This might not work on all screens. So far it is ok on all my phones and tablets
-        size(1200, 1200, P3D); 
+        size(1200, 1200, P3D);
     }
 
     float[] q = new float[4];
@@ -26,6 +26,8 @@ public class Rocket extends PApplet {
     float[] Gravity = new float[3];
     float[] YPR = new float[3];
     long currentTime=0;
+    long correct = 0;
+    float servoX, servoY;
 
     boolean useQuaternion = true;
     int lf = 10; // 10 is '\n' in ASCII
@@ -49,7 +51,15 @@ public class Rocket extends PApplet {
         }
         useQuaternion = true;
     }
-
+    public void setInputCorrect(String inputString) {
+        correct = Long.valueOf(inputString);
+    }
+    public void setServoX(String inputString) {
+        servoX = Float.valueOf(inputString);
+    }
+    public void setServoY(String inputString) {
+        servoY = Float.valueOf(inputString);
+    }
     public void setInputString(float X, float Y, float Z, long time) {
         Euler[2] = Z*(3.14f/180);
         Euler[1] = Y*(3.14f/180);
@@ -104,7 +114,7 @@ public class Rocket extends PApplet {
         rotateX(-Euler[1]);
         rotateY(-Euler[0]);*/
         rotateZ(-Euler[2]);
-        rotateX(-Euler[1]);
+        rotateX(-Euler[1]-correct);
         rotateY(-Euler[0]);
         /*rotateX(-Euler[2]);
         rotateY(-Euler[0]);
@@ -132,16 +142,18 @@ public class Rocket extends PApplet {
             quaternionToGravity(q, Gravity);
             quaternionToYawPitchRoll(q, Gravity, YPR);
 
-            text("Q:\n" + q[0] + "\n" + q[1] + "\n" + q[2] + "\n" + q[3], 20, 20);
+            text("servoX: "+ servoX +"\nservoY: "+ servoY + "\ncorrection: " + correct+
+                    "Q:\n" + q[0] + "\n" + q[1] + "\n" + q[2] + "\n" + q[3], 20, 20);
             text(/*"Euler Angles:\nYaw (psi)  : " + degrees(Euler[0]) +
                 "\nPitch (theta): " + degrees(Euler[1]) +
                 "\nRoll (phi)  : " + degrees(Euler[2])+*/
-                    "YPR Angles:\nYaw (psi)  : " + degrees(YPR[0]) +
+
+                            "\nYPR Angles:\nYaw (psi)  : " + degrees(YPR[0]) +
                             "\nPitch (theta): " + degrees(YPR[1]) +
                             "\nRoll (phi)  : " + degrees(YPR[2]) +
                             "\nRealYaw (psi)  : " + degrees(RealEuler[0]) +
                             "\nRealPitch (theta): " + degrees(RealEuler[1]) +
-                            "\nRealRoll (phi)  : " + degrees(RealEuler[2]), 250, 20);
+                            "\nRealRoll (phi)  : " + degrees(RealEuler[2]), 250, 30);
             //text("Euler Angles:\nYaw (psi)  : " + degrees(Euler[2]) + "\nPitch (theta): " + degrees(Euler[0]) + "\nRoll (phi)  : " + degrees(Euler[1]), 200, 20);
         }
         else {
@@ -178,7 +190,8 @@ Get Euler angles from quaternion
     }
 
     void quaternionToGravity(float[] q, float[] gravity) {
-        gravity[0] = 2 * (q[1] * q[3] - q[0] * q[0]);
+        //gravity[0] = 2 * (q[1] * q[3] - q[0] * q[0]);
+        gravity[0] = 2 * (q[1] * q[3] - q[0] * q[2]);
         gravity[1] = 2 * (q[0] * q[1] + q[2] * q[3]);
         gravity[2] = q[0] * q[0] - q[1] * q[1] - q[2] * q[2] + q[3] * q[3];
     }

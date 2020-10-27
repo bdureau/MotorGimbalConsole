@@ -178,6 +178,9 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             GimbalCfg.setEepromSize(configPage3.getEEpromSize());
             GimbalCfg.setEndRecordAltitude(configPage3.getEndRecordAltitude());
             GimbalCfg.setLiftOffDetect(configPage3.getLiftOffDetect());
+            GimbalCfg.setAcceleroRange(configPage3.getAcceleroRange());
+            GimbalCfg.setGyroRange(configPage3.getGyroRange());
+
         }
         if (configPage4.isViewCreated()) {
             GimbalCfg.setServoXMin(configPage4.getServoXMin());
@@ -645,6 +648,8 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         private String[] itemsAltimeterResolution;
         private String[] itemsEEpromSize;
         private String[] itemsLaunchDetect;
+        private String[] itemsGyroRange;
+        private String[] itemsAcceleroRange;
 
         private Spinner dropdownBaudRate;
         private Spinner dropdownAltimeterResolution, dropdownEEpromSize, dropdownLaunchDetect;
@@ -653,6 +658,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         private Spinner dropdownUnits;
         private TextView altiName;
         private EditText Freq;
+        private Spinner dropdownGyroRange, dropdownAcceleroRange;
 
         //txtAltiNameValue
         //spinnerUnit
@@ -753,6 +759,26 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             return ret;
         }
 
+        public int getGyroRange() {
+            int ret;
+            try {
+                ret = (int) dropdownGyroRange.getSelectedItemId();
+            } catch (Exception e) {
+                ret = 0;
+            }
+            return ret;
+        }
+
+        public int getAcceleroRange() {
+            int ret;
+            try {
+                ret = (int) dropdownAcceleroRange.getSelectedItemId();
+            } catch (Exception e) {
+                ret = 0;
+            }
+            return ret;
+        }
+
 
         public boolean isViewCreated() {
             return ViewCreated;
@@ -815,6 +841,20 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                     android.R.layout.simple_spinner_dropdown_item, itemsLaunchDetect);
             dropdownLaunchDetect.setAdapter(adapterLaunchDetect);
 
+            //spinnerGyro Range
+            dropdownGyroRange = (Spinner) view.findViewById(R.id.spinnerGyroRange);
+            itemsGyroRange = new String[]{"MPU6050_GYRO_FS_250" ,"MPU6050_GYRO_FS_500","MPU6050_GYRO_FS_1000", "MPU6050_GYRO_FS_2000"};
+            ArrayAdapter<String> adapterGyroRange = new ArrayAdapter<String>(this.getActivity(),
+                    android.R.layout.simple_spinner_dropdown_item, itemsGyroRange);
+            dropdownGyroRange.setAdapter(adapterGyroRange);
+
+            //spinnerAccelero Range
+            dropdownAcceleroRange = (Spinner) view.findViewById(R.id.spinnerAcceleroRange);
+            itemsAcceleroRange = new String[]{"MPU6050_ACCEL_FS_2" ,"MPU6050_ACCEL_FS_4","MPU6050_ACCEL_FS_8", "MPU6050_ACCEL_FS_16"};
+            ArrayAdapter<String> adapterAcceleroRange = new ArrayAdapter<String>(this.getActivity(),
+                    android.R.layout.simple_spinner_dropdown_item, itemsAcceleroRange);
+            dropdownAcceleroRange.setAdapter(adapterAcceleroRange);
+
             if (GimbalCfg != null) {
                 setBaudRate(GimbalCfg.getConnectionSpeed());
                 //dropdownBaudRate.setSelection(GimbalCfg.arrayIndex(itemsBaudRate,String.valueOf(GimbalCfg.getConnectionSpeed())));
@@ -829,7 +869,8 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                 dropdownUnits.setSelection(GimbalCfg.getUnits());
                 Freq.setText(String.valueOf(GimbalCfg.getBeepingFrequency()));
                 dropdownLaunchDetect.setSelection(GimbalCfg.getLiftOffDetect());
-
+                dropdownGyroRange.setSelection(GimbalCfg.getGyroRange());
+                dropdownAcceleroRange.setSelection(GimbalCfg.getAcceleroRange());
             }
             ViewCreated = true;
             return view;

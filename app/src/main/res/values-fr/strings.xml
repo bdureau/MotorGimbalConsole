@@ -77,12 +77,16 @@
     <string name="eepromsize">Taille eeprom</string>
     <string name="endrecordaltitude">Fin Alt Enregistrement</string>
     <string name="launch_detect">Détection décolage</string>
+    <string name="accelero_range">Plage Accelero</string>
+    <string name="gyro_range">Plage Gyro</string>
+
     <!-- app config tab 4-->
     <string name="servo">Servo</string>
     <string name="servo_x_min">Servo X Min</string>
     <string name="servo_x_max">Servo X Max</string>
     <string name="servo_y_min">Servo Y Min</string>
     <string name="servo_y_max">Servo Y Max</string>
+
     <!-- app status -->
     <string name="dismiss_tab_status">Fermer</string>
     <string name="recording_tab_status">Enregistrer</string>

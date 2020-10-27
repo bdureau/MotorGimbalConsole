@@ -76,6 +76,9 @@
     <string name="eepromsize">eeprom Size</string>
     <string name="endrecordaltitude">End Record Altitude</string>
     <string name="launch_detect">Launch detect</string>
+    <string name="accelero_range">Accelero Range</string>
+    <string name="gyro_range">Gyro Range</string>
+
     <!-- app config tab 4-->
     <string name="servo">Servo</string>
     <string name="servo_x_min">Servo X Min</string>

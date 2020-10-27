@@ -163,5 +163,41 @@
         android:layout_alignParentRight="true"
         android:spinnerMode="dropdown" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/gyro_range"
+        android:id="@+id/txtViewGyroRange"
+        android:layout_marginTop="18dp"
+        android:layout_below="@+id/txtViewLaunchDetect"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:id="@+id/spinnerGyroRange"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txtViewGyroRange"
+        android:layout_alignParentRight="true"
+        android:spinnerMode="dropdown" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/accelero_range"
+        android:id="@+id/txtViewAcceleroRange"
+        android:layout_marginTop="18dp"
+        android:layout_below="@+id/txtViewGyroRange"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:id="@+id/spinnerAcceleroRange"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txtViewAcceleroRange"
+        android:layout_alignParentRight="true"
+        android:spinnerMode="dropdown" />
+
 
 </RelativeLayout>

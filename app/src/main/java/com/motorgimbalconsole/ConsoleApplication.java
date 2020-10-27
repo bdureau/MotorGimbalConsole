@@ -715,6 +715,19 @@ public class ConsoleApplication extends Application {
                                         GimbalCfg.setLiftOffDetect(Integer.valueOf(currentSentence[26]));
                                     else
                                         GimbalCfg.setLiftOffDetect(0);
+                                // value 26 Gyro Range
+                                if (currentSentence.length > 27)
+                                    if (currentSentence[27].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                        GimbalCfg.setGyroRange(Integer.valueOf(currentSentence[27]));
+                                    else
+                                        GimbalCfg.setGyroRange(0);
+
+                                // value 27 Accelero Range
+                                if (currentSentence.length > 28)
+                                    if (currentSentence[28].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                        GimbalCfg.setAcceleroRange(Integer.valueOf(currentSentence[28]));
+                                    else
+                                        GimbalCfg.setAcceleroRange(0);
                                 //DataReady = true;
                                 myMessage = myMessage + " " + "alticonfig";
                                 break;

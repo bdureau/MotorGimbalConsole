@@ -35,6 +35,18 @@ public class GimbalConfigData {
     private int endRecordAltitude =3;
     private int beepingFrequency = 440;
     private int liftOffDetect =0; //0 = barometer 1 =accelerometer
+    // values accelerometer are:
+    // MPU6050_ACCEL_FS_2 0x00
+    // MPU6050_ACCEL_FS_4 0x01
+    // MPU6050_ACCEL_FS_8 0x02
+    // MPU6050_ACCEL_FS_16 0x03
+    private int acceleroRange = 0;
+    // Values for the Gyro are:
+    // MPU6050_GYRO_FS_250 0x00
+    // MPU6050_GYRO_FS_500 0x01
+    // MPU6050_GYRO_FS_1000 0x02
+    // MPU6050_GYRO_FS_2000 0x03
+    private int gyroRange = 0;
 
     public GimbalConfigData()
     {
@@ -232,5 +244,23 @@ public class GimbalConfigData {
         return liftOffDetect;
     }
 
+    //Gyro Range
+    public void setGyroRange (int value)
+    {
+        gyroRange = value;
+    }
+    public int getGyroRange()
+    {
+        return gyroRange;
+    }
 
+    //Accelero Range
+    public void setAcceleroRange (int value)
+    {
+        acceleroRange = value;
+    }
+    public int getAcceleroRange()
+    {
+        return acceleroRange;
+    }
 }

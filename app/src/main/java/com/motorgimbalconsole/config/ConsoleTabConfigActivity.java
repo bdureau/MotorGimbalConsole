@@ -250,7 +250,9 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                 GimbalCfg.getUnits() + "," +
                 GimbalCfg.getEndRecordAltitude() + "," +
                 GimbalCfg.getBeepingFrequency() + "," +
-                GimbalCfg.getLiftOffDetect();
+                GimbalCfg.getLiftOffDetect()+ "," +
+                GimbalCfg.getGyroRange()+ "," +
+                GimbalCfg.getAcceleroRange();
 
 
         gimbalCfgStr = gimbalCfgStr + ";\n";
@@ -843,14 +845,14 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
 
             //spinnerGyro Range
             dropdownGyroRange = (Spinner) view.findViewById(R.id.spinnerGyroRange);
-            itemsGyroRange = new String[]{"MPU6050_GYRO_FS_250" ,"MPU6050_GYRO_FS_500","MPU6050_GYRO_FS_1000", "MPU6050_GYRO_FS_2000"};
+            itemsGyroRange = new String[]{"GYRO_FS_250" ,"GYRO_FS_500","GYRO_FS_1000", "GYRO_FS_2000"};
             ArrayAdapter<String> adapterGyroRange = new ArrayAdapter<String>(this.getActivity(),
                     android.R.layout.simple_spinner_dropdown_item, itemsGyroRange);
             dropdownGyroRange.setAdapter(adapterGyroRange);
 
             //spinnerAccelero Range
             dropdownAcceleroRange = (Spinner) view.findViewById(R.id.spinnerAcceleroRange);
-            itemsAcceleroRange = new String[]{"MPU6050_ACCEL_FS_2" ,"MPU6050_ACCEL_FS_4","MPU6050_ACCEL_FS_8", "MPU6050_ACCEL_FS_16"};
+            itemsAcceleroRange = new String[]{"ACCEL_FS_2" ,"ACCEL_FS_4","ACCEL_FS_8", "ACCEL_FS_16"};
             ArrayAdapter<String> adapterAcceleroRange = new ArrayAdapter<String>(this.getActivity(),
                     android.R.layout.simple_spinner_dropdown_item, itemsAcceleroRange);
             dropdownAcceleroRange.setAdapter(adapterAcceleroRange);

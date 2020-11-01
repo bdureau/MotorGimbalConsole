@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 
 import android.view.View;
@@ -201,7 +202,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                             public void onClick(final DialogInterface dialog, final int id) {
                                 dialog.cancel();
                                 GimbalCfg.setConnectionSpeed(configPage3.getBaudRate());
-                                sendAltiCfg();
+                                //sendAltiCfg();
                                 finish();
                             }
                         })
@@ -216,10 +217,12 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                 sendAltiCfg();
                 finish();
             }
-        } else {
+        } /*else {
             sendAltiCfg();
             finish();
-        }
+        }*/
+        sendAltiCfg();
+        finish();
         return true;
     }
 
@@ -281,10 +284,10 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         if (myMessage.equals("OK")) {
             msg("Sent OK:" + gimbalCfgStr.toString());
         }
-        if (myMessage.equals("K0")) {
+        if (myMessage.equals("KO")) {
             msg(getResources().getString(R.string.conf_msg2));
         }
-
+        Log.d("configboris", gimbalCfgStr.toString());
     }
 
 

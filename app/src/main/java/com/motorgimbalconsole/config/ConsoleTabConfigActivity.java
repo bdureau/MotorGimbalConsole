@@ -266,14 +266,23 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         if (myBT.getConnected())
             myBT.flush();
         myBT.clearInput();
+        myBT.setDataReady(false);
         myBT.write("h;\n".toString());
-
         myBT.flush();
+
+        //wait for the result to come back
+        try {
+            while (myBT.getInputStream().available() <= 0) ;
+        } catch (IOException e) {
+
+        }
+        String myMessage = "";
+        myMessage = myBT.ReadResult(3000);
+
         myBT.clearInput();
         myBT.setDataReady(false);
         //send back the config
         myBT.write(gimbalCfgStr.toString());
-
         myBT.flush();
         //get the results
         //wait for the result to come back
@@ -283,16 +292,16 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
 
         }
 
-        String myMessage = "";
+        //myMessage = "";
         long timeOut = 10000;
         long startTime = System.currentTimeMillis();
 
-        myMessage = myBT.ReadResult(10000);
+        myMessage = myBT.ReadResult(3000);
         if (myMessage.equals("OK")) {
             msg("Sent OK:" + gimbalCfgStr.toString());
         }
         else {
-            msg(myMessage);
+          //  msg(myMessage);
         }
         if (myMessage.equals("KO")) {
             msg(getResources().getString(R.string.conf_msg2));

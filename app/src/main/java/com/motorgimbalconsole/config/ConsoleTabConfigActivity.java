@@ -256,12 +256,19 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                 GimbalCfg.getLiftOffDetect()+ "," +
                 GimbalCfg.getGyroRange()+ "," +
                 GimbalCfg.getAcceleroRange();
+        String cfg = gimbalCfgStr;
+        cfg = cfg.replace("s","");
+        cfg = cfg.replace(",","");
 
-
-        gimbalCfgStr = gimbalCfgStr + ";\n";
+        //gimbalCfgStr = gimbalCfgStr + ";\n";
+        gimbalCfgStr = gimbalCfgStr + ","+ generateCheckSum(cfg) +";\n";
 
         if (myBT.getConnected())
             myBT.flush();
+        myBT.clearInput();
+        myBT.write("h;\n".toString());
+
+        myBT.flush();
         myBT.clearInput();
         myBT.setDataReady(false);
         //send back the config
@@ -280,9 +287,12 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         long timeOut = 10000;
         long startTime = System.currentTimeMillis();
 
-        myMessage = myBT.ReadResult(3000);
+        myMessage = myBT.ReadResult(10000);
         if (myMessage.equals("OK")) {
             msg("Sent OK:" + gimbalCfgStr.toString());
+        }
+        else {
+            msg(myMessage);
         }
         if (myMessage.equals("KO")) {
             msg(getResources().getString(R.string.conf_msg2));
@@ -290,7 +300,20 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         Log.d("configboris", gimbalCfgStr.toString());
     }
 
+    public static Integer generateCheckSum(String value)  {
 
+        byte[] data = value.getBytes();
+        long checksum = 0L;
+
+        for( byte b : data )  {
+            checksum += b;
+        }
+
+        checksum = checksum % 256;
+
+        return new Long( checksum ).intValue();
+
+    }
     public class SectionsPageAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList();
         private final List<String> mFragmentTitleList = new ArrayList();

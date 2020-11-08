@@ -263,12 +263,14 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         //gimbalCfgStr = gimbalCfgStr + ";\n";
         gimbalCfgStr = gimbalCfgStr + ","+ generateCheckSum(cfg) +";\n";
 
-        if (myBT.getConnected())
-            myBT.flush();
-        myBT.clearInput();
+       // if (myBT.getConnected())
+
         myBT.setDataReady(false);
-        myBT.write("h;\n".toString());
         myBT.flush();
+        myBT.clearInput();
+        //switch off the main loop before sending the config
+        myBT.write("m0;\n".toString());
+
 
         //wait for the result to come back
         try {
@@ -279,6 +281,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         String myMessage = "";
         myMessage = myBT.ReadResult(3000);
 
+        myBT.flush();
         myBT.clearInput();
         myBT.setDataReady(false);
         //send back the config
@@ -293,8 +296,8 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         }
 
         //myMessage = "";
-        long timeOut = 10000;
-        long startTime = System.currentTimeMillis();
+        //long timeOut = 10000;
+        //long startTime = System.currentTimeMillis();
 
         myMessage = myBT.ReadResult(3000);
         if (myMessage.equals("OK")) {
@@ -307,6 +310,22 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             msg(getResources().getString(R.string.conf_msg2));
         }
         Log.d("configboris", gimbalCfgStr.toString());
+
+        myBT.setDataReady(false);
+        myBT.flush();
+        myBT.clearInput();
+        //switch on the main loop before sending the config
+        myBT.write("m1;\n".toString());
+
+
+        //wait for the result to come back
+        try {
+            while (myBT.getInputStream().available() <= 0) ;
+        } catch (IOException e) {
+
+        }
+        myMessage = "";
+        myMessage = myBT.ReadResult(3000);
     }
 
     public static Integer generateCheckSum(String value)  {

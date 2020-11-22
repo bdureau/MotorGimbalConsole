@@ -82,12 +82,15 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new SectionsPageAdapter(getSupportFragmentManager());
-        configPage1 = new Tab1Fragment();
+
+        if (myBT.getGimbalConfigData().getAltimeterName().equals("RocketMotorGimbal")) {
+            configPage1 = new Tab1Fragment();
+            adapter.addFragment(configPage1, "TAB1");
+        }
         configPage2 = new Tab2Fragment();
         configPage3 = new Tab3Fragment();
         configPage4 = new Tab4Fragment();
 
-        adapter.addFragment(configPage1, "TAB1");
         adapter.addFragment(configPage2, "TAB2");
         adapter.addFragment(configPage3, "TAB3");
         adapter.addFragment(configPage4, "TAB4");
@@ -100,7 +103,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         if (myBT.getConnected()) {
             myBT.flush();
             myBT.clearInput();
-            //msg("Retreiving altimeter config...");
+            //msg("Retrieving altimeter config...");
             myBT.setDataReady(false);
 
             myBT.flush();
@@ -270,7 +273,6 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         myBT.clearInput();
         //switch off the main loop before sending the config
         myBT.write("m0;\n".toString());
-
 
         //wait for the result to come back
         try {
@@ -715,6 +717,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         private TextView altiName;
         private EditText Freq;
         private Spinner dropdownGyroRange, dropdownAcceleroRange;
+        private TextView txtViewGyroRange, txtViewAcceleroRange;
 
         //txtAltiNameValue
         //spinnerUnit
@@ -911,6 +914,10 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                     android.R.layout.simple_spinner_dropdown_item, itemsAcceleroRange);
             dropdownAcceleroRange.setAdapter(adapterAcceleroRange);
 
+            txtViewGyroRange = (TextView) view.findViewById(R.id.txtViewGyroRange);
+
+            txtViewAcceleroRange= (TextView) view.findViewById(R.id.txtViewAcceleroRange);
+
             if (GimbalCfg != null) {
                 setBaudRate(GimbalCfg.getConnectionSpeed());
                 //dropdownBaudRate.setSelection(GimbalCfg.arrayIndex(itemsBaudRate,String.valueOf(GimbalCfg.getConnectionSpeed())));
@@ -927,6 +934,18 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                 dropdownLaunchDetect.setSelection(GimbalCfg.getLiftOffDetect());
                 dropdownGyroRange.setSelection(GimbalCfg.getGyroRange());
                 dropdownAcceleroRange.setSelection(GimbalCfg.getAcceleroRange());
+                if (myBT.getGimbalConfigData().getAltimeterName().equals("RocketMotorGimbal")) {
+                    dropdownGyroRange.setVisibility(View.VISIBLE);
+                    dropdownAcceleroRange.setVisibility(View.VISIBLE);
+                    txtViewGyroRange.setVisibility(View.VISIBLE);
+                    txtViewAcceleroRange.setVisibility(View.VISIBLE);
+                }
+                else {
+                    dropdownGyroRange.setVisibility(View.INVISIBLE);
+                    dropdownAcceleroRange.setVisibility(View.INVISIBLE);
+                    txtViewGyroRange.setVisibility(View.INVISIBLE);
+                    txtViewAcceleroRange.setVisibility(View.INVISIBLE);
+                }
             }
             ViewCreated = true;
             return view;

@@ -122,7 +122,6 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
                     break;
                 case 20:
                     //Value 20 contains the angle correction
-
                     statusPage3.setInputCorrect((String)msg.obj);
                     break;
                 case 21:
@@ -130,7 +129,7 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
                     statusPage3.setServoX((String)msg.obj);
                     break;
                 case 22:
-                    //Value 21 contains the servoX
+                    //Value 22 contains the servoY
                     statusPage3.setServoY((String)msg.obj);
                     break;
             }

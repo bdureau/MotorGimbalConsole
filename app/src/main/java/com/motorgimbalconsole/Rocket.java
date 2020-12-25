@@ -1,5 +1,7 @@
 package com.motorgimbalconsole;
 
+import android.util.Log;
+
 import java.io.IOException;
 
 import processing.core.PApplet;
@@ -26,7 +28,8 @@ public class Rocket extends PApplet {
     float[] Gravity = new float[3];
     float[] YPR = new float[3];
     long currentTime=0;
-    long correct = 0;
+    //long correct = 0;
+    float correct = 0;
     float servoX, servoY;
 
     boolean useQuaternion = true;
@@ -51,14 +54,32 @@ public class Rocket extends PApplet {
         }
         useQuaternion = true;
     }
-    public void setInputCorrect(String inputString) {
+    /*public void setInputCorrect(String inputString) {
         correct = Long.valueOf(inputString);
+    }*/
+    public void setInputCorrect(String inputString) {
+        if (inputString.matches("\\d+(?:\\.\\d+)?")) {
+            correct = Float.valueOf(inputString);
+        }
+        else {
+            Log.d("Rocket - setInputCorrect", inputString);
+        }
+
     }
     public void setServoX(String inputString) {
-        servoX = Float.valueOf(inputString);
+        if (inputString.matches("\\d+(?:\\.\\d+)?")) {
+            servoX = Float.valueOf(inputString);
+        }else {
+            Log.d("Rocket - setServoX", inputString);
+        }
     }
     public void setServoY(String inputString) {
-        servoY = Float.valueOf(inputString);
+        if (inputString.matches("\\d+(?:\\.\\d+)?")) {
+            servoY = Float.valueOf(inputString);
+        }
+        else {
+            Log.d("Rocket - setServoY", inputString);
+        }
     }
     public void setInputString(float X, float Y, float Z, long time) {
         Euler[2] = Z*(3.14f/180);

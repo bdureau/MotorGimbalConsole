@@ -12,6 +12,7 @@ import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.os.Environment;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.motorgimbalconsole.config.AppConfigData;
@@ -279,8 +280,34 @@ public class ConsoleApplication extends Application {
         this.exit = b;
     }
 
-    ;
+    //;
 
+    public long calculateSentenceCHK(String currentSentence[]) {
+        long chk =0;
+        String sentence="";
+
+        for (int i=0; i< currentSentence.length-1; i++) {
+            sentence = sentence + currentSentence[i];
+        }
+        //Log.d("calculateSentenceCHK", sentence);
+        chk = generateCheckSum(sentence);
+        return chk;
+    }
+
+    public static Integer generateCheckSum(String value)  {
+
+        byte[] data = value.getBytes();
+        long checksum = 0L;
+
+        for( byte b : data )  {
+            checksum += b;
+        }
+
+        checksum = checksum % 256;
+
+        return new Long( checksum ).intValue();
+
+    }
     public String ReadResult(long timeout) {
 
         // Reads in data while data is available
@@ -329,106 +356,123 @@ public class ConsoleApplication extends Application {
 
                         switch (currentSentence[0]) {
                             case "telemetry":
-                                if (mHandler != null) {
-                                    // Value 1 contains the altimeter name
-                                    if (currentSentence.length > 1)
-                                        mHandler.obtainMessage(0, String.valueOf(currentSentence[1])).sendToTarget();
-                                    // Value 1 contains the GyroX
-                                    if (currentSentence.length > 2)
-                                        if (currentSentence[2].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(1, String.valueOf(currentSentence[2])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(1, String.valueOf(-0.0)).sendToTarget();
-                                    // Value 2 contains the GyroY
-                                    if (currentSentence.length > 3)
-                                        if (currentSentence[3].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(2, String.valueOf(currentSentence[3])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(2, String.valueOf(-0.0)).sendToTarget();
-                                    // Value 3 contains the GyroZ
-                                    if (currentSentence.length > 4)
-                                        if (currentSentence[4].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(3, String.valueOf(currentSentence[4])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(3, String.valueOf(-0.0)).sendToTarget();
-                                    //Value 4 contains the AccelX
-                                    if (currentSentence.length > 5)
-                                        if (currentSentence[5].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(4, String.valueOf(currentSentence[5])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(4, String.valueOf(-0.0)).sendToTarget();
-                                    // Value 5 contains the AccelY
-                                    if (currentSentence.length > 6)
-                                        if (currentSentence[6].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(5, String.valueOf(currentSentence[6])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(5, String.valueOf(-0.0)).sendToTarget();
-                                    // Value 6 contains the AccelZ
-                                    if (currentSentence.length > 7)
-                                        if (currentSentence[7].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(6, String.valueOf(currentSentence[7])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(6, String.valueOf(-0.0)).sendToTarget();
-                                    // Value 7 contains the OrientX
-                                    if (currentSentence.length > 8)
-                                        if (currentSentence[8].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(7, String.valueOf(currentSentence[8])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(7, String.valueOf(-0.0)).sendToTarget();
-                                    // value 8 contains the OrientY
-                                    if (currentSentence.length > 9)
-                                        if (currentSentence[9].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(8, String.valueOf(currentSentence[9])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(8, String.valueOf(-0.0)).sendToTarget();
-                                    // Value 9 contains the OrientZ
-                                    if (currentSentence.length > 10)
-                                        if (currentSentence[10].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(9, String.valueOf(currentSentence[10])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(9, String.valueOf(-0.0)).sendToTarget();
-                                    // Value 10 contains the altitude
-                                    if (currentSentence.length > 11)
-                                        if (currentSentence[11].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(10, String.valueOf(currentSentence[11])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(10, String.valueOf(-0)).sendToTarget();
-                                    // Value 11 contains the temperature
-                                    if (currentSentence.length > 12)
-                                        if (currentSentence[12].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(11, String.valueOf(currentSentence[12])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(11, String.valueOf(-0.0)).sendToTarget();
-                                    // Value 12 contains the pressure
-                                    if (currentSentence.length > 13)
-                                        if (currentSentence[13].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(12, String.valueOf(currentSentence[13])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(12, String.valueOf(-0.0)).sendToTarget();
-                                    // Value 13 contains the battery voltage
-                                    if (currentSentence.length > 14)
-                                        if (currentSentence[14].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(13, String.valueOf(currentSentence[14])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(13, String.valueOf(-0.0)).sendToTarget();
-                                    // Value 14 contains graph
-                                    if (currentSentence.length > 18)
-                                        mHandler.obtainMessage(14, String.valueOf(currentSentence[15] + "," +
-                                                currentSentence[16] + "," + currentSentence[17] + "," + currentSentence[18])).sendToTarget();
-                                   // Value 19 contains the eeprom usage
-                                    if (currentSentence.length > 19)
-                                        if (currentSentence[19].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(19, String.valueOf(currentSentence[19])).sendToTarget();
-                                   // Value 20 contains the correction
-                                    if (currentSentence.length > 20)
-                                        mHandler.obtainMessage(20, String.valueOf(currentSentence[20])).sendToTarget();
-                                    // Value 21 contains graph4
-                                    if (currentSentence.length > 21 )
-                                        mHandler.obtainMessage(21, String.valueOf(currentSentence[21])).sendToTarget();
-                                    // Value 22 contains graph4
-                                    if (currentSentence.length > 22 )
-                                        mHandler.obtainMessage(22, String.valueOf(currentSentence[22])).sendToTarget();
+                                long chk=0;
+                                if (currentSentence[currentSentence.length-1].matches("\\d+(?:\\.\\d+)?"))
+                                    chk = Long.valueOf(currentSentence[currentSentence.length-1]);
+                                if (calculateSentenceCHK(currentSentence) == chk) {
+                                    //Log.d("checksum", "mycheck: " + chk);
+                                   /// Log.d("calculated checksum", "calculated check: " + calculateSentenceCHK(currentSentence));
 
+                                    if (mHandler != null) {
+                                        // Value 1 contains the altimeter name
+                                        if (currentSentence.length > 1)
+                                            mHandler.obtainMessage(0, String.valueOf(currentSentence[1])).sendToTarget();
+                                        // Value 1 contains the GyroX
+                                        if (currentSentence.length > 2)
+                                            if (currentSentence[2].matches("\\d+(?:\\.\\d+)?"))
+                                                mHandler.obtainMessage(1, String.valueOf(currentSentence[2])).sendToTarget();
+                                            else
+                                                mHandler.obtainMessage(1, String.valueOf(-0.0)).sendToTarget();
+                                        // Value 2 contains the GyroY
+                                        if (currentSentence.length > 3)
+                                            if (currentSentence[3].matches("\\d+(?:\\.\\d+)?"))
+                                                mHandler.obtainMessage(2, String.valueOf(currentSentence[3])).sendToTarget();
+                                            else
+                                                mHandler.obtainMessage(2, String.valueOf(-0.0)).sendToTarget();
+                                        // Value 3 contains the GyroZ
+                                        if (currentSentence.length > 4)
+                                            if (currentSentence[4].matches("\\d+(?:\\.\\d+)?"))
+                                                mHandler.obtainMessage(3, String.valueOf(currentSentence[4])).sendToTarget();
+                                            else
+                                                mHandler.obtainMessage(3, String.valueOf(-0.0)).sendToTarget();
+                                        //Value 4 contains the AccelX
+                                        if (currentSentence.length > 5)
+                                            if (currentSentence[5].matches("\\d+(?:\\.\\d+)?"))
+                                                mHandler.obtainMessage(4, String.valueOf(currentSentence[5])).sendToTarget();
+                                            else
+                                                mHandler.obtainMessage(4, String.valueOf(-0.0)).sendToTarget();
+                                        // Value 5 contains the AccelY
+                                        if (currentSentence.length > 6)
+                                            if (currentSentence[6].matches("\\d+(?:\\.\\d+)?"))
+                                                mHandler.obtainMessage(5, String.valueOf(currentSentence[6])).sendToTarget();
+                                            else
+                                                mHandler.obtainMessage(5, String.valueOf(-0.0)).sendToTarget();
+                                        // Value 6 contains the AccelZ
+                                        if (currentSentence.length > 7)
+                                            if (currentSentence[7].matches("\\d+(?:\\.\\d+)?"))
+                                                mHandler.obtainMessage(6, String.valueOf(currentSentence[7])).sendToTarget();
+                                            else
+                                                mHandler.obtainMessage(6, String.valueOf(-0.0)).sendToTarget();
+                                        // Value 7 contains the OrientX
+                                        if (currentSentence.length > 8)
+                                            if (currentSentence[8].matches("\\d+(?:\\.\\d+)?"))
+                                                mHandler.obtainMessage(7, String.valueOf(currentSentence[8])).sendToTarget();
+                                            else
+                                                mHandler.obtainMessage(7, String.valueOf(-0.0)).sendToTarget();
+                                        // value 8 contains the OrientY
+                                        if (currentSentence.length > 9)
+                                            if (currentSentence[9].matches("\\d+(?:\\.\\d+)?"))
+                                                mHandler.obtainMessage(8, String.valueOf(currentSentence[9])).sendToTarget();
+                                            else
+                                                mHandler.obtainMessage(8, String.valueOf(-0.0)).sendToTarget();
+                                        // Value 9 contains the OrientZ
+                                        if (currentSentence.length > 10)
+                                            if (currentSentence[10].matches("\\d+(?:\\.\\d+)?"))
+                                                mHandler.obtainMessage(9, String.valueOf(currentSentence[10])).sendToTarget();
+                                            else
+                                                mHandler.obtainMessage(9, String.valueOf(-0.0)).sendToTarget();
+                                        // Value 10 contains the altitude
+                                        if (currentSentence.length > 11)
+                                            if (currentSentence[11].matches("\\d+(?:\\.\\d+)?"))
+                                                mHandler.obtainMessage(10, String.valueOf(currentSentence[11])).sendToTarget();
+                                            else
+                                                mHandler.obtainMessage(10, String.valueOf(-0)).sendToTarget();
+                                        // Value 11 contains the temperature
+                                        if (currentSentence.length > 12)
+                                            if (currentSentence[12].matches("\\d+(?:\\.\\d+)?"))
+                                                mHandler.obtainMessage(11, String.valueOf(currentSentence[12])).sendToTarget();
+                                            else
+                                                mHandler.obtainMessage(11, String.valueOf(-0.0)).sendToTarget();
+                                        // Value 12 contains the pressure
+                                        if (currentSentence.length > 13)
+                                            if (currentSentence[13].matches("\\d+(?:\\.\\d+)?"))
+                                                mHandler.obtainMessage(12, String.valueOf(currentSentence[13])).sendToTarget();
+                                            else
+                                                mHandler.obtainMessage(12, String.valueOf(-0.0)).sendToTarget();
+                                        // Value 13 contains the battery voltage
+                                        if (currentSentence.length > 14)
+                                            if (currentSentence[14].matches("\\d+(?:\\.\\d+)?"))
+                                                mHandler.obtainMessage(13, String.valueOf(currentSentence[14])).sendToTarget();
+                                            else
+                                                mHandler.obtainMessage(13, String.valueOf(-0.0)).sendToTarget();
+                                        // Value 14 contains graph
+                                        if (currentSentence.length > 18)
+                                            mHandler.obtainMessage(14, String.valueOf(currentSentence[15] + "," +
+                                                    currentSentence[16] + "," + currentSentence[17] + "," + currentSentence[18])).sendToTarget();
+                                        // Value 19 contains the eeprom usage
+                                        if (currentSentence.length > 19)
+                                            if (currentSentence[19].matches("\\d+(?:\\.\\d+)?"))
+                                                mHandler.obtainMessage(19, String.valueOf(currentSentence[19])).sendToTarget();
+                                        // Value 20 contains the correction
+                                        if (currentSentence.length > 20)
+                                            if (currentSentence[20].matches("\\d+(?:\\.\\d+)?"))
+                                                mHandler.obtainMessage(20, String.valueOf(currentSentence[20])).sendToTarget();
+                                            else
+                                                Log.d("Console - correction", tempBuff);
+                                        // Value 21 contains ServoX
+                                        if (currentSentence.length > 21)
+                                            if (currentSentence[21].matches("\\d+(?:\\.\\d+)?"))
+                                                mHandler.obtainMessage(21, String.valueOf(currentSentence[21])).sendToTarget();
+                                            else
+                                                Log.d("Console - ServoX", tempBuff);
+                                        // Value 22 contains ServoY
+                                        if (currentSentence.length > 22)
+                                            if (currentSentence[22].matches("\\d+(?:\\.\\d+)?"))
+                                                mHandler.obtainMessage(22, String.valueOf(currentSentence[22])).sendToTarget();
+                                            else
+                                                Log.d("Console - ServoY", tempBuff);
+
+                                    }
                                 }
                                 break;
 

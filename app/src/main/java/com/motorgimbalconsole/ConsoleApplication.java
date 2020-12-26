@@ -287,7 +287,7 @@ public class ConsoleApplication extends Application {
         String sentence="";
 
         for (int i=0; i< currentSentence.length-1; i++) {
-            sentence = sentence + currentSentence[i];
+            sentence = sentence + currentSentence[i] +",";
         }
         //Log.d("calculateSentenceCHK", sentence);
         chk = generateCheckSum(sentence);

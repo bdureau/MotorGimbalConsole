@@ -157,13 +157,15 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         long prevBaudRate = GimbalCfg.getConnectionSpeed();
 
         // check if the baud rate has changed
-        if (configPage1.isViewCreated()) {
-            GimbalCfg.setAxOffset(configPage1.getAxOffsetValue());
-            GimbalCfg.setAyOffset(configPage1.getAyOffsetValue());
-            GimbalCfg.setAzOffset(configPage1.getAzOffsetValue());
-            GimbalCfg.setGxOffset(configPage1.getGxOffsetValue());
-            GimbalCfg.setGyOffset(configPage1.getGyOffsetValue());
-            GimbalCfg.setGzOffset(configPage1.getGzOffsetValue());
+        if(myBT.getGimbalConfigData().getAltimeterName().equals("RocketMotorGimbal")) {
+            if (configPage1.isViewCreated()) {
+                GimbalCfg.setAxOffset(configPage1.getAxOffsetValue());
+                GimbalCfg.setAyOffset(configPage1.getAyOffsetValue());
+                GimbalCfg.setAzOffset(configPage1.getAzOffsetValue());
+                GimbalCfg.setGxOffset(configPage1.getGxOffsetValue());
+                GimbalCfg.setGyOffset(configPage1.getGyOffsetValue());
+                GimbalCfg.setGzOffset(configPage1.getGzOffsetValue());
+            }
         }
         if (configPage2.isViewCreated()) {
 
@@ -205,7 +207,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                             public void onClick(final DialogInterface dialog, final int id) {
                                 dialog.cancel();
                                 GimbalCfg.setConnectionSpeed(configPage3.getBaudRate());
-                                //sendAltiCfg();
+                                sendAltiCfg();
                                 finish();
                             }
                         })
@@ -220,12 +222,12 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                 sendAltiCfg();
                 finish();
             }
-        } /*else {
+        } else {
             sendAltiCfg();
             finish();
-        }*/
-        sendAltiCfg();
-        finish();
+        }
+        //sendAltiCfg();
+       // finish();
         return true;
     }
 

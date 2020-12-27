@@ -354,14 +354,16 @@ public class ConsoleApplication extends Application {
                             fullBuff = fullBuff + tempBuff;
                         }
 
+                        long chk=0;
                         switch (currentSentence[0]) {
                             case "telemetry":
-                                long chk=0;
+
                                 if (currentSentence[currentSentence.length-1].matches("\\d+(?:\\.\\d+)?"))
                                     chk = Long.valueOf(currentSentence[currentSentence.length-1]);
+                                Log.d("checksum", "check from sentence: " + chk);
                                 if (calculateSentenceCHK(currentSentence) == chk) {
                                     //Log.d("checksum", "mycheck: " + chk);
-                                   /// Log.d("calculated checksum", "calculated check: " + calculateSentenceCHK(currentSentence));
+                                    Log.d("calculated checksum", "calculated check: " + calculateSentenceCHK(currentSentence));
 
                                     if (mHandler != null) {
                                         // Value 1 contains the altimeter name
@@ -477,302 +479,318 @@ public class ConsoleApplication extends Application {
                                 break;
 
                             case "data":
+
+                                if (currentSentence[currentSentence.length-1].matches("\\d+(?:\\.\\d+)?"))
+                                    chk = Long.valueOf(currentSentence[currentSentence.length-1]);
+                                Log.d("checksum", "check from sentence: " + chk);
+                                Log.d("calculated checksum", "calculated check: " + calculateSentenceCHK(currentSentence));
                                 appendLog(currentSentence + "\n");
                                 String flightName = "FlightXX";
                                 long time = 0;
-                                // Value 1 contain the flight number
-                                if (currentSentence.length > 1)
-                                    if (currentSentence[1].matches("\\d+(?:\\.\\d+)?")) {
-                                        currentFlightNbr = Integer.valueOf(currentSentence[1]) + 1;
-                                        if (currentFlightNbr < 10)
-                                            flightName = "Flight " + "0" + currentFlightNbr;
-                                        else
-                                            flightName = "Flight " + currentFlightNbr;
+                                if (calculateSentenceCHK(currentSentence) == chk) {
+
+                                    // Value 1 contain the flight number
+                                    if (currentSentence.length > 1)
+                                        if (currentSentence[1].matches("\\d+(?:\\.\\d+)?")) {
+                                            currentFlightNbr = Integer.valueOf(currentSentence[1]) + 1;
+                                            if (currentFlightNbr < 10)
+                                                flightName = "Flight " + "0" + currentFlightNbr;
+                                            else
+                                                flightName = "Flight " + currentFlightNbr;
+                                        }
+                                    // value
+                                    // Value 2 contain the time
+                                    if (currentSentence.length > 2)
+                                        if (currentSentence[2].matches("\\d+(?:\\.\\d+)?"))
+                                            time = Long.valueOf(currentSentence[2]);
+                                    // Value 3 contain the altitude
+                                    double altitude = 0;
+                                    if (currentSentence.length > 3) {
+                                        if (currentSentence[3].matches("\\d+(?:\\.\\d+)?"))
+                                            altitude = Double.valueOf(currentSentence[3]);
+                                        // To do
+                                        MyFlight.AddToFlight(time,
+                                                (long) (altitude * FEET_IN_METER), flightName, 0);
+
                                     }
-                                // value
-                                // Value 2 contain the time
-                                if (currentSentence.length > 2)
-                                    if (currentSentence[2].matches("\\d+(?:\\.\\d+)?"))
-                                        time = Long.valueOf(currentSentence[2]);
-                                // Value 3 contain the altitude
-                                double altitude = 0;
-                                if (currentSentence.length > 3) {
-                                    if (currentSentence[3].matches("\\d+(?:\\.\\d+)?"))
-                                        altitude = Double.valueOf(currentSentence[3]);
-                                    // To do
-                                    MyFlight.AddToFlight(time,
-                                            (long) (altitude * FEET_IN_METER), flightName, 0);
+                                    //Value 4 contains the temperature
+                                    double temperature = 0;
+                                    if (currentSentence.length > 4) {
+                                        if (currentSentence[4].matches("\\d+(?:\\.\\d+)?"))
+                                            temperature = Long.valueOf(currentSentence[4]);
+                                        // To do
 
-                                }
-                                //Value 4 contains the temperature
-                                double temperature = 0;
-                                if (currentSentence.length > 4) {
-                                    if (currentSentence[4].matches("\\d+(?:\\.\\d+)?"))
-                                        temperature = Long.valueOf(currentSentence[4]);
-                                    // To do
-
-                                    MyFlight.AddToFlight(time,
-                                            (long) (temperature), flightName, 1);
-                                }
-                                //Value 5 contains the pressure
-                                double pressure = 0;
-                                if (currentSentence.length > 5) {
-                                    if (currentSentence[5].matches("\\d+(?:\\.\\d+)?"))
-                                        pressure = Long.valueOf(currentSentence[5]);
-                                    // To do
-
-                                    MyFlight.AddToFlight(time,
-                                            (long) (pressure), flightName, 2);
-
-                                }
-                                // Then get the quaternion
-                                QuaternionUtils quatUtils= new QuaternionUtils();
-                                float quat[]=new float[4];
-                                //w
-                                if (currentSentence.length > 6) {
-                                    quat[0] = quatUtils.decodeFloat(currentSentence[6]);
-                                }
-                                //x
-                                if (currentSentence.length > 7) {
-                                    quat[1] = quatUtils.decodeFloat(currentSentence[7]);
-                                }
-                                //y
-                                if (currentSentence.length > 8) {
-                                    quat[2] = quatUtils.decodeFloat(currentSentence[8]);
-                                }
-                                //z
-                                if (currentSentence.length > 9) {
-                                    quat[3] = quatUtils.decodeFloat(currentSentence[9]);
-
-                                    float [] gravity = null;
-                                    gravity = quatUtils.quaternionToGravity(quat);
-                                    MyFlight.AddToFlight(time,
-                                            gravity[0], flightName, 3);
-                                    MyFlight.AddToFlight(time,
-                                            gravity[1], flightName, 4);
-                                    MyFlight.AddToFlight(time,
-                                            gravity[2], flightName, 5);
-
-                                    float [] euler = null;
-                                    euler = quatUtils.quaternionToEuler(quat);
-                                    MyFlight.AddToFlight(time,
-                                            euler[0]*180/3.14, flightName, 6);
-                                    MyFlight.AddToFlight(time,
-                                            euler[1]*180/3.14, flightName, 7);
-                                    MyFlight.AddToFlight(time,
-                                            euler[2]*180/3.14, flightName, 8);
-
-                                    float [] ypr = null;
-                                    ypr = quatUtils.quaternionToYawPitchRoll(quat, gravity);
-                                    MyFlight.AddToFlight(time,
-                                            ypr[0]*180/3.14, flightName, 9);
-                                    MyFlight.AddToFlight(time,
-                                            ypr[1]*180/3.14, flightName, 10);
-                                    MyFlight.AddToFlight(time,
-                                            ypr[2]*180/3.14, flightName, 11);
-                                }
-                                //outputX
-                                long outputX=0;
-                                if (currentSentence.length > 10) {
-                                    if (currentSentence[10].matches("\\d+(?:\\.\\d+)?")) {
-                                        outputX = Long.valueOf(currentSentence[10]);
-                                        MyFlight.AddToFlight(time, (long) (outputX), flightName, 12);
+                                        MyFlight.AddToFlight(time,
+                                                (long) (temperature), flightName, 1);
                                     }
-                                }
-                                //outputY
-                                long outputY=0;
-                                if (currentSentence.length > 11) {
-                                    if (currentSentence[11].matches("\\d+(?:\\.\\d+)?")) {
-                                        outputY = Long.valueOf(currentSentence[11]);
-                                        MyFlight.AddToFlight(time, (long) (outputY), flightName, 13);
+                                    //Value 5 contains the pressure
+                                    double pressure = 0;
+                                    if (currentSentence.length > 5) {
+                                        if (currentSentence[5].matches("\\d+(?:\\.\\d+)?"))
+                                            pressure = Long.valueOf(currentSentence[5]);
+                                        // To do
+
+                                        MyFlight.AddToFlight(time,
+                                                (long) (pressure), flightName, 2);
+
                                     }
-                                }
-                                long accelX =0;
-                                if (currentSentence.length > 12) {
-                                    if (currentSentence[12].matches("\\d+(?:\\.\\d+)?")) {
-                                        accelX = Long.valueOf(currentSentence[12]);
-                                        MyFlight.AddToFlight(time, (long) (accelX), flightName, 14);
+                                    // Then get the quaternion
+                                    QuaternionUtils quatUtils = new QuaternionUtils();
+                                    float quat[] = new float[4];
+                                    //w
+                                    if (currentSentence.length > 6) {
+                                        quat[0] = quatUtils.decodeFloat(currentSentence[6]);
                                     }
-                                }
-                                long accelY =0;
-                                if (currentSentence.length > 13) {
-                                    if (currentSentence[13].matches("\\d+(?:\\.\\d+)?")) {
-                                        accelY = Long.valueOf(currentSentence[13]);
-                                        MyFlight.AddToFlight(time, (long) (accelY), flightName, 15);
+                                    //x
+                                    if (currentSentence.length > 7) {
+                                        quat[1] = quatUtils.decodeFloat(currentSentence[7]);
                                     }
-                                }
-                                long accelZ =0;
-                                if (currentSentence.length > 14) {
-                                    if (currentSentence[14].matches("\\d+(?:\\.\\d+)?")) {
-                                        accelZ = Long.valueOf(currentSentence[14]);
-                                        MyFlight.AddToFlight(time, (long) (accelZ), flightName, 16);
+                                    //y
+                                    if (currentSentence.length > 8) {
+                                        quat[2] = quatUtils.decodeFloat(currentSentence[8]);
+                                    }
+                                    //z
+                                    if (currentSentence.length > 9) {
+                                        quat[3] = quatUtils.decodeFloat(currentSentence[9]);
+
+                                        float[] gravity = null;
+                                        gravity = quatUtils.quaternionToGravity(quat);
+                                        MyFlight.AddToFlight(time,
+                                                gravity[0], flightName, 3);
+                                        MyFlight.AddToFlight(time,
+                                                gravity[1], flightName, 4);
+                                        MyFlight.AddToFlight(time,
+                                                gravity[2], flightName, 5);
+
+                                        float[] euler = null;
+                                        euler = quatUtils.quaternionToEuler(quat);
+                                        MyFlight.AddToFlight(time,
+                                                euler[0] * 180 / 3.14, flightName, 6);
+                                        MyFlight.AddToFlight(time,
+                                                euler[1] * 180 / 3.14, flightName, 7);
+                                        MyFlight.AddToFlight(time,
+                                                euler[2] * 180 / 3.14, flightName, 8);
+
+                                        float[] ypr = null;
+                                        ypr = quatUtils.quaternionToYawPitchRoll(quat, gravity);
+                                        MyFlight.AddToFlight(time,
+                                                ypr[0] * 180 / 3.14, flightName, 9);
+                                        MyFlight.AddToFlight(time,
+                                                ypr[1] * 180 / 3.14, flightName, 10);
+                                        MyFlight.AddToFlight(time,
+                                                ypr[2] * 180 / 3.14, flightName, 11);
+                                    }
+                                    //outputX
+                                    long outputX = 0;
+                                    if (currentSentence.length > 10) {
+                                        if (currentSentence[10].matches("\\d+(?:\\.\\d+)?")) {
+                                            outputX = Long.valueOf(currentSentence[10]);
+                                            MyFlight.AddToFlight(time, (long) (outputX), flightName, 12);
+                                        }
+                                    }
+                                    //outputY
+                                    long outputY = 0;
+                                    if (currentSentence.length > 11) {
+                                        if (currentSentence[11].matches("\\d+(?:\\.\\d+)?")) {
+                                            outputY = Long.valueOf(currentSentence[11]);
+                                            MyFlight.AddToFlight(time, (long) (outputY), flightName, 13);
+                                        }
+                                    }
+                                    long accelX = 0;
+                                    if (currentSentence.length > 12) {
+                                        if (currentSentence[12].matches("\\d+(?:\\.\\d+)?")) {
+                                            accelX = Long.valueOf(currentSentence[12]);
+                                            MyFlight.AddToFlight(time, (long) (accelX), flightName, 14);
+                                        }
+                                    }
+                                    long accelY = 0;
+                                    if (currentSentence.length > 13) {
+                                        if (currentSentence[13].matches("\\d+(?:\\.\\d+)?")) {
+                                            accelY = Long.valueOf(currentSentence[13]);
+                                            MyFlight.AddToFlight(time, (long) (accelY), flightName, 15);
+                                        }
+                                    }
+                                    long accelZ = 0;
+                                    if (currentSentence.length > 14) {
+                                        if (currentSentence[14].matches("\\d+(?:\\.\\d+)?")) {
+                                            accelZ = Long.valueOf(currentSentence[14]);
+                                            MyFlight.AddToFlight(time, (long) (accelZ), flightName, 16);
+                                        }
                                     }
                                 }
                                 break;
                             case "alticonfig":
-                                // Value 0 contains the AltimeterName
-                                if (currentSentence.length > 1)
-                                    GimbalCfg.setAltimeterName(currentSentence[1]);
-                                //Value 1 contains ax_offset
-                                if (currentSentence.length > 2)
-                                    if (currentSentence[2].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setAxOffset(Integer.valueOf(currentSentence[2]));
-                                    else
-                                        GimbalCfg.setAxOffset(0);
-                                // Value 2 contains ay_offset
-                                if (currentSentence.length > 3)
-                                    if (currentSentence[3].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setAyOffset(Integer.valueOf(currentSentence[3]));
-                                    else
-                                        GimbalCfg.setAyOffset(0);
-                                // Value 3 contains az_offset
-                                if (currentSentence.length > 4)
-                                    if (currentSentence[4].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setAzOffset(Integer.valueOf(currentSentence[4]));
-                                    else
-                                        GimbalCfg.setAzOffset(0);
-                                // Value 4 contains gx_offset
-                                if (currentSentence.length > 5)
-                                    if (currentSentence[5].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setGxOffset(Integer.valueOf(currentSentence[5]));
-                                    else
-                                        GimbalCfg.setGxOffset(0);
-                                // Value 5 contains gy_offset
-                                if (currentSentence.length > 6)
-                                    if (currentSentence[6].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setGyOffset(Integer.valueOf(currentSentence[6]));
-                                    else
-                                        GimbalCfg.setGyOffset(0);
-                                // Value 6 contains gz_offset
-                                if (currentSentence.length > 7)
-                                    if (currentSentence[7].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setGzOffset(Integer.valueOf(currentSentence[7]));
-                                    else
-                                        GimbalCfg.setGzOffset(0);
-                                // Value 7 contains KpX
-                                if (currentSentence.length > 8)
-                                    if (currentSentence[8].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setKpX(Double.valueOf(currentSentence[8]) / 100);
-                                    else
-                                        GimbalCfg.setKpX(0.0);
-                                // Value 8 contains KiX
-                                if (currentSentence.length > 9)
-                                    if (currentSentence[9].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setKiX(Double.valueOf(currentSentence[9]) / 100);
-                                    else
-                                        GimbalCfg.setKiX(0.0);
-                                // Value 9 contains KdX
-                                if (currentSentence.length > 10)
-                                    if (currentSentence[10].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setKdX(Double.valueOf(currentSentence[10]) / 100);
-                                    else
-                                        GimbalCfg.setKdX(0.0);
-                                // Value 10 contains KpY
-                                if (currentSentence.length > 11)
-                                    if (currentSentence[11].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setKpY(Double.valueOf(currentSentence[11]) / 100);
-                                    else
-                                        GimbalCfg.setKpY(0.0);
-                                // Value 11 contains KiY
-                                if (currentSentence.length > 12)
-                                    if (currentSentence[12].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setKiY(Double.valueOf(currentSentence[12]) / 100);
-                                    else
-                                        GimbalCfg.setKiY(0.0);
-                                // Value 12 contains KdY
-                                if (currentSentence.length > 13)
-                                    if (currentSentence[13].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setKdY(Double.valueOf(currentSentence[13]) / 100);
-                                    else
-                                        GimbalCfg.setKdY(0.0);
-                                // Value 13 contains servoXMin
-                                if (currentSentence.length > 14)
-                                    if (currentSentence[14].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setServoXMin(Integer.valueOf(currentSentence[14]));
-                                    else
-                                        GimbalCfg.setServoXMin(0);
-                                // Value 14 contains servoXMax
-                                if (currentSentence.length > 15)
-                                    if (currentSentence[15].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setServoXMax(Integer.valueOf(currentSentence[15]));
-                                    else
-                                        GimbalCfg.setServoXMax(0);
-                                // Value 15 contains servoYMin
-                                if (currentSentence.length > 16)
-                                    if (currentSentence[16].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setServoYMin(Integer.valueOf(currentSentence[16]));
-                                    else
-                                        GimbalCfg.setServoYMin(0);
-                                // Value 16 contains servoYMax
-                                if (currentSentence.length > 17)
-                                    if (currentSentence[17].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setServoYMax(Integer.valueOf(currentSentence[17]));
-                                    else
-                                        GimbalCfg.setServoYMax(0);
-                                // Value 17 contains the connection speed
-                                if (currentSentence.length > 18)
-                                    if (currentSentence[18].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setConnectionSpeed(Integer.valueOf(currentSentence[18]));
-                                    else
-                                        GimbalCfg.setConnectionSpeed(38400);
-                                // Value 18 contains the altimeter resolution
-                                if (currentSentence.length > 19)
-                                    if (currentSentence[19].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setAltimeterResolution(Integer.valueOf(currentSentence[19]));
-                                    else
-                                        GimbalCfg.setAltimeterResolution(0);
-                                // Value 19 contains the eeprom size
-                                if (currentSentence.length > 20)
-                                    if (currentSentence[20].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setEepromSize(Integer.valueOf(currentSentence[20]));
-                                    else
-                                        GimbalCfg.setEepromSize(512);
-                                // Value 20
-                                if (currentSentence.length > 21)
-                                    if (currentSentence[21].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setAltiMajorVersion(Integer.valueOf(currentSentence[21]));
-                                // Value 21
-                                if (currentSentence.length > 22)
-                                    if (currentSentence[22].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setAltiMinorVersion(Integer.valueOf(currentSentence[22]));
-                                // Value 22 units
-                                if (currentSentence.length > 23)
-                                    if (currentSentence[23].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setUnits(Integer.valueOf(currentSentence[23]));
-                                    else
-                                        GimbalCfg.setUnits(0);
-                                // Value 23 endRecordAltitude
-                                if (currentSentence.length > 24)
-                                    if (currentSentence[24].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setEndRecordAltitude(Integer.valueOf(currentSentence[24]));
-                                    else
-                                        GimbalCfg.setEndRecordAltitude(5);
-                                // Value 24 beepingFrequency
-                                if (currentSentence.length > 25)
-                                    if (currentSentence[25].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setBeepingFrequency(Integer.valueOf(currentSentence[25]));
-                                    else
-                                        GimbalCfg.setBeepingFrequency(440);
-                                // value 25 LaunchDetect
-                                if (currentSentence.length > 26)
-                                    if (currentSentence[26].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setLiftOffDetect(Integer.valueOf(currentSentence[26]));
-                                    else
-                                        GimbalCfg.setLiftOffDetect(0);
-                                // value 26 Gyro Range
-                                if (currentSentence.length > 27)
-                                    if (currentSentence[27].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setGyroRange(Integer.valueOf(currentSentence[27]));
-                                    else
-                                        GimbalCfg.setGyroRange(0);
 
-                                // value 27 Accelero Range
-                                if (currentSentence.length > 28)
-                                    if (currentSentence[28].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setAcceleroRange(Integer.valueOf(currentSentence[28]));
-                                    else
-                                        GimbalCfg.setAcceleroRange(0);
-                                //DataReady = true;
+                                if (currentSentence[currentSentence.length-1].matches("\\d+(?:\\.\\d+)?"))
+                                    chk = Long.valueOf(currentSentence[currentSentence.length-1]);
+                                Log.d("checksum", "check from sentence: " + chk);
+                                Log.d("calculated checksum", "calculated check: " + calculateSentenceCHK(currentSentence));
+                                if (calculateSentenceCHK(currentSentence) == chk) {
+
+                                    // Value 0 contains the AltimeterName
+                                    if (currentSentence.length > 1)
+                                        GimbalCfg.setAltimeterName(currentSentence[1]);
+                                    //Value 1 contains ax_offset
+                                    if (currentSentence.length > 2)
+                                        if (currentSentence[2].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setAxOffset(Integer.valueOf(currentSentence[2]));
+                                        else
+                                            GimbalCfg.setAxOffset(0);
+                                    // Value 2 contains ay_offset
+                                    if (currentSentence.length > 3)
+                                        if (currentSentence[3].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setAyOffset(Integer.valueOf(currentSentence[3]));
+                                        else
+                                            GimbalCfg.setAyOffset(0);
+                                    // Value 3 contains az_offset
+                                    if (currentSentence.length > 4)
+                                        if (currentSentence[4].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setAzOffset(Integer.valueOf(currentSentence[4]));
+                                        else
+                                            GimbalCfg.setAzOffset(0);
+                                    // Value 4 contains gx_offset
+                                    if (currentSentence.length > 5)
+                                        if (currentSentence[5].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setGxOffset(Integer.valueOf(currentSentence[5]));
+                                        else
+                                            GimbalCfg.setGxOffset(0);
+                                    // Value 5 contains gy_offset
+                                    if (currentSentence.length > 6)
+                                        if (currentSentence[6].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setGyOffset(Integer.valueOf(currentSentence[6]));
+                                        else
+                                            GimbalCfg.setGyOffset(0);
+                                    // Value 6 contains gz_offset
+                                    if (currentSentence.length > 7)
+                                        if (currentSentence[7].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setGzOffset(Integer.valueOf(currentSentence[7]));
+                                        else
+                                            GimbalCfg.setGzOffset(0);
+                                    // Value 7 contains KpX
+                                    if (currentSentence.length > 8)
+                                        if (currentSentence[8].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setKpX(Double.valueOf(currentSentence[8]) / 100);
+                                        else
+                                            GimbalCfg.setKpX(0.0);
+                                    // Value 8 contains KiX
+                                    if (currentSentence.length > 9)
+                                        if (currentSentence[9].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setKiX(Double.valueOf(currentSentence[9]) / 100);
+                                        else
+                                            GimbalCfg.setKiX(0.0);
+                                    // Value 9 contains KdX
+                                    if (currentSentence.length > 10)
+                                        if (currentSentence[10].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setKdX(Double.valueOf(currentSentence[10]) / 100);
+                                        else
+                                            GimbalCfg.setKdX(0.0);
+                                    // Value 10 contains KpY
+                                    if (currentSentence.length > 11)
+                                        if (currentSentence[11].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setKpY(Double.valueOf(currentSentence[11]) / 100);
+                                        else
+                                            GimbalCfg.setKpY(0.0);
+                                    // Value 11 contains KiY
+                                    if (currentSentence.length > 12)
+                                        if (currentSentence[12].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setKiY(Double.valueOf(currentSentence[12]) / 100);
+                                        else
+                                            GimbalCfg.setKiY(0.0);
+                                    // Value 12 contains KdY
+                                    if (currentSentence.length > 13)
+                                        if (currentSentence[13].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setKdY(Double.valueOf(currentSentence[13]) / 100);
+                                        else
+                                            GimbalCfg.setKdY(0.0);
+                                    // Value 13 contains servoXMin
+                                    if (currentSentence.length > 14)
+                                        if (currentSentence[14].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setServoXMin(Integer.valueOf(currentSentence[14]));
+                                        else
+                                            GimbalCfg.setServoXMin(0);
+                                    // Value 14 contains servoXMax
+                                    if (currentSentence.length > 15)
+                                        if (currentSentence[15].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setServoXMax(Integer.valueOf(currentSentence[15]));
+                                        else
+                                            GimbalCfg.setServoXMax(0);
+                                    // Value 15 contains servoYMin
+                                    if (currentSentence.length > 16)
+                                        if (currentSentence[16].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setServoYMin(Integer.valueOf(currentSentence[16]));
+                                        else
+                                            GimbalCfg.setServoYMin(0);
+                                    // Value 16 contains servoYMax
+                                    if (currentSentence.length > 17)
+                                        if (currentSentence[17].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setServoYMax(Integer.valueOf(currentSentence[17]));
+                                        else
+                                            GimbalCfg.setServoYMax(0);
+                                    // Value 17 contains the connection speed
+                                    if (currentSentence.length > 18)
+                                        if (currentSentence[18].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setConnectionSpeed(Integer.valueOf(currentSentence[18]));
+                                        else
+                                            GimbalCfg.setConnectionSpeed(38400);
+                                    // Value 18 contains the altimeter resolution
+                                    if (currentSentence.length > 19)
+                                        if (currentSentence[19].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setAltimeterResolution(Integer.valueOf(currentSentence[19]));
+                                        else
+                                            GimbalCfg.setAltimeterResolution(0);
+                                    // Value 19 contains the eeprom size
+                                    if (currentSentence.length > 20)
+                                        if (currentSentence[20].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setEepromSize(Integer.valueOf(currentSentence[20]));
+                                        else
+                                            GimbalCfg.setEepromSize(512);
+                                    // Value 20
+                                    if (currentSentence.length > 21)
+                                        if (currentSentence[21].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setAltiMajorVersion(Integer.valueOf(currentSentence[21]));
+                                    // Value 21
+                                    if (currentSentence.length > 22)
+                                        if (currentSentence[22].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setAltiMinorVersion(Integer.valueOf(currentSentence[22]));
+                                    // Value 22 units
+                                    if (currentSentence.length > 23)
+                                        if (currentSentence[23].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setUnits(Integer.valueOf(currentSentence[23]));
+                                        else
+                                            GimbalCfg.setUnits(0);
+                                    // Value 23 endRecordAltitude
+                                    if (currentSentence.length > 24)
+                                        if (currentSentence[24].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setEndRecordAltitude(Integer.valueOf(currentSentence[24]));
+                                        else
+                                            GimbalCfg.setEndRecordAltitude(5);
+                                    // Value 24 beepingFrequency
+                                    if (currentSentence.length > 25)
+                                        if (currentSentence[25].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setBeepingFrequency(Integer.valueOf(currentSentence[25]));
+                                        else
+                                            GimbalCfg.setBeepingFrequency(440);
+                                    // value 25 LaunchDetect
+                                    if (currentSentence.length > 26)
+                                        if (currentSentence[26].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setLiftOffDetect(Integer.valueOf(currentSentence[26]));
+                                        else
+                                            GimbalCfg.setLiftOffDetect(0);
+                                    // value 26 Gyro Range
+                                    if (currentSentence.length > 27)
+                                        if (currentSentence[27].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setGyroRange(Integer.valueOf(currentSentence[27]));
+                                        else
+                                            GimbalCfg.setGyroRange(0);
+
+                                    // value 27 Accelero Range
+                                    if (currentSentence.length > 28)
+                                        if (currentSentence[28].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
+                                            GimbalCfg.setAcceleroRange(Integer.valueOf(currentSentence[28]));
+                                        else
+                                            GimbalCfg.setAcceleroRange(0);
+                                    //DataReady = true;
+                                }
                                 myMessage = myMessage + " " + "alticonfig";
                                 break;
                             case "nbrOfFlight":

@@ -280,7 +280,7 @@ public class ConsoleApplication extends Application {
         this.exit = b;
     }
 
-    //;
+
 
     public long calculateSentenceCHK(String currentSentence[]) {
         long chk =0;
@@ -484,7 +484,7 @@ public class ConsoleApplication extends Application {
                                     chk = Long.valueOf(currentSentence[currentSentence.length-1]);
                                 Log.d("checksum", "check from sentence: " + chk);
                                 Log.d("calculated checksum", "calculated check: " + calculateSentenceCHK(currentSentence));
-                                appendLog(currentSentence + "\n");
+                                //appendLog(currentSentence + "\n");
                                 String flightName = "FlightXX";
                                 long time = 0;
                                 if (calculateSentenceCHK(currentSentence) == chk) {

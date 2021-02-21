@@ -1,5 +1,6 @@
 package com.motorgimbalconsole;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 
 import java.io.IOException;
@@ -57,6 +58,7 @@ public class Rocket extends PApplet {
     /*public void setInputCorrect(String inputString) {
         correct = Long.valueOf(inputString);
     }*/
+    @SuppressLint("LongLogTag")
     public void setInputCorrect(String inputString) {
         if (inputString.matches("\\d+(?:\\.\\d+)?")) {
             correct = Float.valueOf(inputString);

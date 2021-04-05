@@ -46,5 +46,6 @@ dependencies {
     //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.google.android.material:material:1.0.0'
-
+    implementation files('libs/physicaloid.aar')
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
 }

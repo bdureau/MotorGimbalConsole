@@ -43,7 +43,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/gimbal_status" />
-
+            <Button
+                android:id="@+id/butFlash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Flash firmwares" />
             <Button
                 android:id="@+id/button"
                 android:layout_width="wrap_content"

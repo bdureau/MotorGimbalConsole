@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/select_altimeter_model"
+        android:id="@+id/textViewAltimeterModelLbl"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <RadioGroup
+        android:id="@+id/question_radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewAltimeterModelLbl"
+        tools:layout_editor_absoluteX="88dp"
+        tools:layout_editor_absoluteY="91dp">
+
+
+     <RadioButton
+            android:id="@+id/radioButGimbale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gimbale"
+            tools:layout_editor_absoluteX="32dp"
+            tools:layout_editor_absoluteY="74dp" />
+
+    <RadioButton
+        android:id="@+id/radioButGimbaleBN055"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gimbal BN055"
+        tools:layout_editor_absoluteX="32dp"
+        tools:layout_editor_absoluteY="74dp" />
+</RadioGroup>
+
+    <Spinner
+        android:id="@+id/spinnerBaud"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/question_radio_group"
+        android:layout_alignParentRight="true"
+        android:spinnerMode="dropdown" />
+
+    <Button
+        android:id="@+id/btFlash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/question_radio_group"
+        android:onClick="onClickFlash"
+        android:text="@string/flash_firmware" />
+
+    <Button
+        android:id="@+id/btRecover"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/btFlash"
+        android:onClick="onClickRecover"
+        android:text="@string/recover_firmware" />
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btRecover"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="-2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvRead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_alignParentLeft="true" />
+        </LinearLayout>
+    </ScrollView>
+    <Button
+        android:id="@+id/btDismiss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClickDismiss"
+        android:text="@string/firmware_dismiss"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"/>
+</RelativeLayout>

@@ -23,6 +23,7 @@ import android.hardware.usb.UsbManager;
 import com.motorgimbalconsole.config.AppConfigActivity;
 import com.motorgimbalconsole.config.ConsoleTabConfigActivity;
 import com.motorgimbalconsole.connection.SearchBluetooth;
+import com.motorgimbalconsole.flash.FlashFirmware;
 import com.motorgimbalconsole.flights.FlightListActivity;
 import com.motorgimbalconsole.help.AboutActivity;
 
@@ -35,7 +36,7 @@ import java.util.Map;
 public class MainActivityScreen extends AppCompatActivity {
 
     Button btnConnectDisconnect, btnConfig, btnStatus;
-    Button btnReset, btnFlight;
+    Button btnReset, btnFlight,btnFlashFirmware;
 
     private String address;
     ConsoleApplication myBT;
@@ -90,6 +91,7 @@ public class MainActivityScreen extends AppCompatActivity {
 
         btnConfig = (Button)findViewById(R.id.butGimbalConfig);
         btnStatus = (Button)findViewById(R.id.butGimbalStatus);
+        btnFlashFirmware= (Button)findViewById(R.id.butFlash);
         //get the bluetooth and USB Application pointer
         myBT = (ConsoleApplication) getApplication();
 
@@ -144,6 +146,18 @@ public class MainActivityScreen extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent i = new Intent(MainActivityScreen.this, ResetSettingsActivity.class);
+                startActivity(i);
+            }
+        });
+        //commands to be sent to flash the firmware
+        btnFlashFirmware.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                myBT.getAppConf().ReadConfig();
+
+                Intent i = new Intent(MainActivityScreen.this, FlashFirmware.class);
+                //Change the activity.
                 startActivity(i);
             }
         });

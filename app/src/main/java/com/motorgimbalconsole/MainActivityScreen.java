@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
-//import android.support.v7.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -175,6 +174,7 @@ public class MainActivityScreen extends AppCompatActivity {
                     Disconnect(); //close connection
                     DisableUI();
                     btnConnectDisconnect.setText(getResources().getString(R.string.connect_disconnect));
+                    btnFlashFirmware.setEnabled(true);
                 }
                 else {
                     if (myBT.getConnectionType().equals( "bluetooth")) {
@@ -186,6 +186,7 @@ public class MainActivityScreen extends AppCompatActivity {
                             if (myBT.getConnected()) {
                                 EnableUI();
                                 btnConnectDisconnect.setText(getResources().getString(R.string.disconnect));
+                                btnFlashFirmware.setEnabled(false);
                             }
                         } else {
                             // choose the bluetooth device
@@ -223,6 +224,7 @@ public class MainActivityScreen extends AppCompatActivity {
         btnStatus.setEnabled(false);
         btnFlight.setEnabled(false);
         btnReset.setEnabled(false);
+        btnFlashFirmware.setEnabled(true);
 
     }
     private void EnableUI () {
@@ -230,21 +232,9 @@ public class MainActivityScreen extends AppCompatActivity {
         btnStatus.setEnabled(true);
         btnFlight.setEnabled(true);
         btnReset.setEnabled(true);
-    }
-    /*@Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        if (sketch != null) {
-            sketch.onRequestPermissionsResult(
-                    requestCode, permissions, grantResults);
-        }
+        btnFlashFirmware.setEnabled(false);
     }
 
-    @Override
-    public void onNewIntent(Intent intent) {
-        if (sketch != null) {
-            sketch.onNewIntent(intent);
-        }
-    }*/
     private void Disconnect() {
         myBT.Disconnect();
     }

@@ -164,13 +164,13 @@ public class CommandInterface {
         if (cmdGeneric(cmd)==1) {
             recv(buf, 1);
             int len =(int)buf[0];
-            //tvAppend(tvRead, "len1:" + len + "\n");
+
             recv(buf, 1);
             version = (int)buf[0];
             recv(buf, len);
-            //tvAppend(tvRead, "version:" + version + "\n");
+
             mUpCallback.onInfo("version:" + version + "\n");
-            //tvAppend(tvRead, "all stuff" + toHexStr(buf, len) + "\n");
+
             _wait_for_ack("0x00 end",500);
         }
         return version;
@@ -198,9 +198,9 @@ public class CommandInterface {
         if (cmdGeneric(cmd)==1) {
             recv(buf, 1);
             int len = (int)buf[0];
-            //tvAppend(tvRead, "id all:" + toHexStr(buf, len) + "\n");
+
             recv(buf, len+1);
-            //tvAppend(tvRead, "id all:" + toHexStr(buf, len));
+
             id = (int)buf[0];
             _wait_for_ack("0x02 end",500);
         }
@@ -273,7 +273,7 @@ public class CommandInterface {
                     toHexStr(new byte[]{(byte) lng }, 1),200);
             return 1;
         }else{
-            //tvAppend(tvRead, "*** Write memory command failed"  + "\n");
+
             mUpCallback.onInfo("*** Write memory command failed"  + "\n");
             return -1;
         }

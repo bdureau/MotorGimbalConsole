@@ -163,7 +163,7 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
                 if (status) {
 
                     status = false;
-                    myBT.write("h;\n".toString());
+                    myBT.write("h;".toString());
 
                     myBT.setExit(true);
                     myBT.clearInput();
@@ -173,7 +173,7 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
                     //turn off telemetry
                     myBT.flush();
                     myBT.clearInput();
-                    myBT.write("y0;\n".toString());
+                    myBT.write("y0;".toString());
                 }
                 finish();      //exit the  activity
             }
@@ -187,7 +187,7 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
                 if (recording) {
 
                     recording = false;
-                    myBT.write("w0;\n".toString());
+                    myBT.write("w0;".toString());
 
                     //myBT.setExit(true);
                     myBT.clearInput();
@@ -197,7 +197,7 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
                 else
                 {
                     recording = true;
-                    myBT.write("w1;\n".toString());
+                    myBT.write("w1;".toString());
                     myBT.clearInput();
                     myBT.flush();
                     btnRecording.setText("Stop");
@@ -229,7 +229,7 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
             myBT.flush();
             myBT.clearInput();
 
-            myBT.write("y1;\n".toString());
+            myBT.write("y1;".toString());
             status = true;
             altiStatus.start();
         }
@@ -237,21 +237,21 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        //msg("On stop");
+
         if (status) {
             status = false;
-            myBT.write("h;\n".toString());
+            myBT.write("h;".toString());
 
             myBT.setExit(true);
             myBT.clearInput();
             myBT.flush();
-            //finish();
+
         }
 
 
         myBT.flush();
         myBT.clearInput();
-        myBT.write("h;\n".toString());
+        myBT.write("h;".toString());
         try {
             while (myBT.getInputStream().available() <= 0) ;
         } catch (IOException e) {

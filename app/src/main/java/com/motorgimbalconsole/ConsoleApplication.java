@@ -136,15 +136,6 @@ public class ConsoleApplication extends Application {
                 state = false;
             }
         }
-        /*clearInput();
-        flush();
-        write("1\n".toString());
-        try {
-            while (getInputStream().available() <= 0) ;
-        } catch (IOException e) {
-
-        }*/
-
 
         return state;
     }
@@ -177,11 +168,11 @@ public class ConsoleApplication extends Application {
         flush();
         clearInput();
 
-        write("h;\n".toString());
+        write("h;".toString());
 
         flush();
         clearInput();
-        write("h;\n".toString());
+        write("h;".toString());
         //get the results
         //wait for the result to come back
         try {
@@ -484,7 +475,7 @@ public class ConsoleApplication extends Application {
                                     chk = Long.valueOf(currentSentence[currentSentence.length-1]);
                                 Log.d("checksum", "check from sentence: " + chk);
                                 Log.d("calculated checksum", "calculated check: " + calculateSentenceCHK(currentSentence));
-                                //appendLog(currentSentence + "\n");
+
                                 String flightName = "FlightXX";
                                 long time = 0;
                                 if (calculateSentenceCHK(currentSentence) == chk) {

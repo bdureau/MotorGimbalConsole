@@ -94,7 +94,7 @@ public class FlightListActivity extends AppCompatActivity {
                 myBT.clearInput();
                 myBT.getFlightData().ClearFlight();
                 // Send command to retrieve the config
-                myBT.write("a;\n".toString());
+                myBT.write("a;".toString());
                 myBT.flush();
 
         try {
@@ -128,7 +128,7 @@ public class FlightListActivity extends AppCompatActivity {
             // clear flight object
             myBT.getFlightData().ClearFlight();
             //retrieve the number of flight
-            myBT.write("n;\n".toString());
+            myBT.write("n;".toString());
             myBT.flush();
             try {
                 //wait for data to arrive
@@ -149,7 +149,7 @@ public class FlightListActivity extends AppCompatActivity {
             if (nbrOfFlight >0) {
                 // Send command to retrieve the config
                 for (int i =0; i < nbrOfFlight; i++) {
-                    myBT.write(("r"+ i+";\n").toString());
+                    myBT.write(("r"+ i+";").toString());
                     myBT.flush();
 
                     try {

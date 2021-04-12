@@ -109,12 +109,7 @@ public class MainActivityScreen extends AppCompatActivity {
         btnConfig.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
-                 /*if(myBT.getConnected()) {
-                     myBT.flush();
-                     myBT.clearInput();
 
-                     myBT.write("y0;\n".toString());
-                 }*/
                  readConfig();
                  Intent i = new Intent(MainActivityScreen.this, ConsoleTabConfigActivity.class);
                  startActivity(i);
@@ -134,7 +129,7 @@ public class MainActivityScreen extends AppCompatActivity {
                     myBT.flush();
                     myBT.clearInput();
 
-                    myBT.write("y1;\n".toString());
+                    myBT.write("y1;".toString());
                 }
                 Intent i = new Intent(MainActivityScreen.this, ConsoleTabStatusActivity.class);
                 startActivity(i);
@@ -249,7 +244,7 @@ public class MainActivityScreen extends AppCompatActivity {
             myBT.flush();
             myBT.clearInput();
 
-            myBT.write("b;\n".toString());
+            myBT.write("b;".toString());
 
             myBT.flush();
 

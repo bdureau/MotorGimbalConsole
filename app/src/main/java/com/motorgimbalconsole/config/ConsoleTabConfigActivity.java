@@ -114,7 +114,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
 
             myBT.flush();
             myBT.clearInput();
-            myBT.write("b;\n".toString());
+            myBT.write("b;".toString());
             myBT.flush();
 
             //get the results
@@ -271,8 +271,8 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         cfg = cfg.replace("s","");
         cfg = cfg.replace(",","");
 
-        //gimbalCfgStr = gimbalCfgStr + ";\n";
-        gimbalCfgStr = gimbalCfgStr + ","+ generateCheckSum(cfg) +";\n";
+
+        gimbalCfgStr = gimbalCfgStr + ","+ generateCheckSum(cfg) +";";
 
        // if (myBT.getConnected())
 
@@ -280,7 +280,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         myBT.flush();
         myBT.clearInput();
         //switch off the main loop before sending the config
-        myBT.write("m0;\n".toString());
+        myBT.write("m0;".toString());
 
         //wait for the result to come back
         try {
@@ -325,7 +325,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         myBT.flush();
         myBT.clearInput();
         //switch on the main loop before sending the config
-        myBT.write("m1;\n".toString());
+        myBT.write("m1;".toString());
 
 
         //wait for the result to come back
@@ -544,7 +544,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
 
                 myBT.flush();
                 myBT.clearInput();
-                myBT.write("c;\n".toString());
+                myBT.write("c;".toString());
                 //wait for ok and put the result back
                 String myMessage = "";
 

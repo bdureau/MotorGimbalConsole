@@ -1,5 +1,7 @@
 package com.motorgimbalconsole.config;
 
+import com.motorgimbalconsole.R;
+
 /**
  *   @description: This class define all the values for the application conf drop down
  *   @author: boris.dureau@neuf.fr

@@ -58,6 +58,9 @@
     <string name="gxoffset">GxOffset</string>
     <string name="gyoffset">GyOffset</string>
     <string name="gzoffset">GzOffset</string>
+    <string name="calibration">Calibration</string>
+    <string name="cancel_calibration">Cancel</string>
+
     <!-- app config tab 2-->
     <string name="pid_values">PID values</string>
     <string name="kpx">KpX</string>
@@ -78,6 +81,9 @@
     <string name="launch_detect">Launch detect</string>
     <string name="accelero_range">Accelero Range</string>
     <string name="gyro_range">Gyro Range</string>
+    <string name="baro">Baro</string>
+    <string name="accel">Accel</string>
+
 
     <!-- app config tab 4-->
     <string name="servo">Servo</string>
@@ -164,5 +170,12 @@
     <string name="flight_have_been_recorded">No flights have been recorded</string>
     <string name="main_screen_actity">Cancel</string>
     <string name="title_activity_flight_view_maps">Map</string>
+
+    <!-- app config -->
+    <string name="unit_meter">Meters</string>
+    <string name="unit_feet">Feet</string>
+    <string name="lang_english">English</string>
+    <string name="lang_french">French</string>
+    <string name="lang_phone">Phone language</string>
 
 </resources>

@@ -858,7 +858,9 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
 
             //units
             dropdownUnits = (Spinner) view.findViewById(R.id.spinnerUnit);
-            String[] items2 = new String[]{"Meters", "Feet"};
+            //"Meters", "Feet"
+            String[] items2 = new String[]{getResources().getString(R.string.unit_meter),
+                    getResources().getString(R.string.unit_feet)};
             ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this.getActivity(),
                     android.R.layout.simple_spinner_dropdown_item, items2);
             dropdownUnits.setAdapter(adapter2);
@@ -903,7 +905,8 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
 
             //spinnerLaunchDetect
             dropdownLaunchDetect = (Spinner) view.findViewById(R.id.spinnerLaunchDetect);
-            itemsLaunchDetect = new String[]{"Baro", "Accel"};
+            //"baro", "Accel"
+            itemsLaunchDetect = new String[]{getResources().getString(R.string.baro), getResources().getString(R.string.accel)};
             ArrayAdapter<String> adapterLaunchDetect = new ArrayAdapter<String>(this.getActivity(),
                     android.R.layout.simple_spinner_dropdown_item, itemsLaunchDetect);
             dropdownLaunchDetect.setAdapter(adapterLaunchDetect);

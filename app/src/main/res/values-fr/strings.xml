@@ -59,6 +59,9 @@
     <string name="gxoffset">GxOffset</string>
     <string name="gyoffset">GyOffset</string>
     <string name="gzoffset">GzOffset</string>
+    <string name="calibration">Calibration</string>
+    <string name="cancel_calibration">Cancel</string>
+
     <!-- app config tab 2-->
     <string name="pid_values">Valeurs PID</string>
     <string name="kpx">KpX</string>
@@ -79,6 +82,8 @@
     <string name="launch_detect">Détection décolage</string>
     <string name="accelero_range">Plage Accelero</string>
     <string name="gyro_range">Plage Gyro</string>
+    <string name="baro">Baro</string>
+    <string name="accel">Accel</string>
 
     <!-- app config tab 4-->
     <string name="servo">Servo</string>
@@ -144,25 +149,32 @@
     <string name="flight_data_title">Données du vol à afficher</string>
 
     <!-- flash firmware -->
-    <string name="msg10">Flashing firmware...</string>
-    <string name="msg11">Please wait!!!</string>
-    <string name="msg12">Upload: </string>
-    <string name="msg13">Cannot open</string>
-    <string name="msg14">Upload : Start \n</string>
-    <string name="msg15">Upload: Failed\n</string>
-    <string name="msg16">Upload: Successful\n</string>
-    <string name="msg17">Cancel uploading\n</string>
-    <string name="msg18">Error: </string>
-    <string name="msg19">Flashing recover firmware...: </string>
-    <string name="firmware_cancel">Cancel</string>
-    <string name="firmware_dismiss">Dismiss</string>
-    <string name="recover_firmware">Recover Firmware</string>
-    <string name="flash_firmware">Flash Firmware</string>
-    <string name="select_altimeter_model">Select your altimeter model:</string>
-    <string name="after_complete_upload">After the upload is complete you will be able to flash the real firmware</string>
-    <string name="flight_list_cancel">Cancel</string>
-    <string name="flight_retrieval_canceled">Flight retrieval has been canceled by user</string>
-    <string name="flight_have_been_recorded">No flights have been recorded</string>
-    <string name="main_screen_actity">Cancel</string>
-    <string name="title_activity_flight_view_maps">Map</string>
+    <string name="msg10">Flashage du firmware...</string>
+    <string name="msg11">Un instant SVP!!!</string>
+    <string name="msg12">Chargement: </string>
+    <string name="msg13">Impossible d\'ouvrir</string>
+    <string name="msg14">Chargement : Début \n</string>
+    <string name="msg15">Chargement: Echec\n</string>
+    <string name="msg16">Chargement: Succès\n</string>
+    <string name="msg17">Annulation chargement\n</string>
+    <string name="msg18">Erreur: </string>
+    <string name="msg19">Flashage d\'un firmware de récupération...: </string>
+    <string name="firmware_cancel">Annuler</string>
+    <string name="firmware_dismiss">Fermer</string>
+    <string name="recover_firmware">Firmware de récupération</string>
+    <string name="flash_firmware">Flasher Firmware</string>
+    <string name="select_altimeter_model">Choisissez votre modèle d\'altimétre:</string>
+    <string name="after_complete_upload">Après le chargement vous pourrez flasher le firmware</string>
+    <string name="flight_list_cancel">Annuler</string>
+    <string name="flight_retrieval_canceled">Le chargement des vols a été interrompu par l\'utilisateur</string>
+    <string name="flight_have_been_recorded">Aucun vols n\'ont été enregistrés</string>
+    <string name="main_screen_actity">Annuler</string>
+    <string name="title_activity_flight_view_maps">Carte</string>
+
+    <!-- app config -->
+    <string name="unit_meter">Mètres</string>
+    <string name="unit_feet">Pieds</string>
+    <string name="lang_english">anglais</string>
+    <string name="lang_french">français</string>
+    <string name="lang_phone">langue du telephone</string>
 </resources>

@@ -170,6 +170,8 @@
     <string name="flight_have_been_recorded">Aucun vols n\'ont été enregistrés</string>
     <string name="main_screen_actity">Annuler</string>
     <string name="title_activity_flight_view_maps">Carte</string>
+    <string name="detect_firmware">Detect firmware</string>
+    <string name="msg_detect_firmware">Attempting to Detect firmware!!!</string>
 
     <!-- app config -->
     <string name="unit_meter">Mètres</string>

@@ -181,7 +181,9 @@ boolean recorverFirmware = false;
             new UploadSTM32Asyc().execute();
         }
     }
-
+    public void onClickDetect(View v) {
+        new DetectAsyc().execute();
+    }
     public void onClickFlash(View v) {
         String firmwareFileName;
 
@@ -228,8 +230,51 @@ boolean recorverFirmware = false;
 
     }
 
+    private class DetectAsyc extends AsyncTask<Void, Void, Void>  // UI thread
+    {
 
-    private class UploadSTM32Asyc  extends AsyncTask<Void, Void, Void>  // UI thread
+        @Override
+        protected void onPreExecute() {
+            builder = new AlertDialog.Builder(FlashFirmware.this);
+            //Attempting to detect firmware...
+            builder.setMessage(getResources().getString(R.string.detect_firmware))
+                    .setTitle(getResources().getString(R.string.msg_detect_firmware))
+                    .setCancelable(false)
+                    .setNegativeButton(getResources().getString(R.string.firmware_cancel), new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, final int id) {
+
+                            dialog.cancel();
+
+                        }
+                    });
+            alert = builder.create();
+            alert.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            String version = "";
+
+            FirmwareInfo firm = new FirmwareInfo(mPhysicaloid);
+            firm.open(38400);
+            version = firm.getFirmwarVersion();
+
+            tvAppend(tvRead, "Firmware version detected: " + version + "\n");
+
+            //rbGimbale, rbGimbaleBN055;
+            if (version.equals("RocketMotorGimbal")) {
+                setRadioButton(rbGimbale, true);
+            }
+            if (version.equals("RocketMotorGimbal_bno055")) {
+                setRadioButton(rbGimbaleBN055, true);
+            }
+
+            return null;
+        }
+    }
+
+        private class UploadSTM32Asyc  extends AsyncTask<Void, Void, Void>  // UI thread
     {
 
         @Override
@@ -439,6 +484,17 @@ boolean recorverFirmware = false;
             public void run() {
                 ftv.append(ftext);
 
+            }
+        });
+    }
+
+    private void setRadioButton (RadioButton rb, boolean state) {
+        final RadioButton frb = rb;
+        final boolean fstate = state;
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                frb.setChecked(fstate);
             }
         });
     }

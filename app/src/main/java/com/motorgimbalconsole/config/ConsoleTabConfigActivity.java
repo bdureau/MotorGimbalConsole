@@ -1026,7 +1026,6 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             return ret;
         }
 
-        //, editTxtViewServoXMax, editTxtViewServoYMin, editTxtViewServoYMax;
         public boolean isViewCreated() {
             return ViewCreated;
         }

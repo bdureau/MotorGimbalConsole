@@ -272,9 +272,14 @@ boolean recorverFirmware = false;
 
             return null;
         }
+        @Override
+        protected void onPostExecute(Void result) //after the doInBackground, it checks if everything went fine
+        {
+            alert.dismiss();
+        }
     }
 
-        private class UploadSTM32Asyc  extends AsyncTask<Void, Void, Void>  // UI thread
+    private class UploadSTM32Asyc  extends AsyncTask<Void, Void, Void>  // UI thread
     {
 
         @Override

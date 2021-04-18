@@ -915,7 +915,8 @@ public class ConsoleApplication extends Application {
             graphColor = "0";
             fontSize = "10";
             units = "0";
-            baudRate = "9";
+            //default is 38400
+            baudRate = "8";
             connectionType = "0";
             /*edit.clear();
             edit.putString("AppLanguage","0");

@@ -64,6 +64,11 @@ public class FirmwareInfo {
 
     public String getFirmwarVersion() {
         String version = "";
+        //disable mainloop to disable voltage check
+        byte[] cmd0 = "m0;".getBytes();
+        lPhysicaloid.write(cmd0, cmd0.length);
+
+        drain();
         drain();
 
         byte[] cmd = "b;".getBytes();

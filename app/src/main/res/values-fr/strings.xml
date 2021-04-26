@@ -6,17 +6,19 @@
     <string name="Yes">Oui</string>
     <string name="No">Non</string>
     <!-- Config gimbal -->
-    <string name="title_activity_console_tab_config">Console Config</string>
+    <string name="title_activity_console_tab_config">Configuration Gimbal</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
     <string name="title_activity_console_tab_status">Etat Console</string>
-    <string name="msg9">Vous avez changé le baud rate, l\'altimètre sera potentiellement dans l\'incapacité de se connecter. Etes vous certain?</string>
+    <string name="msg9">Vous avez changé le baud rate, le Gimbal sera potentiellement dans l\'incapacité de se connecter. Etes vous certain?</string>
     <string name="conf_msg1">Les données ne sont pas pretes</string>
-    <string name="conf_msg2">Unable to send the config, please try again</string>
+    <string name="conf_msg2">Impossible d\'envoyer la config, merci d\'essayer à nouveau</string>
 
     <!-- About -->
     <string name="dismiss_about">Fermer</string>
     <string name="version">Version:</string>
+    <string name="about_screen">About Screen</string>
+
     <!-- app config -->
     <string name="save_config">Sauvegarder</string>
     <string name="dismiss_config">Fermer</string>
@@ -24,7 +26,7 @@
     <string name="application_langage_config">Langue application</string>
     <string name="graph_color_config">Couleur graphique</string>
     <string name="application_units_config">Config unités application</string>
-    <string name="graph_back_color_config">Couleur de fond du graphique</string>
+    <string name="graph_back_color_config">Fond du graphique</string>
     <string name="font_size">Taille police</string>
     <string name="baud_rate">Baud rate</string>
     <string name="connection_type">Type de Connexion</string>
@@ -44,12 +46,12 @@
     <string name="no_paired_device">Aucun modules bluetooth trouvés</string>
     <!-- Main Screen-->
     <string name="connect_disconnect">Connexion</string>
-    <string name="gimbal_config">Config Gimbal</string>
+    <string name="gimbal_config">Configuration Gimbal</string>
     <string name="gimbal_status">Etat Gimbal</string>
     <string name="gimbal_fight">Vols</string>
     <string name="gimbal_reset">Réinitialisation</string>
-    <string name="those_functions_will_reset_the_altimeter">Ces fonctions réinitialiseront l\'altimètre</string>
-    <string name="restore_alti_config">Réinitialisation de config</string>
+    <string name="those_functions_will_reset_the_altimeter">Ces fonctions réinitialiseront le Gimbal</string>
+    <string name="restore_alti_config">Réinitialisation de la config</string>
 
     <!-- app config tab 1-->
     <string name="accelerometer_offsets">Offsets Acceléromètre</string>
@@ -60,7 +62,7 @@
     <string name="gyoffset">GyOffset</string>
     <string name="gzoffset">GzOffset</string>
     <string name="calibration">Calibration</string>
-    <string name="cancel_calibration">Cancel</string>
+    <string name="cancel_calibration">Annuler</string>
 
     <!-- app config tab 2-->
     <string name="pid_values">Valeurs PID</string>
@@ -72,7 +74,7 @@
     <string name="kdy">KdY</string>
     <!-- app config tab 3-->
     <string name="general">Géneral</string>
-    <string name="alti_name">Nom alti</string>
+    <string name="alti_name">Nom Gombal</string>
     <string name="units">Unités</string>
     <string name="beep_freq">Freq bip</string>
     <string name="baudrate">Baud Rate</string>
@@ -163,15 +165,15 @@
     <string name="firmware_dismiss">Fermer</string>
     <string name="recover_firmware">Firmware de récupération</string>
     <string name="flash_firmware">Flasher Firmware</string>
-    <string name="select_altimeter_model">Choisissez votre modèle d\'altimétre:</string>
+    <string name="select_altimeter_model">Choisissez votre modèle de Gimbal:</string>
     <string name="after_complete_upload">Après le chargement vous pourrez flasher le firmware</string>
     <string name="flight_list_cancel">Annuler</string>
     <string name="flight_retrieval_canceled">Le chargement des vols a été interrompu par l\'utilisateur</string>
     <string name="flight_have_been_recorded">Aucun vols n\'ont été enregistrés</string>
     <string name="main_screen_actity">Annuler</string>
     <string name="title_activity_flight_view_maps">Carte</string>
-    <string name="detect_firmware">Detect firmware</string>
-    <string name="msg_detect_firmware">Attempting to Detect firmware!!!</string>
+    <string name="detect_firmware">Detection firmware</string>
+    <string name="msg_detect_firmware">Tentative de détection du firmware!!!</string>
 
     <!-- app config -->
     <string name="unit_meter">Mètres</string>
@@ -179,4 +181,10 @@
     <string name="lang_english">anglais</string>
     <string name="lang_french">français</string>
     <string name="lang_phone">langue du telephone</string>
+
+    <string name="select_bluetooth_device">Choisir le peripherique Bluetooth</string>
+    <string name="reset_settings">Réinitialiser la config</string>
+    <string name="help_screen">Aide</string>
+    <string name="flight_view">Vue du Vol</string>
+    <string name="play_flight">Afficher Vol</string>
 </resources>

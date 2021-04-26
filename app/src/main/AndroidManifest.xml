@@ -35,7 +35,9 @@
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
         </activity>
-        <activity android:name=".flights.PlayFlight"></activity>
+        <activity android:name=".flights.PlayFlight">
+            android:label="@string/play_flight"
+        </activity>
         <activity
             android:name=".ConsoleTabStatusActivity"
             android:label="@string/title_activity_console_tab_status"
@@ -48,11 +50,11 @@
              />
         <activity
             android:name=".connection.SearchBluetooth"
-            android:label="Select Bluetooth device"
+            android:label="@string/select_bluetooth_device"
             android:screenOrientation="portrait" />
         <activity
             android:name=".help.AboutActivity"
-            android:label="about_screen"
+            android:label="@string/about_screen"
             android:screenOrientation="portrait" />
         <activity
             android:name=".config.AppConfigActivity"
@@ -60,14 +62,17 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ResetSettingsActivity"
+            android:label="@string/reset_settings"
             android:screenOrientation="portrait" />
         <activity
             android:name=".flights.FlightListActivity"
             android:label="@string/Flight_list"
             android:screenOrientation="portrait" />
         <activity android:name=".flights.FlightViewActivity" />
-        <activity android:name=".flights.FlightViewMPActivity" />
-        <activity android:name=".help.HelpActivity" />
+        <activity android:name=".flights.FlightViewMPActivity"
+            android:label="@string/flight_view"/>
+        <activity android:name=".help.HelpActivity"
+            android:label="@string/help_screen" />
     </application>
 
 </manifest>

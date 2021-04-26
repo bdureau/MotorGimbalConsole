@@ -13,7 +13,7 @@
 
         android:text="@string/servo"
         android:layout_marginTop="28dp"
-        android:textSize="36sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -29,7 +29,7 @@
         android:id="@+id/editTxtServoXMin"
         android:layout_width="175dp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/txtViewServoXMin"
+        android:layout_alignBaseline="@+id/txtViewServoXMin"
         android:layout_alignParentRight="true"
         android:inputType="number"
         android:textAlignment="textEnd"
@@ -49,7 +49,7 @@
         android:id="@+id/editTxtServoXMax"
         android:layout_width="175dp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/txtViewServoXMax"
+        android:layout_alignBaseline="@+id/txtViewServoXMax"
         android:layout_alignParentRight="true"
         android:inputType="number"
         android:textAlignment="textEnd"
@@ -69,7 +69,7 @@
         android:id="@+id/editTxtServoYMin"
         android:layout_width="175dp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/txtViewServoYMin"
+        android:layout_alignBaseline="@+id/txtViewServoYMin"
         android:layout_alignParentRight="true"
         android:inputType="number"
         android:textAlignment="textEnd"
@@ -89,7 +89,7 @@
         android:id="@+id/editTxtServoYMax"
         android:layout_width="175dp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/txtViewServoYMax"
+        android:layout_alignBaseline="@+id/txtViewServoYMax"
         android:layout_alignParentRight="true"
         android:inputType="number"
         android:textAlignment="textEnd"

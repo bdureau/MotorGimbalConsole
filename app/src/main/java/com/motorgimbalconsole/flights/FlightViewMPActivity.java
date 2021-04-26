@@ -146,7 +146,7 @@ public class FlightViewMPActivity extends AppCompatActivity {
         //get the bluetooth Application pointer
         myBT = (ConsoleApplication) getApplication();
         //Check the local and force it if needed
-        getApplicationContext().getResources().updateConfiguration(myBT.getAppLocal(), null);
+       // getApplicationContext().getResources().updateConfiguration(myBT.getAppLocal(), null);
 
         setContentView(R.layout.activity_flight_view_mp);
         buttonDismiss = (Button) findViewById(R.id.butDismiss);
@@ -221,13 +221,6 @@ public class FlightViewMPActivity extends AppCompatActivity {
             }
         }
 
-        /*LineDataSet set1 = new LineDataSet(yValues, "Altitude/Time");
-
-        set1.setDrawCircles(false);
-        set1.setDrawValues(false);
-        set1.setLabel("Altitude");*/
-        //dataSets = new ArrayList<>();
-        //dataSets.add(set1);
 
         LineData data = new LineData(dataSets);
         mChart.setData(data);
@@ -308,14 +301,12 @@ public class FlightViewMPActivity extends AppCompatActivity {
 
                                 dataSets.add(set1);
 
-
                             }
                         }
 
                         LineData data = new LineData(dataSets);
                         mChart.clear();
                         mChart.setData(data);
-
                     }
                 });
                 builder.setNegativeButton(getResources().getString(R.string.fv_cancel), null);
@@ -324,7 +315,6 @@ public class FlightViewMPActivity extends AppCompatActivity {
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
-
 
         });
     }

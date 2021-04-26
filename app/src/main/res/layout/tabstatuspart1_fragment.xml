@@ -14,9 +14,10 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:elegantTextHeight="true"
+        android:fontFamily="sans-serif-black"
         android:gravity="center_horizontal"
         android:text="@string/axis_values"
-        android:textSize="36sp" />
+        android:textSize="18sp" />
 
     <TableLayout
         android:layout_width="match_parent"

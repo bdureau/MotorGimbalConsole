@@ -16,6 +16,8 @@
     <!-- About -->
     <string name="dismiss_about">Dismiss</string>
     <string name="version">Version:</string>
+    <string name="about_screen">About Screen</string>
+
     <!-- app config -->
     <string name="save_config">Save</string>
     <string name="dismiss_config">Dismiss</string>
@@ -179,5 +181,12 @@
     <string name="lang_english">English</string>
     <string name="lang_french">French</string>
     <string name="lang_phone">Phone language</string>
+
+
+    <string name="select_bluetooth_device">Select Bluetooth device</string>
+    <string name="reset_settings">Reset settings</string>
+    <string name="help_screen">Help</string>
+    <string name="flight_view">Flight View</string>
+    <string name="play_flight">Play Flight</string>
 
 </resources>

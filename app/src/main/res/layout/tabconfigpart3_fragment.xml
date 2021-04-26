@@ -12,7 +12,7 @@
         android:fontFamily="sans-serif-black"
         android:gravity="center_horizontal"
         android:text="@string/general"
-        android:textSize="36sp" />
+        android:textSize="18sp" />
     <TextView
         android:id="@+id/txtAltimeterName"
         android:layout_width="wrap_content"
@@ -44,7 +44,7 @@
         android:layout_width="175dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/txtAltiUnit"
+        android:layout_alignBaseline="@+id/txtAltiUnit"
         android:spinnerMode="dropdown" />
 
     <TextView
@@ -61,7 +61,7 @@
         android:layout_width="175dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/txtBeepFrequency"
+        android:layout_alignBaseline="@+id/txtBeepFrequency"
         android:inputType="number"
         android:singleLine="true"
         android:text="100"
@@ -83,7 +83,7 @@
         android:id="@+id/spinnerBaudRate"
         android:layout_width="175dp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/txtViewBaudRate"
+        android:layout_alignBaseline="@+id/txtViewBaudRate"
         android:layout_alignParentRight="true"
         android:spinnerMode="dropdown" />
 
@@ -103,7 +103,7 @@
         android:id="@+id/spinnerAltimeterResolution"
         android:layout_width="175dp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/txtViewAltimeterResolution"
+        android:layout_alignBaseline="@+id/txtViewAltimeterResolution"
         android:layout_alignParentRight="true"
         android:spinnerMode="dropdown" />
 
@@ -121,7 +121,7 @@
         android:id="@+id/spinnerEEpromSize"
         android:layout_width="175dp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/txtViewEEpromSize"
+        android:layout_alignBaseline="@+id/txtViewEEpromSize"
         android:layout_alignParentRight="true"
         android:spinnerMode="dropdown" />
 
@@ -139,7 +139,7 @@
         android:id="@+id/editTxtEndRecordAltitude"
         android:layout_width="175dp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/txtViewEndRecordAltitude"
+        android:layout_alignBaseline="@+id/txtViewEndRecordAltitude"
         android:layout_alignParentRight="true"
         android:inputType="number"
         android:textAlignment="textEnd"
@@ -159,7 +159,7 @@
         android:id="@+id/spinnerLaunchDetect"
         android:layout_width="175dp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/txtViewLaunchDetect"
+        android:layout_alignBaseline="@+id/txtViewLaunchDetect"
         android:layout_alignParentRight="true"
         android:spinnerMode="dropdown" />
 
@@ -177,7 +177,7 @@
         android:id="@+id/spinnerGyroRange"
         android:layout_width="175dp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/txtViewGyroRange"
+        android:layout_alignBaseline="@+id/txtViewGyroRange"
         android:layout_alignParentRight="true"
         android:spinnerMode="dropdown" />
 
@@ -195,7 +195,7 @@
         android:id="@+id/spinnerAcceleroRange"
         android:layout_width="175dp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/txtViewAcceleroRange"
+        android:layout_alignBaseline="@+id/txtViewAcceleroRange"
         android:layout_alignParentRight="true"
         android:spinnerMode="dropdown" />
 

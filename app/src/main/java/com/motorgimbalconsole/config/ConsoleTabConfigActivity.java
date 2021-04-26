@@ -106,6 +106,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
 
     static void readConfig() {
         // ask for config
+        boolean success = false;
         if (myBT.getConnected()) {
             myBT.flush();
             myBT.clearInput();
@@ -139,7 +140,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                 try {
                     // getGimbalConfigData
                     GimbalCfg = myBT.getGimbalConfigData();
-
+                    success = true;
                     //String conf;
                     //conf = GimbalCfg.getKpX() + "," + GimbalCfg.getKpY() +
                       //      "," + GimbalCfg.getKiY() + "," + GimbalCfg.getKdY();

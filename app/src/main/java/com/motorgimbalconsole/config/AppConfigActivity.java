@@ -32,7 +32,7 @@ public class AppConfigActivity extends AppCompatActivity {
         //get the Connection Application pointer
         myBT = (ConsoleApplication) getApplication();
         //Check the local and force it if needed
-        getApplicationContext().getResources().updateConfiguration(myBT.getAppLocal(), null);
+        //getApplicationContext().getResources().updateConfiguration(myBT.getAppLocal(), null);
         // get the data for all the drop down
         appConfigData = new AppConfigData();
         setContentView(R.layout.activity_app_config);

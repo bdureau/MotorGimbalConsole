@@ -45,7 +45,7 @@
         android:id="@+id/spinnerLanguage"
         android:layout_alignParentTop="true"
         android:layout_width="175dp"
-        android:layout_alignTop="@+id/txtViewAppLang"
+        android:layout_alignBaseline="@+id/txtViewAppLang"
         android:layout_alignParentRight="true"
         android:focusableInTouchMode="false" />
 
@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/spinnerGraphColor"
         android:layout_width="175dp"
-        android:layout_alignTop="@+id/txtViewGraphColor"
+        android:layout_alignBaseline="@+id/txtViewGraphColor"
         android:layout_alignParentRight="true"/>
 
 
@@ -80,7 +80,7 @@
     <Spinner
         android:layout_height="wrap_content"
         android:id="@+id/spinnerUnits"
-        android:layout_alignTop="@+id/txtViewUnits"
+        android:layout_alignBaseline="@+id/txtViewUnits"
         android:layout_width="175dp"
         android:layout_alignParentRight="true"/>
 
@@ -98,7 +98,7 @@
     <Spinner
         android:layout_height="wrap_content"
         android:id="@+id/spinnerGraphBackColor"
-        android:layout_alignTop="@+id/txtViewGraphBackColor"
+        android:layout_alignBaseline="@+id/txtViewGraphBackColor"
         android:layout_width="175dp"
         android:layout_alignParentRight="true" />
 
@@ -115,7 +115,7 @@
     <Spinner
         android:layout_height="wrap_content"
         android:id="@+id/spinnerFontSize"
-        android:layout_alignTop="@+id/txtViewFontSize"
+        android:layout_alignBaseline="@+id/txtViewFontSize"
         android:layout_width="175dp"
         android:layout_alignParentRight="true" />
 
@@ -131,7 +131,7 @@
     <Spinner
         android:layout_height="wrap_content"
         android:id="@+id/spinnerBaudRate"
-        android:layout_alignTop="@+id/textViewBaudRate"
+        android:layout_alignBaseline="@+id/textViewBaudRate"
         android:layout_width="175dp"
         android:layout_alignParentRight="true" />
 
@@ -146,7 +146,7 @@
     <Spinner
         android:layout_height="wrap_content"
         android:id="@+id/spinnerConnectionType"
-        android:layout_alignTop="@+id/textConnectionType"
+        android:layout_alignBaseline="@+id/textConnectionType"
         android:layout_width="175dp"
         android:layout_alignParentRight="true" />
     <TextView
@@ -160,7 +160,7 @@
     <Spinner
         android:layout_height="wrap_content"
         android:id="@+id/spinnerGraphicLibType"
-        android:layout_alignTop="@+id/textGraphicLibType"
+        android:layout_alignBaseline="@+id/textGraphicLibType"
         android:layout_width="175dp"
         android:layout_alignParentRight="true" />
 </RelativeLayout>

@@ -14,7 +14,7 @@
         android:fontFamily="sans-serif-black"
         android:gravity="center"
         android:text="@string/other_sensors"
-        android:textSize="36sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/txtTemperature"

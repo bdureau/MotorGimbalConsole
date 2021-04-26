@@ -21,6 +21,7 @@ import android.hardware.usb.UsbManager;
 
 import com.motorgimbalconsole.config.AppConfigActivity;
 import com.motorgimbalconsole.config.ConsoleTabConfigActivity;
+import com.motorgimbalconsole.config.GimbalConfigData;
 import com.motorgimbalconsole.connection.SearchBluetooth;
 import com.motorgimbalconsole.flash.FlashFirmware;
 import com.motorgimbalconsole.flights.FlightListActivity;
@@ -42,6 +43,7 @@ public class MainActivityScreen extends AppCompatActivity {
     //private ProgressDialog progress;
     UsbManager usbManager;
     UsbDevice device;
+    private GimbalConfigData GimbalCfg = null;
     public final String ACTION_USB_PERMISSION = "com.altimeter.bdureau.bearconsole.USB_PERMISSION";
 
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() { //Broadcast Receiver to automatically start and stop the Serial connection.
@@ -54,7 +56,7 @@ public class MainActivityScreen extends AppCompatActivity {
                         myBT.setConnected(true);
                         EnableUI();
                         myBT.setConnectionType("usb");
-                        btnConnectDisconnect.setText(getResources().getString(R.string.disconnect));
+                        //btnConnectDisconnect.setText(getResources().getString(R.string.disconnect));
                     }
                 } else {
                     msg("PERM NOT GRANTED");
@@ -97,7 +99,7 @@ public class MainActivityScreen extends AppCompatActivity {
         if (myBT.getConnected())
         {
             EnableUI();
-            btnConnectDisconnect.setText(getResources().getString(R.string.disconnect));
+            //btnConnectDisconnect.setText(getResources().getString(R.string.disconnect));
         }
         else {
             DisableUI();
@@ -180,8 +182,8 @@ public class MainActivityScreen extends AppCompatActivity {
 
                             if (myBT.getConnected()) {
                                 EnableUI();
-                                btnConnectDisconnect.setText(getResources().getString(R.string.disconnect));
-                                btnFlashFirmware.setEnabled(false);
+                                //btnConnectDisconnect.setText(getResources().getString(R.string.disconnect));
+                                //btnFlashFirmware.setEnabled(false);
                             }
                         } else {
                             // choose the bluetooth device
@@ -223,19 +225,39 @@ public class MainActivityScreen extends AppCompatActivity {
 
     }
     private void EnableUI () {
-        btnConfig.setEnabled(true);
-        btnStatus.setEnabled(true);
-        btnFlight.setEnabled(true);
-        btnReset.setEnabled(true);
-        btnFlashFirmware.setEnabled(false);
+        boolean success;
+        success = readConfig();
+        //second attempt
+        if(!success)
+            success = readConfig();
+        //third attempt
+        if(!success)
+            success = readConfig();
+        //fourth and last
+        if(!success)
+            success = readConfig();
+        if( myBT.getGimbalConfigData().getAltimeterName().equals("RocketMotorGimbal")||
+                myBT.getGimbalConfigData().getAltimeterName().equals("RocketMotorGimbal_bno055")) {
+            btnConfig.setEnabled(true);
+            btnStatus.setEnabled(true);
+            btnFlight.setEnabled(true);
+            btnReset.setEnabled(true);
+            btnConnectDisconnect.setText(getResources().getString(R.string.disconnect));
+            btnFlashFirmware.setEnabled(false);
+        }
+        else {
+            msg("Unsupported firmware");
+            myBT.Disconnect();
+        }
     }
 
     private void Disconnect() {
         myBT.Disconnect();
     }
-    private void readConfig()
+    private boolean readConfig()
     {
         // ask for config
+        boolean success = false;
         if(myBT.getConnected()) {
 
             //msg("Retreiving altimeter config...");
@@ -271,18 +293,21 @@ public class MainActivityScreen extends AppCompatActivity {
             if (myMessage.equals( "start alticonfig end") )
             {
                 try {
-                    //GimbalCfg= myBT.getAltiConfigData();
+                    GimbalCfg= myBT.getGimbalConfigData();
+                    success = true;
                 }
                 catch (Exception e) {
                     //  msg("pb ready data");
+                    success = false;
                 }
             }
             else
             {
                 // msg("data not ready");
+                success = false;
             }
         }
-
+return success;
     }
 
 
@@ -397,7 +422,7 @@ public class MainActivityScreen extends AppCompatActivity {
                 //msg("Connected");
                 myBT.setConnected(true);
                 EnableUI();
-                btnConnectDisconnect.setText(getResources().getString(R.string.disconnect));
+                //btnConnectDisconnect.setText(getResources().getString(R.string.disconnect));
             }
             //progress.dismiss();
             alert.dismiss();

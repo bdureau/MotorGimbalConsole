@@ -17,7 +17,7 @@
     <!-- About -->
     <string name="dismiss_about">Fermer</string>
     <string name="version">Version:</string>
-    <string name="about_screen">About Screen</string>
+    <string name="about_screen">A propos</string>
 
     <!-- app config -->
     <string name="save_config">Sauvegarder</string>
@@ -32,7 +32,7 @@
     <string name="connection_type">Type de Connexion</string>
     <string name="upload">Sauvegarder</string>
     <string name="dismiss_tabconfig">Fermer</string>
-    <string name="graphiclib_type">Graphics lib </string>
+    <string name="graphiclib_type">Bibliothèque graphique </string>
 
     <!-- Reset screen -->
     <string name="dismiss_reset">Fermer</string>
@@ -172,7 +172,7 @@
     <string name="flight_have_been_recorded">Aucun vols n\'ont été enregistrés</string>
     <string name="main_screen_actity">Annuler</string>
     <string name="title_activity_flight_view_maps">Carte</string>
-    <string name="detect_firmware">Detection firmware</string>
+    <string name="detect_firmware">Détection firmware</string>
     <string name="msg_detect_firmware">Tentative de détection du firmware!!!</string>
 
     <!-- app config -->

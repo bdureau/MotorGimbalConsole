@@ -2,14 +2,22 @@ package com.motorgimbalconsole.config;
 
 //import android.support.v7.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
 import com.motorgimbalconsole.ConsoleApplication;
+import com.motorgimbalconsole.MainActivityScreen;
 import com.motorgimbalconsole.R;
+import com.motorgimbalconsole.connection.SearchBluetooth;
+import com.motorgimbalconsole.help.AboutActivity;
+import com.motorgimbalconsole.help.HelpActivity;
 
 /**
  *   @description: In this activity you should be able to choose the application languages and looks and feel.
@@ -157,6 +165,36 @@ public class AppConfigActivity extends AppCompatActivity {
         spBaudRate.setSelection(Integer.parseInt(myBT.getAppConf().getBaudRate()));
         spConnectionType.setSelection(Integer.parseInt(myBT.getAppConf().getConnectionType()));
         spGraphicsLibType.setSelection(Integer.parseInt(myBT.getAppConf().getGraphicsLibType()));
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_application_config, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+
+        //open help screen
+        if (id == R.id.action_help) {
+            Intent i = new Intent(AppConfigActivity.this, HelpActivity.class);
+            i.putExtra("help_file", "help_app_config");
+            startActivity(i);
+            return true;
+        }
+
+        if (id == R.id.action_about) {
+            Intent i = new Intent(AppConfigActivity.this, AboutActivity.class);
+            startActivity(i);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

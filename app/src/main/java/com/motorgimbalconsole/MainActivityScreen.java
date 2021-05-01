@@ -26,6 +26,7 @@ import com.motorgimbalconsole.connection.SearchBluetooth;
 import com.motorgimbalconsole.flash.FlashFirmware;
 import com.motorgimbalconsole.flights.FlightListActivity;
 import com.motorgimbalconsole.help.AboutActivity;
+import com.motorgimbalconsole.help.HelpActivity;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -333,8 +334,9 @@ return success;
         }
         //open help screen
         if (id == R.id.action_help) {
-           /* Intent i = new Intent(MainActivityScreen.this, HelpActivity.class);
-            startActivity(i);*/
+            Intent i = new Intent(MainActivityScreen.this, HelpActivity.class);
+            i.putExtra("help_file", "help");
+            startActivity(i);
             return true;
         }
         if (id == R.id.action_bluetooth) {

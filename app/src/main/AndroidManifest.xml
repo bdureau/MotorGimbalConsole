@@ -65,6 +65,10 @@
             android:label="@string/reset_settings"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".telemetry.TelemetryMp"
+            android:label="@string/telemetry_screen"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".flights.FlightListActivity"
             android:label="@string/Flight_list"
             android:screenOrientation="portrait" />

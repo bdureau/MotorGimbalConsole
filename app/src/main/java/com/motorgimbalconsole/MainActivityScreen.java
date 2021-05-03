@@ -27,6 +27,7 @@ import com.motorgimbalconsole.flash.FlashFirmware;
 import com.motorgimbalconsole.flights.FlightListActivity;
 import com.motorgimbalconsole.help.AboutActivity;
 import com.motorgimbalconsole.help.HelpActivity;
+import com.motorgimbalconsole.telemetry.TelemetryMp;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -37,7 +38,7 @@ import java.util.Map;
 public class MainActivityScreen extends AppCompatActivity {
 
     Button btnConnectDisconnect, btnConfig, btnStatus;
-    Button btnReset, btnFlight,btnFlashFirmware;
+    Button btnReset, btnFlight,btnFlashFirmware, btnTelemetry;
 
     private String address;
     ConsoleApplication myBT;
@@ -90,7 +91,7 @@ public class MainActivityScreen extends AppCompatActivity {
 
         btnReset= (Button)findViewById(R.id.butGimbalReset);
         btnFlight= (Button)findViewById(R.id.butGimbalFlight);
-
+        btnTelemetry = (Button) findViewById(R.id.butGimbalTelemetry);
         btnConfig = (Button)findViewById(R.id.butGimbalConfig);
         btnStatus = (Button)findViewById(R.id.butGimbalStatus);
         btnFlashFirmware= (Button)findViewById(R.id.butFlash);
@@ -107,7 +108,21 @@ public class MainActivityScreen extends AppCompatActivity {
             btnConnectDisconnect.setText(getResources().getString(R.string.connect_disconnect));
         }
 
+        btnTelemetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //turn on telemetry
+                if (myBT.getConnected()) {
+                    myBT.flush();
+                    myBT.clearInput();
 
+                    myBT.write("y1;".toString());
+                }
+                Intent i;
+               /* i = new Intent(MainActivityScreen.this, TelemetryMp.class);
+                startActivity(i);*/
+            }
+        });
 
         btnConfig.setOnClickListener(new View.OnClickListener() {
              @Override
@@ -222,6 +237,7 @@ public class MainActivityScreen extends AppCompatActivity {
         btnStatus.setEnabled(false);
         btnFlight.setEnabled(false);
         btnReset.setEnabled(false);
+        btnTelemetry.setEnabled(false);
         btnFlashFirmware.setEnabled(true);
 
     }
@@ -243,6 +259,7 @@ public class MainActivityScreen extends AppCompatActivity {
             btnStatus.setEnabled(true);
             btnFlight.setEnabled(true);
             btnReset.setEnabled(true);
+            btnTelemetry.setEnabled(true);
             btnConnectDisconnect.setText(getResources().getString(R.string.disconnect));
             btnFlashFirmware.setEnabled(false);
         }

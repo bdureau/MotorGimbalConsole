@@ -39,6 +39,12 @@
                 android:text="@string/gimbal_reset" />
 
             <Button
+                android:id="@+id/butGimbalTelemetry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gimbal_telemetry" />
+
+            <Button
                 android:id="@+id/butGimbalStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

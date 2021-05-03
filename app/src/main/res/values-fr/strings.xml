@@ -127,6 +127,7 @@
     <string name="MS_msg5">La connexion a échouée</string>
     <string name="MS_cancel">Annuler</string>
     <string name="FL_msg9">Aucun vols n\'ont été enregistrés</string>
+    <string name="gimbal_telemetry">Télémétrie</string>
 
     <!-- Flights list -->
     <string name="Flight_list">Liste des vols</string>
@@ -187,4 +188,19 @@
     <string name="help_screen">Aide</string>
     <string name="flight_view">Vue du Vol</string>
     <string name="play_flight">Afficher Vol</string>
+
+    <!-- Telemetry -->
+    <string name="stop_telemetry">Arret Tel</string>
+    <string name="start_telemetry">Démarrer Tel</string>
+    <string name="current_phase">Phase courante</string>
+    <string name="altitude">Altitude</string>
+    <string name="event_time">Heure Evenement</string>
+    <string name="lift_off">Décollage</string>
+    <string name="apogee_drogue">Apogée/drogue</string>
+    <string name="main_chute">Parachute Main</string>
+    <string name="landed">Attérie</string>
+    <string name="max_speed">Vitesse max</string>
+    <string name="current_altitude">Altitude courante</string>
+    <string name="dis">Déconnecter</string>
+    <string name="telemetry_screen">Télémetrie</string>
 </resources>

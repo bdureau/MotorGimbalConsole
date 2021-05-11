@@ -4,6 +4,7 @@ package com.motorgimbalconsole;
  * @author: boris.dureau@neuf.fr
  **/
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -299,6 +300,7 @@ public class ConsoleApplication extends Application {
         return new Long( checksum ).intValue();
 
     }
+    @SuppressLint("LongLogTag")
     public String ReadResult(long timeout) {
 
         // Reads in data while data is available
@@ -465,6 +467,37 @@ public class ConsoleApplication extends Application {
                                             else
                                                 Log.d("Console - ServoY", tempBuff);
 
+                                        // Value 23 contains liftoff
+                                        if (currentSentence.length > 23)
+                                            if (currentSentence[23].matches("\\d+(?:\\.\\d+)?"))
+                                                mHandler.obtainMessage(23, String.valueOf(currentSentence[23])).sendToTarget();
+                                            else
+                                                Log.d("Console - liftoff", tempBuff);
+                                        // Value 24 contains apogee
+                                        if (currentSentence.length > 24)
+                                            if (currentSentence[24].matches("\\d+(?:\\.\\d+)?"))
+                                                mHandler.obtainMessage(24, String.valueOf(currentSentence[24])).sendToTarget();
+                                            else
+                                                Log.d("Console - apogee", tempBuff);
+
+                                        // Value 25 contains apogee altitude
+                                        if (currentSentence.length > 25)
+                                            if (currentSentence[25].matches("\\d+(?:\\.\\d+)?"))
+                                                mHandler.obtainMessage(25, String.valueOf(currentSentence[25])).sendToTarget();
+                                            else
+                                                Log.d("Console - apogee altitude", tempBuff);
+                                        // Value 25 contains landed
+                                        if (currentSentence.length > 26)
+                                            if (currentSentence[26].matches("\\d+(?:\\.\\d+)?"))
+                                                mHandler.obtainMessage(26, String.valueOf(currentSentence[26])).sendToTarget();
+                                            else
+                                                Log.d("Console - landed", tempBuff);
+                                        // Value 25 contains currentTime
+                                        if (currentSentence.length > 27)
+                                            if (currentSentence[27].matches("\\d+(?:\\.\\d+)?"))
+                                                mHandler.obtainMessage(27, String.valueOf(currentSentence[27])).sendToTarget();
+                                            else
+                                                Log.d("Console - landed", tempBuff);
                                     }
                                 }
                                 break;

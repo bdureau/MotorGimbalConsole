@@ -90,12 +90,13 @@ public class TelemetryMp extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case 1:
+                case 10:
                     // Value 1 contain the current altitude
                     txtCurrentAltitude.setText(String.valueOf((String) msg.obj));
                     if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?")) {
                         if (cbLiftOff.isChecked() && !cbLanded.isChecked()) {
-                            int altitude = (int) (Integer.parseInt((String) msg.obj) * FEET_IN_METER);
+                            //int altitude = (int) (Integer.parseInt((String) msg.obj) * FEET_IN_METER);
+                            int altitude = (int) (Integer.parseInt((String) msg.obj));
 
                             yValues.add(new Entry(altitudeTime, altitude));
 
@@ -131,8 +132,8 @@ public class TelemetryMp extends AppCompatActivity {
                         }
                     }
                     break;
-                case 2:
-                    // Value 2 lift off yes/no
+                case 23:
+                    // Value 23 lift off yes/no
                     if (!cbLiftOff.isChecked())
                         if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?"))
                             if (Integer.parseInt((String) msg.obj) > 0 || LiftOffTime > 0) {
@@ -156,7 +157,7 @@ public class TelemetryMp extends AppCompatActivity {
                             }
 
                     break;
-                case 3:
+                case 24:
                     // Value 3 apogee fired yes/no
                     if (!cbApogee.isChecked())
                         if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?"))
@@ -168,7 +169,7 @@ public class TelemetryMp extends AppCompatActivity {
                             }
 
                     break;
-                case 4:
+                case 25:
                     //Value 4 apogee altitude
                     txtMaxAltitude.setText((String) msg.obj);
                     if (cbApogee.isChecked())
@@ -185,7 +186,7 @@ public class TelemetryMp extends AppCompatActivity {
                             apogeeSaid = true;
                         }
                     break;
-                case 5:
+               /* case 5:
                     //value 5 main fired yes/no
                     if (!cbMainChute.isChecked())
                         if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?"))
@@ -216,8 +217,8 @@ public class TelemetryMp extends AppCompatActivity {
                         }
                     }
 
-                    break;
-                case 7:
+                    break;*/
+                case 26:
                     //have we landed
                     if (!cbLanded.isChecked())
                         if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?"))
@@ -241,7 +242,7 @@ public class TelemetryMp extends AppCompatActivity {
                             }
 
                     break;
-                case 8:
+                case 27:
                     // Value 8 contain the sample time
                     if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?")) {
                         if (Integer.parseInt((String) msg.obj) > 0) {

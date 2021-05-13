@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import android.content.Intent;
+/*import android.content.Intent;
 
 import android.graphics.Typeface;
 
@@ -41,7 +41,7 @@ import org.afree.data.category.DefaultCategoryDataset;
 import org.afree.data.xy.XYSeriesCollection;
 
 import org.afree.graphics.SolidColor;
-import org.afree.graphics.geom.Font;
+import org.afree.graphics.geom.Font;*/
 
 
 import android.graphics.Color;

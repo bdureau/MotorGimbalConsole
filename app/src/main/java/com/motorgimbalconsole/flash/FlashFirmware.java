@@ -62,8 +62,8 @@ boolean recorverFirmware = false;
     private UartConfig uartConfig;
 
 
-    private static final String ASSET_FILE_NAME_MOTORGIMBALE  = "firmwares/2021-05-13_RocketMotorPIDGimbalV1.1.ino.bin";
-    private static final String ASSET_FILE_NAME_MOTORGIMBALE_BNO55  = "firmwares/2021-05-13_RocketMotorPIDGimbal_bno055V1.1.ino.bin";
+    private static final String ASSET_FILE_NAME_MOTORGIMBALE  = "firmwares/2021-05-25_RocketMotorPIDGimbalV1.1.ino.bin";
+    private static final String ASSET_FILE_NAME_MOTORGIMBALE_BNO55  = "firmwares/2021-05-25_RocketMotorPIDGimbal_bno055V1.1.ino.bin";
 
 
     private static final String ASSET_FILE_RESET_ALTISTM32 = "recover_firmwares/ResetAltiConfigAltimultiSTM32.ino.bin";

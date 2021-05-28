@@ -1,166 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_content1"
     tools:context="com.motorgimbalconsole.config.AppConfigActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/container_config"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/save_config"
         android:id="@+id/butSave"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_gravity="start|bottom"  />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/dismiss_config"
         android:id="@+id/butDismiss"
-        android:layout_alignTop="@+id/butSave"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_gravity="center|bottom"  />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/default_config"
         android:id="@+id/butDefault"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/application_langage_config"
-        android:id="@+id/txtViewAppLang"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Spinner
-        android:layout_height="wrap_content"
-        android:id="@+id/spinnerLanguage"
-        android:layout_alignParentTop="true"
-        android:layout_width="175dp"
-        android:layout_alignBaseline="@+id/txtViewAppLang"
-        android:layout_alignParentRight="true"
-        android:focusableInTouchMode="false" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/graph_color_config"
-        android:id="@+id/txtViewGraphColor"
-        android:layout_below="@+id/txtViewAppLang"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="18dp" />
-
-    <Spinner
-        android:layout_height="wrap_content"
-        android:id="@+id/spinnerGraphColor"
-        android:layout_width="175dp"
-        android:layout_alignBaseline="@+id/txtViewGraphColor"
-        android:layout_alignParentRight="true"/>
+        android:layout_gravity="end|bottom"/>
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/application_units_config"
-        android:id="@+id/txtViewUnits"
-        android:layout_below="@+id/txtViewGraphColor"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="18dp" />
-
-    <Spinner
-        android:layout_height="wrap_content"
-        android:id="@+id/spinnerUnits"
-        android:layout_alignBaseline="@+id/txtViewUnits"
-        android:layout_width="175dp"
-        android:layout_alignParentRight="true"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/graph_back_color_config"
-        android:id="@+id/txtViewGraphBackColor"
-        android:layout_below="@+id/txtViewUnits"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="18dp" />
-
-
-    <Spinner
-        android:layout_height="wrap_content"
-        android:id="@+id/spinnerGraphBackColor"
-        android:layout_alignBaseline="@+id/txtViewGraphBackColor"
-        android:layout_width="175dp"
-        android:layout_alignParentRight="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/font_size"
-        android:id="@+id/txtViewFontSize"
-        android:layout_below="@+id/txtViewGraphBackColor"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="18dp" />
-
-    <Spinner
-        android:layout_height="wrap_content"
-        android:id="@+id/spinnerFontSize"
-        android:layout_alignBaseline="@+id/txtViewFontSize"
-        android:layout_width="175dp"
-        android:layout_alignParentRight="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/baud_rate"
-        android:id="@+id/textViewBaudRate"
-        android:layout_below="@+id/txtViewFontSize"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="18dp" />
-
-    <Spinner
-        android:layout_height="wrap_content"
-        android:id="@+id/spinnerBaudRate"
-        android:layout_alignBaseline="@+id/textViewBaudRate"
-        android:layout_width="175dp"
-        android:layout_alignParentRight="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/connection_type"
-        android:id="@+id/textConnectionType"
-        android:layout_below="@+id/textViewBaudRate"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="18dp" />
-    <Spinner
-        android:layout_height="wrap_content"
-        android:id="@+id/spinnerConnectionType"
-        android:layout_alignBaseline="@+id/textConnectionType"
-        android:layout_width="175dp"
-        android:layout_alignParentRight="true" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/graphiclib_type"
-        android:id="@+id/textGraphicLibType"
-        android:layout_below="@+id/textConnectionType"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="18dp" />
-    <Spinner
-        android:layout_height="wrap_content"
-        android:id="@+id/spinnerGraphicLibType"
-        android:layout_alignBaseline="@+id/textGraphicLibType"
-        android:layout_width="175dp"
-        android:layout_alignParentRight="true" />
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

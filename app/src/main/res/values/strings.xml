@@ -182,6 +182,7 @@
     <string name="lang_english">English</string>
     <string name="lang_french">French</string>
     <string name="lang_phone">Phone language</string>
+    <string name="FullUSBSupport">Full USB Support</string>
 
 
     <string name="select_bluetooth_device">Select Bluetooth device</string>
@@ -204,4 +205,16 @@
     <string name="current_altitude">Current Altitude</string>
     <string name="dis">disconnect</string>
     <string name="telemetry_screen">Telemetry</string>
+
+    <string name="telemetry_voice">Telemetry voice</string>
+    <string name="test_telemetry_voice">Test Voice</string>
+    <string name="telemetry_config">Telemetry config</string>
+    <string name="apogee_altitude_event">Apogee altitude</string>
+    <string name="drogue_event">Drogue event</string>
+    <string name="altitude_event">Altitude event</string>
+    <string name="landing_event">Landing event</string>
+    <string name="burnout_event">Burnout event</string>
+    <string name="warning_event">Warning event</string>
+    <string name="liftoff_event">Lift off event</string>
+
 </resources>

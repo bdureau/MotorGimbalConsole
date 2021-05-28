@@ -934,6 +934,16 @@ public class ConsoleApplication extends Application {
         private String baudRate = "9";
         private String graphicsLibType ="0";
 
+        private String fullUSBSupport= "false";
+        private String say_apogee_altitude= "false";
+        private String say_drogue_event= "false";
+        private String say_altitude_event= "false";
+        private String say_landing_event= "false";
+        private String say_burnout_event= "false";
+        private String say_warning_event= "false";
+        private String say_liftoff_event= "false";
+        private String telemetryVoice = "0";
+
         public GlobalConfig() {
             appConfig = getSharedPreferences("BearConsoleCfg", MODE_PRIVATE);
             edit = appConfig.edit();
@@ -951,12 +961,15 @@ public class ConsoleApplication extends Application {
             //default is 38400
             baudRate = "8";
             connectionType = "0";
-            /*edit.clear();
-            edit.putString("AppLanguage","0");
-            edit.putString("Units", "0");
-            edit.putString("GraphColor", "0");
-            edit.putString("GraphBackColor", "1");
-            edit.putString("FontSize", "10");*/
+            fullUSBSupport = "false";
+            telemetryVoice ="0";
+            say_apogee_altitude= "false";
+            say_drogue_event= "false";
+            say_altitude_event= "false";
+            say_landing_event= "false";
+            say_burnout_event= "false";
+            say_warning_event= "false";
+            say_liftoff_event="false";
 
         }
 
@@ -1008,6 +1021,51 @@ public class ConsoleApplication extends Application {
                 graphicsLibType = appConfig.getString("GraphicsLibType","");
                 if (!graphicsLibType.equals(""))
                     setGraphicsLibType(graphicsLibType);
+
+                String telemetryVoice;
+                telemetryVoice = appConfig.getString("telemetryVoice", "0");
+                if(!telemetryVoice.equals(""))
+                    setTelemetryVoice(telemetryVoice);
+
+                //enable full USB support
+                String fullUSBSupport;
+                fullUSBSupport = appConfig.getString("fullUSBSupport", "false");
+                if (!fullUSBSupport.equals(""))
+                    setFullUSBSupport(fullUSBSupport);
+                String say_apogee_altitude;
+                say_apogee_altitude = appConfig.getString("say_apogee_altitude", "false");
+                if (!say_apogee_altitude.equals(""))
+                    setApogee_altitude(say_apogee_altitude);
+                String say_drogue_event;
+                say_drogue_event = appConfig.getString("say_drogue_event", "false");
+                if (!say_drogue_event.equals(""))
+                    setDrogue_event(say_drogue_event);
+
+                String say_altitude_event;
+                say_altitude_event = appConfig.getString("say_altitude_event", "false");
+                if (!say_altitude_event.equals(""))
+                    setAltitude_event(say_altitude_event);
+
+                String say_landing_event;
+                say_landing_event = appConfig.getString("say_landing_event", "false");
+                if (!say_landing_event.equals(""))
+                    setLanding_event(say_landing_event);
+
+                String say_burnout_event;
+                say_burnout_event = appConfig.getString("say_burnout_event", "false");
+                if (!say_burnout_event.equals(""))
+                    setBurnout_event(say_burnout_event);
+
+                String say_warning_event;
+                say_warning_event = appConfig.getString("say_warning_event", "false");
+                if (!say_warning_event.equals(""))
+                    setWarning_event(say_warning_event);
+
+                String say_liftoff_event;
+                say_liftoff_event = appConfig.getString("say_liftoff_event", "false");
+                if (!say_liftoff_event.equals(""))
+                    setLiftOff_event(say_liftoff_event);
+
             } catch (Exception e) {
 
             }
@@ -1022,6 +1080,15 @@ public class ConsoleApplication extends Application {
             edit.putString("BaudRate", getBaudRate());
             edit.putString("ConnectionType", getConnectionType());
             edit.putString("GraphicsLibType", getGraphicsLibType());
+            edit.putString("telemetryVoice", getTelemetryVoice());
+            edit.putString("fullUSBSupport", getFullUSBSupport());
+            edit.putString("say_apogee_altitude", getApogee_altitude());
+            edit.putString("say_drogue_event", getDrogue_event());
+            edit.putString("say_altitude_event", getAltitude_event());
+            edit.putString("say_landing_event", getLanding_event());
+            edit.putString("say_burnout_event", getBurnout_event());
+            edit.putString("say_warning_event", getWarning_event());
+            edit.putString("say_liftoff_event", getLiftOff_event());
             edit.commit();
 
         }
@@ -1105,6 +1172,51 @@ public class ConsoleApplication extends Application {
 
         public void setBaudRate(String value) {
             baudRate = value;
+        }
+
+        public void setFullUSBSupport(String value) {
+            fullUSBSupport = value;
+        }
+        public String getFullUSBSupport() {
+            return fullUSBSupport;//appCfgData.getMultipleDrogueMain();
+        }
+        public void setApogee_altitude(String value) { say_apogee_altitude = value;  }
+        public String getApogee_altitude() {
+            return say_apogee_altitude;
+        }
+        public void setDrogue_event(String value) { say_drogue_event = value;  }
+        public String getDrogue_event() {
+            return say_drogue_event;
+        }
+
+        public void setAltitude_event(String value) { say_altitude_event = value;  }
+        public String getAltitude_event() {
+            return say_altitude_event;
+        }
+
+        public void setLanding_event(String value) { say_landing_event = value;  }
+        public String getLanding_event() {
+            return say_landing_event;
+        }
+
+        public void setBurnout_event(String value) { say_burnout_event = value;  }
+        public String getBurnout_event() {
+            return say_burnout_event;
+        }
+
+        public void setWarning_event(String value) { say_warning_event = value;  }
+        public String getWarning_event() {
+            return say_warning_event;
+        }
+
+        public void setLiftOff_event(String value) { say_liftoff_event = value;  }
+        public String getLiftOff_event() {
+            return say_liftoff_event;
+        }
+
+        public void setTelemetryVoice(String value) {telemetryVoice =value;}
+        public String getTelemetryVoice() {
+            return telemetryVoice;
         }
 
         public int ConvertFont(int font) {

@@ -5,6 +5,10 @@ package com.motorgimbalconsole.flights;
  *   @description: This class has all the flight arrays and methods to add or remove flight data
  *   @author: boris.dureau@neuf.fr
  **/
+import android.content.Context;
+
+import com.motorgimbalconsole.R;
+
 import java.util.*;
 
 
@@ -12,11 +16,14 @@ import org.afree.data.xy.XYSeries;
 import org.afree.data.xy.XYSeriesCollection;
 
 public class FlightData {
+    //context so that we can use the translations
+    private Context context;
     // Create a hash map
     public static HashMap hm;
 
-    public FlightData ()
+    public FlightData (Context current)
     {
+        this.context = current;
         hm = new HashMap();
         // create one empty flight data collection
         //hm.put("Flight 01", createFlight("Flight 01"));
@@ -151,7 +158,7 @@ public class FlightData {
     private XYSeriesCollection  createFlight(final String name) {
         XYSeriesCollection ret;
         //final XYSeries series = new XYSeries("altitude") ;
-        ret = new XYSeriesCollection (new XYSeries("altitude"));
+        ret = new XYSeriesCollection (new XYSeries(context.getResources().getString(R.string.altitude)));
         ret.addSeries(new XYSeries("temperature"));
         ret.addSeries(new XYSeries("pressure"));
         ret.addSeries(new XYSeries("Gravity X"));

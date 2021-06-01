@@ -6,6 +6,7 @@ package com.motorgimbalconsole;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -62,10 +63,10 @@ public class ConsoleApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        MyFlight = new FlightData();
+        MyFlight = new FlightData(this);
         BTCon = new BluetoothConnection();
         UsbCon = new UsbConnection();
-        AppConf = new GlobalConfig();
+        AppConf = new GlobalConfig(this);
         AppConf.ReadConfig();
         GimbalCfg = new GimbalConfigData();
         myTypeOfConnection = AppConf.getConnectionTypeValue();
@@ -229,10 +230,10 @@ public class ConsoleApplication extends Application {
     }
 
     public void initFlightData() {
-        MyFlight = new FlightData();
+        MyFlight = new FlightData(this);
 
-        //if(AppConf.getUnits().equals("0"))
-        if (AppConf.getUnitsValue().equals("Meters")) {
+        if(AppConf.getUnits().equals("0")) {
+        //if (AppConf.getUnitsValue().equals("Meters")) {
             FEET_IN_METER = 1;
         } else {
             FEET_IN_METER = 3.28084;
@@ -518,9 +519,10 @@ public class ConsoleApplication extends Application {
                                         if (currentSentence[1].matches("\\d+(?:\\.\\d+)?")) {
                                             currentFlightNbr = Integer.valueOf(currentSentence[1]) + 1;
                                             if (currentFlightNbr < 10)
-                                                flightName = "Flight " + "0" + currentFlightNbr;
+                                                flightName = getResources().getString(R.string.flight_name) + " "+ "0" + currentFlightNbr;
                                             else
-                                                flightName = "Flight " + currentFlightNbr;
+                                                //flight
+                                                flightName = getResources().getString(R.string.flight_name) + " " + currentFlightNbr;
                                         }
                                     // value
                                     // Value 2 contain the time
@@ -908,7 +910,7 @@ public class ConsoleApplication extends Application {
     }
 
     public class GlobalConfig {
-
+        Context context;
         SharedPreferences appConfig = null;
         SharedPreferences.Editor edit = null;
         AppConfigData appCfgData = null;
@@ -944,10 +946,11 @@ public class ConsoleApplication extends Application {
         private String say_liftoff_event= "false";
         private String telemetryVoice = "0";
 
-        public GlobalConfig() {
+        public GlobalConfig(Context current) {
             appConfig = getSharedPreferences("BearConsoleCfg", MODE_PRIVATE);
             edit = appConfig.edit();
-            appCfgData = new AppConfigData();
+            context = current;
+            appCfgData = new AppConfigData(context);
 
         }
 

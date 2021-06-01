@@ -66,7 +66,7 @@ public class AppConfigActivity extends AppCompatActivity {
         //Check the local and force it if needed
         //getApplicationContext().getResources().updateConfiguration(myBT.getAppLocal(), null);
         // get the data for all the drop down
-        appConfigData = new AppConfigData();
+        appConfigData = new AppConfigData(this);
         setContentView(R.layout.activity_app_config);
 
         mViewPager = (ViewPager) findViewById(R.id.container_config);

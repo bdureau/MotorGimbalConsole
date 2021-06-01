@@ -162,7 +162,7 @@ public class FlightViewMPActivity extends AppCompatActivity {
         // by default we will display the altitude
         // but then the user will be able to change the data
         flightData = new XYSeriesCollection();
-        flightData.addSeries(allFlightData.getSeries("altitude"));
+        flightData.addSeries(allFlightData.getSeries(getResources().getString(R.string.altitude)));
 
         // get a list of all the curves that have been recorded
         //List allCurves = allFlightData.getSeries();
@@ -181,7 +181,7 @@ public class FlightViewMPActivity extends AppCompatActivity {
         if (currentCurvesNames == null) {
             //This is the first time so only display the altitude
             currentCurvesNames = new String[curvesNames.length];
-            currentCurvesNames[0] ="altitude";
+            currentCurvesNames[0] =getResources().getString(R.string.altitude);
             checkedItems = new boolean[curvesNames.length];
             checkedItems[0] = true;
         }
@@ -208,7 +208,7 @@ public class FlightViewMPActivity extends AppCompatActivity {
                     yValues.add(new Entry(allFlightData.getSeries(i).getX(k).floatValue(), allFlightData.getSeries(i).getY(k).floatValue()));
                 }
 
-                LineDataSet set1 = new LineDataSet(yValues, "Altitude/Time");
+                LineDataSet set1 = new LineDataSet(yValues, getResources().getString(R.string.Altitude_time));
                 set1.setColor(colors[i]);
 
                 set1.setDrawValues(false);
@@ -216,8 +216,6 @@ public class FlightViewMPActivity extends AppCompatActivity {
                 set1.setLabel(curvesNames[i]);
 
                 dataSets.add(set1);
-
-
             }
         }
 
@@ -292,7 +290,7 @@ public class FlightViewMPActivity extends AppCompatActivity {
                                     yValues.add(new Entry(allFlightData.getSeries(i).getX(k).floatValue(), allFlightData.getSeries(i).getY(k).floatValue()));
                                 }
 
-                                LineDataSet set1 = new LineDataSet(yValues, "Altitude/Time");
+                                LineDataSet set1 = new LineDataSet(yValues, getResources().getString(R.string.Altitude_time));
                                 set1.setColor(colors[i]);
 
                                 set1.setDrawValues(false);

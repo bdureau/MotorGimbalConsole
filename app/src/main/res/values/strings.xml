@@ -184,12 +184,30 @@
     <string name="lang_phone">Phone language</string>
     <string name="FullUSBSupport">Full USB Support</string>
 
+    <string name="color_black">BLACK</string>
+    <string name="color_white">WHITE</string>
+    <string name="color_magenta">MAGENTA</string>
+    <string name="color_blue">BLUE</string>
+    <string name="color_yellow">YELLOW</string>
+    <string name="color_green">GREEN</string>
+    <string name="color_gray">GRAY</string>
+    <string name="color_cyan">CYAN</string>
+    <string name="color_dkgray">DKGRAY</string>
+    <string name="color_ltgray">LTGRAY</string>
+    <string name="color_red">RED</string>
+
+    <string name="phone_english">English</string>
+    <string name="phone_french">French</string>
+    <string name="phone_language">Phone language</string>
+    <string name="config_unit_meters">Meters</string>
+    <string name="config_unit_feet">Feet</string>
 
     <string name="select_bluetooth_device">Select Bluetooth device</string>
     <string name="reset_settings">Reset settings</string>
     <string name="help_screen">Help</string>
     <string name="flight_view">Flight View</string>
     <string name="play_flight">Play Flight</string>
+    <string name="flight_name">Flight</string>
 
     <!-- Telemetry -->
     <string name="stop_telemetry">Stop Telemetry</string>
@@ -205,6 +223,10 @@
     <string name="current_altitude">Current Altitude</string>
     <string name="dis">disconnect</string>
     <string name="telemetry_screen">Telemetry</string>
+    <string name="telemetry_alt_time">Altitude/Time</string>
+    <string name="telemetry_apogee">apogee</string>
+    <string name="rocket_has_landed">rocket has landed</string>
+    <string name="telemetry">telemetry</string>
 
     <string name="telemetry_voice">Telemetry voice</string>
     <string name="test_telemetry_voice">Test Voice</string>

@@ -64,6 +64,26 @@
     <string name="calibration">Calibration</string>
     <string name="cancel_calibration">Annuler</string>
 
+    <string name="color_black">Noir</string>
+    <string name="color_white">Blanc</string>
+    <string name="color_magenta">Magenta</string>
+    <string name="color_blue">Bleu</string>
+    <string name="color_yellow">Jaune</string>
+    <string name="color_green">Vert</string>
+    <string name="color_gray">Gris</string>
+    <string name="color_cyan">Cyan</string>
+    <string name="color_dkgray">Gris foncé</string>
+    <string name="color_ltgray">Gris clair</string>
+    <string name="color_red">Rouge</string>
+
+    <string name="phone_english">anglais</string>
+    <string name="phone_french">français</string>
+    <string name="phone_language">langue du téléphone</string>
+    <string name="config_unit_meters">Mètres</string>
+    <string name="config_unit_feet">Pieds</string>
+
+
+
     <!-- app config tab 2-->
     <string name="pid_values">Valeurs PID</string>
     <string name="kpx">KpX</string>
@@ -182,13 +202,14 @@
     <string name="lang_english">anglais</string>
     <string name="lang_french">français</string>
     <string name="lang_phone">langue du telephone</string>
-    <string name="FullUSBSupport">Full USB Support</string>
+    <string name="FullUSBSupport">Support USB complet</string>
 
-    <string name="select_bluetooth_device">Choisir le peripherique Bluetooth</string>
+    <string name="select_bluetooth_device">Choisir le module Bluetooth</string>
     <string name="reset_settings">Réinitialiser la config</string>
     <string name="help_screen">Aide</string>
     <string name="flight_view">Vue du Vol</string>
     <string name="play_flight">Afficher Vol</string>
+    <string name="flight_name">Vol</string>
 
     <!-- Telemetry -->
     <string name="stop_telemetry">Arret Tel</string>
@@ -199,20 +220,24 @@
     <string name="lift_off">Décollage</string>
     <string name="apogee_drogue">Apogée/drogue</string>
     <string name="main_chute">Parachute Main</string>
-    <string name="landed">Attérie</string>
+    <string name="landed">Atterri</string>
     <string name="max_speed">Vitesse max</string>
     <string name="current_altitude">Altitude courante</string>
     <string name="dis">Déconnecter</string>
     <string name="telemetry_screen">Télémetrie</string>
+    <string name="telemetry_alt_time">Altitude/temps</string>
+    <string name="telemetry_apogee">apogée à </string>
+    <string name="rocket_has_landed">la fusée a atterri</string>
+    <string name="telemetry">Télémetrie</string>
 
-    <string name="telemetry_voice">Telemetry voice</string>
-    <string name="test_telemetry_voice">Test Voice</string>
-    <string name="telemetry_config">Telemetry config</string>
-    <string name="apogee_altitude_event">Apogee altitude</string>
-    <string name="drogue_event">Drogue event</string>
-    <string name="altitude_event">Altitude event</string>
-    <string name="landing_event">Landing event</string>
+    <string name="telemetry_voice">Voix télémetrie</string>
+    <string name="test_telemetry_voice">Tester Voix</string>
+    <string name="telemetry_config">Configuration télémetrie</string>
+    <string name="apogee_altitude_event">Altitude apogée</string>
+    <string name="drogue_event">Evenement Drogue</string>
+    <string name="altitude_event">Evenement altitude</string>
+    <string name="landing_event">Evenement atterrissage</string>
     <string name="burnout_event">Burnout event</string>
-    <string name="warning_event">Warning event</string>
-    <string name="liftoff_event">Lift off event</string>
+    <string name="warning_event">Evenement danger</string>
+    <string name="liftoff_event">Evenement décollage</string>
 </resources>

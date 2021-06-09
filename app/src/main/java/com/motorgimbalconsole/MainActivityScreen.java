@@ -255,10 +255,18 @@ public class MainActivityScreen extends AppCompatActivity {
             success = readConfig();
         if( myBT.getGimbalConfigData().getAltimeterName().equals("RocketMotorGimbal")||
                 myBT.getGimbalConfigData().getAltimeterName().equals("RocketMotorGimbal_bno055")) {
-            btnConfig.setEnabled(true);
-            btnStatus.setEnabled(true);
-            btnFlight.setEnabled(true);
-            btnReset.setEnabled(true);
+            if (myBT.getAppConf().getConnectionType().equals("0") || (myBT.getAppConf().getConnectionType().equals("1") && myBT.getAppConf().getFullUSBSupport().equals("true"))) {
+                btnConfig.setEnabled(true);
+                btnStatus.setEnabled(true);
+                btnFlight.setEnabled(true);
+                btnReset.setEnabled(true);
+            } else {
+                btnConfig.setEnabled(false);
+                btnStatus.setEnabled(false);
+                btnFlight.setEnabled(false);
+                btnReset.setEnabled(false);
+            }
+
             btnTelemetry.setEnabled(true);
             btnConnectDisconnect.setText(getResources().getString(R.string.disconnect));
             btnFlashFirmware.setEnabled(false);
@@ -335,7 +343,24 @@ return success;
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
 
+        myBT.getAppConf().ReadConfig();
+        //msg(myBT.getConnectionType());
+        //Log.d("MainScreen", "myBT.getConnectionType():" +myBT.getConnectionType());
+        if(myBT.getAppConf().getConnectionType().equals("1")) {
+            //if(myBT.getConnectionType().equals("usb")) { //if usb
+
+            //menu.getItem(R.id.action_bluetooth).setEnabled(false);
+            menu.findItem(R.id.action_bluetooth).setEnabled(false);
+        }
+        else
+            //menu.getItem(R.id.action_bluetooth).setEnabled(true);
+            menu.findItem(R.id.action_bluetooth).setEnabled(true);
+        return true;
+
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

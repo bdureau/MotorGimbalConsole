@@ -1,5 +1,6 @@
 package com.motorgimbalconsole.config;
 
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -60,6 +61,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
     private static GimbalConfigData GimbalCfg = null;
 
     private ProgressDialog progress;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

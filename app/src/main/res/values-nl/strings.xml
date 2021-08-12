@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Gimbal-motorconsole</string>
+
+    <!-- Config application -->
+    <string name="titre_application_pref">Programma voorkeuren</string>
+    <string name="Yes">Ja</string>
+    <string name="No">Nee</string>
+    <!-- Config screen -->
+    <string name="title_activity_console_tab_config">Consoleconfiguratie</string>
+    <string name="tab_text_1">Tabblad 1</string>
+    <string name="tab_text_2">Tabblad 2</string>
+    <string name="title_activity_console_tab_status">Consolestatus</string>
+    <string name="msg9">U hebt de baudrate gewijzigd, de hoogtemeter kan mogelijk geen verbinding maken. Weet je het zeker?</string>
+    <string name="conf_msg1">data niet gereed</string>
+    <string name="conf_msg2">Kan de configuratie niet verzenden, probeer het opnieuw</string>
+    <!-- About -->
+    <string name="dismiss_about">Afwijzen</string>
+    <string name="version">Versie:</string>
+    <string name="about_screen">Over scherm</string>
+
+    <!-- app config -->
+    <string name="save_config">Opslaan</string>
+    <string name="dismiss_config">Afwijzen</string>
+    <string name="default_config">Standaardconfiguratie</string>
+    <string name="application_langage_config">Programma taal instellingen</string>
+    <string name="graph_color_config">Grafiek kleur instellingen</string>
+    <string name="application_units_config">Configuratie van applicatie-eenheden</string>
+    <string name="graph_back_color_config">Grafiek terug kleur config</string>
+    <string name="font_size">Lettertypegrootte</string>
+    <string name="baud_rate">Baudrate</string>
+    <string name="connection_type">Connectie type</string>
+    <string name="upload">Uploaden</string>
+    <string name="dismiss_tabconfig">Afwijzen</string>
+    <string name="graphiclib_type">Grafische bibliotheek</string>
+
+    <!-- Reset screen -->
+    <string name="dismiss_reset">Afwijzen</string>
+    <string name="clear_flights">Vluchten wissen</string>
+    <string name="reset_msg1">U staat op het punt alle vluchtgegevens te wissen, weet u zeker dat u dit wilt doen?</string>
+    <string name="reset_msg2">U staat op het punt uw hoogtemeterconfiguratie opnieuw in te stellen, weet u zeker dat u dit wilt doen?</string>
+
+    <!-- Bluetooth-->
+    <string name="select_device_to_use">Selecteer apparaat om te gebruiken</string>
+    <string name="show_paired_devices">Gekoppelde apparaten weergeven</string>
+    <string name="no_paired_device">Geen gekoppelde Bluetooth-apparaten gevonden.</string>
+    <!-- Main Screen-->
+    <string name="connect_disconnect">Aansluiten</string>
+    <string name="gimbal_config">Gimbal-configuratie</string>
+    <string name="gimbal_status">Gimbal-status</string>
+    <string name="gimbal_fight">Vluchten</string>
+    <string name="gimbal_reset">Resetten</string>
+    <string name="those_functions_will_reset_the_altimeter">Die functies resetten de hoogtemeter</string>
+    <string name="restore_alti_config">Alti-configuratie herstellen</string>
+
+    <!-- app config tab 1-->
+    <string name="accelerometer_offsets">Versnellingsmeter offsets</string>
+    <string name="axoffset">AxOffset</string>
+    <string name="ayoffset">AyOffset</string>
+    <string name="azoffset">AzOffset</string>
+    <string name="gxoffset">GxOffset</string>
+    <string name="gyoffset">GyOffset</string>
+    <string name="gzoffset">GzOffset</string>
+    <string name="calibration">Kalibratie</string>
+    <string name="cancel_calibration">Annuleren</string>
+
+    <!-- app config tab 2-->
+    <string name="pid_values">PID-waarden</string>
+    <string name="kpx">KpX</string>
+    <string name="kix">KiX</string>
+    <string name="kdx">KdX</string>
+    <string name="kpy">KpY</string>
+    <string name="kiy">KiY</string>
+    <string name="kdy">KdY</string>
+    <!-- app config tab 3-->
+    <string name="general">Algemeen</string>
+    <string name="alti_name">alti naam</string>
+    <string name="units">Eenheden</string>
+    <string name="beep_freq">Piepfrequentie</string>
+    <string name="baudrate">Baudrate</string>
+    <string name="altimeterresolution">Hoogtemeter resolutie</string>
+    <string name="eepromsize">eeprom Grote</string>
+    <string name="endrecordaltitude">Beëindig Vastleggen Hoogte</string>
+    <string name="launch_detect">Lancering gedetecteerd</string>
+    <string name="accelero_range">Accelero-bereik</string>
+    <string name="gyro_range">Gyro-bereik</string>
+    <string name="baro">Baro</string>
+    <string name="accel">Accel</string>
+
+
+    <!-- app config tab 4-->
+    <string name="servo">Servo</string>
+    <string name="servo_x_min">Servo X Min</string>
+    <string name="servo_x_max">Servo X Max</string>
+    <string name="servo_y_min">Servo Y Min</string>
+    <string name="servo_y_max">Servo Y Max</string>
+    <!-- app status -->
+    <string name="dismiss_tab_status">Afwijzen</string>
+    <string name="recording_tab_status">Opnemen</string>
+    <string name="stop_recording_tab_status">Stop</string>
+    <!-- app status tab 1-->
+    <string name="axis_values">Aswaarden</string>
+    <string name="gyroscopes_deg_s">Gyroscopen (graden/s)</string>
+    <string name="accelerometers_m_s_2">Versnellingsmeters (m/s^2)</string>
+    <string name="orientation_deg">Oriëntatie (graden)</string>
+    <string name="calibrate_tabconfig">Calibreren</string>
+    <!-- app status tab 2-->
+    <string name="other_sensors">Andere sensoren</string>
+    <string name="temperature_c">Temperatuur (C°):</string>
+    <string name="pressure_mbar">Druk (mbar):</string>
+    <string name="altitude_meters">Hoogte (meter):</string>
+    <string name="battery_voltage_v">Batterijspanning (V):</string>
+    <!-- app status tab 3-->
+    <string name="rocket_orientation">Raketoriëntatie</string>
+
+    <!-- menu-->
+    <string name="application_settings">Programma instellingen</string>
+    <string name="help">Help</string>
+    <string name="bluetooth_device">Bluetooth-apparaat</string>
+    <string name="about">Over</string>
+
+    <!-- main screen msg-->
+    <string name="MS_msg1">Verbinden...</string>
+    <string name="MS_msg2">Wacht alsjeblieft!!!</string>
+    <string name="MS_msg3">Verbinding mislukt. Is het een SPP Bluetooth? Probeer het opnieuw.</string>
+    <string name="MS_msg4">Verbonden.</string>
+    <string name="disconnect">verbinding verbreken</string>
+    <string name="MS_msg5">Verbinding mislukt</string>
+    <string name="MS_cancel">Annuleren</string>
+    <string name="gimbal_telemetry">Telemetrie</string>
+
+    <!-- Flights list -->
+    <string name="Flight_list">Vluchten lijst</string>
+    <string name="Flight_list_cancel">Annuleren</string>
+    <string name="msg7">Vluchten ophalen...</string>
+    <string name="msg8">Wacht alsjeblieft!!!</string>
+    <string name="FL_msg9">Er zijn geen vluchten geregistreerd</string>
+
+    <!-- flight list view -->
+    <string name="Meters_fview">Meter</string>
+    <string name="Feet_fview">Voet</string>
+    <string name="dismiss_flight_list">Afwijzen</string>
+    <string name="dismiss_flight_list_view">Afwijzen</string>
+    <string name="close">Sluiten</string>
+    <string name="Altitude_time">Hoogte / Tijd</string>
+    <string name="Time_fv">Tijd (ms)</string>
+    <string name="Altitude">Hoogte</string>
+    <string name="select_curves">Scherm</string>
+    <string name="play">Afspelen</string>
+    <string name="playF_dismiss">Afwijzen</string>
+    <string name="fv_cancel">Annuleren</string>
+    <string name="fv_ok">Ok</string>
+    <string name="flight_data_title">Vluchtgegevens om weer te geven</string>
+
+    <!-- flash firmware -->
+    <string name="msg10">Flashing firmware...</string>
+    <string name="msg11">Wacht alsjeblieft!!!</string>
+    <string name="msg12">Uploaden: </string>
+    <string name="msg13">Kan niet openen</string>
+    <string name="msg14">Uploaden : Start \n</string>
+    <string name="msg15">Uploaden: mislukt\n</string>
+    <string name="msg16">Uploaden: succesvol\n</string>
+    <string name="msg17">Uploaden annuleren\n</string>
+    <string name="msg18">Fout: </string>
+    <string name="msg19">Flashing recover firmware...: </string>
+    <string name="firmware_cancel">Annuleren</string>
+    <string name="firmware_dismiss">Afwijzen</string>
+    <string name="recover_firmware">Firmware herstellen</string>
+    <string name="flash_firmware">Flash-firmware</string>
+    <string name="select_altimeter_model">Selecteer uw hoogtemetermodel:</string>
+    <string name="after_complete_upload">Nadat het uploaden is voltooid, kunt u de firmware flashen</string>
+    <string name="flight_list_cancel">Annuleren</string>
+    <string name="flight_retrieval_canceled">Het ophalen van de vluchtgegevens is geannuleerd door de gebruiker</string>
+    <string name="flight_have_been_recorded">Er zijn geen vluchten geregistreerd</string>
+    <string name="main_screen_actity">Annuleren</string>
+    <string name="title_activity_flight_view_maps">Map</string>
+    <string name="detect_firmware">Detecteer firmware</string>
+    <string name="msg_detect_firmware">Proberen om de firmware te detecteren!!!</string>
+
+    <!-- app config -->
+    <string name="unit_meter">Meter</string>
+    <string name="unit_feet">Voet</string>
+    <string name="lang_english">Engels</string>
+    <string name="lang_french">Frans</string>
+    <string name="lang_phone">Telefoontaal</string>
+    <string name="FullUSBSupport">Volledige USB-ondersteuning</string>
+
+    <string name="color_black">ZWART</string>
+    <string name="color_white">WIT</string>
+    <string name="color_magenta">MAGENTA</string>
+    <string name="color_blue">BLAUW</string>
+    <string name="color_yellow">GEEL</string>
+    <string name="color_green">GROEN</string>
+    <string name="color_gray">GRIJS</string>
+    <string name="color_cyan">CYAAN</string>
+    <string name="color_dkgray">DK-Grijs</string>
+    <string name="color_ltgray">L-GRIJS</string>
+    <string name="color_red">ROOD</string>
+
+    <string name="phone_english">Engels</string>
+    <string name="phone_french">Frans</string>
+    <string name="phone_language">Telefoontaal</string>
+    <string name="config_unit_meters">Meter</string>
+    <string name="config_unit_feet">Voet</string>
+
+    <string name="select_bluetooth_device">Selecteer Bluetooth-apparaat</string>
+    <string name="reset_settings">Reset instellingen</string>
+    <string name="help_screen">Help</string>
+    <string name="flight_view">Vluchtweergave</string>
+    <string name="play_flight">Vlucht Afspelen</string>
+    <string name="flight_name">Vlucht</string>
+
+    <!-- Telemetry -->
+    <string name="stop_telemetry">Telemetrie stoppen</string>
+    <string name="start_telemetry">Telemetrie starten</string>
+    <string name="current_phase">Huidige fase</string>
+    <string name="altitude">Hoogte</string>
+    <string name="event_time">Evenement Tijd</string>
+    <string name="lift_off">Opstijgen</string>
+    <string name="apogee_drogue">Apogee/drogue</string>
+    <string name="main_chute">hoofdparachute</string>
+    <string name="landed">Geland</string>
+    <string name="max_speed">Maximale snelheid</string>
+    <string name="current_altitude">Huidige hoogte</string>
+    <string name="dis">verbinding verbreken</string>
+    <string name="telemetry_screen">Telemetrie</string>
+    <string name="telemetry_alt_time">Hoogte/Tijd</string>
+    <string name="telemetry_apogee">hoogtepunt</string>
+    <string name="rocket_has_landed">raket is geland</string>
+    <string name="telemetry">telemetrie</string>
+
+    <string name="telemetry_voice">Telemetrische stem</string>
+    <string name="test_telemetry_voice">Stem testen</string>
+    <string name="telemetry_config">Telemetrieconfiguratie</string>
+    <string name="apogee_altitude_event">Apogee hoogte</string>
+    <string name="drogue_event">Drogue-evenement</string>
+    <string name="altitude_event">Hoogte evenement</string>
+    <string name="landing_event">landingsgebeurtenis</string>
+    <string name="burnout_event">Burn-out evenement</string>
+    <string name="warning_event">Waarschuwingsgebeurtenis</string>
+    <string name="liftoff_event">Lift-off evenement</string>
+
+</resources>

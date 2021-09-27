@@ -1,0 +1,242 @@
+<resources>
+    <string name="app_name">Console Gimbal Motore</string>
+
+    <!-- Config application -->
+    <string name="titre_application_pref">Preferenze</string>
+    <string name="Yes">Si</string>
+    <string name="No">No</string>
+    <!-- Config screen -->
+    <string name="title_activity_console_tab_config">Configurazione Console</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="title_activity_console_tab_status">Stato Console</string>
+    <string name="msg9">Hai cambiato la velocità di trasmissione, l\'altimetro potrebbe non connettersi. Sei sicuro?</string>
+    <string name="conf_msg1">dati non pronti</string>
+    <string name="conf_msg2">Impossibile inviare la configurazione, riprova per favore</string>
+    <!-- About -->
+    <string name="dismiss_about">Annulla</string>
+    <string name="version">Versione:</string>
+    <string name="about_screen">Pagina Info</string>
+
+    <!-- app config -->
+    <string name="save_config">Salva</string>
+    <string name="dismiss_config">Annulla</string>
+    <string name="default_config">Configurazione predefinita</string>
+    <string name="application_langage_config">Configurazione lingua dell\'applicazione</string>
+    <string name="graph_color_config">Configurazione colori del grafico</string>
+    <string name="application_units_config">Configurazione unità di misura</string>
+    <string name="graph_back_color_config">Configurazione colore sfondo del grafico</string>
+    <string name="font_size">Dimensione Caratteri</string>
+    <string name="baud_rate">Velocità di trasmissione dati</string>
+    <string name="connection_type">Tipo di connessione</string>
+    <string name="upload">upload</string>
+    <string name="dismiss_tabconfig">Annulla</string>
+    <string name="graphiclib_type">Libreria grafici </string>
+
+    <!-- Reset screen -->
+    <string name="dismiss_reset">Annulla</string>
+    <string name="clear_flights">Cancella i voli</string>
+    <string name="reset_msg1">Stai per cancellare tutti i dati del volo, sei sicuro?</string>
+    <string name="reset_msg2">Stai per resettare la configurazione dell\'altimetro, sei sicuro?</string>
+
+    <!-- Bluetooth-->
+    <string name="select_device_to_use">Seleziona il dispositivo da usare</string>
+    <string name="show_paired_devices">Mostra i dispositivi abbinati</string>
+    <string name="no_paired_device">Nessun dispositivo Bluetooth abbinato</string>
+    <!-- Main Screen-->
+    <string name="connect_disconnect">Connessione</string>
+    <string name="gimbal_config">Configurazione Gimbal</string>
+    <string name="gimbal_status">Stato Gimbal</string>
+    <string name="gimbal_fight">Voli</string>
+    <string name="gimbal_reset">Reset</string>
+    <string name="those_functions_will_reset_the_altimeter">Queste funzioni ripristinano l\'altimetro</string>
+    <string name="restore_alti_config">Ripristina la configurazione dell\'altimetro</string>
+
+    <!-- app config tab 1-->
+    <string name="accelerometer_offsets">Compensazione Accelerometro</string>
+    <string name="axoffset">Compensazione Ax</string>
+    <string name="ayoffset">Compensazione Ay</string>
+    <string name="azoffset">Compensazione Az</string>
+    <string name="gxoffset">Compensazione Gx</string>
+    <string name="gyoffset">Compensazione Gy</string>
+    <string name="gzoffset">Compensazione Gz</string>
+    <string name="calibration">Calibrazione</string>
+    <string name="cancel_calibration">Cancella</string>
+
+    <!-- app config tab 2-->
+    <string name="pid_values">Valori PID</string>
+    <string name="kpx">KpX</string>
+    <string name="kix">KiX</string>
+    <string name="kdx">KdX</string>
+    <string name="kpy">KpY</string>
+    <string name="kiy">KiY</string>
+    <string name="kdy">KdY</string>
+    <!-- app config tab 3-->
+    <string name="general">Generale</string>
+    <string name="alti_name">Nome altimetro</string>
+    <string name="units">Unità</string>
+    <string name="beep_freq">Frequenza Beep</string>
+    <string name="baudrate">Velocità trasmissione dati</string>
+    <string name="altimeterresolution">Risoluzione Altimetro</string>
+    <string name="eepromsize">Dimensioni eeprom</string>
+    <string name="endrecordaltitude">Termine registrazione quota</string>
+    <string name="launch_detect">Rilevazione Lancio</string>
+    <string name="accelero_range">Range dell\'accelerometro</string>
+    <string name="gyro_range">Range del giroscopio</string>
+    <string name="baro">Baro</string>
+    <string name="accel">Accel</string>
+
+
+    <!-- app config tab 4-->
+    <string name="servo">Servocomando</string>
+    <string name="servo_x_min">Servo X Min</string>
+    <string name="servo_x_max">Servo X Max</string>
+    <string name="servo_y_min">Servo Y Min</string>
+    <string name="servo_y_max">Servo Y Max</string>
+    <!-- app status -->
+    <string name="dismiss_tab_status">Annulla</string>
+    <string name="recording_tab_status">Registrazione</string>
+    <string name="stop_recording_tab_status">Stop</string>
+    <!-- app status tab 1-->
+    <string name="axis_values">Valori Assi</string>
+    <string name="gyroscopes_deg_s">Giroscopi (gradi/s)</string>
+    <string name="accelerometers_m_s_2">Accelerometri (m/s^2)</string>
+    <string name="orientation_deg">Orientamento (gradi)</string>
+    <string name="calibrate_tabconfig">Calibrazione</string>
+    <!-- app status tab 2-->
+    <string name="other_sensors">Altri sensori</string>
+    <string name="temperature_c">Temperatura (C°):</string>
+    <string name="pressure_mbar">Pressione (mbar):</string>
+    <string name="altitude_meters">Quota (metri):</string>
+    <string name="battery_voltage_v">Tensione Batteria (V):</string>
+    <!-- app status tab 3-->
+    <string name="rocket_orientation">Orientamento razzo</string>
+
+    <!-- menu-->
+    <string name="application_settings">Impostazioni applicazione</string>
+    <string name="help">Aiuto</string>
+    <string name="bluetooth_device">Dispositivo Bluetooth</string>
+    <string name="about">Informazioni</string>
+
+    <!-- main screen msg-->
+    <string name="MS_msg1">In connessione...</string>
+    <string name="MS_msg2">Attendi!!!</string>
+    <string name="MS_msg3">Connessione Fallita. E\' un Bluetooth SPP? Riprova.</string>
+    <string name="MS_msg4">Connesso.</string>
+    <string name="disconnect">scollegare</string>
+    <string name="MS_msg5">Connessione fallita</string>
+    <string name="MS_cancel">Cancella</string>
+    <string name="gimbal_telemetry">Telemetria</string>
+
+    <!-- Flights list -->
+    <string name="Flight_list">Lista voli</string>
+    <string name="Flight_list_cancel">Cancella</string>
+    <string name="msg7">Recupero voli...</string>
+    <string name="msg8">Attendi!!!</string>
+    <string name="FL_msg9">Nessun volo salvato</string>
+
+    <!-- flight list view -->
+    <string name="Meters_fview">Metri</string>
+    <string name="Feet_fview">Piedi</string>
+    <string name="dismiss_flight_list">Annulla</string>
+    <string name="dismiss_flight_list_view">Annulla</string>
+    <string name="close">Chiudi</string>
+    <string name="Altitude_time">Quota / Tempo</string>
+    <string name="Time_fv">Tempo (ms)</string>
+    <string name="Altitude">Quota</string>
+    <string name="select_curves">Mostra</string>
+    <string name="play">Vai</string>
+    <string name="playF_dismiss">Annulla</string>
+    <string name="fv_cancel">Cancella</string>
+    <string name="fv_ok">Ok</string>
+    <string name="flight_data_title">Dati del volo da mostrare</string>
+
+    <!-- flash firmware -->
+    <string name="msg10">Aggiornamento firmware...</string>
+    <string name="msg11">Attendi!!!</string>
+    <string name="msg12">Upload: </string>
+    <string name="msg13">Impossibile aprire</string>
+    <string name="msg14">Upload: Inizio \n</string>
+    <string name="msg15">Upload: Fallito\n</string>
+    <string name="msg16">Upload: Effettuato\n</string>
+    <string name="msg17">Cancella upload\n</string>
+    <string name="msg18">Errore: </string>
+    <string name="msg19">Aggiornamento firmware recupero...: </string>
+    <string name="firmware_cancel">Cancella</string>
+    <string name="firmware_dismiss">Annulla</string>
+    <string name="recover_firmware">Firmware Recupero</string>
+    <string name="flash_firmware">Aggiorna Firmware</string>
+    <string name="select_altimeter_model">Seleziona il modello di altimetro:</string>
+    <string name="after_complete_upload">Dopo che l\'upload è completato potrai caricare il reale firmware</string>
+    <string name="flight_list_cancel">Cancella</string>
+    <string name="flight_retrieval_canceled">Il recupero del volo è stato cancellato dall’utente</string>
+    <string name="flight_have_been_recorded">Nessun volo registrato</string>
+    <string name="main_screen_actity">Annulla</string>
+    <string name="title_activity_flight_view_maps">Mappa</string>
+    <string name="detect_firmware">Rileva il firmware</string>
+    <string name="msg_detect_firmware">Sto rilevando il firmware!!!</string>
+
+    <!-- app config -->
+    <string name="unit_meter">Metri</string>
+    <string name="unit_feet">Piedi</string>
+    <string name="lang_english">Inglese</string>
+    <string name="lang_french">Francese</string>
+    <string name="lang_phone">Lingua telefono</string>
+    <string name="FullUSBSupport">Supporto USB completo</string>
+
+    <string name="color_black">NERO</string>
+    <string name="color_white">BIANCO</string>
+    <string name="color_magenta">MAGENTA</string>
+    <string name="color_blue">BLU</string>
+    <string name="color_yellow">GIALLO</string>
+    <string name="color_green">VERDE</string>
+    <string name="color_gray">GRIGIO</string>
+    <string name="color_cyan">CIANO</string>
+    <string name="color_dkgray">GRIGIO SC.</string>
+    <string name="color_ltgray">GRIGIO CH.</string>
+    <string name="color_red">ROSSO</string>
+
+    <string name="phone_english">Inglese</string>
+    <string name="phone_french">Francese</string>
+    <string name="phone_language">Lingua telefono</string>
+    <string name="config_unit_meters">Metri</string>
+    <string name="config_unit_feet">Piedi</string>
+
+    <string name="select_bluetooth_device">Scegli dispositivo Bluetooth</string>
+    <string name="reset_settings">Reset impostazioni</string>
+    <string name="help_screen">Aiuto</string>
+    <string name="flight_view">Vedi volo</string>
+    <string name="play_flight">Avvia volo</string>
+    <string name="flight_name">Volo</string>
+
+    <!-- Telemetry -->
+    <string name="stop_telemetry">Stop Telemetria</string>
+    <string name="start_telemetry">Start Telemetria</string>
+    <string name="current_phase">Fase attuale</string>
+    <string name="altitude">Quota</string>
+    <string name="event_time">Tempo evento</string>
+    <string name="lift_off">Decollo</string>
+    <string name="apogee_drogue">Apogeo/drogue</string>
+    <string name="main_chute">Paracadute Principale</string>
+    <string name="landed">Atterrato</string>
+    <string name="max_speed">Massima velocità</string>
+    <string name="current_altitude">Quota attuale</string>
+    <string name="dis">disconnessione</string>
+    <string name="telemetry_screen">Telemetria</string>
+    <string name="telemetry_alt_time">Quota/Tempo</string>
+    <string name="telemetry_apogee">apogeo</string>
+    <string name="rocket_has_landed">il razzo è atterrato</string>
+    <string name="telemetry">telemetria</string>
+
+    <string name="telemetry_voice">Voce telemetria</string>
+    <string name="test_telemetry_voice">Test Voce</string>
+    <string name="telemetry_config">Configurazione telemetria</string>
+    <string name="apogee_altitude_event">Quota apogeo</string>
+    <string name="drogue_event">Evento drogue</string>
+    <string name="altitude_event">Evento altitudine</string>
+    <string name="landing_event">Evento atterraggio</string>
+    <string name="burnout_event">Evento burnout</string>
+    <string name="warning_event">Evento avviso</string>
+    <string name="liftoff_event">Evento decollo</string>
+
+</resources>

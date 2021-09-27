@@ -271,6 +271,10 @@ public class TelemetryMp extends AppCompatActivity {
                         result = mTTS.setLanguage(Locale.FRENCH);
                     else if (Locale.getDefault().getLanguage() == "nl")
                         result = mTTS.setLanguage(new Locale("nl_NL"));
+                    else if (Locale.getDefault().getLanguage() == "it")
+                        result = mTTS.setLanguage(getResources().getConfiguration().locale);
+                    else if (Locale.getDefault().getLanguage() == "ru")
+                        result = mTTS.setLanguage(getResources().getConfiguration().locale);
                     else
                         result = mTTS.setLanguage(Locale.ENGLISH);
 

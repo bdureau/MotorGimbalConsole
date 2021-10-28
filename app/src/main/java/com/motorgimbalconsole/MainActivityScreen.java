@@ -20,6 +20,7 @@ import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 
 import com.motorgimbalconsole.config.AppConfigActivity;
+import com.motorgimbalconsole.config.Config3DR;
 import com.motorgimbalconsole.config.ConsoleTabConfigActivity;
 import com.motorgimbalconsole.config.GimbalConfigData;
 import com.motorgimbalconsole.connection.SearchBluetooth;
@@ -389,6 +390,11 @@ return success;
         }
         if (id == R.id.action_about) {
             Intent i = new Intent(MainActivityScreen.this, AboutActivity.class);
+            startActivity(i);
+            return true;
+        }
+        if (id == R.id.action_mod3dr_settings) {
+            Intent i = new Intent(MainActivityScreen.this, Config3DR.class);
             startActivity(i);
             return true;
         }

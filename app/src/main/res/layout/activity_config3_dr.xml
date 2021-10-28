@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".config.Config3DR">
+
+    <TextView
+        android:id="@+id/textTelemetryConfigTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/configure_telemetry_module"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:elegantTextHeight="true"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center_horizontal"
+        android:textSize="18sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:id="@+id/textversion"
+        android:layout_below="@+id/textTelemetryConfigTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/m3DR_version"
+        android:layout_marginTop="18dp" />
+
+    <TextView
+        android:id="@+id/textversionentry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textTelemetryConfigTitle"
+        android:layout_marginTop="18dp"
+        android:layout_toRightOf="@id/textversion"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/textRSSI"
+        android:layout_below="@+id/textversion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rssi"
+        android:layout_marginTop="18dp" />
+
+    <TextView
+        android:id="@+id/textRSSIentry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textversion"
+        android:layout_marginTop="18dp"
+        android:layout_toRightOf="@id/textRSSI"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/textFormat"
+        android:layout_below="@+id/textRSSI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/format"
+        android:layout_marginTop="18dp" />
+
+    <TextView
+        android:id="@+id/textFormatentry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textRSSI"
+        android:layout_marginTop="18dp"
+        android:layout_toRightOf="@id/textFormat"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/textBaud"
+        android:layout_below="@+id/textFormat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/baud"
+        android:layout_marginTop="18dp" />
+
+    <Spinner
+        android:id="@+id/spinnerBaudRate"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textBaud"
+        android:layout_toRightOf="@id/textMaxWindow"
+        android:spinnerMode="dropdown"
+        android:textAlignment="textEnd" />
+
+    <TextView
+        android:id="@+id/textAirSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textFormat"
+
+
+        android:layout_marginTop="18dp"
+        android:layout_toRightOf="@id/spinnerBaudRate"
+        android:text="@string/air_speed" />
+
+    <Spinner
+        android:id="@+id/spinnerAirSpeed"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textAirSpeed"
+        android:layout_toEndOf="@id/textAirSpeed"
+        android:spinnerMode="dropdown"
+        android:textAlignment="textEnd"/>
+
+    <TextView
+        android:id="@+id/textNetID"
+        android:layout_below="@+id/textAirSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/net_id"
+        android:layout_marginTop="18dp" />
+
+    <Spinner
+        android:id="@+id/spinnerNetID"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textNetID"
+        android:layout_alignStart="@id/spinnerBaudRate"
+        android:spinnerMode="dropdown"
+        android:textAlignment="textEnd"/>
+
+    <TextView
+        android:id="@+id/textTXPower"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textAirSpeed"
+        android:layout_marginTop="18dp"
+        android:layout_toRightOf="@id/spinnerNetID"
+        android:text="@string/tx_power" />
+
+    <Spinner
+        android:id="@+id/spinnerTXPower"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textTXPower"
+        android:layout_alignStart="@id/spinnerAirSpeed"
+        android:spinnerMode="dropdown"
+        android:textAlignment="textEnd"/>
+
+    <CheckBox
+        android:id="@+id/checkBoxECC"
+        android:layout_below="@+id/spinnerTXPower"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ecc" />
+
+    <CheckBox
+        android:id="@+id/checkBoxOpResend"
+        style="@android:style/Widget.DeviceDefault.CompoundButton.CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinnerTXPower"
+        android:layout_centerInParent="true"
+        android:text="@string/op_resend" />
+
+    <CheckBox
+        android:id="@+id/checkBoxRTSCTS"
+        style="@android:style/Widget.DeviceDefault.CompoundButton.CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinnerTXPower"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="0dp"
+        android:text="@string/rts_cts" />
+
+    <TextView
+        android:id="@+id/textMavlink"
+        android:layout_below="@+id/checkBoxECC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mavlink"
+        android:layout_marginTop="18dp" />
+
+    <Spinner
+        android:id="@+id/spinnerMavLink"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textMavlink"
+        android:layout_alignStart="@id/spinnerBaudRate"
+        android:spinnerMode="dropdown"
+        android:textAlignment="textEnd"/>
+
+    <TextView
+        android:id="@+id/textLBTRSSI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkBoxECC"
+        android:layout_alignRight="@id/textAirSpeed"
+        android:layout_marginTop="18dp"
+        android:text="@string/lbt_rssi" />
+
+    <Spinner
+        android:id="@+id/spinnerLBTRSSI"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textLBTRSSI"
+        android:layout_alignStart="@id/spinnerAirSpeed"
+        android:spinnerMode="dropdown"
+        android:textAlignment="textEnd"/>
+
+
+    <TextView
+        android:id="@+id/textMinFreq"
+        android:layout_below="@+id/textMavlink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/min_freq"
+        android:layout_marginTop="18dp" />
+
+    <Spinner
+        android:id="@+id/spinnerMinFreq"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textMinFreq"
+
+        android:layout_alignStart="@id/spinnerBaudRate"
+        android:spinnerMode="dropdown"
+        android:textAlignment="textEnd"/>
+
+    <TextView
+        android:id="@+id/textMaxFreq"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textMinFreq"
+
+        android:layout_marginTop="18dp"
+        android:text="@string/max_freq" />
+
+    <Spinner
+        android:id="@+id/spinnerMaxFreq"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textMaxFreq"
+
+        android:layout_alignStart="@id/spinnerBaudRate"
+        android:spinnerMode="dropdown"
+        android:textAlignment="textEnd"/>
+
+    <TextView
+        android:id="@+id/textNbrOfChannel"
+        android:layout_below="@+id/textMaxFreq"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nbr_of_channels"
+        android:layout_marginTop="18dp" />
+
+    <Spinner
+        android:id="@+id/spinnerNbrOfChannel"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textNbrOfChannel"
+
+        android:layout_alignStart="@id/spinnerBaudRate"
+        android:spinnerMode="dropdown"
+        android:textAlignment="textEnd"/>
+
+    <TextView
+        android:id="@+id/textDutyCycle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textMaxFreq"
+        android:layout_alignStart="@id/textAirSpeed"
+        android:layout_marginTop="18dp"
+        android:text="@string/duty_cycle" />
+
+    <Spinner
+        android:id="@+id/spinnerDutyCycle"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textDutyCycle"
+        android:layout_alignStart="@id/spinnerAirSpeed"
+        android:spinnerMode="dropdown"
+        android:textAlignment="textEnd"/>
+
+
+
+    <TextView
+        android:id="@+id/textMaxWindow"
+        android:layout_below="@+id/textDutyCycle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/max_win_ms"
+        android:layout_marginTop="18dp" />
+
+    <Spinner
+        android:id="@+id/spinnerMaxWindow"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textMaxWindow"
+        android:layout_toRightOf="@id/textMaxWindow"
+        android:spinnerMode="dropdown"
+        android:textAlignment="textEnd"/>
+
+    <Button
+        android:id="@+id/btRetrieveConfig"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="onClickRetrieveConfig"
+        android:text="@string/retrieve_config" />
+
+    <Button
+        android:id="@+id/butDismiss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:onClick="onClickDismiss"
+        android:text="@string/dismiss_app_config" />
+
+    <Button
+        android:id="@+id/btSaveConfig"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="onClickSaveConfig"
+        android:text="@string/m3DR_save_config" />
+
+</RelativeLayout>

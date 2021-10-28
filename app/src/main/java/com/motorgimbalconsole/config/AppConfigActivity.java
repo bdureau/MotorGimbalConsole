@@ -1,6 +1,6 @@
 package com.motorgimbalconsole.config;
 
-//import android.support.v7.app.AppCompatActivity;
+
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;

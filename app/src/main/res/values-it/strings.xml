@@ -38,6 +38,7 @@
     <string name="clear_flights">Cancella i voli</string>
     <string name="reset_msg1">Stai per cancellare tutti i dati del volo, sei sicuro?</string>
     <string name="reset_msg2">Stai per resettare la configurazione dell\'altimetro, sei sicuro?</string>
+    <string name="reset_msg3">You are about to erase your last flight, are you sure you want to do it?</string>
 
     <!-- Bluetooth-->
     <string name="select_device_to_use">Seleziona il dispositivo da usare</string>

@@ -25,6 +25,15 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="62dp" />
+    <Button
+        android:id="@+id/butDeleteLastFlight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/butClearFlights"
+        android:layout_alignParentTop="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="62dp"
+        android:text="Delete Last Flight" />
 
     <Button
         android:layout_width="wrap_content"

@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.os.Environment;
 //import android.support.v7.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -43,6 +45,7 @@ public class FlightListActivity extends AppCompatActivity {
     List<String> flightNames = null;
     private FlightData myflight = null;
     //private ProgressDialog progress;
+    private AlertDialog alert;
 
 
     private Button buttonDismiss;
@@ -95,7 +98,7 @@ public class FlightListActivity extends AppCompatActivity {
     private class RetrieveFlights extends AsyncTask<Void, Void, Void>  // UI thread
     {
         private AlertDialog.Builder builder=null;
-        private AlertDialog alert;
+
         private Boolean canceled = false;
         @Override
         protected void onPreExecute()
@@ -158,7 +161,8 @@ public class FlightListActivity extends AppCompatActivity {
                 if (nbrOfFlight >0) {
                     // Send command to retrieve the config
                     for (int i =0; i < nbrOfFlight; i++) {
-                        alert.setMessage("Retrieving flight:" +(i+1));
+
+                        dialogAppend("Retrieving flight:" +(i+1));
                         myBT.write(("r"+ i+";").toString());
                         myBT.flush();
 
@@ -219,5 +223,15 @@ public class FlightListActivity extends AppCompatActivity {
                 msg(getResources().getString(R.string.FL_msg9));
         }
     }
+    Handler mHandler = new Handler();
 
+    private void dialogAppend(CharSequence text) {
+        final CharSequence ftext = text;
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                alert.setMessage(ftext);
+            }
+        });
+    }
 }

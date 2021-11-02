@@ -139,6 +139,10 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
                     //Value 22 contains the servoY
                     statusPage3.setServoY((String)msg.obj);
                     break;
+                case 28:
+                    //Value 28 contains the nbr of flight
+                    statusPage2.setNbrOfFlights((String)msg.obj);
+                    break;
             }
         }
     };
@@ -375,7 +379,7 @@ the orientation on all axis
      */
     public static class Tab2StatusFragment extends Fragment {
         private static final String TAG = "Tab2StatusFragment";
-        private TextView txtViewVoltage;
+        private TextView txtViewVoltage,txtNbrOfFlightValue;
         private boolean ViewCreated = false;
         private TextView txtViewBatteryVoltage,txtViewAltitudeValue;
         private TextView txtViewPressureValue,txtViewTempValue, txtViewEEpromUsageValue;
@@ -395,6 +399,9 @@ the orientation on all axis
         public void setEEpromUsage(String value) {
             this.txtViewEEpromUsageValue.setText(value);
         }
+        public void setNbrOfFlights(String value) {
+            this.txtNbrOfFlightValue.setText(value);
+        }
 
         @Nullable
         @Override
@@ -407,6 +414,7 @@ the orientation on all axis
             txtViewVoltage=(TextView)view.findViewById(R.id.txtBatteryVoltage);
             txtViewBatteryVoltage=(TextView)view.findViewById(R.id.txtBatteryVoltageValue);
             txtViewEEpromUsageValue =(TextView)view.findViewById(R.id.txtEEpromUsageValue);
+            txtNbrOfFlightValue=(TextView)view.findViewById(R.id.txtNbrOfFlightValue);
             ViewCreated = true;
             return view;
         }

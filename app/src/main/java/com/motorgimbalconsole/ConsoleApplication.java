@@ -487,18 +487,24 @@ public class ConsoleApplication extends Application {
                                                 mHandler.obtainMessage(25, String.valueOf(currentSentence[25])).sendToTarget();
                                             else
                                                 Log.d("Console - apogee altitude", tempBuff);
-                                        // Value 25 contains landed
+                                        // Value 26 contains landed
                                         if (currentSentence.length > 26)
                                             if (currentSentence[26].matches("\\d+(?:\\.\\d+)?"))
                                                 mHandler.obtainMessage(26, String.valueOf(currentSentence[26])).sendToTarget();
                                             else
                                                 Log.d("Console - landed", tempBuff);
-                                        // Value 25 contains currentTime
+                                        // Value 27 contains currentTime
                                         if (currentSentence.length > 27)
                                             if (currentSentence[27].matches("\\d+(?:\\.\\d+)?"))
                                                 mHandler.obtainMessage(27, String.valueOf(currentSentence[27])).sendToTarget();
                                             else
-                                                Log.d("Console - landed", tempBuff);
+                                                Log.d("Console - current time", tempBuff);
+                                        // Value 28 contains nbr of flight
+                                        if (currentSentence.length > 28)
+                                            if (currentSentence[28].matches("\\d+(?:\\.\\d+)?"))
+                                                mHandler.obtainMessage(28, String.valueOf(currentSentence[28])).sendToTarget();
+                                            else
+                                                Log.d("Console - nbr of flight", tempBuff);
                                     }
                                 }
                                 break;

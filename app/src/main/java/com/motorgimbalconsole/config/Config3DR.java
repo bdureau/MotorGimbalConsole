@@ -207,7 +207,22 @@ public class Config3DR extends AppCompatActivity {
         DisableUI();
         btRetrieveConfig.setEnabled(true);
         btSaveConfig.setEnabled(false);
+        builder = new AlertDialog.Builder(this);
+        //Running Saving commands
+        builder.setMessage(getResources().getString(R.string.dr_config_msg))
+                .setTitle("3DR module configuration")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
 
+
+                        dialog.cancel();
+
+                    }
+                });
+
+        alert = builder.create();
+        alert.show();
     }
 
     public void EnableUI() {
@@ -783,7 +798,7 @@ public class Config3DR extends AppCompatActivity {
                 String ATS1[] = value.split("\n");
                 Log.d("Flight win", "ATS1?:" + value);
                 Log.d("Flight win", "ATS1=" + baudRate);
-                if(ATS1[1].length()>1) {
+                if(ATS1.length>1) {
                     if (!ATS1[1].trim().equals("OK"))
                         error++;
                 }
@@ -798,7 +813,7 @@ public class Config3DR extends AppCompatActivity {
                 String ATS2[] = value.split("\n");
                 Log.d("Flight win", "ATS2?:" + value);
                 Log.d("Flight win", "ATS2?:" + airSpeed);
-                if(ATS2[1].length()>1) {
+                if(ATS2.length>1) {
                     if (!ATS2[1].trim().equals("OK"))
                         error++;
                 }
@@ -813,7 +828,7 @@ public class Config3DR extends AppCompatActivity {
                 String ATS3[] = value.split("\n");
                 Log.d("Flight win", "ATS3?:" + value);
                 Log.d("Flight win", "ATS3?:" + netID);
-                if(ATS3[1].length()>1) {
+                if(ATS3.length>1) {
                     if (!ATS3[1].trim().equals("OK"))
                         error++;
                 }
@@ -828,7 +843,7 @@ public class Config3DR extends AppCompatActivity {
                 String ATS4[] = value.split("\n");
                 Log.d("Flight win", "ATS4?:" + value);
                 Log.d("Flight win", "ATS4?:" + txPower);
-                if(ATS4[1].length()>1) {
+                if(ATS4.length>1) {
                     if (!ATS4[1].trim().equals("OK"))
                         error++;
                 }
@@ -846,7 +861,7 @@ public class Config3DR extends AppCompatActivity {
 
                 String ATS5[] = value.split("\n");
                 Log.d("Flight win", "ATS5?:" + value);
-                if(ATS5[1].length()>1) {
+                if(ATS5.length >1) {
                     if (!ATS5[1].trim().equals("OK"))
                         error++;
                 }
@@ -861,7 +876,7 @@ public class Config3DR extends AppCompatActivity {
                 String ATS6[] = value.split("\n");
                 Log.d("Flight win", "ATS6?:" + value);
                 Log.d("Flight win", "ATS6?:" + mavLink);
-                if(ATS6[1].length()>1) {
+                if(ATS6.length>1) {
                     if (!ATS6[1].trim().equals("OK"))
                         error++;
                 }
@@ -878,7 +893,7 @@ public class Config3DR extends AppCompatActivity {
                     value = mInfo.runCommand("ATS7=0");
                 String ATS7[] = value.split("\n");
                 Log.d("Flight win", "ATS7?:" + value);
-                if(ATS7[1].length()>1) {
+                if(ATS7.length>1) {
                     if (!ATS7[1].trim().equals("OK"))
                         error++;
                 }
@@ -893,7 +908,7 @@ public class Config3DR extends AppCompatActivity {
                 String ATS8[] = value.split("\n");
                 Log.d("Flight win", "ATS8?:" + value);
                 Log.d("Flight win", "ATS8?:" + minFreq);
-                if(ATS8[1].length()>1) {
+                if(ATS8.length>1) {
                     if (!ATS8[1].trim().equals("OK"))
                         error++;
                 }
@@ -908,7 +923,7 @@ public class Config3DR extends AppCompatActivity {
                 String ATS9[] = value.split("\n");
                 Log.d("Flight win", "ATS9?:" + value);
                 Log.d("Flight win", "ATS9?:" + maxFreq);
-                if(ATS9[1].length()>1) {
+                if(ATS9.length>1) {
                     if (!ATS9[1].trim().equals("OK"))
                         error++;
                 }
@@ -923,7 +938,7 @@ public class Config3DR extends AppCompatActivity {
                 String ATS10[] = value.split("\n");
                 Log.d("Flight win", "ATS10?:" + value);
                 Log.d("Flight win", "ATS10?:" + nbrOfChannel);
-                if(ATS10[1].length()>1) {
+                if(ATS10.length>1) {
                     if (!ATS10[1].trim().equals("OK"))
                         error++;
                 }
@@ -938,7 +953,7 @@ public class Config3DR extends AppCompatActivity {
                 String ATS11[] = value.split("\n");
                 Log.d("Flight win", "ATS11?:" + value);
                 Log.d("Flight win", "ATS11?:" + dutyCycle);
-                if(ATS11[1].length()>1) {
+                if(ATS11.length>1) {
                     if (!ATS11[1].trim().equals("OK"))
                         error++;
                 }
@@ -953,7 +968,7 @@ public class Config3DR extends AppCompatActivity {
                 String ATS12[] = value.split("\n");
                 Log.d("Flight win", "ATS12?:" + value);
                 Log.d("Flight win", "ATS12?:" + LBTRSSI);
-                if(ATS12[1].length()>1) {
+                if(ATS12.length>1) {
                     if (!ATS12[1].trim().equals("OK"))
                         error++;
                 }
@@ -967,7 +982,7 @@ public class Config3DR extends AppCompatActivity {
                 value = mInfo.runCommand("ATS13?");
                 String ATS13[] = value.split("\n");
                 Log.d("Flight win", "ATS13?:" + value);
-                if(ATS13[1].length()>1) {
+                if(ATS13.length>1) {
                     Log.d("Flight win", "ATS13?:" + ATS13[1]);
                 }
                 else
@@ -985,7 +1000,7 @@ public class Config3DR extends AppCompatActivity {
                 String ATS14[] = value.split("\n");
                 Log.d("Flight win", "ATS14?:" + value);
                // Log.d("Flight win", "ATS14?:" + ATS14[1]);
-                if(ATS14[1].length()>1) {
+                if(ATS14.length>1) {
                     if (!ATS14[1].trim().equals("OK"))
                         error++;
                 }
@@ -1000,7 +1015,7 @@ public class Config3DR extends AppCompatActivity {
                 String ATS15[] = value.split("\n");
                 Log.d("Flight win", "ATS15?:" + value);
                 Log.d("Flight win", "ATS15?:" + maxWindow);
-                if(ATS15[1].length()>1) {
+                if(ATS15.length>1) {
                     if (!ATS15[1].trim().equals("OK"))
                         error++;
                 }
@@ -1038,57 +1053,6 @@ public class Config3DR extends AppCompatActivity {
         }
     }
 
-    /*public int Connect(String[] baudrate, int brate) {
-        int baud = 0;
-
-        builder = new AlertDialog.Builder(Config3DR.this);
-        //Recover firmware...
-        builder.setMessage("Attempting connecting to the 3DR module")
-                .setTitle("Connecting")
-                .setCancelable(false)
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        //cancelled = true;
-                        dialog.cancel();
-                    }
-                });
-        alert = builder.create();
-        alert.show();
-
-        if (brate == 0) {
-            for (String rate : baudrate) {
-                if (!mPhysicaloid.isOpened()) {
-                    mPhysicaloid.open();
-                }
-                mPhysicaloid.setBaudrate(Integer.valueOf(rate));
-                dialogAppend("Attempt connecting at:" +rate);
-                if (mInfo.ATMode()) {
-                    baud = Integer.valueOf(rate);
-                    Log.d("Flight win", "Success:" + rate);
-                    dialogAppend("Connection successfull at:" +rate);
-                    break;
-                } else {
-                    Log.d("Flight win", "Failed:" + rate);
-
-                }
-            }
-        } else {
-            if (!mPhysicaloid.isOpened()) {
-                if (mPhysicaloid.open()) {
-                    mPhysicaloid.setBaudrate(brate);
-                }
-            }
-            if (mInfo.ATMode()) {
-                baud = brate;
-            } else
-            {
-                Log.d("Flight win", "Failed:" + brate);
-                baud = 0;
-            }
-        }
-        alert.dismiss();
-        return baud;
-    }*/
 
     private class connectRetrieveAsyc extends AsyncTask<Void, Void, Void>  // UI thread
     {

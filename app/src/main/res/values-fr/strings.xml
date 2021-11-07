@@ -280,6 +280,17 @@
     <string name="max_win_ms">Max Win (ms)</string>
     <string name="retrieve_config">Charger cfg</string>
     <string name="m3DR_save_config">Sauver Cfg</string>
-
+    <string name="flash_firmware_msg">Mise à jour du firmware</string>
+    <string name="flash_firmware_long_msg">Cela vous permettra de mettre à jour le firmware de votre Gimbal
+        pour etre certain que celui ci soit compatible avec cette application.
+        Vous aurez besoin d\'un cable TTL cable et d\'un adaptateur pour connecter votre carte Gimbal à votre téléphone.
+        Merci de consulter l\'aide en ligne</string>
+    <string name="flash_firmware_ok">OK</string>
+    <string name="firmware_ver_detected">Version du firmware détécté: </string>
+    <string name="firmware_file_not_found">fichier non trouvé: </string>
+    <string name="firmware_starting">Démarrage ...</string>
+    <string name="dr_config_msg">Cela vous permettra de configurer votre module de télémetrie 3DR.
+        Vous aurez besoin d\'un cable TTL cable et d\'un adaptateur pour connecter votre module 3DR à votre téléphone.
+        Merci de consulter l\'aide en ligne</string>
 
 </resources>

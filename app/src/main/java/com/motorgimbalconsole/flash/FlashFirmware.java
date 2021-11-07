@@ -134,6 +134,20 @@ boolean recorverFirmware = false;
                 android.R.layout.simple_spinner_dropdown_item, itemsBaudRate);
         dropdownBaudRate.setAdapter(adapterBaudRate);
         dropdownBaudRate.setSelection(10);
+        builder = new AlertDialog.Builder(this);
+        //Running Saving commands
+        builder.setMessage(R.string.flash_firmware_long_msg)
+                .setTitle(R.string.flash_firmware_msg)
+                .setCancelable(false)
+                .setPositiveButton(R.string.flash_firmware_ok, new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        alert = builder.create();
+        alert.show();
+
     }
 
 

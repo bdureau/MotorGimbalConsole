@@ -103,12 +103,7 @@ public class FlightListActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute()
         {
-            //"Retrieving flights..."
-            //"Please wait!!!"
-           /* progress = ProgressDialog.show(FlightListActivity.this,
-                    getResources().getString(R.string.msg7),
-                    getResources().getString(R.string.msg8));  //show a progress dialog
-*/
+
 
             builder = new AlertDialog.Builder(FlightListActivity.this);
             //Retrieving flights...
@@ -162,7 +157,7 @@ public class FlightListActivity extends AppCompatActivity {
                     // Send command to retrieve the config
                     for (int i =0; i < nbrOfFlight; i++) {
 
-                        dialogAppend("Retrieving flight:" +(i+1));
+                        dialogAppend(getString(R.string.retrieving_flight) +(i+1));
                         myBT.write(("r"+ i+";").toString());
                         myBT.flush();
 
@@ -218,7 +213,7 @@ public class FlightListActivity extends AppCompatActivity {
                 flightList.setOnItemClickListener(myListClickListener);
             alert.dismiss();
             if (canceled)
-                msg("Flight retrieval has been canceled by user");
+                msg(getString(R.string.flight_retrieve_canceled));
             if (myflight.getNbrOfFlight()==0 && !canceled)
                 msg(getResources().getString(R.string.FL_msg9));
         }

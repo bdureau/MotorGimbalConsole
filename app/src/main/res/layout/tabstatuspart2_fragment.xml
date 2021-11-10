@@ -117,7 +117,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="18dp"
-        android:text="EEprom use" />
+        android:text="@string/eeprom_use" />
 
     <TextView
         android:id="@+id/txtEEpromUsageValue"
@@ -140,7 +140,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="18dp"
-        android:text="Nbr of flights" />
+        android:text="@string/nbr_of_flights" />
 
     <TextView
         android:id="@+id/txtNbrOfFlightValue"

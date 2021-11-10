@@ -210,9 +210,9 @@ public class Config3DR extends AppCompatActivity {
         builder = new AlertDialog.Builder(this);
         //Running Saving commands
         builder.setMessage(getResources().getString(R.string.dr_config_msg))
-                .setTitle("3DR module configuration")
+                .setTitle(R.string.dr_config_title)
                 .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.dr_config_ok, new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, final int id) {
 
 
@@ -1033,7 +1033,7 @@ public class Config3DR extends AppCompatActivity {
                 }
             }
             else {
-                dialogAppend("Saving has been cancelled");
+                dialogAppend(getString(R.string.saving_cancelled));
             }
             //Exit AT mode
             value = mInfo.runCommand("ATO");

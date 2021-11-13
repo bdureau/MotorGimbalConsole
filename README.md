@@ -3,6 +3,15 @@ This is a simple Android Processing application that allow configuration of my G
 It also does on line telemetry using 3DR modules
 It will show rocket movements, do talking telemetry and record the flight.
 
+Application can do the following
+- Record up to 25 flights
+- Graphical flight display
+- Warn on low battery
+- Real time telemetry using 3DR module
+- Talking telemetry
+- Record the following agaisnt time: Altitude, temperature, presure,/pitch/roll, gravity on all 3 axis
+- Can configure PIDs to gimbal a motor
+
 
 This is compatible with the following boards:
 <p></p>

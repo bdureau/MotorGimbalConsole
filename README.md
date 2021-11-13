@@ -29,7 +29,7 @@ The application looks like this
 <p></p>
 Application is available on the Android playstore. 
 <p></p>
-https://play.google.com/store/apps/details?id=com.altimeter.bdureau.bearconsole
+https://play.google.com/store/apps/details?id=com.motorgimbalconsole
 <p></p>
 <p></p>
 Caution: When downloading the application from the playstore make sure that you flash your board firmware so that the board is compatible with the application

@@ -11,7 +11,7 @@ https://github.com/bdureau/RocketMotorPIDGimbal
 https://github.com/bdureau/RocketMotorPIDGimbal_bno055
 <p></p>
 The application looks like this
-<p></p>
+
 <img src="/gimbal_photos/gimbal_about.png" width="29%"> <img src="/gimbal_photos/gimbal_curves.png" width="29%"> <img src="/gimbal_photos/gimbal_rocket_orientation.png" width="29%">
 <p></p>
 

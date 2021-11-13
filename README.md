@@ -9,14 +9,17 @@ This is compatible with the following boards:
 https://github.com/bdureau/RocketMotorPIDGimbal
 
 https://github.com/bdureau/RocketMotorPIDGimbal_bno055
-
+<p></p>
 The application looks like this
-<img src="/gimbal_photos/gimbal_about.png" width="49%">
-<img src="/gimbal_photos/gimbal_curves.png" width="49%">
-<img src="/gimbal_photos/gimbal_rocket_orientation.png" width="49%">
+<p></p>
+<img src="/gimbal_photos/gimbal_about.png" width="39%">
+<img src="/gimbal_photos/gimbal_curves.png" width="39%">
+<img src="/gimbal_photos/gimbal_rocket_orientation.png" width="39%">
+<p></p>
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/BK87Pj5PZXU/0.jpg)](https://www.youtube.com/watch?v=BK87Pj5PZXU)
 
-
+<p></p>
 Application is available on the Android playstore. 
+<p></p>
 Caution: When downloading the application from the playstore make sure that you flash your board firmware so that the boord is compatible with the application

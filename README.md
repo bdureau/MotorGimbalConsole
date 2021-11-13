@@ -5,8 +5,7 @@ It will show rocket movements, do talking telemetry and record the flight.
 
 
 This is compatible with the following boards:
-
-
+<p></p>
 https://github.com/bdureau/RocketMotorPIDGimbal
 
 https://github.com/bdureau/RocketMotorPIDGimbal_bno055

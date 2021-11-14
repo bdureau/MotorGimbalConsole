@@ -28,6 +28,17 @@
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
         </activity>
+        <activity
+            android:name=".config.ConfigBT"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+                android:resource="@xml/device_filter" />
+        </activity>
         <activity android:name=".flash.FlashFirmware" />
         <activity
             android:name=".MainActivityScreen"
@@ -50,7 +61,7 @@
             android:label="@string/play_flight"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ConsoleTabStatusActivity"
+            android:name=".telemetry.ConsoleTabStatusActivity"
             android:label="@string/title_activity_console_tab_status"
             android:screenOrientation="portrait" />
         <activity
@@ -85,6 +96,8 @@
         <activity
             android:name=".flights.FlightViewMPActivity"
             android:label="@string/flight_view" />
+        <activity android:name=".flights.FlightViewTabActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".help.HelpActivity"
             android:label="@string/help_screen" />

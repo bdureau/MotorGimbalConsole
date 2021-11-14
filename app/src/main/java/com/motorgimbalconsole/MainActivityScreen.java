@@ -21,6 +21,7 @@ import android.hardware.usb.UsbManager;
 
 import com.motorgimbalconsole.config.AppConfigActivity;
 import com.motorgimbalconsole.config.Config3DR;
+import com.motorgimbalconsole.config.ConfigBT;
 import com.motorgimbalconsole.config.ConsoleTabConfigActivity;
 import com.motorgimbalconsole.config.GimbalConfigData;
 import com.motorgimbalconsole.connection.SearchBluetooth;
@@ -28,6 +29,7 @@ import com.motorgimbalconsole.flash.FlashFirmware;
 import com.motorgimbalconsole.flights.FlightListActivity;
 import com.motorgimbalconsole.help.AboutActivity;
 import com.motorgimbalconsole.help.HelpActivity;
+import com.motorgimbalconsole.telemetry.ConsoleTabStatusActivity;
 import com.motorgimbalconsole.telemetry.TelemetryMp;
 
 import java.io.IOException;
@@ -47,7 +49,7 @@ public class MainActivityScreen extends AppCompatActivity {
     UsbManager usbManager;
     UsbDevice device;
     private GimbalConfigData GimbalCfg = null;
-    public final String ACTION_USB_PERMISSION = "com.altimeter.bdureau.bearconsole.USB_PERMISSION";
+    public final String ACTION_USB_PERMISSION = "com.motorgimbalconsole.USB_PERMISSION";
 
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() { //Broadcast Receiver to automatically start and stop the Serial connection.
         @Override
@@ -395,6 +397,11 @@ return success;
         }
         if (id == R.id.action_mod3dr_settings) {
             Intent i = new Intent(MainActivityScreen.this, Config3DR.class);
+            startActivity(i);
+            return true;
+        }
+        if (id == R.id.action_modbt_settings) {
+            Intent i = new Intent(MainActivityScreen.this, ConfigBT.class);
             startActivity(i);
             return true;
         }

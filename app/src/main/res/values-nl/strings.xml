@@ -16,7 +16,7 @@
     <string name="conf_msg2">Kan de configuratie niet verzenden, probeer het opnieuw</string>
     <!-- About -->
     <string name="dismiss_about">Afwijzen</string>
-    <string name="version">Versie:</string>
+    <string name="version">Gimbal Versie:</string>
     <string name="about_screen">Over scherm</string>
 
     <!-- app config -->
@@ -295,6 +295,32 @@
     <string name="retrieving_flight">Retrieving flight:</string>
     <string name="flight_retrieve_canceled">Flight retrieval has been canceled by user</string>
     <string name="delete_last_flight">Delete Last Flight</string>
-
-
+    <string name="bt_settings">BT settings...</string>
+    <string name="configure_bluetooth_module">Configure Bluetooth module</string>
+    <string name="module">Module:</string>
+    <string name="bt_baud_rate">Baud rate:</string>
+    <string name="pin">Pin:</string>
+    <string name="bt_info_msg">This will allows you to configure a bluetooth module. You will need a ttl cable and an adaptator to connect your bluetooth module to your phone. Please look at the on line help</string>
+    <string name="bt_info_title">Bluetooth module configuration</string>
+    <string name="bt_info_ok">OK</string>
+    <string name="loading_bt_config_msg">Loading bluetooth module config</string>
+    <string name="module_name">Module name:</string>
+    <string name="save_curves_title">Info</string>
+    <string name="save_curve_ok">OK</string>
+    <string name="save_curve_msg">\"The following files have been saved under: \"</string>
+    <string name="curves_saved_msg">Flight curves saved</string>
+    <string name="flight_info">Flight Info</string>
+    <string name="apogee_altitude">Apogee Altitude</string>
+    <string name="max_velocity">Max Velocity</string>
+    <string name="main_alti">Main Altitude</string>
+    <string name="flight_duration">Flight duration</string>
+    <string name="burn_time">Burn Time</string>
+    <string name="max_acceleration">Max acceleration</string>
+    <string name="time_to_apogee">Time to Apogee</string>
+    <string name="max_descent_speed">Max descent speed</string>
+    <string name="landing_speed">Landing speed</string>
+    <string name="flight_nbr">Flight nbr</string>
+    <string name="nbr_of_sample">Samples</string>
+    <string name="curve_speed">speed</string>
+    <string name="curve_accel">acceleration</string>
 </resources>

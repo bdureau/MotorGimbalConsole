@@ -10,9 +10,7 @@ import android.widget.Toast;
 
 import com.motorgimbalconsole.ConsoleApplication;
 import com.motorgimbalconsole.R;
-import com.motorgimbalconsole.Rocket;
-import com.motorgimbalconsole.flights.FlightData;
-import com.motorgimbalconsole.flights.FlightViewActivity;
+import com.motorgimbalconsole.utils.Rocket;
 
 import org.afree.data.xy.XYSeriesCollection;
 

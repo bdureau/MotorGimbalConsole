@@ -164,7 +164,7 @@ public class FlightViewActivity extends AppCompatActivity {
         // by default we will display the altitude
         // but then the user will be able to change the data
         flightData = new XYSeriesCollection();
-        flightData.addSeries(allFlightData.getSeries("altitude"));
+        flightData.addSeries(allFlightData.getSeries(getResources().getString(R.string.altitude)));
 
         // get a list of all the curves that have been recorded
         //List allCurves = allFlightData.getSeries();

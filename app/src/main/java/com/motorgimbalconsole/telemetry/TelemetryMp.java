@@ -74,7 +74,7 @@ public class TelemetryMp extends AppCompatActivity {
     private double FEET_IN_METER = 1;
     ArrayList<Entry> yValues;
     int altitudeTime = 0;
-    //int altitude = 0;
+    int altitude = 0;
 
     boolean telemetry = true;
     boolean liftOffSaid = false;
@@ -94,6 +94,7 @@ public class TelemetryMp extends AppCompatActivity {
                     // Value 1 contain the current altitude
                     //txtCurrentAltitude.setText(String.valueOf((String) msg.obj));
                     if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?")) {
+                        Log.d("Altitude plot", "In altitude");
                         if (cbLiftOff.isChecked() && !cbLanded.isChecked()) {
                             int altitude = (int) (Integer.parseInt((String) msg.obj) * FEET_IN_METER);
                             //int altitude = (int) (Integer.parseInt((String) msg.obj));
@@ -104,12 +105,12 @@ public class TelemetryMp extends AppCompatActivity {
                             //plot every seconde
                             if ((altitudeTime - lastPlotTime) > 1000) {
                                 lastPlotTime = altitudeTime;
-
+                                Log.d("Altitude plot", String.valueOf(altitude));
                                 LineDataSet set1 = new LineDataSet(yValues, getResources().getString(R.string.telemetry_alt_time));
 
                                 set1.setDrawValues(false);
                                 set1.setDrawCircles(false);
-                                set1.setLabel("Altitude");
+                                set1.setLabel(getResources().getString(R.string.altitude));
 
                                 dataSets.clear();
                                 dataSets.add(set1);
@@ -121,12 +122,9 @@ public class TelemetryMp extends AppCompatActivity {
                             // Tell altitude every 5 secondes
                             if ((altitudeTime - lastSpeakTime) > 5000 && liftOffSaid) {
                                 if (myBT.getAppConf().getAltitude_event().equals("true")) {
-
+                                    Log.d("Altitude plot", "say:" +String.valueOf(altitude));
                                         mTTS.speak(getResources().getString(R.string.altitude) + " " + String.valueOf(altitude) +  " " + myBT.getAppConf().getUnitsValue(), TextToSpeech.QUEUE_FLUSH, null);
-                                   /* else if (Locale.getDefault().getLanguage() == "fr")
-                                        mTTS.speak("altitude " + (String) msg.obj + " mètres", TextToSpeech.QUEUE_FLUSH, null);
-                                    else
-                                        mTTS.speak("altitude " + (String) msg.obj + " meters", TextToSpeech.QUEUE_FLUSH, null);*/
+
                                 }
                                 lastSpeakTime = altitudeTime;
                             }
@@ -171,20 +169,20 @@ public class TelemetryMp extends AppCompatActivity {
                     //Value 4 apogee altitude
                     if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?")) {
                         int altitude = (int) (Integer.parseInt((String) msg.obj) * FEET_IN_METER);
-                        txtMaxAltitude.setText(String.valueOf(altitude));
-                        if (cbApogee.isChecked())
+
+                        if (cbApogee.isChecked()) {
+                            Log.d("Apogee", "apogee checked");
+                            txtMaxAltitude.setText(String.valueOf(altitude));
+                            Log.d("Apogee", "apogee value :" + String.valueOf(altitude));
                             if (!apogeeSaid) {
                                 //first check if say it is enabled
                                 if (myBT.getAppConf().getApogee_altitude().equals("true")) {
-
+                                    Log.d("Apogee", "say apogee value");
                                     mTTS.speak(getResources().getString(R.string.telemetry_apogee) + " " + String.valueOf(altitude) + " " + myBT.getAppConf().getUnitsValue(), TextToSpeech.QUEUE_FLUSH, null);
-                               /* else if (Locale.getDefault().getLanguage() == "fr")
-                                    mTTS.speak("apogée à " + (String) msg.obj + " mètres", TextToSpeech.QUEUE_FLUSH, null);
-                                else
-                                    mTTS.speak("apogee " + (String) msg.obj + " meters", TextToSpeech.QUEUE_FLUSH, null);*/
                                 }
                                 apogeeSaid = true;
                             }
+                        }
                     }
                     break;
 
@@ -213,7 +211,7 @@ public class TelemetryMp extends AppCompatActivity {
 
                     break;
                 case 27:
-                    // Value 8 contain the sample time
+                    // Value 27 contain the sample time
                     if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?")) {
                         if (Integer.parseInt((String) msg.obj) > 0) {
                             altitudeTime = Integer.parseInt((String) msg.obj);

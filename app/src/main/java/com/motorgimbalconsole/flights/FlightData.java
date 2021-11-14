@@ -175,6 +175,10 @@ public class FlightData {
         ret.addSeries(new XYSeries("accelX"));
         ret.addSeries(new XYSeries("accelY"));
         ret.addSeries(new XYSeries("accelZ"));
+        //speed
+        ret.addSeries(new XYSeries(context.getResources().getString(R.string.curve_speed)));
+        //acceleration
+        ret.addSeries(new XYSeries(context.getResources().getString(R.string.curve_accel)));
         return ret;
     }
 

@@ -351,14 +351,11 @@ public class ConsoleApplication extends Application {
                         long chk=0;
                         switch (currentSentence[0]) {
                             case "telemetry":
-
                                 if (currentSentence[currentSentence.length-1].matches("\\d+(?:\\.\\d+)?"))
                                     chk = Long.valueOf(currentSentence[currentSentence.length-1]);
-                                Log.d("checksum", "check from sentence: " + chk);
+                                //Log.d("checksum", "check from sentence: " + chk);
                                 if (calculateSentenceCHK(currentSentence) == chk) {
-                                    //Log.d("checksum", "mycheck: " + chk);
-                                    Log.d("calculated checksum", "calculated check: " + calculateSentenceCHK(currentSentence));
-
+                                    //Log.d("calculated checksum", "calculated check: " + calculateSentenceCHK(currentSentence));
                                     if (mHandler != null) {
                                         // Value 1 contains the altimeter name
                                         if (currentSentence.length > 1)
@@ -422,7 +419,7 @@ public class ConsoleApplication extends Application {
                                             if (currentSentence[11].matches("\\d+(?:\\.\\d+)?"))
                                                 mHandler.obtainMessage(10, String.valueOf(currentSentence[11])).sendToTarget();
                                             else
-                                                mHandler.obtainMessage(10, String.valueOf(-0)).sendToTarget();
+                                                mHandler.obtainMessage(10, String.valueOf(0)).sendToTarget();
                                         // Value 11 contains the temperature
                                         if (currentSentence.length > 12)
                                             if (currentSentence[12].matches("\\d+(?:\\.\\d+)?"))
@@ -434,7 +431,7 @@ public class ConsoleApplication extends Application {
                                             if (currentSentence[13].matches("\\d+(?:\\.\\d+)?"))
                                                 mHandler.obtainMessage(12, String.valueOf(currentSentence[13])).sendToTarget();
                                             else
-                                                mHandler.obtainMessage(12, String.valueOf(-0.0)).sendToTarget();
+                                                mHandler.obtainMessage(12, String.valueOf(0.0)).sendToTarget();
                                         // Value 13 contains the battery voltage
                                         if (currentSentence.length > 14)
                                             if (currentSentence[14].matches("\\d+(?:\\.\\d+)?"))
@@ -472,39 +469,52 @@ public class ConsoleApplication extends Application {
                                         if (currentSentence.length > 23)
                                             if (currentSentence[23].matches("\\d+(?:\\.\\d+)?"))
                                                 mHandler.obtainMessage(23, String.valueOf(currentSentence[23])).sendToTarget();
-                                            else
+                                            else {
+                                                mHandler.obtainMessage(23, String.valueOf(0)).sendToTarget();
+
                                                 Log.d("Console - liftoff", tempBuff);
+                                            }
                                         // Value 24 contains apogee
                                         if (currentSentence.length > 24)
                                             if (currentSentence[24].matches("\\d+(?:\\.\\d+)?"))
                                                 mHandler.obtainMessage(24, String.valueOf(currentSentence[24])).sendToTarget();
-                                            else
+                                            else {
                                                 Log.d("Console - apogee", tempBuff);
+                                                mHandler.obtainMessage(24, String.valueOf(0)).sendToTarget();
+                                            }
 
                                         // Value 25 contains apogee altitude
                                         if (currentSentence.length > 25)
                                             if (currentSentence[25].matches("\\d+(?:\\.\\d+)?"))
                                                 mHandler.obtainMessage(25, String.valueOf(currentSentence[25])).sendToTarget();
-                                            else
+                                            else {
                                                 Log.d("Console - apogee altitude", tempBuff);
+                                                mHandler.obtainMessage(25, String.valueOf(0)).sendToTarget();
+                                            }
                                         // Value 26 contains landed
                                         if (currentSentence.length > 26)
                                             if (currentSentence[26].matches("\\d+(?:\\.\\d+)?"))
                                                 mHandler.obtainMessage(26, String.valueOf(currentSentence[26])).sendToTarget();
-                                            else
+                                            else {
                                                 Log.d("Console - landed", tempBuff);
+                                                mHandler.obtainMessage(26, String.valueOf(0)).sendToTarget();
+                                            }
                                         // Value 27 contains currentTime
                                         if (currentSentence.length > 27)
                                             if (currentSentence[27].matches("\\d+(?:\\.\\d+)?"))
                                                 mHandler.obtainMessage(27, String.valueOf(currentSentence[27])).sendToTarget();
-                                            else
+                                            else {
                                                 Log.d("Console - current time", tempBuff);
+                                                mHandler.obtainMessage(27, String.valueOf(0)).sendToTarget();
+                                            }
                                         // Value 28 contains nbr of flight
                                         if (currentSentence.length > 28)
                                             if (currentSentence[28].matches("\\d+(?:\\.\\d+)?"))
                                                 mHandler.obtainMessage(28, String.valueOf(currentSentence[28])).sendToTarget();
-                                            else
-                                                Log.d("Console - nbr of flight", tempBuff);
+                                            else {
+                                                //Log.d("Console - nbr of flight", tempBuff);
+                                                mHandler.obtainMessage(28, String.valueOf(0)).sendToTarget();
+                                            }
                                     }
                                 }
                                 break;

@@ -16,7 +16,7 @@
 
     <!-- About -->
     <string name="dismiss_about">Fermer</string>
-    <string name="version">Version:</string>
+    <string name="version">Gimbal Version:</string>
     <string name="about_screen">A propos</string>
 
     <!-- app config -->
@@ -301,5 +301,33 @@
     <string name="retrieving_flight">Chargement du vol:</string>
     <string name="flight_retrieve_canceled">Le chargement des vols a été interrompu par l\'utilisateur</string>
     <string name="delete_last_flight">Effacer le dernier vol</string>
-
+    <string name="bt_settings">Config module BT ...</string>
+    <string name="configure_bluetooth_module">Configure module Bluetooth </string>
+    <string name="module">Module:</string>
+    <string name="bt_baud_rate">Baud rate:</string>
+    <string name="pin">Pin:</string>
+    <string name="bt_info_msg">Cela vous permettra de configurer votre module bluetooth.
+        Vous aurez besoin d\'un cable ttl et d\'un adaptateur to connect your bluetooth module to your phone. Please look at the on line help</string>
+    <string name="bt_info_title">Bluetooth module configuration</string>
+    <string name="bt_info_ok">OK</string>
+    <string name="loading_bt_config_msg">Chargement de la config du module bluetooth</string>
+    <string name="module_name">Nom Module:</string>
+    <string name="save_curves_title">Info</string>
+    <string name="save_curve_ok">OK</string>
+    <string name="save_curve_msg">Les fichiers qui suivent ont été enregistrés: </string>
+    <string name="curves_saved_msg">Courbes de vols sauvegardées</string>
+    <string name="flight_info">Info V</string>
+    <string name="apogee_altitude">Altitude Apogée</string>
+    <string name="max_velocity">Vitesse Max</string>
+    <string name="main_alti">Altitude Main</string>
+    <string name="flight_duration">Durée du vol</string>
+    <string name="burn_time">Burn Time</string>
+    <string name="max_acceleration">Acceleration Max</string>
+    <string name="time_to_apogee">Temps à l\'apogée</string>
+    <string name="max_descent_speed">Vitesse de descente Max</string>
+    <string name="landing_speed">Vitesse atterissage</string>
+    <string name="flight_nbr">Vol num</string>
+    <string name="nbr_of_sample">Mesures</string>
+    <string name="curve_speed">vitesse</string>
+    <string name="curve_accel">accéleration</string>
 </resources>

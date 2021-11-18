@@ -47,6 +47,7 @@ public class ConsoleApplication extends Application {
     private BluetoothConnection BTCon = null;
     private UsbConnection UsbCon = null;
     private GimbalConfigData GimbalCfg = null;
+    private TestTrame testTrame = null;
     private Handler mHandler;
 
     public void setHandler(Handler mHandler) {
@@ -69,9 +70,9 @@ public class ConsoleApplication extends Application {
         AppConf = new GlobalConfig(this);
         AppConf.ReadConfig();
         GimbalCfg = new GimbalConfigData();
+        testTrame = new TestTrame();
         myTypeOfConnection = AppConf.getConnectionTypeValue();
-        // myTypeOfConnection = "bluetooth";
-        //myTypeOfConnection ="usb";
+
     }
 
     public void setConnectionType(String TypeOfConnection) {
@@ -127,6 +128,9 @@ public class ConsoleApplication extends Application {
         return GimbalCfg;
     }
 
+    public TestTrame getTestTrame() {
+        return testTrame;
+    }
     // connect to the bluetooth adapter
     public boolean connect() {
         boolean state = false;
@@ -831,9 +835,36 @@ public class ConsoleApplication extends Application {
                                             GimbalCfg.setAcceleroRange(Integer.valueOf(currentSentence[28]));
                                         else
                                             GimbalCfg.setAcceleroRange(0);
+                                    // value 28 Recording timout
+                                    if (currentSentence.length > 29)
+                                        if (currentSentence[29].matches("\\d+(?:\\.\\d+)?"))
+                                            GimbalCfg.setRecordingTimeout(Integer.valueOf(currentSentence[29]));
+                                        else
+                                            GimbalCfg.setRecordingTimeout(0);
+                                    // value 29 the battery type
+                                    if (currentSentence.length > 30)
+                                        if (currentSentence[30].matches("\\d+(?:\\.\\d+)?"))
+                                            GimbalCfg.setBatteryType(Integer.valueOf(currentSentence[30]));
+                                        else
+                                            GimbalCfg.setBatteryType(0);
                                     //DataReady = true;
                                 }
                                 myMessage = myMessage + " " + "alticonfig";
+                                break;
+                            case "testTrame":
+                                if (currentSentence[currentSentence.length - 1].matches("\\d+(?:\\.\\d+)?"))
+                                    chk = Long.valueOf(currentSentence[currentSentence.length - 1]);
+                                if (calculateSentenceCHK(currentSentence) == chk) {
+                                    testTrame.setTrameStatus(true);
+                                } else
+                                {
+                                    testTrame.setTrameStatus(false);
+                                }
+                                if (currentSentence.length > 1)
+                                    testTrame.setCurrentTrame(currentSentence[1]);
+                                else
+                                    testTrame.setCurrentTrame("Error reading packet");
+                                myMessage = myMessage + " " + "testTrame";
                                 break;
                             case "nbrOfFlight":
                                 // Value 1 contains the number of flight
@@ -843,13 +874,11 @@ public class ConsoleApplication extends Application {
                                 myMessage = myMessage + " " + "nbrOfFlight";
                                 break;
                             case "start":
-                                //appendLog("Start");
                                 // We are starting reading data
                                 setDataReady(false);
                                 myMessage = "start";
                                 break;
                             case "end":
-                                //appendLog("end");
                                 // We have finished reading data
                                 setDataReady(true);
                                 myMessage = myMessage + " " + "end";
@@ -923,6 +952,28 @@ public class ConsoleApplication extends Application {
 
     public void setAppConf(GlobalConfig value) {
         AppConf = value;
+    }
+
+    public class TestTrame {
+
+        private String currentTrame = "";
+        private boolean trameStatus = false;
+
+        public void setCurrentTrame (String trame) {
+            currentTrame = trame;
+        }
+
+        public String getCurrentTrame() {
+            return currentTrame;
+        }
+
+        public void setTrameStatus (boolean val) {
+            trameStatus = val;
+        }
+
+        public boolean getTrameStatus () {
+            return trameStatus;
+        }
     }
 
     public class GlobalConfig {

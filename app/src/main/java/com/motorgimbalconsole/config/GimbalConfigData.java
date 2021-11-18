@@ -47,6 +47,8 @@ public class GimbalConfigData {
     // MPU6050_GYRO_FS_1000 0x02
     // MPU6050_GYRO_FS_2000 0x03
     private int gyroRange = 0;
+    private int recordingTimeout = 120;
+    private int batteryType =0;
 
     public GimbalConfigData()
     {
@@ -263,4 +265,13 @@ public class GimbalConfigData {
     {
         return acceleroRange;
     }
+
+    //Flight recording timeout
+    public void setRecordingTimeout(int value) {recordingTimeout =value;}
+    public int getRecordingTimeout(){return recordingTimeout;}
+
+    //Battery type so that we can warn on low battery
+    public void setBatteryType(int value) {batteryType =value;}
+    public int getBatteryType(){return batteryType;}
+
 }

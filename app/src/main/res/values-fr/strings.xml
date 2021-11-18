@@ -316,7 +316,7 @@
     <string name="save_curve_ok">OK</string>
     <string name="save_curve_msg">Les fichiers qui suivent ont été enregistrés: </string>
     <string name="curves_saved_msg">Courbes de vols sauvegardées</string>
-    <string name="flight_info">Info V</string>
+    <string name="flight_info">Info Vol</string>
     <string name="apogee_altitude">Altitude Apogée</string>
     <string name="max_velocity">Vitesse Max</string>
     <string name="main_alti">Altitude Main</string>
@@ -330,4 +330,20 @@
     <string name="nbr_of_sample">Mesures</string>
     <string name="curve_speed">vitesse</string>
     <string name="curve_accel">accéleration</string>
+    <string name="flash_advice_msg">La version du firmware de votre altimètre est peut etre incompatible,
+        il est conseillé de flasher la carte</string>
+    <string name="unsuported_firmware_msg">Firmware incompatible</string>
+    <string name="BatteryType">Type de batterie</string>
+    <string name="config_unknown">inconnue</string>
+    <string name="usb_device_attached">Appareil Usb connecté</string>
+    <string name="test_connection_info_msg">Cela vous permettra d\'évaluer la fiabilité de votre connexion</string>
+    <string name="test_connection_info_title">Info</string>
+    <string name="test_start">Démarrer</string>
+    <string name="percentage_of_errors">Pourcentage d\'erreurs:</string>
+    <string name="nbr_packets_not_ok">Nb packets non ok :</string>
+    <string name="nbr_received_ok">Nb reçu ok:</string>
+    <string name="nbr_packets_received">Nb packets reçu:</string>
+    <string name="nbr_packets_sent">Nb packets envoyés:</string>
+    <string name="test_your_connection">Test connexion</string>
+    <string name="test_stop">Arreter</string>
 </resources>

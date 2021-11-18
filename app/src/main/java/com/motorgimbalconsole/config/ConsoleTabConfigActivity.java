@@ -200,6 +200,8 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             GimbalCfg.setLiftOffDetect(configPage3.getLiftOffDetect());
             GimbalCfg.setAcceleroRange(configPage3.getAcceleroRange());
             GimbalCfg.setGyroRange(configPage3.getGyroRange());
+            GimbalCfg.setRecordingTimeout(configPage3.getRecordingTimeout());
+            GimbalCfg.setBatteryType(configPage3.getBatteryType());
 
         }
         if (configPage4.isViewCreated()) {
@@ -272,9 +274,11 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                 GimbalCfg.getUnits() + "," +
                 GimbalCfg.getEndRecordAltitude() + "," +
                 GimbalCfg.getBeepingFrequency() + "," +
-                GimbalCfg.getLiftOffDetect()+ "," +
-                GimbalCfg.getGyroRange()+ "," +
-                GimbalCfg.getAcceleroRange();
+                GimbalCfg.getLiftOffDetect() + "," +
+                GimbalCfg.getGyroRange() + "," +
+                GimbalCfg.getAcceleroRange() + "," +
+                GimbalCfg.getRecordingTimeout()+ "," +
+        GimbalCfg.getBatteryType();
         String cfg = gimbalCfgStr;
         cfg = cfg.replace("s","");
         cfg = cfg.replace(",","");
@@ -724,14 +728,15 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         private String[] itemsLaunchDetect;
         private String[] itemsGyroRange;
         private String[] itemsAcceleroRange;
+        private String[] itemsBatteryType;
 
         private Spinner dropdownBaudRate;
         private Spinner dropdownAltimeterResolution, dropdownEEpromSize, dropdownLaunchDetect;
-
+        private Spinner dropdownBatteryType;
         private EditText EndRecordAltitude;
         private Spinner dropdownUnits;
         private TextView altiName;
-        private EditText Freq;
+        private EditText Freq,RecordingTimeout;
         private Spinner dropdownGyroRange, dropdownAcceleroRange;
         private TextView txtViewGyroRange, txtViewAcceleroRange;
 
@@ -854,6 +859,26 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             return ret;
         }
 
+        public int getBatteryType() {
+            return (int) this.dropdownBatteryType.getSelectedItemId();
+        }
+
+        public void setBatteryType(int BatteryType) {
+            dropdownBatteryType.setSelection(BatteryType);
+        }
+
+        public int getRecordingTimeout() {
+            int ret;
+            try {
+                ret = Integer.parseInt(this.RecordingTimeout.getText().toString());
+            } catch (Exception e) {
+                ret = 0;
+            }
+            return ret;
+        }
+        public void setRecordingTimeout(int RecordingTimeout) {
+            this.RecordingTimeout.setText(String.valueOf(RecordingTimeout));
+        }
 
         public boolean isViewCreated() {
             return ViewCreated;
@@ -936,6 +961,15 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
             txtViewGyroRange = (TextView) view.findViewById(R.id.txtViewGyroRange);
 
             txtViewAcceleroRange= (TextView) view.findViewById(R.id.txtViewAcceleroRange);
+            dropdownBatteryType = (Spinner) view.findViewById(R.id.spinnerBatteryType);
+            //"Unknown",
+            itemsBatteryType = new String[]{getResources().getString(R.string.config_unknown),
+                    "2S (7.4 Volts)", "9 Volts", "3S (11.1 Volts)"};
+            ArrayAdapter<String> adapterBatteryType = new ArrayAdapter<String>(this.getActivity(),
+                    android.R.layout.simple_spinner_dropdown_item, itemsBatteryType);
+            dropdownBatteryType.setAdapter(adapterBatteryType);
+            //Max recording time in seconds
+            RecordingTimeout =(EditText) view.findViewById(R.id.editTxtRecordingTimeOut);
 
             if (GimbalCfg != null) {
                 setBaudRate(GimbalCfg.getConnectionSpeed());
@@ -965,6 +999,8 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                     txtViewGyroRange.setVisibility(View.INVISIBLE);
                     txtViewAcceleroRange.setVisibility(View.INVISIBLE);
                 }
+                dropdownBatteryType.setSelection(GimbalCfg.getBatteryType());
+                RecordingTimeout.setText(String.valueOf(GimbalCfg.getRecordingTimeout()));
             }
             ViewCreated = true;
             return view;

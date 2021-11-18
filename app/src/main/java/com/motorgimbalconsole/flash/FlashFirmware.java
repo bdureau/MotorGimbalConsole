@@ -62,8 +62,8 @@ boolean recorverFirmware = false;
     private UartConfig uartConfig;
 
 
-    private static final String ASSET_FILE_NAME_MOTORGIMBALE  = "firmwares/2021-11-14_RocketMotorPIDGimbalV1.1.ino.bin";
-    private static final String ASSET_FILE_NAME_MOTORGIMBALE_BNO55  = "firmwares/2021-11-14_RocketMotorPIDGimbal_bno055V1.1.ino.bin";
+    private static final String ASSET_FILE_NAME_MOTORGIMBALE  = "firmwares/2021-11-18_RocketMotorPIDGimbalV1.2.ino.bin";
+    private static final String ASSET_FILE_NAME_MOTORGIMBALE_BNO55  = "firmwares/2021-11-18_RocketMotorPIDGimbal_bno055V1.2.ino.bin";
 
 
     private static final String ASSET_FILE_RESET_ALTISTM32 = "recover_firmwares/ResetAltiConfigAltimultiSTM32.ino.bin";
@@ -85,10 +85,6 @@ boolean recorverFirmware = false;
 
         btOpen          = (Button) findViewById(R.id.btFlash);
         tvRead          = (TextView) findViewById(R.id.tvRead);
-        //rdbAltiMulti = (RadioButton) findViewById(R.id.radioButAltiMulti);
-        //rdbAltiMultiV2 = (RadioButton) findViewById(R.id.radioButAltiMultiV2);
-        //rbAltiServo = (RadioButton) findViewById(R.id.radioButAltiServo);
-        //rbAltiDuo = (RadioButton) findViewById(R.id.radioButAltiDuo);
 
         rbGimbale = (RadioButton) findViewById(R.id.radioButGimbale);
         rbGimbaleBN055 = (RadioButton) findViewById(R.id.radioButGimbaleBN055);
@@ -225,7 +221,6 @@ boolean recorverFirmware = false;
                         .setCancelable(false)
                         .setNegativeButton(getResources().getString(R.string.firmware_cancel), new DialogInterface.OnClickListener() {
                             public void onClick(final DialogInterface dialog, final int id) {
-
                                 dialog.cancel();
                                 mPhysicaloid.cancelUpload();
                             }
@@ -242,7 +237,6 @@ boolean recorverFirmware = false;
             }
         }
         else{
-                //uploadSTM32(firmwareFileName);
             recorverFirmware = false;
             new UploadSTM32Asyc().execute();
         }
@@ -311,9 +305,7 @@ boolean recorverFirmware = false;
                     .setCancelable(false)
                     .setNegativeButton(getResources().getString(R.string.firmware_cancel), new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, final int id) {
-
                             dialog.cancel();
-
                         }
                     });
             alert = builder.create();

@@ -7,7 +7,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 
 import android.content.Intent;
@@ -25,6 +27,7 @@ import com.motorgimbalconsole.config.ConfigBT;
 import com.motorgimbalconsole.config.ConsoleTabConfigActivity;
 import com.motorgimbalconsole.config.GimbalConfigData;
 import com.motorgimbalconsole.connection.SearchBluetooth;
+import com.motorgimbalconsole.connection.TestConnection;
 import com.motorgimbalconsole.flash.FlashFirmware;
 import com.motorgimbalconsole.flights.FlightListActivity;
 import com.motorgimbalconsole.help.AboutActivity;
@@ -34,14 +37,15 @@ import com.motorgimbalconsole.telemetry.TelemetryMp;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
-
+import java.util.Set;
 
 
 public class MainActivityScreen extends AppCompatActivity {
 
     Button btnConnectDisconnect, btnConfig, btnStatus;
-    Button btnReset, btnFlight,btnFlashFirmware, btnTelemetry;
+    Button btnReset, btnFlight, btnFlashFirmware, btnTelemetry;
 
     private String address;
     ConsoleApplication myBT;
@@ -49,6 +53,7 @@ public class MainActivityScreen extends AppCompatActivity {
     UsbManager usbManager;
     UsbDevice device;
     private GimbalConfigData GimbalCfg = null;
+    private FirmwareCompatibility firmCompat = null;
     public final String ACTION_USB_PERMISSION = "com.motorgimbalconsole.USB_PERMISSION";
 
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() { //Broadcast Receiver to automatically start and stop the Serial connection.
@@ -57,7 +62,7 @@ public class MainActivityScreen extends AppCompatActivity {
             if (intent.getAction().equals(ACTION_USB_PERMISSION)) {
                 boolean granted = intent.getExtras().getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED);
                 if (granted) {
-                    if(myBT.connect(usbManager, device, 38600)){
+                    if (myBT.connect(usbManager, device, 38600)) {
                         myBT.setConnected(true);
                         EnableUI();
                         myBT.setConnectionType("usb");
@@ -67,10 +72,10 @@ public class MainActivityScreen extends AppCompatActivity {
                     msg("PERM NOT GRANTED");
                 }
             } else if (intent.getAction().equals(UsbManager.ACTION_USB_DEVICE_ATTACHED)) {
-                msg("I can connect via usb");
+                msg(getResources().getString(R.string.usb_device_attached));
             } else if (intent.getAction().equals(UsbManager.ACTION_USB_DEVICE_DETACHED)) {
-                if(myBT.getConnectionType().equals("usb"))
-                    if(myBT.getConnected()) {
+                if (myBT.getConnectionType().equals("usb"))
+                    if (myBT.getConnected()) {
                         myBT.Disconnect();
                         btnConnectDisconnect.setText(getResources().getString(R.string.connect_disconnect));
                     }
@@ -82,7 +87,7 @@ public class MainActivityScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         usbManager = (UsbManager) getSystemService(this.USB_SERVICE);
-
+        firmCompat = new FirmwareCompatibility();
         setContentView(R.layout.activity_main_screen);
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_USB_PERMISSION);
@@ -90,23 +95,21 @@ public class MainActivityScreen extends AppCompatActivity {
         filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
         registerReceiver(broadcastReceiver, filter);
 
-        btnConnectDisconnect = (Button)findViewById(R.id.button);
+        btnConnectDisconnect = (Button) findViewById(R.id.button);
 
-        btnReset= (Button)findViewById(R.id.butGimbalReset);
-        btnFlight= (Button)findViewById(R.id.butGimbalFlight);
+        btnReset = (Button) findViewById(R.id.butGimbalReset);
+        btnFlight = (Button) findViewById(R.id.butGimbalFlight);
         btnTelemetry = (Button) findViewById(R.id.butGimbalTelemetry);
-        btnConfig = (Button)findViewById(R.id.butGimbalConfig);
-        btnStatus = (Button)findViewById(R.id.butGimbalStatus);
-        btnFlashFirmware= (Button)findViewById(R.id.butFlash);
+        btnConfig = (Button) findViewById(R.id.butGimbalConfig);
+        btnStatus = (Button) findViewById(R.id.butGimbalStatus);
+        btnFlashFirmware = (Button) findViewById(R.id.butFlash);
         //get the bluetooth and USB Application pointer
         myBT = (ConsoleApplication) getApplication();
 
-        if (myBT.getConnected())
-        {
+        if (myBT.getConnected()) {
             EnableUI();
             //btnConnectDisconnect.setText(getResources().getString(R.string.disconnect));
-        }
-        else {
+        } else {
             DisableUI();
             btnConnectDisconnect.setText(getResources().getString(R.string.connect_disconnect));
         }
@@ -118,7 +121,7 @@ public class MainActivityScreen extends AppCompatActivity {
                 if (myBT.getConnected()) {
                     myBT.flush();
                     myBT.clearInput();
-
+                    //send telemetry command
                     myBT.write("y1;".toString());
                 }
                 Intent i;
@@ -128,14 +131,13 @@ public class MainActivityScreen extends AppCompatActivity {
         });
 
         btnConfig.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-
-                 readConfig();
-                 Intent i = new Intent(MainActivityScreen.this, ConsoleTabConfigActivity.class);
-                 startActivity(i);
-             }
-         });
+            @Override
+            public void onClick(View v) {
+                readConfig();
+                Intent i = new Intent(MainActivityScreen.this, ConsoleTabConfigActivity.class);
+                startActivity(i);
+            }
+        });
         btnFlight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,7 +148,7 @@ public class MainActivityScreen extends AppCompatActivity {
         btnStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(myBT.getConnected()) {
+                if (myBT.getConnected()) {
                     myBT.flush();
                     myBT.clearInput();
 
@@ -180,7 +182,7 @@ public class MainActivityScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 myBT.getAppConf().ReadConfig();
-                if (myBT.getAppConf().getConnectionType().equals( "0"))
+                if (myBT.getAppConf().getConnectionType().equals("0"))
                     myBT.setConnectionType("bluetooth");
                 else
                     myBT.setConnectionType("usb");
@@ -191,12 +193,11 @@ public class MainActivityScreen extends AppCompatActivity {
                     DisableUI();
                     btnConnectDisconnect.setText(getResources().getString(R.string.connect_disconnect));
                     btnFlashFirmware.setEnabled(true);
-                }
-                else {
-                    if (myBT.getConnectionType().equals( "bluetooth")) {
+                } else {
+                    if (myBT.getConnectionType().equals("bluetooth")) {
                         address = myBT.getAddress();
 
-                        if (address != null ) {
+                        if (address != null) {
                             new ConnectBT().execute(); //Call the class to connect
 
                             if (myBT.getConnected()) {
@@ -209,8 +210,7 @@ public class MainActivityScreen extends AppCompatActivity {
                             Intent i = new Intent(MainActivityScreen.this, SearchBluetooth.class);
                             startActivity(i);
                         }
-                    }
-                    else {
+                    } else {
                         //this is a USB connection
                         HashMap<String, UsbDevice> usbDevices = usbManager.getDeviceList();
                         if (!usbDevices.isEmpty()) {
@@ -235,28 +235,31 @@ public class MainActivityScreen extends AppCompatActivity {
 
     }
 
-    private void DisableUI () {
+    private void DisableUI() {
         btnConfig.setEnabled(false);
         btnStatus.setEnabled(false);
         btnFlight.setEnabled(false);
         btnReset.setEnabled(false);
         btnTelemetry.setEnabled(false);
         btnFlashFirmware.setEnabled(true);
+        // now enable or disable the menu entries by invalidating it
+        invalidateOptionsMenu();
 
     }
-    private void EnableUI () {
+
+    private void EnableUI() {
         boolean success;
         success = readConfig();
         //second attempt
-        if(!success)
+        if (!success)
             success = readConfig();
         //third attempt
-        if(!success)
+        if (!success)
             success = readConfig();
         //fourth and last
-        if(!success)
+        if (!success)
             success = readConfig();
-        if( myBT.getGimbalConfigData().getAltimeterName().equals("RocketMotorGimbal")||
+        if (myBT.getGimbalConfigData().getAltimeterName().equals("RocketMotorGimbal") ||
                 myBT.getGimbalConfigData().getAltimeterName().equals("RocketMotorGimbal_bno055")) {
             if (myBT.getAppConf().getConnectionType().equals("0") || (myBT.getAppConf().getConnectionType().equals("1") && myBT.getAppConf().getFullUSBSupport().equals("true"))) {
                 btnConfig.setEnabled(true);
@@ -273,21 +276,28 @@ public class MainActivityScreen extends AppCompatActivity {
             btnTelemetry.setEnabled(true);
             btnConnectDisconnect.setText(getResources().getString(R.string.disconnect));
             btnFlashFirmware.setEnabled(false);
-        }
-        else {
-            msg("Unsupported firmware");
+            if (!firmCompat.IsCompatible(myBT.getGimbalConfigData().getAltimeterName(),
+                    myBT.getGimbalConfigData().getAltiMajorVersion() + "." + myBT.getGimbalConfigData().getAltiMinorVersion())) {
+                msg(getString(R.string.flash_advice_msg));
+            } else {
+                msg(getResources().getString(R.string.MS_msg4));
+            }
+        } else {
+            msg(getString(R.string.unsuported_firmware_msg));
             myBT.Disconnect();
         }
+        // now enable or disable the menu entries by invalidating it
+        invalidateOptionsMenu();
     }
 
     private void Disconnect() {
         myBT.Disconnect();
     }
-    private boolean readConfig()
-    {
+
+    private boolean readConfig() {
         // ask for config
         boolean success = false;
-        if(myBT.getConnected()) {
+        if (myBT.getConnected()) {
 
             //msg("Retreiving altimeter config...");
             myBT.setDataReady(false);
@@ -309,34 +319,30 @@ public class MainActivityScreen extends AppCompatActivity {
             }
         }
         //reading the config
-        if(myBT.getConnected()) {
+        if (myBT.getConnected()) {
             String myMessage = "";
             long timeOut = 10000;
             long startTime = System.currentTimeMillis();
 
-            myMessage =myBT.ReadResult(10000);
+            myMessage = myBT.ReadResult(10000);
             if (myMessage.equals("OK")) {
                 myBT.setDataReady(false);
-                myMessage =myBT.ReadResult(10000);
+                myMessage = myBT.ReadResult(10000);
             }
-            if (myMessage.equals( "start alticonfig end") )
-            {
+            if (myMessage.equals("start alticonfig end")) {
                 try {
-                    GimbalCfg= myBT.getGimbalConfigData();
+                    GimbalCfg = myBT.getGimbalConfigData();
                     success = true;
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     //  msg("pb ready data");
                     success = false;
                 }
-            }
-            else
-            {
+            } else {
                 // msg("data not ready");
                 success = false;
             }
         }
-return success;
+        return success;
     }
 
 
@@ -346,24 +352,39 @@ return success;
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         myBT.getAppConf().ReadConfig();
-        //msg(myBT.getConnectionType());
         //Log.d("MainScreen", "myBT.getConnectionType():" +myBT.getConnectionType());
-        if(myBT.getAppConf().getConnectionType().equals("1")) {
-            //if(myBT.getConnectionType().equals("usb")) { //if usb
-
-            //menu.getItem(R.id.action_bluetooth).setEnabled(false);
+        if (myBT.getAppConf().getConnectionType().equals("1")) {
             menu.findItem(R.id.action_bluetooth).setEnabled(false);
-        }
-        else
-            //menu.getItem(R.id.action_bluetooth).setEnabled(true);
+        } else {
             menu.findItem(R.id.action_bluetooth).setEnabled(true);
+        }
+
+        //if we are connected then enable some menu options and if not disable them
+        if (myBT.getConnected()) {
+            // We are connected so no need to choose the bluetooth
+            menu.findItem(R.id.action_bluetooth).setEnabled(false);
+            // We are connected so we do not want to configure the 3DR module
+            menu.findItem(R.id.action_mod3dr_settings).setEnabled(false);
+            // same goes for the BT module
+            menu.findItem(R.id.action_modbt_settings).setEnabled(false);
+            // Allow connection testing
+            menu.findItem(R.id.action_test_connection).setEnabled(true);
+        } else {
+            // not connected so allow those
+            menu.findItem(R.id.action_mod3dr_settings).setEnabled(true);
+            menu.findItem(R.id.action_modbt_settings).setEnabled(true);
+            //cannot do connection testing until we are connected
+            menu.findItem(R.id.action_test_connection).setEnabled(false);
+        }
         return true;
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -386,7 +407,7 @@ return success;
         }
         if (id == R.id.action_bluetooth) {
             // choose the bluetooth device
-            Intent i = new Intent(MainActivityScreen.this,SearchBluetooth.class);
+            Intent i = new Intent(MainActivityScreen.this, SearchBluetooth.class);
             startActivity(i);
             return true;
         }
@@ -405,35 +426,31 @@ return success;
             startActivity(i);
             return true;
         }
+        //Test current connection
+        if (id == R.id.action_test_connection) {
+            Intent i = new Intent(MainActivityScreen.this, TestConnection.class);
+            startActivity(i);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
-    // connect to the bluetooth adapter
-   /* public boolean connect() {
-        boolean state=false;
-
-        state = BTCon.connect(address);
-
-
-
-        return state;
-    }*/
     // fast way to call Toast
     private void msg(String s) {
         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
     }
+
     /* This is the Bluetooth connection sub class */
     private class ConnectBT extends AsyncTask<Void, Void, Void>  // UI thread
     {
-        private  AlertDialog.Builder builder=null;
+        private AlertDialog.Builder builder = null;
         private AlertDialog alert;
         private boolean ConnectSuccess = true; //if it's here, it's almost connected
 
         @Override
         protected void onPreExecute() {
             //"Connecting...", "Please wait!!!"
-           /* progress = ProgressDialog.show(MainActivityScreen.this,
-                    "Connecting...", "Please wait!!!"); */ //show a progress dialog
+            //show a progress dialog
             builder = new AlertDialog.Builder(MainActivityScreen.this);
 
             //Connecting...
@@ -455,7 +472,7 @@ return success;
         protected Void doInBackground(Void... devices) //while the progress dialog is shown, the connection is done in background
         {
 
-            if ( !myBT.getConnected()) {
+            if (!myBT.getConnected()) {
 
                 if (myBT.connect())
                     ConnectSuccess = true;
@@ -476,13 +493,50 @@ return success;
 
             } else {
                 //Connected.
-                //msg("Connected");
                 myBT.setConnected(true);
                 EnableUI();
-                //btnConnectDisconnect.setText(getResources().getString(R.string.disconnect));
             }
-            //progress.dismiss();
             alert.dismiss();
+        }
+    }
+
+    public class FirmwareCompatibility {
+        // Create a hash map
+        public HashMap<String, String> hm;
+
+        FirmwareCompatibility() {
+            hm = null;
+            hm = new HashMap();
+            //init compatible versions
+            Add("RocketMotorGimbal", "1.1");
+            Add("RocketMotorGimbal_bno055", "1.1");
+        }
+
+        public void Add(String altiName, String verList) {
+            hm.put(altiName, verList);
+        }
+
+        public boolean IsCompatible(String altiName, String ver) {
+            boolean compatible = false;
+            String compatFirmwareList = "";
+            Set set = hm.entrySet();
+
+            // Get an iterator
+            Iterator i = set.iterator();
+            while (i.hasNext()) {
+                Map.Entry me = (Map.Entry) i.next();
+
+                if (me.getKey().equals(altiName)) {
+                    compatFirmwareList = me.getValue().toString();
+                    break;
+                }
+            }
+            String firmwareVersion[] = compatFirmwareList.split(",");
+            for (int j = 0; j < firmwareVersion.length; j++) {
+                if (firmwareVersion[j].equals(ver))
+                    compatible = true;
+            }
+            return compatible;
         }
     }
 }

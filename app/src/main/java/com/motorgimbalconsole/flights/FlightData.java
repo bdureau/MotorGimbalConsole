@@ -159,8 +159,8 @@ public class FlightData {
         XYSeriesCollection ret;
         //final XYSeries series = new XYSeries("altitude") ;
         ret = new XYSeriesCollection (new XYSeries(context.getResources().getString(R.string.altitude)));
-        ret.addSeries(new XYSeries("temperature"));
-        ret.addSeries(new XYSeries("pressure"));
+        ret.addSeries(new XYSeries(context.getResources().getString(R.string.curve_temperature)));
+        ret.addSeries(new XYSeries(context.getResources().getString(R.string.curve_pressure)));
         ret.addSeries(new XYSeries("Gravity X"));
         ret.addSeries(new XYSeries("Gravity Y"));
         ret.addSeries(new XYSeries("Gravity Z"));

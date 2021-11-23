@@ -46,6 +46,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -53,22 +54,23 @@ import java.util.List;
 //import static java.lang.Math.abs;
 
 public class FlightViewTabActivity extends AppCompatActivity {
-    private  FlightData myflight=null;
+    private FlightData myflight = null;
     private ViewPager mViewPager;
     SectionsPageAdapter adapter;
     private Tab1Fragment flightPage1 = null;
     private Tab2Fragment flightPage2 = null;
-    private Button btnDismiss,btnPlay, butSelectCurves;
+    private Button btnDismiss, btnPlay, butSelectCurves;
     private static ConsoleApplication myBT;
+    private static double FEET_IN_METER = 1;
 
     private static String curvesNames[] = null;
-    private static String currentCurvesNames[] =null;
+    private static String currentCurvesNames[] = null;
     private static boolean[] checkedItems = null;
-    private XYSeriesCollection allFlightData=null;
+    private XYSeriesCollection allFlightData = null;
     private static XYSeriesCollection flightData = null;
     private static ArrayList<ILineDataSet> dataSets;
-    static int colors []= {Color.RED, Color.BLUE, Color.BLACK,
-            Color.GREEN, Color.CYAN, Color.GRAY, Color.MAGENTA, Color.YELLOW,Color.RED,
+    static int colors[] = {Color.RED, Color.BLUE, Color.BLACK,
+            Color.GREEN, Color.CYAN, Color.GRAY, Color.MAGENTA, Color.YELLOW, Color.RED,
             Color.BLUE, Color.BLACK,
             Color.GREEN, Color.CYAN, Color.GRAY, Color.MAGENTA, Color.YELLOW, Color.RED, Color.BLUE, Color.BLACK,
             Color.GREEN, Color.CYAN, Color.GRAY, Color.MAGENTA, Color.YELLOW};
@@ -77,10 +79,10 @@ public class FlightViewTabActivity extends AppCompatActivity {
     private static XYSeries speed;
     private static XYSeries accel;
 
-    private static String[] units= null;
+    private static String[] units = null;
     //private LineChart mChart;
     public static String SELECTED_FLIGHT = "MyFlight";
-    public static int numberOfCurves =0;
+    public static int numberOfCurves = 0;
 
     private void drawGraph() {
 
@@ -138,9 +140,10 @@ public class FlightViewTabActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putStringArray("CURRENT_CURVES_NAMES_KEY", currentCurvesNames);
-        outState.putBooleanArray("CHECKED_ITEMS_KEY",checkedItems);
+        outState.putBooleanArray("CHECKED_ITEMS_KEY", checkedItems);
 
     }
+
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
@@ -186,17 +189,16 @@ public class FlightViewTabActivity extends AppCompatActivity {
         this.setTitle(FlightName);
         myflight = myBT.getFlightData();
         // get all the data that we have recorded for the current flight
-        allFlightData=new XYSeriesCollection();
+        allFlightData = new XYSeriesCollection();
         allFlightData = myflight.GetFlightData(FlightName);
 
         //calculate speed
-        //altitude
-        speed=null;
+        speed = null;
         speed = allFlightData.getSeries(getResources().getString(R.string.curve_speed));
 
         // calculate acceleration
-        accel= null;
-        accel=allFlightData.getSeries(getResources().getString(R.string.curve_accel));
+        accel = null;
+        accel = allFlightData.getSeries(getResources().getString(R.string.curve_accel));
 
 
         // by default we will display the altitude
@@ -207,11 +209,12 @@ public class FlightViewTabActivity extends AppCompatActivity {
 
         // get a list of all the curves that have been recorded
         numberOfCurves = allFlightData.getSeries().size();
-        Log.d("numberOfCurves", "numberOfCurves:"+allFlightData.getSeries().size());
+        Log.d("numberOfCurves", "numberOfCurves:" + allFlightData.getSeries().size());
         curvesNames = new String[numberOfCurves];
         units = new String[numberOfCurves];
         for (int i = 0; i < numberOfCurves; i++) {
-               curvesNames[i] = allFlightData.getSeries(i).getKey().toString();
+            curvesNames[i] = allFlightData.getSeries(i).getKey().toString();
+            units[i]="";
         }
 
         // Read the application config
@@ -219,51 +222,59 @@ public class FlightViewTabActivity extends AppCompatActivity {
 
         drawGraph();
 
-     /*   if (myBT.getAppConf().getUnits().equals("0")) {
+        if (myBT.getAppConf().getUnits().equals("0")) {
             //Meters
             units[0] = "(" + getResources().getString(R.string.Meters_fview) + ")";
-            units[3] = "(m/secs)";
-            units[4] = "(m/secs²)";
-        }
-        else {
+
+        } else {
             //Feet
             units[0] = getResources().getString(R.string.Feet_fview);
-            //(feet/secs)
-            units[3] = "(" + getResources().getString(R.string.unit_feet_per_secs) + ")";
-            //(feet/secs²)
-            units[4] = "(" + getResources().getString(R.string.unit_feet_per_square_secs) + ")";
-        }
-        units[1]="(°C)";
-        units[2]="(mbar)";
-*/
 
+        }
+        units[1] = "(°C)";
+        units[2] = "(mbar)";
+        units[3] ="";
+        units[4] ="";
+        units[5] ="";
+        units[6] ="";
+        units[7] ="";
+        units[8] ="";
+        units[9] ="";
+        units[10] ="";
+
+        if (myBT.getAppConf().getUnits().equals("0")) {//meters
+            FEET_IN_METER = 1;
+        } else {
+            FEET_IN_METER = 3.28084;
+        }
         if (currentCurvesNames == null) {
             //This is the first time so only display the altitude
             dataSets = new ArrayList<>();
             currentCurvesNames = new String[curvesNames.length];
-            currentCurvesNames[0] =this.getResources().getString(R.string.altitude);//"altitude";
+            currentCurvesNames[0] = this.getResources().getString(R.string.altitude);//"altitude";
             checkedItems = new boolean[curvesNames.length];
             checkedItems[0] = true;
         }
 
-       /* mChart = (LineChart) findViewById(R.id.linechart);
-        mChart.setDragEnabled(true);
-        mChart.setScaleEnabled(true);*/
-
-
-
         setupViewPager(mViewPager);
-
 
 
         btnDismiss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                allFlightData=null;
+                allFlightData = null;
                 finish();      //exit the application configuration activity
             }
         });
 
+        btnPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(FlightViewTabActivity.this, PlayFlight.class);
+                i.putExtra(SELECTED_FLIGHT, FlightName);
+                startActivity(i);
+            }
+        });
         butSelectCurves.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -361,9 +372,11 @@ public class FlightViewTabActivity extends AppCompatActivity {
         public XYSeriesCollection allFlightData;
 
         int graphBackColor, fontSize, axisColor, labelColor, nbrColor;
+
         public Tab1Fragment(XYSeriesCollection data) {
-            this.allFlightData =data;
+            this.allFlightData = data;
         }
+
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -371,7 +384,7 @@ public class FlightViewTabActivity extends AppCompatActivity {
 
             View view = inflater.inflate(R.layout.tabflight_view_mp_fragment, container, false);
 
-            mChart  = (LineChart) view.findViewById(R.id.linechart);
+            mChart = (LineChart) view.findViewById(R.id.linechart);
 
 
             mChart.setDragEnabled(true);
@@ -381,24 +394,20 @@ public class FlightViewTabActivity extends AppCompatActivity {
 
             return view;
         }
+
         private void drawGraph() {
-
-            graphBackColor =myBT.getAppConf().ConvertColor(Integer.parseInt(myBT.getAppConf().getGraphBackColor()));
-
-
+            graphBackColor = myBT.getAppConf().ConvertColor(Integer.parseInt(myBT.getAppConf().getGraphBackColor()));
             fontSize = myBT.getAppConf().ConvertFont(Integer.parseInt(myBT.getAppConf().getFontSize()));
-
-            axisColor=myBT.getAppConf().ConvertColor(Integer.parseInt(myBT.getAppConf().getGraphColor()));
-
-            labelColor= Color.BLACK;
-
-            nbrColor=Color.BLACK;
-
+            axisColor = myBT.getAppConf().ConvertColor(Integer.parseInt(myBT.getAppConf().getGraphColor()));
+            labelColor = Color.BLACK;
+            nbrColor = Color.BLACK;
         }
+
         private void drawAllCurves(XYSeriesCollection allFlightData) {
             dataSets.clear();
 
-            dataSets = new ArrayList<>();
+            //dataSets = new ArrayList<>();
+            flightData = new XYSeriesCollection();
             for (int i = 0; i < curvesNames.length; i++) {
                 if (checkedItems[i]) {
                     flightData.addSeries(allFlightData.getSeries(curvesNames[i]));
@@ -416,56 +425,21 @@ public class FlightViewTabActivity extends AppCompatActivity {
 
                     set1.setDrawValues(false);
                     set1.setDrawCircles(false);
-                    set1.setLabel(curvesNames[i]);
+                    set1.setLabel(curvesNames[i] +" "+units[i]);
 
                     dataSets.add(set1);
                 }
             }
 
-
-            LineData data = new LineData(dataSets);
-            mChart.setData(data);
-            Description desc = new Description();
-            desc.setText("test");
-            mChart.setDescription(desc);
-
-            /*flightData = new XYSeriesCollection();
-            for (int i = 0; i < curvesNames.length; i++) {
-                Log.d("drawAllCurves", "i:" +i);
-                Log.d("drawAllCurves", "curvesNames:" +curvesNames[i]);
-                if (checkedItems[i]) {
-                    flightData.addSeries(allFlightData.getSeries(curvesNames[i]));
-
-                    int nbrData = allFlightData.getSeries(i).getItemCount();
-
-                    ArrayList<Entry> yValues = new ArrayList<>();
-
-                    for (int k = 0; k < nbrData; k++) {
-                        yValues.add(new Entry(allFlightData.getSeries(i).getX(k).floatValue(), allFlightData.getSeries(i).getY(k).floatValue()));
-                    }
-
-                    LineDataSet set1 = new LineDataSet(yValues, getResources().getString(R.string.flight_time));
-                    set1.setColor(colors[i]);
-
-                    set1.setDrawValues(false);
-                    set1.setDrawCircles(false);
-                    set1.setLabel(curvesNames[i] + " " + units[i]);
-                    set1.setValueTextColor(labelColor);
-
-                    set1.setValueTextSize(fontSize);
-                    dataSets.add(set1);
-
-                }
-            }
 
             LineData data = new LineData(dataSets);
             mChart.clear();
             mChart.setData(data);
-            mChart.setBackgroundColor(graphBackColor);
             Description desc = new Description();
-            //time (ms)
-            desc.setText(getResources().getString(R.string.unit_time));
-            mChart.setDescription(desc);*/
+            //desc.setText("test");
+            mChart.setDescription(desc);
+
+
         }
     }
 
@@ -484,16 +458,20 @@ public class FlightViewTabActivity extends AppCompatActivity {
         private AlertDialog alert;
 
         String SavedCurves = "";
-        public Tab2Fragment (FlightData data, XYSeriesCollection data2) {
+
+        public Tab2Fragment(FlightData data, XYSeriesCollection data2) {
 
             myflight = data;
-            this.allFlightData =data2;
+            this.allFlightData = data2;
         }
+
         public void msg(String s) {
             Toast.makeText(getActivity().getApplicationContext(), s, Toast.LENGTH_LONG).show();
         }
+
         private Button buttonExportToCsv;
-        int nbrSeries ;
+        int nbrSeries;
+
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -501,7 +479,7 @@ public class FlightViewTabActivity extends AppCompatActivity {
 
             View view = inflater.inflate(R.layout.tabflight_info_fragment, container, false);
 
-            buttonExportToCsv= (Button) view.findViewById(R.id.butExportToCsv);
+            buttonExportToCsv = (Button) view.findViewById(R.id.butExportToCsv);
             apogeeAltitudeValue = view.findViewById(R.id.apogeeAltitudeValue);
             flightDurationValue = view.findViewById(R.id.flightDurationValue);
             burnTimeValue = view.findViewById(R.id.burnTimeValue);
@@ -511,78 +489,83 @@ public class FlightViewTabActivity extends AppCompatActivity {
             mainAltitudeValue = view.findViewById(R.id.mainAltitudeValue);
             maxDescentValue = view.findViewById(R.id.maxDescentValue);
             landingSpeedValue = view.findViewById(R.id.landingSpeedValue);
-            nbrOfSamplesValue= view.findViewById(R.id.nbrOfSamplesValue);
+            nbrOfSamplesValue = view.findViewById(R.id.nbrOfSamplesValue);
             flightNbrValue = view.findViewById(R.id.flightNbrValue);
 
             XYSeriesCollection flightData;
             //myflight= myBT.getFlightData();
             flightData = myflight.GetFlightData(FlightName);
             int nbrData = flightData.getSeries(0).getItemCount();
-            nbrSeries=flightData.getSeriesCount();
+            nbrSeries = flightData.getSeriesCount();
             // flight nbr
             flightNbrValue.setText(FlightName + "");
 
             //nbr of samples
-            nbrOfSamplesValue.setText(nbrData +"");
+            nbrOfSamplesValue.setText(nbrData + "");
 
             //flight duration
-            double flightDuration = flightData.getSeries(0).getMaxX()/1000;
-            flightDurationValue.setText(flightDuration +" secs");
+            double flightDuration = flightData.getSeries(0).getMaxX() / 1000;
+            flightDurationValue.setText(flightDuration + " secs");
             //apogee altitude
             double apogeeAltitude = flightData.getSeries(0).getMaxY();
-            apogeeAltitudeValue.setText(apogeeAltitude +" " +myBT.getAppConf().getUnitsValue());
+            apogeeAltitudeValue.setText(apogeeAltitude + " " + myBT.getAppConf().getUnitsValue());
 
             //apogee time
-            int pos = searchX (flightData.getSeries(0),apogeeAltitude);
+            int pos = searchX(flightData.getSeries(0), apogeeAltitude);
             double apogeeTime = (double) flightData.getSeries(0).getX(pos);
-            timeToApogeeValue.setText(apogeeTime/1000 + " secs");
+            timeToApogeeValue.setText(apogeeTime / 1000 + " secs");
 
             //calculate max speed
-            double maxSpeed =speed.getMaxY();
-            maxVelociyValue.setText( (long) maxSpeed +" " +myBT.getAppConf().getUnitsValue() +"/secs");
+            double maxSpeed = speed.getMaxY();
+            maxVelociyValue.setText((long) maxSpeed + " " + myBT.getAppConf().getUnitsValue() + "/secs");
 
             //landing speed
-          /*  double landingSpeed = speed.getY(searchY(speed, flightData.getSeries(0).getMaxX()-3000)).doubleValue() ;
-            landingSpeedValue.setText(String.format("%.2f",landingSpeed )+ " " +myBT.getAppConf().getUnitsValue() +"/secs");
+            double landingSpeed = 0;
+            if (searchY(speed, flightData.getSeries(0).getMaxX() - 2000) != -1) {
+                landingSpeed = speed.getY(searchY(speed, flightData.getSeries(0).getMaxX() - 2000)).doubleValue();
+                landingSpeedValue.setText(String.format("%.2f", landingSpeed) + " " + myBT.getAppConf().getUnitsValue() + "/secs");
+            } else {
+                landingSpeedValue.setText("N/A");
+            }
             //max descente speed
-            double maxDescentSpeed = speed.getY(searchY(speed, apogeeTime +2000)).doubleValue();
-            maxDescentValue.setText(String.format("%.2f",maxDescentSpeed)+ " " +myBT.getAppConf().getUnitsValue() +"/secs" );
-*/
+            double maxDescentSpeed = 0;
+            if (searchY(speed, apogeeTime + 2000) != -1) {
+                maxDescentSpeed = speed.getY(searchY(speed, apogeeTime + 2000)).doubleValue();
+                maxDescentValue.setText(String.format("%.2f", maxDescentSpeed) + " " + myBT.getAppConf().getUnitsValue() + "/secs");
+            } else {
+                maxDescentValue.setText("N/A");
+            }
             //max acceleration value
-            double maxAccel =accel.getMaxY();
-            maxAccelerationValue.setText(String.format("%.2f",maxAccel) + " G");
+            double maxAccel = accel.getMaxY();
+            maxAccel = (maxAccel * FEET_IN_METER) / 9.80665;
+
+            maxAccelerationValue.setText(String.format("%.2f", maxAccel) + " G");
 
             //burntime value
-            double burnTime =0;
-            if(searchX(speed,maxSpeed)!=-1)
-                burnTime = speed.getX(searchX(speed,maxSpeed)).doubleValue();
-            if (burnTime!=0)
-                burnTimeValue.setText(burnTime/1000 + " secs");
+            double burnTime = 0;
+            if (searchX(speed, maxSpeed) != -1)
+                burnTime = speed.getX(searchX(speed, maxSpeed)).doubleValue();
+            if (burnTime != 0)
+                burnTimeValue.setText(burnTime / 1000 + " secs");
             else
                 burnTimeValue.setText("N/A");
             //main value
             // remain TODO!!!
-            mainAltitudeValue.setText(" " +myBT.getAppConf().getUnitsValue() );
+            mainAltitudeValue.setText(" " + myBT.getAppConf().getUnitsValue());
 
-            buttonExportToCsv.setOnClickListener(new View.OnClickListener()
-            {
+            buttonExportToCsv.setOnClickListener(new View.OnClickListener() {
 
                 @Override
-                public void onClick(View v)
-                {
+                public void onClick(View v) {
                     SavedCurves = "";
                     //export the data to a csv file
-                   for (int j =0; j<numberOfCurves; j++) {
-                       Log.d("Flight win", "Saving curve:" +j);
+                    for (int j = 0; j < numberOfCurves; j++) {
+                        Log.d("Flight win", "Saving curve:" + j);
                         saveData(j, allFlightData);
                     }
                     builder = new AlertDialog.Builder(Tab2Fragment.this.getContext());
                     //Running Saving commands
-                    //getResources().getString(R.string.flight_time)
-                    builder.setMessage(getResources().getString(R.string.save_curve_msg) +  Environment.DIRECTORY_DOWNLOADS+ "\\BearConsoleFlights \n"+SavedCurves)
-                            /*Environment.DIRECTORY_DOWNLOADS+
-                            "\\RocketMotorTestStand\\"+ThrustCurveName +".eng" */
-
+                    builder.setMessage(getResources().getString(R.string.save_curve_msg) + Environment.DIRECTORY_DOWNLOADS + "\\MotorGimbalConsoleFlights \n" + SavedCurves)
                             .setTitle(getResources().getString(R.string.save_curves_title))
                             .setCancelable(false)
                             .setPositiveButton(R.string.save_curve_ok, new DialogInterface.OnClickListener() {
@@ -593,40 +576,85 @@ public class FlightViewTabActivity extends AppCompatActivity {
 
                     alert = builder.create();
                     alert.show();
-                   msg(getResources().getString(R.string.curves_saved_msg));
+                    msg(getResources().getString(R.string.curves_saved_msg));
 
                 }
             });
 
             return view;
         }
-        private void saveData(int nbr,XYSeriesCollection Data){
 
+        private void saveData(int nbr, XYSeriesCollection Data) {
 
-            String csv_data = "time,altitude\n";/// your csv data as string;
+            String valHeader = "";
+
+            if (nbr == 0) {
+                valHeader = getResources().getString(R.string.curve_altitude);
+            } else if (nbr == 1) {
+                valHeader = getResources().getString(R.string.curve_temperature);
+            } else if (nbr == 2) {
+                valHeader = getResources().getString(R.string.curve_pressure);
+            } else if (nbr == 3) {
+                valHeader = "Gravity X";
+            }else if (nbr == 4) {
+                valHeader = "Gravity Y";
+            }else if (nbr == 5) {
+                valHeader = "Gravity Z";
+            }else if (nbr == 6) {
+                valHeader = "Euler X";
+            }else if (nbr == 7) {
+                valHeader = "Euler Y";
+            }else if (nbr == 8) {
+                valHeader = "Euler Z";
+            }else if (nbr == 9) {
+                valHeader = "Yaw";
+            }else if (nbr == 10) {
+                valHeader = "Pitch";
+            }else if (nbr == 11) {
+                valHeader = "Roll";
+            }else if (nbr == 12) {
+                valHeader = "outputX";
+            }else if (nbr == 13) {
+                valHeader = "outputY";
+            }else if (nbr == 14) {
+                valHeader = "accelX";
+            }else if (nbr == 15) {
+                valHeader = "accelY";
+            }else if (nbr == 16) {
+                valHeader = "accelZ";
+            }else if (nbr == 17) {
+                valHeader = getResources().getString(R.string.curve_speed);
+            } else if (nbr == 18) {
+                valHeader = getResources().getString(R.string.curve_accel);
+            }
+
+            String csv_data = "time(ms),"+valHeader + " " + units[nbr] +"\n";/// your csv data as string;
             int nbrData = Data.getSeries(nbr).getItemCount();
-            for ( int i = 0; i < nbrData; i++) {
+            for (int i = 0; i < nbrData; i++) {
 
-                csv_data = csv_data + (double) Data.getSeries(nbr).getX(i) +"," + (double) Data.getSeries(nbr).getY(i)+"\n";
+                csv_data = csv_data + (double) Data.getSeries(nbr).getX(i) + "," + (double) Data.getSeries(nbr).getY(i) + "\n";
 
             }
             File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
             //if you want to create a sub-dir
-            root = new File(root, "BearConsoleFlights");
+            root = new File(root, "MotorGimbalConsoleFlights");
             root.mkdir();
 
+            SimpleDateFormat sdf = new SimpleDateFormat("_dd-MM-yyyy_hh-mm-ss");
+            String date = sdf.format(System.currentTimeMillis());
+
             // select the name for your file
-            root = new File(root , FlightName +"-"+Data.getSeries(nbr).getKey().toString() +".csv");
-            Log.d("Flight win", FlightName +Data.getSeries(nbr).getKey().toString() +".csv" );
+            root = new File(root, FlightName + "-" + Data.getSeries(nbr).getKey().toString() + date + ".csv");
+            Log.d("Flight win", FlightName + Data.getSeries(nbr).getKey().toString() + date + ".csv");
             try {
-                Log.d("Flight win", "attempt to write" );
+                Log.d("Flight win", "attempt to write");
                 FileOutputStream fout = new FileOutputStream(root);
                 fout.write(csv_data.getBytes());
                 fout.close();
-                Log.d("Flight win", "write done" );
+                Log.d("Flight win", "write done");
                 SavedCurves = SavedCurves +
-                        FlightName +Data.getSeries(nbr).getKey().toString() +".csv\n";
+                        FlightName + Data.getSeries(nbr).getKey().toString() + date + ".csv\n";
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -639,12 +667,12 @@ public class FlightViewTabActivity extends AppCompatActivity {
                     ex.printStackTrace();
                 }
 
-                if (bool){
+                if (bool) {
                     // call the method again
                     saveData(nbr, Data);
-                }else {
-                    Log.d("Flight win", "Failed to create flight files" );
-                    throw new IllegalStateException("Failed to create flight files");
+                } else {
+                    Log.d("Flight win", "Failed to create flight files");
+                    throw new IllegalStateException(getString(R.string.failed_to_create_file_msg));
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -654,12 +682,12 @@ public class FlightViewTabActivity extends AppCompatActivity {
         /*
         Return the position of the first X value it finds from the beginning
          */
-        public int searchX (XYSeries serie, double searchVal) {
+        public int searchX(XYSeries serie, double searchVal) {
             int nbrData = serie.getItemCount();
             int pos = -1;
             for (int i = 1; i < nbrData; i++) {
-                if((searchVal >= serie.getY(i-1).doubleValue()  )&& (searchVal <= serie.getY(i).doubleValue() )) {
-                    pos =i;
+                if ((searchVal >= serie.getY(i - 1).doubleValue()) && (searchVal <= serie.getY(i).doubleValue())) {
+                    pos = i;
                     break;
                 }
             }
@@ -669,12 +697,12 @@ public class FlightViewTabActivity extends AppCompatActivity {
         /*
         Return the position of the first Y value it finds from the beginning
          */
-        public int searchY (XYSeries serie, double searchVal) {
+        public int searchY(XYSeries serie, double searchVal) {
             int nbrData = serie.getItemCount();
             int pos = -1;
             for (int i = 1; i < nbrData; i++) {
-                if((searchVal >= serie.getX(i-1).doubleValue()  )&& (searchVal <= serie.getX(i).doubleValue() )) {
-                    pos =i;
+                if ((searchVal >= serie.getX(i - 1).doubleValue()) && (searchVal <= serie.getX(i).doubleValue())) {
+                    pos = i;
                     break;
                 }
             }

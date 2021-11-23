@@ -83,9 +83,7 @@ public class TestConnection extends AppCompatActivity {
                     testRunning = false;
 
                     butStartStop.setText(R.string.test_start);
-                    //myBT.setExit(true);
-                    //myBT.clearInput();
-                    //myBT.flush();
+
                 } else {
                     testRunning = true;
                     startTestTelemetry();

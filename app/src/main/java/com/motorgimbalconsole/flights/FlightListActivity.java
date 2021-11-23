@@ -24,6 +24,8 @@ import android.widget.Toast;
 import com.motorgimbalconsole.ConsoleApplication;
 import com.motorgimbalconsole.R;
 
+import org.afree.data.xy.XYSeries;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,6 +35,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import static java.lang.Math.abs;
+
 /**
  *   @description: This retrieve the flight list
  *   @author: boris.dureau@neuf.fr
@@ -199,6 +204,28 @@ public class FlightListActivity extends AppCompatActivity {
                     //remove the last flight which might have incomplete data
                     flightNames.remove(flightNames.size()-1);
                 }
+                //calculate the speed
+                for (String flight : flightNames) {
+                    XYSeries serie = myflight.GetFlightData(flight).getSeries(getResources().getString(R.string.altitude));
+                    int nbrData = serie.getItemCount();
+                    for (int i = 1; i < nbrData; i++) {
+                        double X, Y;
+                        X = serie.getX(i).doubleValue();
+                        Y = abs(serie.getY(i).doubleValue() - serie.getY(i - 1).doubleValue()) / (((serie.getX(i).doubleValue() - serie.getX(i - 1).doubleValue()) / 1000));
+                        myflight.AddToFlight((long) X, (long) (Y), flight, 17);
+                    }
+                }
+                //calculate the acceleration
+                for (String flight : flightNames) {
+                    XYSeries serie = myflight.GetFlightData(flight).getSeries(17);
+                    int nbrData = serie.getItemCount();
+                    for (int i = 1; i < nbrData; i++) {
+                        double X, Y;
+                        X = serie.getX(i).doubleValue();
+                        Y = abs(serie.getY(i).doubleValue() - serie.getY(i - 1).doubleValue()) / ((serie.getX(i).doubleValue() - serie.getX(i - 1).doubleValue()) / 1000);
+                        myflight.AddToFlight((long) X, (long) (Y ), flight, 18);
+                    }
+                }
             }
             return null;
         }
@@ -214,8 +241,6 @@ public class FlightListActivity extends AppCompatActivity {
                 });
 
                 flightList = (ListView) findViewById(R.id.listViewFlightList);
-
-
                 flightList.setAdapter(adapter);
                 flightList.setOnItemClickListener(myListClickListener);
             alert.dismiss();

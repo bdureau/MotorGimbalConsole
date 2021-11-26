@@ -213,6 +213,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/landingSpeed"
-        android:text="Export to CSV" />
+        android:text="@string/export_to_csv" />
 
 </RelativeLayout>

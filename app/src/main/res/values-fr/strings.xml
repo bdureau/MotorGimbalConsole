@@ -39,7 +39,7 @@
     <string name="clear_flights">Effacer les vols</string>
     <string name="reset_msg1">Vous allez effacer toutes les données de vols, etes vous certain?</string>
     <string name="reset_msg2">Vous allez réinitialiser la configuration de votre altimètre, etes vous certains?</string>
-    <string name="reset_msg3">You are about to erase your last flight, are you sure you want to do it?</string>
+    <string name="reset_msg3">Vous allez effacer votre dernier vol, etes vous certain?</string>
 
     <!-- Bluetooth-->
     <string name="select_device_to_use">Choisir périphérique</string>
@@ -307,7 +307,8 @@
     <string name="bt_baud_rate">Baud rate:</string>
     <string name="pin">Pin:</string>
     <string name="bt_info_msg">Cela vous permettra de configurer votre module bluetooth.
-        Vous aurez besoin d\'un cable ttl et d\'un adaptateur to connect your bluetooth module to your phone. Please look at the on line help</string>
+        Vous aurez besoin d\'un cable ttl et d\'un adaptateur pour connecter votre module bluetooth
+        à votre telephone. Merci de consulter l\'aide en ligne</string>
     <string name="bt_info_title">Bluetooth module configuration</string>
     <string name="bt_info_ok">OK</string>
     <string name="loading_bt_config_msg">Chargement de la config du module bluetooth</string>
@@ -353,6 +354,7 @@
     <string name="nbr_packets_sent">Nb packets envoyés:</string>
     <string name="test_your_connection">Test connexion</string>
     <string name="test_stop">Arreter</string>
-    <string name="recording_timeout_sec">Recording timeout (sec)</string>
-    <string name="failed_to_create_file_msg">Failed to create flight files</string>
+    <string name="recording_timeout_sec">Durée enreg max (sec)</string>
+    <string name="failed_to_create_file_msg">Echec création fichiers de vol</string>
+    <string name="export_to_csv">Exporter en CSV</string>
 </resources>

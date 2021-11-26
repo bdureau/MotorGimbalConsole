@@ -136,14 +136,11 @@ public class ResetSettingsActivity extends AppCompatActivity {
                         dialog.cancel();
                         //clear altimeter config
                         if(myBT.getConnected())
-                            //try  {
+
                                 //erase the config
                                 myBT.write("d;".toString());
                                 myBT.flush();
-                           /* }
-                            catch (IOException e) {
 
-                            }*/
                     }
                 })
                 .setNegativeButton(getResources().getString(R.string.No), new DialogInterface.OnClickListener() {

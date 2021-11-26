@@ -348,4 +348,5 @@
     <string name="test_stop">Stop</string>
     <string name="recording_timeout_sec">Recording timeout (sec)</string>
     <string name="failed_to_create_file_msg">Failed to create flight files</string>
+    <string name="export_to_csv">Export to CSV</string>
 </resources>

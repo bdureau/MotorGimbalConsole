@@ -223,7 +223,7 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                             public void onClick(final DialogInterface dialog, final int id) {
                                 dialog.cancel();
                                 GimbalCfg.setConnectionSpeed(configPage3.getBaudRate());
-                                sendAltiCfg();
+                                sendAltiCfgV2();
                                 finish();
                             }
                         })
@@ -235,14 +235,14 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
                 final AlertDialog alert = builder.create();
                 alert.show();
             } else {
-                sendAltiCfg();
+                sendAltiCfgV2();
                 finish();
             }
         } else {
-            sendAltiCfg();
+            sendAltiCfgV2();
             finish();
         }
-        //sendAltiCfg();
+        //sendAltiCfgV2();
        // finish();
         return true;
     }
@@ -350,6 +350,172 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         myMessage = myBT.ReadResult(3000);
     }
 
+    private void sendAltiCfgV2() {
+
+        if (myBT.getConnected()) {
+            myBT.setDataReady(false);
+            myBT.flush();
+            myBT.clearInput();
+            //switch off the main loop before sending the config
+            myBT.write("m0;".toString());
+            Log.d("conftab", "switch off main loop");
+            //wait for the result to come back
+            try {
+                while (myBT.getInputStream().available() <= 0) ;
+            } catch (IOException e) {
+
+            }
+            String myMessage = "";
+            myMessage = myBT.ReadResult(3000);
+            if (myMessage.equals("OK")) {
+                Log.d("conftab", "switch off main loop ok");
+            }
+        }
+
+        //String gimbalCfgStr = "";
+
+        //gimbalCfgStr = "s," +
+        //        GimbalCfg.getAxOffset() + "," +
+        SendParam("p,1,"+ GimbalCfg.getAxOffset());
+        //        GimbalCfg.getAyOffset() + "," +
+        SendParam("p,2,"+ GimbalCfg.getAyOffset());
+        //        GimbalCfg.getAzOffset() + "," +
+        SendParam("p,3,"+ GimbalCfg.getAzOffset());
+        //        GimbalCfg.getGxOffset() + "," +
+        SendParam("p,4,"+ GimbalCfg.getGxOffset());
+        //        GimbalCfg.getGyOffset() + "," +
+        SendParam("p,5,"+ GimbalCfg.getGyOffset());
+        //         GimbalCfg.getGzOffset() + "," +
+        SendParam("p,6,"+ GimbalCfg.getGzOffset());
+        //        (int) (GimbalCfg.getKpX() * 100) + "," +
+        SendParam("p,7,"+ (int) (GimbalCfg.getKpX() * 100) );
+        //        (int) (GimbalCfg.getKiX() * 100) + "," +
+        SendParam("p,8,"+ (int) (GimbalCfg.getKiX() * 100) );
+        //        (int) (GimbalCfg.getKdX() * 100) + "," +
+        SendParam("p,9,"+ (int) (GimbalCfg.getKdX() * 100) );
+        //        (int) (GimbalCfg.getKpY() * 100) + "," +
+        SendParam("p,10,"+ (int) (GimbalCfg.getKpY() * 100) );
+        //        (int) (GimbalCfg.getKiY() * 100) + "," +
+        SendParam("p,11,"+ (int) (GimbalCfg.getKiY() * 100) );
+        //        (int) (GimbalCfg.getKdY() * 100) + "," +
+        SendParam("p,12,"+ (int) (GimbalCfg.getKdY() * 100) );
+        //        GimbalCfg.getServoXMin() + "," +
+        SendParam("p,13,"+ GimbalCfg.getServoXMin());
+        //        GimbalCfg.getServoXMax() + "," +
+        SendParam("p,14,"+ GimbalCfg.getServoXMax());
+        //        GimbalCfg.getServoYMin() + "," +
+        SendParam("p,15,"+ GimbalCfg.getServoYMin());
+        //        GimbalCfg.getServoYMax() + "," +
+        SendParam("p,16,"+ GimbalCfg.getServoYMax());
+        //        GimbalCfg.getConnectionSpeed() + "," +
+        SendParam("p,17,"+ GimbalCfg.getConnectionSpeed());
+        //        GimbalCfg.getAltimeterResolution() + "," +
+        SendParam("p,18,"+ GimbalCfg.getAltimeterResolution());
+        //        GimbalCfg.getEepromSize() + "," +
+        SendParam("p,19,"+ GimbalCfg.getEepromSize());
+        //        GimbalCfg.getUnits() + "," +
+        SendParam("p,20,"+ GimbalCfg.getUnits());
+        //        GimbalCfg.getEndRecordAltitude() + "," +
+        SendParam("p,21,"+ GimbalCfg.getEndRecordAltitude());
+        //        GimbalCfg.getBeepingFrequency() + "," +
+        SendParam("p,22,"+ GimbalCfg.getBeepingFrequency());
+        //        GimbalCfg.getLiftOffDetect() + "," +
+        SendParam("p,23,"+ GimbalCfg.getLiftOffDetect());
+        //        GimbalCfg.getGyroRange() + "," +
+        SendParam("p,24,"+ GimbalCfg.getGyroRange());
+        //        GimbalCfg.getAcceleroRange() + "," +
+        SendParam("p,25,"+ GimbalCfg.getAcceleroRange());
+        //        GimbalCfg.getRecordingTimeout()+ "," +
+        SendParam("p,26,"+ GimbalCfg.getRecordingTimeout());
+        //        GimbalCfg.getBatteryType();
+        SendParam("p,27,"+ GimbalCfg.getBatteryType());
+
+        if (myBT.getConnected()) {
+
+            String myMessage = "";
+
+            myBT.setDataReady(false);
+            myBT.flush();
+            myBT.clearInput();
+            //Write the config structure
+            myBT.write("q;".toString());
+            Log.d("conftab", "write config");
+
+            //wait for the result to come back
+            try {
+                while (myBT.getInputStream().available() <= 0) ;
+            } catch (IOException e) {
+
+            }
+            myMessage = "";
+            myMessage = myBT.ReadResult(3000);
+            //msg(getResources().getString(R.string.msg3));
+
+            myBT.setDataReady(false);
+            myBT.flush();
+            myBT.clearInput();
+            //switch on the main loop before sending the config
+            myBT.write("m1;".toString());
+            Log.d("conftab", "switch on main loop");
+
+            //wait for the result to come back
+            try {
+                while (myBT.getInputStream().available() <= 0) ;
+            } catch (IOException e) {
+
+            }
+            myMessage = "";
+            myMessage = myBT.ReadResult(3000);
+            //msg(getResources().getString(R.string.msg3));
+
+            myBT.flush();
+        }
+    }
+
+    private void SendParam (String altiCfgStr) {
+        String cfg = altiCfgStr;
+        cfg = cfg.replace("p", "");
+        cfg = cfg.replace(",", "");
+        Log.d("conftab", cfg.toString());
+
+        altiCfgStr = altiCfgStr + "," + generateCheckSum(cfg) + ";";
+
+
+        if (myBT.getConnected()) {
+
+            String myMessage = "";
+
+            myBT.flush();
+            myBT.clearInput();
+            myBT.setDataReady(false);
+            //msg("Sent :" + altiCfgStr.toString());
+            //send back the config
+            myBT.write(altiCfgStr.toString());
+            Log.d("conftab", altiCfgStr.toString());
+            myBT.flush();
+            //get the results
+            //wait for the result to come back
+            try {
+                while (myBT.getInputStream().available() <= 0) ;
+            } catch (IOException e) {
+
+            }
+            myMessage = "";
+            myMessage = myBT.ReadResult(3000);
+            if (myMessage.equals("OK")) {
+                //msg("Sent OK:" + altiCfgStr.toString());
+                Log.d("conftab", "config sent succesfully");
+
+            } else {
+                //  msg(myMessage);
+                Log.d("conftab", "config not sent succesfully");
+                Log.d("conftab", myMessage);
+            }
+            if (myMessage.equals("KO")) {
+                //   msg(getResources().getString(R.string.msg2));
+            }
+        }
+    }
     public static Integer generateCheckSum(String value)  {
 
         byte[] data = value.getBytes();

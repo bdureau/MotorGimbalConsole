@@ -16,23 +16,24 @@
     <string name="conf_msg2">Невозможнозагрузитьконфигурацию, пожалуйста, попробуйтеещёраз - Unable to send the config, please try again</string>
     <!-- About -->
     <string name="dismiss_about">Отклонить - Dismiss</string>
-    <string name="version">Gimbal Версия:</string>
+    <string name="version">Версия:</string>
     <string name="about_screen">Оприложении - About Screen</string>
 
     <!-- app config -->
     <string name="save_config">Сохранить - Save</string>
     <string name="dismiss_config">Отклонить - Dismiss</string>
-    <string name="default_config">Конфигурацияпоумолчанию - Default config</string>
-    <string name="application_langage_config">Языкприложения - Application langage config</string>
-    <string name="graph_color_config">Цветграфика - Graph color config</string>
-    <string name="application_units_config">Единицыизмерения - Application units config</string>
-    <string name="graph_back_color_config">Цветфона - Graph back color config</string>
-    <string name="font_size">Размершрифта - Font Size</string>
-    <string name="baud_rate">Скоростьпередачи - Baud rate</string>
-    <string name="connection_type">Типсоединения - Connection type</string>
+    <string name="default_config">Конфигурация по умолчанию - Default config</string>
+    <string name="application_langage_config">Язык приложения - Application langage config</string>
+    <string name="graph_color_config">Цвет графика - Graph color config</string>
+    <string name="application_units_config">Единицы измерения - Application units config</string>
+    <string name="graph_back_color_config">Цвет фона - Graph back color config</string>
+    <string name="font_size">Размер шрифта - Font Size</string>
+    <string name="baud_rate">Скорость передачи - Baud rate</string>
+    <string name="connection_type">Тип соединения - Connection type</string>
     <string name="upload">загрузить - upload</string>
     <string name="dismiss_tabconfig">Отклонить - Dismiss</string>
-    <string name="graphiclib_type">Библиотекаграфиков - Graphics lib </string>
+    <string name="graphiclib_type">Библиотека графиков - Graphics lib </string>
+
 
     <!-- Reset screen -->
     <string name="dismiss_reset">Отклонить - Dismiss</string>
@@ -154,93 +155,94 @@
     <string name="flight_data_title">Показатьданныеополётах - Flight data to display</string>
 
     <!-- flash firmware -->
-    <string name="msg10">Прошивкапамяти... ? - Flashing firmware...</string>
-    <string name="msg11">Пожалуйста, подождите!!! - Please wait!!!</string>
-    <string name="msg12">Загрузка... - Upload: </string>
-    <string name="msg13">Невозможнооткрыть - Cannot open</string>
-    <string name="msg14">Загрузка: Старт \n - Upload : Start \n</string>
-    <string name="msg15">Загрузка: Прервано \n - Upload: Failed\n</string>
-    <string name="msg16">Загрузка: Успешно \n - Upload: Successful\n</string>
-    <string name="msg17">Отменитьзагрузку - Cancel uploading\n</string>
-    <string name="msg18">Ошибка: - Error: </string>
-    <string name="msg19">Прошивкачего? - Flashing recover firmware...: </string>
-    <string name="firmware_cancel">Отмена - Cancel</string>
-    <string name="firmware_dismiss">Отклонить - Dismiss</string>
+    <string name="msg10">Прошивка памяти...</string>
+    <string name="msg11">Пожалуйста, подождите!!!</string>
+    <string name="msg12">Загрузка...</string>
+    <string name="msg13">Невозможно открыть</string>
+    <string name="msg14">Загрузка: Старт \n</string>
+    <string name="msg15">Загрузка: Прервано \n</string>
+    <string name="msg16">Загрузка: Успешно \n</string>
+    <string name="msg17">Отменить загрузку \n</string>
+    <string name="msg18">Ошибка: </string>
+    <string name="msg19">Восстановить прошивку : </string>
+    <string name="firmware_cancel">Отмена</string>
+    <string name="firmware_dismiss">Закрыть</string>
     <string name="recover_firmware">Восстановитьпрошивку - Recover Firmware</string>
-    <string name="flash_firmware">Прошивкапамяти - Flash Firmware</string>
-    <string name="select_altimeter_model">Выберитемодельальтиметра - Select your altimeter model:</string>
-    <string name="after_complete_upload">ПослезагрузкиВысможете ??? прошитьпамять - After the upload is complete you will be able to flash the real firmware</string>
-    <string name="flight_list_cancel">Отмена - Cancel</string>
-    <string name="flight_retrieval_canceled">Что-тобылоотмененопользователем - Flight retrieval has been canceled by user</string>
-    <string name="flight_have_been_recorded">Нетзаписанныхполётов - No flights have been recorded</string>
-    <string name="main_screen_actity">Отмена - Cancel</string>
-    <string name="title_activity_flight_view_maps">Карта - Map</string>
-    <string name="detect_firmware">Обнаружитьпрошивку - Detect firmware</string>
-    <string name="msg_detect_firmware">Попыткаобнаружитьпрошивку!!! - Attempting to Detect firmware!!!</string>
+    <string name="flash_firmware">Прошивка памяти</string>
+    <string name="select_altimeter_model">Выберите модель альтиметра:</string>
+    <string name="after_complete_upload">После загрузки Вы сможете прошить память</string>
+    <string name="flight_list_cancel">Отмена</string>
+    <string name="flight_retrieval_canceled">Получение данных о полётах было отменено пользователем</string>
+    <string name="flight_have_been_recorded">Нет записей о полётах</string>
+    <string name="main_screen_actity">Отмена</string>
+    <string name="title_activity_flight_view_maps">Карта</string>
+    <string name="detect_firmware">Узнать версию прошивки</string>
+    <string name="msg_detect_firmware">Попытка узнать версию прошивки!!!</string>
 
     <!-- app config -->
     <string name="dismiss_app_config">Dismiss</string>
-    <string name="unit_meter">Метры - Meters</string>
-    <string name="unit_feet">Футы - Feet</string>
+    <string name="unit_meter">Метры</string>
+    <string name="unit_feet">Футы</string>
     <string name="lang_english">English</string>
     <string name="lang_french">French</string>
-    <string name="lang_phone">Языктелефона - Phone language</string>
-    <string name="FullUSBSupport">Полнаяподдержка USB - Full USB Support</string>
+    <string name="lang_phone">Язык телефона</string>
+    <string name="FullUSBSupport">Полная поддержка USB</string>
 
-    <string name="color_black">ЧЁРНЫЙ - BLACK</string>
-    <string name="color_white">БЕЛЫЙ - WHITE</string>
-    <string name="color_magenta">ПУРПУНЫЙ - MAGENTA</string>
-    <string name="color_blue">СИНИЙ - BLUE</string>
-<string name="color_yellow">ЖЁЛТЫЙ - YELLOW</string>
-<string name="color_green">ЗЕЛЁНЫЙ - GREEN</string>
-<string name="color_gray">СЕРЫЙ - GRAY</string>
-<string name="color_cyan">ГОЛУБОЙ - CYAN</string>
-<string name="color_dkgray">ТмнСЕРЫЙ  - DKGRAY</string>
-<string name="color_ltgray">СвтСЕРЫЙ  - LTGRAY</string>
-<string name="color_red">КРАСНЫЙ - RED</string>
+    <string name="color_black">ЧЁРНЫЙ</string>
+    <string name="color_white">БЕЛЫЙ</string>
+    <string name="color_magenta">ПУРПУНЫЙ</string>
+    <string name="color_blue">СИНИЙ</string>
+    <string name="color_yellow">ЖЁЛТЫЙ</string>
+    <string name="color_green">ЗЕЛЁНЫЙ</string>
+    <string name="color_gray">СЕРЫЙ</string>
+    <string name="color_cyan">ГОЛУБОЙ</string>
+    <string name="color_dkgray">ТмнСЕРЫЙ</string>
+    <string name="color_ltgray">СвтСЕРЫЙ</string>
+    <string name="color_red">КРАСНЫЙ</string>
 
-<string name="phone_english">English</string>
-<string name="phone_french">French</string>
-<string name="phone_language">Язык телефона - Phonelanguage</string>
-<string name="config_unit_meters">Метры - Meters</string>
-<string name="config_unit_feet">Футы - Feet</string>
+    <string name="phone_english">English</string>
+    <string name="phone_french">French</string>
+    <string name="phone_language">Язык телефона</string>
+    <string name="config_unit_meters">Метры</string>
+    <string name="config_unit_feet">Футы</string>
 
-<string name="select_bluetooth_device">Выбрать устройство Bluetooth - SelectBluetoothdevice</string>
-<string name="reset_settings">Сбросить настройки - Resetsettings</string>
-<string name="help_screen">Помощь - Help</string>
-<string name="flight_view">Просмотр полёта - FlightView</string>
-<string name="play_flight">Воспроизвести полёт - PlayFlight</string>
-<string name="flight_name">Полёт - Flight</string>
+    <string name="select_bluetooth_device">Выбрать устройство Bluetooth</string>
+    <string name="reset_settings">Сбросить настройки</string>
+    <string name="help_screen">Помощь</string>
+    <string name="flight_view">Просмотр данных полёта</string>
+    <string name="play_flight">Воспроизвести данные полёта</string>
+    <string name="flight_name">Полёт</string>
 
     <!-- Telemetry -->
-<string name="stop_telemetry">Остановить телеметрию - StopTelemetry</string>
-<string name="start_telemetry">Запустить телеметрию - StartTelemetry</string>
-<string name="current_phase">Текущая фаза - CurrentPhase</string>
-<string name="altitude">Высота - Altitude</string>
-<string name="event_time">время - EventTime</string>
-<string name="lift_off">Отрыв - Liftoff</string>
-<string name="apogee_drogue">Апогей/Тормозной парашют - Apogee/drogue</string>
-<string name="main_chute">Основной парашют - Mainchute</string>
-<string name="landed">Успешная посадка ??? - Landed</string>
-<string name="max_speed">Максимальная скорость - Maxspeed</string>
-<string name="current_altitude">Текущая высота - CurrentAltitude</string>
-<string name="dis">Разрыв соединения - disconnect</string>
-<string name="telemetry_screen">Телеметрия - Telemetry</string>
-<string name="telemetry_alt_time">Высота/Время - Altitude/Time</string>
-<string name="telemetry_apogee">апогей - apogee</string>
-<string name="rocket_has_landed">ракета совершила посадку - rockethaslanded</string>
-<string name="telemetry">телеметрия - telemetry</string>
+    <string name="stop_telemetry">Остановить телеметрию</string>
+    <string name="start_telemetry">Запустить телеметрию</string>
+    <string name="current_phase">Текущая фаза</string>
+    <string name="altitude">Высота</string>
+    <string name="event_time">Подтверждение по времени</string>
+    <string name="lift_off">Отрыв</string>
+    <string name="apogee_drogue">Апогей/Тормозной парашют</string>
+    <string name="main_chute">Основной парашют</string>
+    <string name="landed">Посадка</string>
+    <string name="max_speed">Макс. скорость</string>
+    <string name="current_altitude">Текущая высота</string>
+    <string name="dis">Разрыв соединения</string>
+    <string name="telemetry_screen">Телеметрия</string>
+    <string name="telemetry_alt_time">Высота/Время</string>
+    <string name="telemetry_apogee">апогей</string>
+    <string name="rocket_has_landed">ракета совершила посадку</string>
+    <string name="telemetry">телеметрия</string>
 
-<string name="telemetry_voice">Голос телеметрии - Telemetryvoice</string>
-<string name="test_telemetry_voice">Тест голоса - TestVoice</string>
-<string name="telemetry_config">Настройки телеметрии  Конфигурация телеметрии - Telemetryconfig</string>
-<string name="apogee_altitude_event">Высота апогея - Apogeealtitude</string>
-<string name="drogue_event">Раскрытие тормозного парашюта - Drogueevent</string>
-<string name="altitude_event">Высота что  - Altitudeevent</string>
-<string name="landing_event">Посадка  - Landingevent</string>
-<string name="burnout_event">Выгорание топлива / двигателя  - Burnoutevent</string>
-<string name="warning_event">Предупреждение  - Warningevent</string>
-<string name="liftoff_event">Отрыв  - Liftoffevent</string>
+    <string name="telemetry_voice">Голос телеметрии</string>
+    <string name="test_telemetry_voice">Тест голоса</string>
+    <string name="telemetry_config">Настройки телеметрии</string>
+    <string name="apogee_altitude_event">Высота апогея</string>
+    <string name="drogue_event">Раскрытие тормозного парашюта</string>
+    <string name="altitude_event">По высоте</string>
+    <string name="landing_event">Посадка</string>
+    <string name="burnout_event">Выгорание топлива</string>
+    <string name="warning_event">Предупреждение</string>
+    <string name="liftoff_event">Отрыв</string>
+
     <!--telemetry module config -->
     <string name="m3DR_load_cfg">Loading 3DR module configuration</string>
     <string name="m3DR_retrieving_cfg">Retrieving config</string>

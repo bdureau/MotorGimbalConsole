@@ -508,8 +508,8 @@ public class MainActivityScreen extends AppCompatActivity {
             hm = null;
             hm = new HashMap();
             //init compatible versions
-            Add("RocketMotorGimbal", "1.1");
-            Add("RocketMotorGimbal_bno055", "1.1");
+            Add("RocketMotorGimbal", "1.2");
+            Add("RocketMotorGimbal_bno055", "1.2");
         }
 
         public void Add(String altiName, String verList) {

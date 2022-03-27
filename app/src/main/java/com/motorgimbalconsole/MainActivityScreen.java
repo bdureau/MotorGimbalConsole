@@ -62,7 +62,7 @@ public class MainActivityScreen extends AppCompatActivity {
             if (intent.getAction().equals(ACTION_USB_PERMISSION)) {
                 boolean granted = intent.getExtras().getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED);
                 if (granted) {
-                    if (myBT.connect(usbManager, device, 38600)) {
+                    if (myBT.connect(usbManager, device, 38400)) {
                         myBT.setConnected(true);
                         EnableUI();
                         myBT.setConnectionType("usb");

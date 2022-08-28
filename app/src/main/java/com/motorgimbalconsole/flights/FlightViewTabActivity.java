@@ -2,11 +2,14 @@ package com.motorgimbalconsole.flights;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -19,9 +22,12 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.motorgimbalconsole.help.AboutActivity;
+import com.motorgimbalconsole.help.HelpActivity;
 
 
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -29,9 +35,12 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Environment;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -49,6 +58,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 //import static java.lang.Math.abs;
@@ -757,4 +767,90 @@ public class FlightViewTabActivity extends AppCompatActivity {
             return pos;
         }
     }
+    private  void takeScreenShot(View view) {
+        Date date = new Date();
+        CharSequence format = DateFormat.format("MM-dd-yyyy_hh:mm:ss", date);
+
+        try {
+            File mainDir = new File(
+                    this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "FilShare");
+            if (!mainDir.exists()) {
+                boolean mkdir = mainDir.mkdir();
+            }
+
+            String path = mainDir + "/" + "GimbalCurve" + "-" + format + ".jpeg";
+            view.setDrawingCacheEnabled(true);
+            Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+            view.setDrawingCacheEnabled(false);
+
+
+            File imageFile = new File(path);
+            FileOutputStream fileOutputStream = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, fileOutputStream);
+            fileOutputStream.flush();
+            fileOutputStream.close();
+            shareScreenShot(imageFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Share ScreenShot
+    private  void shareScreenShot(File imageFile ) {
+
+        Log.d("Package Name", "Package Name" + this.getPackageName());
+        Uri uri = FileProvider.getUriForFile(
+                this,
+                this.getPackageName() +  ".provider",
+                imageFile);
+
+
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setType("image/*");
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, "Gimbal has shared with you some info");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        try {
+            this.startActivity(Intent.createChooser(intent, "Share With"));
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, "No App Available", Toast.LENGTH_SHORT).show();
+        }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_flights, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //open application settings screen
+        if (id == R.id.action_share) {
+            takeScreenShot(findViewById(android.R.id.content).getRootView());
+            return true;
+        }
+        //open help screen
+        if (id == R.id.action_help) {
+            Intent i = new Intent(this, HelpActivity.class);
+            i.putExtra("help_file", "help_flight");
+            startActivity(i);
+            return true;
+        }
+        //open about screen
+        if (id == R.id.action_about) {
+            Intent i = new Intent(this, AboutActivity.class);
+            startActivity(i);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

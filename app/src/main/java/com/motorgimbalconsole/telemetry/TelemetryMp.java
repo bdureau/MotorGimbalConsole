@@ -200,10 +200,7 @@ public class TelemetryMp extends AppCompatActivity {
                                     if (myBT.getAppConf().getLanding_event().equals("true")) {
                                       //  if (Locale.getDefault().getLanguage() == "en")
                                             mTTS.speak(getResources().getString(R.string.rocket_has_landed), TextToSpeech.QUEUE_FLUSH, null);
-                                       /* else if (Locale.getDefault().getLanguage() == "fr")
-                                            mTTS.speak("la fusée a attérie", TextToSpeech.QUEUE_FLUSH, null);
-                                        else
-                                            mTTS.speak("rocket has landed", TextToSpeech.QUEUE_FLUSH, null);*/
+
                                     }
                                     landedSaid = true;
                                 }

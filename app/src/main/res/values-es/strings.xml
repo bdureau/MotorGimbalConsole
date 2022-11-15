@@ -137,7 +137,7 @@
     <string name="FL_msg9">No flights have been recorded</string>
 
     <!-- flight list view -->
-    <string name="Meters_fview">Meters</string>
+    <string name="Meters_fview">Metros</string>
     <string name="Feet_fview">Feet</string>
     <string name="dismiss_flight_list">Dismiss</string>
     <string name="dismiss_flight_list_view">Dismiss</string>
@@ -179,7 +179,7 @@
 
     <!-- app config -->
     <string name="dismiss_app_config">Dismiss</string>
-    <string name="unit_meter">Meters</string>
+    <string name="unit_meter">Metros</string>
     <string name="unit_feet">Feet</string>
     <string name="lang_english">English</string>
     <string name="lang_french">French</string>
@@ -201,7 +201,7 @@
     <string name="phone_english">English</string>
     <string name="phone_french">French</string>
     <string name="phone_language">Phone language</string>
-    <string name="config_unit_meters">Meters</string>
+    <string name="config_unit_meters">Metros</string>
     <string name="config_unit_feet">Feet</string>
 
     <string name="select_bluetooth_device">Select Bluetooth device</string>

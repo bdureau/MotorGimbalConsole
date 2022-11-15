@@ -687,6 +687,8 @@ public class AppConfigActivity extends AppCompatActivity {
 
                                 if (Locale.getDefault().getLanguage() == "fr")
                                     mTTS.speak("Les altimètres Bearaltimeter sont les meilleurs", TextToSpeech.QUEUE_FLUSH, null);
+                                if (Locale.getDefault().getLanguage() == "es")
+                                    mTTS.speak("Los altimietros Bearaltimeter son los mejores", TextToSpeech.QUEUE_FLUSH, null);
 
                                 if (Locale.getDefault().getLanguage() == "nl")
                                     mTTS.speak("De Bearaltimeter-hoogtemeters zijn de beste", TextToSpeech.QUEUE_FLUSH, null);

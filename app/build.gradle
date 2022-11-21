@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdk 31
+    compileSdk 33
     buildToolsVersion = '30.0.3'
     defaultConfig {
         applicationId "com.motorgimbalconsole"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdk 33
         versionCode 5
         versionName "1.0 RC5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -38,16 +38,17 @@ dependencies {
     implementation files('libs/physicaloid.aar')
     implementation files('libs/processing-core.jar')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.google.android.gms:play-services-maps:17.0.0'
-    //implementation 'androidx.appcompat:appcompat:1.2.0'
+    //implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.gms:play-services-maps:18.0.1'
+
     implementation 'androidx.appcompat:appcompat:1.4.1'
-    //androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    //implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
-    //androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    //implementation 'com.google.android.material:material:1.3.0'
+
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 

@@ -16,10 +16,13 @@ import androidx.viewpager.widget.ViewPager;
 
 //import android.support.v7.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.motorgimbalconsole.ConsoleApplication;
@@ -40,6 +43,10 @@ import processing.core.PApplet;
 public class ConsoleTabStatusActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     SectionsStatusPageAdapter adapter;
+
+    private TextView[] dotsSlide;
+    private LinearLayout linearDots;
+
     Tab1StatusFragment statusPage1 =null;
     Tab2StatusFragment statusPage2 =null;
     Tab3StatusFragment statusPage3 =null;
@@ -281,10 +288,45 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
         adapter.addFragment(statusPage2, "TAB2");
         adapter.addFragment(statusPage3, "TAB3");
 
-
-
+        linearDots=findViewById(R.id.idStatusLinearDots);
+        agregaIndicateDots(0, adapter.getCount());
         viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(viewListener);
     }
+
+    public void agregaIndicateDots(int pos, int nbr){
+        dotsSlide =new TextView[nbr];
+        linearDots.removeAllViews();
+
+        for (int i=0; i< dotsSlide.length; i++){
+            dotsSlide[i]=new TextView(this);
+            dotsSlide[i].setText(Html.fromHtml("&#8226;"));
+            dotsSlide[i].setTextSize(35);
+            dotsSlide[i].setTextColor(getResources().getColor(R.color.colorWhiteTransparent));
+            linearDots.addView(dotsSlide[i]);
+        }
+
+        if(dotsSlide.length>0){
+            dotsSlide[pos].setTextColor(getResources().getColor(R.color.colorWhite));
+        }
+    }
+
+    ViewPager.OnPageChangeListener viewListener=new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int i, float v, int i1) {
+        }
+
+        @Override
+        public void onPageSelected(int i) {
+            agregaIndicateDots(i, adapter.getCount());
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int i) {
+        }
+    };
+
+
     public class SectionsStatusPageAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList();
         private final List<String> mFragmentTitleList= new ArrayList();

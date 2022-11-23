@@ -20,6 +20,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 //import android.support.v7.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 
@@ -30,6 +32,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,6 +65,8 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
 
     private ProgressDialog progress;
 
+    private TextView[] dotsSlide;
+    private LinearLayout linearDots;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,8 +113,45 @@ public class ConsoleTabConfigActivity extends AppCompatActivity {
         adapter.addFragment(configPage3, "TAB3");
         adapter.addFragment(configPage4, "TAB4");
 
+        linearDots=findViewById(R.id.idConsoleConfigLinearDots);
+        agregaIndicateDots(0, adapter.getCount());
         viewPager.setAdapter(adapter);
+
+        viewPager.addOnPageChangeListener(viewListener);
     }
+
+    public void agregaIndicateDots(int pos, int nbr){
+        dotsSlide =new TextView[nbr];
+        linearDots.removeAllViews();
+
+        for (int i=0; i< dotsSlide.length; i++){
+            dotsSlide[i]=new TextView(this);
+            dotsSlide[i].setText(Html.fromHtml("&#8226;"));
+            dotsSlide[i].setTextSize(35);
+            dotsSlide[i].setTextColor(getResources().getColor(R.color.colorWhiteTransparent));
+            linearDots.addView(dotsSlide[i]);
+        }
+
+        if(dotsSlide.length>0){
+            dotsSlide[pos].setTextColor(getResources().getColor(R.color.colorWhite));
+        }
+
+    }
+
+    ViewPager.OnPageChangeListener viewListener=new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int i, float v, int i1) {
+        }
+
+        @Override
+        public void onPageSelected(int i) {
+            agregaIndicateDots(i, adapter.getCount());
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int i) {
+        }
+    };
 
     static void readConfig() {
         // ask for config

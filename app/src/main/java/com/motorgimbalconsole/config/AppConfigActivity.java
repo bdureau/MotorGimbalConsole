@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.Voice;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,7 +24,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.motorgimbalconsole.ConsoleApplication;
@@ -45,8 +48,7 @@ import java.util.Locale;
 
 public class AppConfigActivity extends AppCompatActivity {
     Button btnDismiss, btnSave, bdtDefault;
-    /*private Spinner spAppLanguage, spGraphColor, spAppUnit, spGraphBackColor, spFontSize, spBaudRate;
-    private Spinner spConnectionType,spGraphicsLibType;*/
+
     private static AppConfigData appConfigData;
 
     private ViewPager mViewPager;
@@ -57,6 +59,9 @@ public class AppConfigActivity extends AppCompatActivity {
     private Tab2Fragment appConfigPage2 = null;
 
     ConsoleApplication myBT;
+
+    private TextView[] dotsSlide;
+    private LinearLayout linearDots;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,51 +154,7 @@ public class AppConfigActivity extends AppCompatActivity {
                 }
             }
         }, "com.google.android.tts");
-        //Language
-      /*  spAppLanguage = (Spinner)findViewById(R.id.spinnerLanguage);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, appConfigData.getItemsLanguages());
-        spAppLanguage.setAdapter(adapter);
-
-        // graph color
-        spGraphColor = (Spinner)findViewById(R.id.spinnerGraphColor);
-       // String[] itemsColor = new String[]{"Black", "White", "Yellow", "Red", "Green", "Blue"};
-
-        ArrayAdapter<String> adapterColor = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, appConfigData.getItemsColor());
-        spGraphColor.setAdapter(adapterColor);
-        // graph back color
-        spGraphBackColor = (Spinner)findViewById(R.id.spinnerGraphBackColor);
-        ArrayAdapter<String> adapterGraphColor = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, appConfigData.getItemsColor());
-
-        spGraphBackColor.setAdapter(adapterGraphColor);
-        //units
-        spAppUnit = (Spinner)findViewById(R.id.spinnerUnits);
-
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, appConfigData.getItemsUnits());
-        spAppUnit.setAdapter(adapter2);
-
-        //font size
-        spFontSize = (Spinner)findViewById(R.id.spinnerFontSize);
-
-        ArrayAdapter<String> adapterFontSize = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, appConfigData.getItemsFontSize());
-        spFontSize.setAdapter(adapterFontSize);
-
-        //Baud Rate
-        spBaudRate = (Spinner)findViewById(R.id.spinnerBaudRate);
-
-        ArrayAdapter<String> adapterBaudRate = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, appConfigData.getItemsBaudRate());
-        spBaudRate.setAdapter(adapterBaudRate);
-
-        //connection type
-        spConnectionType = (Spinner)findViewById(R.id.spinnerConnectionType);
-
-        ArrayAdapter<String> adapterConnectionType = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, appConfigData.getItemsConnectionType());
-        spConnectionType.setAdapter(adapterConnectionType);
-
-        //Graphics lib type
-        spGraphicsLibType = (Spinner)findViewById(R.id.spinnerGraphicLibType);
-        ArrayAdapter<String> adapterGraphicsLibType = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, appConfigData.getItemsGraphicsLib());
-        spGraphicsLibType.setAdapter(adapterGraphicsLibType);*/
 
       //  ReadConfig();
     }
@@ -335,8 +296,45 @@ public class AppConfigActivity extends AppCompatActivity {
         adapter.addFragment(appConfigPage1, "TAB1");
         adapter.addFragment(appConfigPage2, "TAB2");
 
+        linearDots=findViewById(R.id.idAppConfigLinearDots);
+        agregaIndicateDots(0, adapter.getCount());
         viewPager.setAdapter(adapter);
+
+        viewPager.addOnPageChangeListener(viewListener);
     }
+
+    public void agregaIndicateDots(int pos, int nbr){
+        dotsSlide =new TextView[nbr];
+        linearDots.removeAllViews();
+
+        for (int i=0; i< dotsSlide.length; i++){
+            dotsSlide[i]=new TextView(this);
+            dotsSlide[i].setText(Html.fromHtml("&#8226;"));
+            dotsSlide[i].setTextSize(35);
+            dotsSlide[i].setTextColor(getResources().getColor(R.color.colorWhiteTransparent));
+            linearDots.addView(dotsSlide[i]);
+        }
+
+        if(dotsSlide.length>0){
+            dotsSlide[pos].setTextColor(getResources().getColor(R.color.colorWhite));
+        }
+
+    }
+
+    ViewPager.OnPageChangeListener viewListener=new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int i, float v, int i1) {
+        }
+
+        @Override
+        public void onPageSelected(int i) {
+            agregaIndicateDots(i, adapter.getCount());
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int i) {
+        }
+    };
 
     public class SectionsPageAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList();
@@ -563,7 +561,7 @@ public class AppConfigActivity extends AppCompatActivity {
                 spTelemetryVoice.setSelection(Integer.parseInt(BT.getAppConf().getTelemetryVoice()));
         }
 
-        ;
+        //;
 
         public void setTelemetryVoice(int value) {
             if (value < nbrVoices)

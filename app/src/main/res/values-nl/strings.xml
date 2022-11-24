@@ -47,8 +47,8 @@
     <string name="no_paired_device">Geen gekoppelde Bluetooth-apparaten gevonden.</string>
     <!-- Main Screen-->
     <string name="connect_disconnect">Aansluiten</string>
-    <string name="gimbal_config">Gimbal-configuratie</string>
-    <string name="gimbal_status">Gimbal-status</string>
+    <string name="gimbal_config">Gimbal\nconfiguratie</string>
+    <string name="gimbal_status">Gimbal\nstatus</string>
     <string name="gimbal_fight">Vluchten</string>
     <string name="gimbal_reset">Resetten</string>
     <string name="those_functions_will_reset_the_altimeter">Die functies resetten de hoogtemeter</string>

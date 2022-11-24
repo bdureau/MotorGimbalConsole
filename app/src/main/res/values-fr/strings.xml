@@ -47,10 +47,10 @@
     <string name="no_paired_device">Aucun modules bluetooth trouvés</string>
     <!-- Main Screen-->
     <string name="connect_disconnect">Connexion</string>
-    <string name="gimbal_config">Configuration Gimbal</string>
-    <string name="gimbal_status">Etat Gimbal</string>
+    <string name="gimbal_config">Config\nGimbal</string>
+    <string name="gimbal_status">Etat\nGimbal</string>
     <string name="gimbal_fight">Vols</string>
-    <string name="gimbal_reset">Réinitialisation</string>
+    <string name="gimbal_reset">Réinit</string>
     <string name="those_functions_will_reset_the_altimeter">Ces fonctions réinitialiseront le Gimbal</string>
     <string name="restore_alti_config">Réinitialisation de la config</string>
 

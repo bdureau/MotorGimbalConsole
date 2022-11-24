@@ -46,8 +46,8 @@
     <string name="no_paired_device">Nessun dispositivo Bluetooth abbinato</string>
     <!-- Main Screen-->
     <string name="connect_disconnect">Connessione</string>
-    <string name="gimbal_config">Configurazione Gimbal</string>
-    <string name="gimbal_status">Stato Gimbal</string>
+    <string name="gimbal_config">Configurazione\nGimbal</string>
+    <string name="gimbal_status">Stato\nGimbal</string>
     <string name="gimbal_fight">Voli</string>
     <string name="gimbal_reset">Reset</string>
     <string name="those_functions_will_reset_the_altimeter">Queste funzioni ripristinano l\'altimetro</string>

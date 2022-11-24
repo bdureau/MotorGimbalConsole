@@ -3,71 +3,71 @@
     <string name="app_name">Motor Gimbal Console - Консольподвескидвигателя</string>
 
     <!-- Config application -->
-    <string name="titre_application_pref">Настройкиприложения - Application preferences</string>
+    <string name="titre_application_pref">Настройкиприложения</string>
     <string name="Yes">Да</string>
     <string name="No">Нет</string>
     <!-- Config screen -->
-    <string name="title_activity_console_tab_config">Конфигурации - Console Config</string>
-    <string name="tab_text_1">Вкладка 1 - Tab 1</string>
-    <string name="tab_text_2">Вкладка 2 - Tab 2</string>
-    <string name="title_activity_console_tab_status">Статусконсоли - Console Status</string>
-    <string name="msg9">Выизменилискоростьпередачи, возможноальтиметрнесможетвыполнитьподключение. Выуверены? - You have changed the baud rate, the altimeter might not be able to connect. Are you sure?</string>
-    <string name="conf_msg1">данныенеготовы - data not ready</string>
-    <string name="conf_msg2">Невозможнозагрузитьконфигурацию, пожалуйста, попробуйтеещёраз - Unable to send the config, please try again</string>
+    <string name="title_activity_console_tab_config">Конфигурации</string>
+    <string name="tab_text_1">Вкладка 1</string>
+    <string name="tab_text_2">Вкладка 2</string>
+    <string name="title_activity_console_tab_status">Статусконсоли</string>
+    <string name="msg9">Выизменилискоростьпередачи, возможноальтиметрнесможетвыполнитьподключение. Выуверены?</string>
+    <string name="conf_msg1">данныенеготовы</string>
+    <string name="conf_msg2">Невозможнозагрузитьконфигурацию, пожалуйста, попробуйтеещёраз</string>
     <!-- About -->
     <string name="dismiss_about">Отклонить - Dismiss</string>
     <string name="version">Версия:</string>
     <string name="about_screen">Оприложении - About Screen</string>
 
     <!-- app config -->
-    <string name="save_config">Сохранить - Save</string>
-    <string name="dismiss_config">Отклонить - Dismiss</string>
-    <string name="default_config">Конфигурация по умолчанию - Default config</string>
-    <string name="application_langage_config">Язык приложения - Application langage config</string>
-    <string name="graph_color_config">Цвет графика - Graph color config</string>
-    <string name="application_units_config">Единицы измерения - Application units config</string>
-    <string name="graph_back_color_config">Цвет фона - Graph back color config</string>
-    <string name="font_size">Размер шрифта - Font Size</string>
-    <string name="baud_rate">Скорость передачи - Baud rate</string>
-    <string name="connection_type">Тип соединения - Connection type</string>
-    <string name="upload">загрузить - upload</string>
-    <string name="dismiss_tabconfig">Отклонить - Dismiss</string>
-    <string name="graphiclib_type">Библиотека графиков - Graphics lib </string>
+    <string name="save_config">Сохранить</string>
+    <string name="dismiss_config">Отклонить</string>
+    <string name="default_config">Конфигурация по умолчанию</string>
+    <string name="application_langage_config">Язык приложения</string>
+    <string name="graph_color_config">Цвет графика</string>
+    <string name="application_units_config">Единицы измерения</string>
+    <string name="graph_back_color_config">Цвет фона</string>
+    <string name="font_size">Размер шрифта</string>
+    <string name="baud_rate">Скорость передачи</string>
+    <string name="connection_type">Тип соединения</string>
+    <string name="upload">загрузить</string>
+    <string name="dismiss_tabconfig">Отклонить</string>
+    <string name="graphiclib_type">Библиотека графиков</string>
 
 
     <!-- Reset screen -->
     <string name="dismiss_reset">Отклонить - Dismiss</string>
     <string name="clear_flights">Очиститьданныеполётов - Clear Flights</string>
-    <string name="reset_msg1">Выхотитеудалитьданныевсехполётов, Выуверены? - You are about to erase all flight data, are you sure you want to do it?</string>
-    <string name="reset_msg2">Выхотитесброситьнастройкиальтиметра, Выуверены? - You are about to reset your altimeter config, are you sure you want to do it?</string>
+    <string name="reset_msg1">Выхотитеудалитьданныевсехполётов, Выуверены?</string>
+    <string name="reset_msg2">Выхотитесброситьнастройкиальтиметра, Выуверены?</string>
     <string name="reset_msg3">You are about to erase your last flight, are you sure you want to do it?</string>
 
     <!-- Bluetooth-->
-    <string name="select_device_to_use">Выберитеустройстводляподключения - Select device to use</string>
-    <string name="show_paired_devices">Показатьподключенныеустройства - Show paired devices</string>
-    <string name="no_paired_device">Нетподключенных Bluetooth устройств - No Paired Bluetooth Devices Found.</string>
+    <string name="select_device_to_use">Выберитеустройстводляподключения</string>
+    <string name="show_paired_devices">Показатьподключенныеустройства</string>
+    <string name="no_paired_device">Нетподключенных Bluetooth устройств.</string>
     <!-- Main Screen-->
-    <string name="connect_disconnect">Соединение - Connect</string>
-    <string name="gimbal_config">Конфигурацияподвески - Gimbal Config</string>
-    <string name="gimbal_status">Статусподвески - Gimbal Status</string>
-    <string name="gimbal_fight">Полёты - Flights</string>
-    <string name="gimbal_reset">Сброситьнастройки - Reset</string>
-    <string name="those_functions_will_reset_the_altimeter">Этифункциисбросятнастройкиальтиметра - Those functions will reset the altimeter</string>
-    <string name="restore_alti_config">Восстановитьнастройкиальтиметр - Restore Alti config</string>
+    <string name="connect_disconnect">Соединение</string>
+    <string name="gimbal_config">Конфигурацияподвески</string>
+    <string name="gimbal_status">Статусподвески</string>
+    <string name="gimbal_fight">Полёты</string>
+    <string name="gimbal_reset">Сброситьнастройки</string>
+    <string name="those_functions_will_reset_the_altimeter">Этифункциисбросятнастройкиальтиметра</string>
+    <string name="restore_alti_config">Восстановитьнастройкиальтиметр</string>
 
     <!-- app config tab 1-->
-    <string name="accelerometer_offsets">Корректировкаальтиметрапоосям - Accelerometer offsets</string>
+    <string name="accelerometer_offsets">Корректировкаальтиметрапоосям</string>
     <string name="axoffset">AxOffset</string>
     <string name="ayoffset">AyOffset</string>
     <string name="azoffset">AzOffset</string>
     <string name="gxoffset">GxOffset</string>
     <string name="gyoffset">GyOffset</string>
     <string name="gzoffset">GzOffset</string>
-    <string name="calibration">Калибровка - Calibration</string>
-    <string name="cancel_calibration">Отмена - Cancel</string>
+    <string name="calibration">Калибровка</string>
+    <string name="cancel_calibration">Отмена</string>
 
     <!-- app config tab 2-->
-    <string name="pid_values">Значения PID - PID values</string>
+    <string name="pid_values">Значения PID</string>
     <string name="kpx">KpX</string>
     <string name="kix">KiX</string>
     <string name="kdx">KdX</string>
@@ -75,84 +75,84 @@
     <string name="kiy">KiY</string>
     <string name="kdy">KdY</string>
     <!-- app config tab 3-->
-    <string name="general">Общие - General</string>
-    <string name="alti_name">Имяальтиметра - alti name</string>
-    <string name="units">Единицыизмерения - Units</string>
-    <string name="beep_freq">Частотасигнала - Beep freq</string>
-    <string name="baudrate">Скоростьпередачи - Baud Rate</string>
-    <string name="altimeterresolution">Разрешениеальтиметра - Altimeter Resolution</string>
-    <string name="eepromsize">Размер eeprom - eeprom Size</string>
-    <string name="endrecordaltitude">Конецзаписиальтиметра - End Record Altitude</string>
-    <string name="launch_detect">Обнаружениезапуска - Launch detect</string>
-    <string name="accelero_range">Диапазонакселерометра - Accelero Range</string>
-    <string name="gyro_range">Диапазонгироскопа - Gyro Range</string>
-    <string name="baro">Барометр - Baro</string>
-    <string name="accel">Акселерометр - Accel</string>
+    <string name="general">Общие</string>
+    <string name="alti_name">Имяальтиметра</string>
+    <string name="units">Единицыизмерения</string>
+    <string name="beep_freq">Частотасигнала</string>
+    <string name="baudrate">Скоростьпередачи</string>
+    <string name="altimeterresolution">Разрешениеальтиметра</string>
+    <string name="eepromsize">Размер eeprom</string>
+    <string name="endrecordaltitude">Конецзаписиальтиметра</string>
+    <string name="launch_detect">Обнаружениезапуска</string>
+    <string name="accelero_range">Диапазонакселерометра</string>
+    <string name="gyro_range">Диапазонгироскопа</string>
+    <string name="baro">Барометр</string>
+    <string name="accel">Акселерометр</string>
 
 
     <!-- app config tab 4-->
-    <string name="servo">Сервопривод - Servo</string>
+    <string name="servo">Сервопривод</string>
     <string name="servo_x_min">Servo X Min</string>
     <string name="servo_x_max">Servo X Max</string>
     <string name="servo_y_min">Servo Y Min</string>
     <string name="servo_y_max">Servo Y Max</string>
     <!-- app status -->
-    <string name="dismiss_tab_status">Отклонить - Dismiss</string>
-    <string name="recording_tab_status">Запись - Recording</string>
-    <string name="stop_recording_tab_status">Стоп - Stop</string>
+    <string name="dismiss_tab_status">Отклонить</string>
+    <string name="recording_tab_status">Запись</string>
+    <string name="stop_recording_tab_status">Стоп</string>
     <!-- app status tab 1-->
-    <string name="axis_values">Значенияосей - Axis values</string>
-    <string name="gyroscopes_deg_s">Гироскоп (град/с)- Gyroscopes (deg/s)</string>
-    <string name="accelerometers_m_s_2">Акселерометр (м/с^2) - Accelerometers (m/s^2)</string>
-    <string name="orientation_deg">Ориентация (град) - Orientation (deg)</string>
-    <string name="calibrate_tabconfig">Калибровка - Calibrate</string>
+    <string name="axis_values">Значенияосей</string>
+    <string name="gyroscopes_deg_s">Гироскоп (град/с)</string>
+    <string name="accelerometers_m_s_2">Акселерометр (м/с^2)</string>
+    <string name="orientation_deg">Ориентация (град)</string>
+    <string name="calibrate_tabconfig">Калибровка</string>
     <!-- app status tab 2-->
-    <string name="other_sensors">Другиедатчики - Other sensors</string>
-    <string name="temperature_c">Температура (C°) - Temperature (C°):</string>
-    <string name="pressure_mbar">Давление (мбар) - Pressure(mbar):</string>
-    <string name="altitude_meters">Высота (м) - Altitude(meters):</string>
-    <string name="battery_voltage_v">Напряжениебатареи (В) - Battery Voltage (V):</string>
+    <string name="other_sensors">Другиедатчики</string>
+    <string name="temperature_c">Температура (C°):</string>
+    <string name="pressure_mbar">Давление (мбар):</string>
+    <string name="altitude_meters">Высота (м):</string>
+    <string name="battery_voltage_v">Напряжениебатареи (В):</string>
     <!-- app status tab 3-->
-    <string name="rocket_orientation">Ориентацияракеты - Rocket Orientation</string>
+    <string name="rocket_orientation">Ориентацияракеты</string>
 
     <!-- menu-->
-    <string name="application_settings">Настройкиприложения - Application settings</string>
-    <string name="help">Помощь - Help</string>
-    <string name="bluetooth_device">Устройство Bluetooth - Bluetooth Device</string>
-    <string name="about">Оприложении - About</string>
+    <string name="application_settings">Настройкиприложения</string>
+    <string name="help">Помощь</string>
+    <string name="bluetooth_device">Устройство Bluetooth</string>
+    <string name="about">Оприложении</string>
 
     <!-- main screen msg-->
-    <string name="MS_msg1">Соедининие... - Connecting...</string>
-    <string name="MS_msg2">Пожалуйста, подождите!!! - Please wait!!!</string>
-    <string name="MS_msg3">Обрывсоединения. Это SPP Bluetooth? Попробуйтеещёраз. - Connection Failed. Is it a SPP Bluetooth? Try again.</string>
-    <string name="MS_msg4">Соединениеустановлено - Connected.</string>
-    <string name="disconnect">отключитьсоединение - disconnect</string>
-    <string name="MS_msg5">Обрывсоединения - Connection Failed</string>
-    <string name="MS_cancel">Отмена - Cancel</string>
-    <string name="gimbal_telemetry">Телеметрия - Telemetry</string>
+    <string name="MS_msg1">Соедининие...</string>
+    <string name="MS_msg2">Пожалуйста, подождите!!!</string>
+    <string name="MS_msg3">Обрывсоединения. Это SPP Bluetooth? Попробуйтеещёраз.</string>
+    <string name="MS_msg4">Соединениеустановлено</string>
+    <string name="disconnect">отключитьсоединение</string>
+    <string name="MS_msg5">Обрывсоединения</string>
+    <string name="MS_cancel">Отмена</string>
+    <string name="gimbal_telemetry">Телеметрия</string>
 
     <!-- Flights list -->
-    <string name="Flight_list">Списокполётов - Flight list</string>
-    <string name="Flight_list_cancel">Отмена - Cancel</string>
-    <string name="msg7">Получениеданныхополётах... - Retrieving flights...</string>
-    <string name="msg8">Пожалуйстаподождите!!! - Please wait!!!</string>
-    <string name="FL_msg9">Данныеополётахнебылизаписаны - No flights have been recorded</string>
+    <string name="Flight_list">Списокполётов</string>
+    <string name="Flight_list_cancel">Отмена</string>
+    <string name="msg7">Получениеданныхополётах...</string>
+    <string name="msg8">Пожалуйстаподождите!!!</string>
+    <string name="FL_msg9">Данныеополётахнебылизаписаны</string>
 
     <!-- flight list view -->
-    <string name="Meters_fview">Метры - Meters</string>
-    <string name="Feet_fview">Футы - Feet</string>
-    <string name="dismiss_flight_list">Отклонить - Dismiss</string>
-    <string name="dismiss_flight_list_view">Отклонить - Dismiss</string>
-    <string name="close">Закрыть - Close</string>
-    <string name="Altitude_time">Высота / Время - Altitude / Time</string>
-    <string name="Time_fv">Время (мс) - Time (ms)</string>
-    <string name="Altitude">Высота - Altitude</string>
-    <string name="select_curves">Экран - Display</string>
-    <string name="play">Воспроизвести - Play</string>
-    <string name="playF_dismiss">Отклонить - Dismiss</string>
-    <string name="fv_cancel">Отменить - Cancel</string>
-    <string name="fv_ok">ОК - Ok</string>
-    <string name="flight_data_title">Показатьданныеополётах - Flight data to display</string>
+    <string name="Meters_fview">Метры</string>
+    <string name="Feet_fview">Футы</string>
+    <string name="dismiss_flight_list">Отклонить</string>
+    <string name="dismiss_flight_list_view">Отклонить</string>
+    <string name="close">Закрыть</string>
+    <string name="Altitude_time">Высота / Время</string>
+    <string name="Time_fv">Время (мс)</string>
+    <string name="Altitude">Высота</string>
+    <string name="select_curves">Экран</string>
+    <string name="play">Воспроизвести</string>
+    <string name="playF_dismiss">Отклонить</string>
+    <string name="fv_cancel">Отменить</string>
+    <string name="fv_ok">ОК</string>
+    <string name="flight_data_title">Показатьданныеополётах</string>
 
     <!-- flash firmware -->
     <string name="msg10">Прошивка памяти...</string>
@@ -167,7 +167,7 @@
     <string name="msg19">Восстановить прошивку : </string>
     <string name="firmware_cancel">Отмена</string>
     <string name="firmware_dismiss">Закрыть</string>
-    <string name="recover_firmware">Восстановитьпрошивку - Recover Firmware</string>
+    <string name="recover_firmware">Восстановитьпрошивку</string>
     <string name="flash_firmware">Прошивка памяти</string>
     <string name="select_altimeter_model">Выберите модель альтиметра:</string>
     <string name="after_complete_upload">После загрузки Вы сможете прошить память</string>

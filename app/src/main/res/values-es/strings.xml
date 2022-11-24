@@ -46,8 +46,8 @@
     <string name="no_paired_device">No Paired Bluetooth Devices Found.</string>
     <!-- Main Screen-->
     <string name="connect_disconnect">Connect</string>
-    <string name="gimbal_config">Gimbal Config</string>
-    <string name="gimbal_status">Gimbal Status</string>
+    <string name="gimbal_config">Gimbal\nConfig</string>
+    <string name="gimbal_status">Gimbal\nStatus</string>
     <string name="gimbal_fight">Flights</string>
     <string name="gimbal_reset">Reset</string>
     <string name="those_functions_will_reset_the_altimeter">Those functions will reset the altimeter</string>

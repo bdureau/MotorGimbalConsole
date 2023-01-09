@@ -3,19 +3,13 @@ package com.motorgimbalconsole.telemetry;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-//import android.support.annotation.Nullable;
+
 import androidx.annotation.Nullable;
-/*import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;*/
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
-//import android.support.v7.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -174,11 +168,9 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                if (status) {
-
+               /* if (status) {
                     status = false;
                     myBT.write("h;".toString());
-
                     myBT.setExit(true);
                     myBT.clearInput();
                     myBT.flush();
@@ -188,7 +180,7 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
                     myBT.flush();
                     myBT.clearInput();
                     myBT.write("y0;".toString());
-                }
+                }*/
                 finish();      //exit the  activity
             }
         });
@@ -199,10 +191,8 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 if (recording) {
-
                     recording = false;
                     myBT.write("w0;".toString());
-
                     //myBT.setExit(true);
                     myBT.clearInput();
                     myBT.flush();
@@ -221,7 +211,6 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
         });
 
         Runnable r = new Runnable() {
-
             @Override
             public void run() {
                 while (true){
@@ -236,7 +225,24 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume() {
+    protected void onDestroy() {
+        super.onDestroy();
+        if (status) {
+            status = false;
+            myBT.write("h;".toString());
+            myBT.setExit(true);
+            myBT.clearInput();
+            myBT.flush();
+        }
+        if(myBT.getConnected()) {
+            //turn off telemetry
+            myBT.flush();
+            myBT.clearInput();
+            myBT.write("y0;".toString());
+        }
+    }
+    @Override
+    protected void onResume() {
         super.onResume();
 
         if(myBT.getConnected() && !status) {
@@ -368,31 +374,40 @@ the orientation on all axis
         private TextView txtViewOrientXValue, txtViewOrientYValue, txtViewOrientZValue;
 
         public void setGyroXValue(String value) {
-            this.txtViewGyroXValue.setText(value);
+            if(ViewCreated)
+                this.txtViewGyroXValue.setText(value);
         }
         public void setGyroYValue(String value) {
-            this.txtViewGyroYValue.setText(value);
+            if(ViewCreated)
+                this.txtViewGyroYValue.setText(value);
         }
         public void setGyroZValue(String value) {
-            this.txtViewGyroZValue.setText(value);
+            if(ViewCreated)
+                this.txtViewGyroZValue.setText(value);
         }
         public void setAccelXValue(String value) {
-            this.txtViewAccelXValue.setText(value);
+            if(ViewCreated)
+                this.txtViewAccelXValue.setText(value);
         }
         public void setAccelYValue(String value) {
-            this.txtViewAccelYValue.setText(value);
+            if(ViewCreated)
+                this.txtViewAccelYValue.setText(value);
         }
         public void setAccelZValue(String value) {
-            this.txtViewAccelZValue.setText(value);
+            if(ViewCreated)
+                this.txtViewAccelZValue.setText(value);
         }
         public void setOrientXValue(String value) {
-            this.txtViewOrientXValue.setText(value);
+            if(ViewCreated)
+                this.txtViewOrientXValue.setText(value);
         }
         public void setOrientYValue(String value) {
-            this.txtViewOrientYValue.setText(value);
+            if(ViewCreated)
+                this.txtViewOrientYValue.setText(value);
         }
         public void setOrientZValue(String value) {
-            this.txtViewOrientZValue.setText(value);
+            if(ViewCreated)
+                this.txtViewOrientZValue.setText(value);
         }
 
         @Nullable
@@ -430,22 +445,28 @@ the orientation on all axis
         private TextView txtViewPressureValue,txtViewTempValue, txtViewEEpromUsageValue;
 
         public void setAltitudeValue(String value) {
-            this.txtViewAltitudeValue.setText(value);
+            if(ViewCreated)
+                this.txtViewAltitudeValue.setText(value);
         }
         public void setPressureValue(String value) {
-            this.txtViewPressureValue.setText(value);
+            if(ViewCreated)
+                this.txtViewPressureValue.setText(value);
         }
         public void setTempValue(String value) {
-            this.txtViewTempValue.setText(value);
+            if(ViewCreated)
+                this.txtViewTempValue.setText(value);
         }
         public void setBatteryVoltage(String value) {
-            this.txtViewBatteryVoltage.setText(value);
+            if(ViewCreated)
+                this.txtViewBatteryVoltage.setText(value);
         }
         public void setEEpromUsage(String value) {
-            this.txtViewEEpromUsageValue.setText(value);
+            if(ViewCreated)
+                this.txtViewEEpromUsageValue.setText(value);
         }
         public void setNbrOfFlights(String value) {
-            this.txtNbrOfFlightValue.setText(value);
+            if(ViewCreated)
+                this.txtNbrOfFlightValue.setText(value);
         }
 
         @Nullable

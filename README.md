@@ -1,6 +1,6 @@
 # Rocket Gimbal Console
 This is a simple Android Processing application that allow configuration of my Gimbal boards
-It also does on line telemetry using 3DR modules
+It also does on line telemetry using 3DR or Lora modules
 It will show rocket movements, do talking telemetry and record the flight.
 
 Application can do the following

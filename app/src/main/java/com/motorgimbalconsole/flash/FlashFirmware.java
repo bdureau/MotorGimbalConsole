@@ -244,6 +244,13 @@ boolean recorverFirmware = false;
 
     }
 
+    public void onClickFirmwareInfo(View v) {
+        tvRead.setText("The following firmwares are available:");
+        tvRead.append("\n");
+        tvRead.append(ASSET_FILE_NAME_MOTORGIMBALE);
+        tvRead.append("\n");
+        tvRead.append(ASSET_FILE_NAME_MOTORGIMBALE_BNO55);
+    }
     private class DetectAsyc extends AsyncTask<Void, Void, Void>  // UI thread
     {
 

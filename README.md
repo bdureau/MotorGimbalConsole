@@ -1,6 +1,6 @@
 # Rocket Gimbal Console
 This is a simple Android Processing application that allow configuration of my Gimbal boards
-It also does on line telemetry using 3DR modules
+It also does on line telemetry using 3DR or Lora modules
 It will show rocket movements, do talking telemetry and record the flight.
 
 Application can do the following
@@ -22,6 +22,7 @@ https://github.com/bdureau/RocketMotorPIDGimbal_bno055
 The application looks like this
 
 <img src="/gimbal_photos/gimbal_about.png" width="29%"> <img src="/gimbal_photos/gimbal_curves.png" width="29%"> <img src="/gimbal_photos/gimbal_rocket_orientation.png" width="29%">
+<img src="/gimbal_photos/Gimbal main screen1.png" width="29%">
 <p></p>
 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/BK87Pj5PZXU/0.jpg)](https://www.youtube.com/watch?v=BK87Pj5PZXU)

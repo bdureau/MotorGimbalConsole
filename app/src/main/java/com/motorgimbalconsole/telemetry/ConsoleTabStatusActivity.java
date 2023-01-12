@@ -234,12 +234,12 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
             myBT.clearInput();
             myBT.flush();
         }
-        if(myBT.getConnected()) {
+        //if(myBT.getConnected()) {
             //turn off telemetry
             myBT.flush();
             myBT.clearInput();
             myBT.write("y0;".toString());
-        }
+        //}
     }
     @Override
     protected void onResume() {

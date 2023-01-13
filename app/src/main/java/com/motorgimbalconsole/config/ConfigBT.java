@@ -150,15 +150,15 @@ public class ConfigBT extends AppCompatActivity {
     }
 
     public void EnableUI() {
-
         dropdownBaudRate.setEnabled(true);
-
+        txtPin.setEnabled(true);
+        txtModuleName.setEnabled(true);
     }
 
     public void DisableUI() {
-
         dropdownBaudRate.setEnabled(false);
-
+        txtPin.setEnabled(false);
+        txtModuleName.setEnabled(false);
     }
 
     //index in an array

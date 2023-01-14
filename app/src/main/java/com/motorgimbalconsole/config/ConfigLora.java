@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.motorgimbalconsole.ShareHandler;
 import com.motorgimbalconsole.help.AboutActivity;
 import com.motorgimbalconsole.help.HelpActivity;
 import com.motorgimbalconsole.R;
@@ -1010,6 +1011,11 @@ public class ConfigLora extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        //share screen
+        if (id == R.id.action_share) {
+            ShareHandler.takeScreenShot(findViewById(android.R.id.content).getRootView(), this);
+            return true;
+        }
         //open application settings screen
         if (id == R.id.action_settings) {
             Intent i = new Intent(ConfigLora.this, AppConfigActivity.class);

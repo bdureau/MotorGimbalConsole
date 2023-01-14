@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.motorgimbalconsole.ConsoleApplication;
 import com.motorgimbalconsole.MainActivityScreen;
 import com.motorgimbalconsole.R;
+import com.motorgimbalconsole.ShareHandler;
 import com.motorgimbalconsole.connection.SearchBluetooth;
 import com.motorgimbalconsole.help.AboutActivity;
 import com.motorgimbalconsole.help.HelpActivity;
@@ -271,7 +272,11 @@ public class AppConfigActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-
+        //share screen
+        if (id == R.id.action_share) {
+            ShareHandler.takeScreenShot(findViewById(android.R.id.content).getRootView(), this);
+            return true;
+        }
         //open help screen
         if (id == R.id.action_help) {
             Intent i = new Intent(AppConfigActivity.this, HelpActivity.class);

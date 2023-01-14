@@ -390,4 +390,7 @@
     <string name="lora_module_updating_msg5">updating RSSI Byte, trans Mode, LBT and WOR Cycle</string>
     <string name="lora_module_updating_msg6">updating key</string>
     <string name="lora_module_connecting_msg">Attempting connecting to the Lora module</string>
+    <!-- bluetooth messages -->
+    <string name="BT_msg1">Bluetooth Device Not Available</string>
+    <string name="BT_msg2">No Paired Bluetooth Devices Found.</string>
 </resources>

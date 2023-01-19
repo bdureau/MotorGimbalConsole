@@ -25,6 +25,13 @@
         android:id="@+id/button"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+    <Button
+        android:id="@+id/butSearchBTDismiss"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="end|bottom"
+        app:icon="@drawable/ok_30x30_trans" />
 
     <ListView
         android:layout_width="wrap_content"

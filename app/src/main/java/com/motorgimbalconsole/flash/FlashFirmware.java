@@ -104,7 +104,6 @@ boolean recorverFirmware = false;
         if(mPhysicaloid.open()) {
             mPhysicaloid.setConfig(uartConfig);
 
-
         } else {
             //cannot open
             Toast.makeText(this, getResources().getString(R.string.msg13), Toast.LENGTH_LONG).show();
@@ -205,7 +204,15 @@ boolean recorverFirmware = false;
 
         firmwareFileName = ASSET_FILE_NAME_MOTORGIMBALE;
 
+        btOpen.setEnabled(true);
+        /*if(mPhysicaloid.open()) {
+            mPhysicaloid.setConfig(uartConfig);
 
+        } else {
+            //cannot open
+            Toast.makeText(this, getResources().getString(R.string.msg13), Toast.LENGTH_LONG).show();
+            //btOpen.setEnabled(false);
+        }*/
         if (rbGimbale.isChecked())
             firmwareFileName =ASSET_FILE_NAME_MOTORGIMBALE;
         if(rbGimbaleBN055.isChecked())

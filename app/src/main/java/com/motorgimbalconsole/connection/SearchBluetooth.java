@@ -164,7 +164,6 @@ public class SearchBluetooth extends AppCompatActivity {
             String info = ((TextView) v).getText().toString();
             String address = info.substring(info.length() - 17);
 
-
             myBT.setAddress(address);
             finish();
         }

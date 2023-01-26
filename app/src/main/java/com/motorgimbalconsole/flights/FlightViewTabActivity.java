@@ -6,6 +6,7 @@ import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -54,6 +55,7 @@ import org.afree.data.xy.XYSeriesCollection;
 import org.afree.graphics.geom.Font;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -62,6 +64,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 //import static java.lang.Math.abs;
 
@@ -524,7 +528,7 @@ public class FlightViewTabActivity extends AppCompatActivity {
             Toast.makeText(getActivity().getApplicationContext(), s, Toast.LENGTH_LONG).show();
         }
 
-        private Button buttonExportToCsv;
+        private Button buttonExportToCsv, butShareFiles;
         int nbrSeries;
 
         @Nullable
@@ -535,6 +539,7 @@ public class FlightViewTabActivity extends AppCompatActivity {
             View view = inflater.inflate(R.layout.tabflight_info_fragment, container, false);
 
             buttonExportToCsv = (Button) view.findViewById(R.id.butExportToCsv);
+            butShareFiles = (Button) view.findViewById(R.id.butShareFiles);
             apogeeAltitudeValue = view.findViewById(R.id.apogeeAltitudeValue);
             flightDurationValue = view.findViewById(R.id.flightDurationValue);
             burnTimeValue = view.findViewById(R.id.burnTimeValue);
@@ -666,11 +671,60 @@ public class FlightViewTabActivity extends AppCompatActivity {
                 }
             });
 
+            butShareFiles.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    SavedCurves = "";
+                    ArrayList<String> fileNames = new ArrayList<>();
+                    // Create a file for the zip file
+                    File zipFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "gimbalData.zip");
+
+                    for (int j = 0; j < numberOfCurves; j++) {
+                        Log.d("Flight win", "Saving curve:" + j);
+                        //export the data to a csv file
+                        String fileName = saveData(j, allFlightData);
+                        fileNames.add(fileName);
+                        Log.d("Flight win", "Saving curve name :" + fileName);
+                    }
+                    try {
+                        // Create a zip output stream to write to the zip file
+                        FileOutputStream fos = new FileOutputStream(zipFile);
+                        ZipOutputStream zos = new ZipOutputStream(fos);
+
+                        for (String fileName : fileNames) {
+                            ZipEntry ze = new ZipEntry(fileName);
+                            // Add the zip entry to the zip output stream
+                            zos.putNextEntry(ze);
+                            // Read the file and write it to the zip output stream
+                            File filetoZip = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),  fileName);
+                            FileInputStream fis = new FileInputStream(filetoZip);
+                            byte[] buffer = new byte[1024];
+                            int len;
+                            while ((len = fis.read(buffer)) > 0) {
+                                zos.write(buffer, 0, len);
+                            }
+                            // Close the zip entry and the file input stream
+                            zos.closeEntry();
+                            fis.close();
+                        }
+                        // Close the zip output stream
+                        zos.close();
+                        fos.close();
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                        Log.d("error", "we have an issue");
+                    }
+
+                    //Toast.makeText(getContext(), currentEng, Toast.LENGTH_SHORT).show();
+                    shareFile(zipFile);
+                }
+            });
             return view;
         }
 
-        private void saveData(int nbr, XYSeriesCollection Data) {
-
+        private String saveData(int nbr, XYSeriesCollection Data) {
+            String fileName ="";
             String valHeader = "";
 
             if (nbr == 0) {
@@ -716,9 +770,7 @@ public class FlightViewTabActivity extends AppCompatActivity {
             String csv_data = "time(ms),"+valHeader + " " + units[nbr] +"\n";/// your csv data as string;
             int nbrData = Data.getSeries(nbr).getItemCount();
             for (int i = 0; i < nbrData; i++) {
-
                 csv_data = csv_data + (double) Data.getSeries(nbr).getX(i) + "," + (double) Data.getSeries(nbr).getY(i) + "\n";
-
             }
             File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
@@ -730,8 +782,9 @@ public class FlightViewTabActivity extends AppCompatActivity {
             String date = sdf.format(System.currentTimeMillis());
 
             // select the name for your file
-            root = new File(root, FlightName + "-" + Data.getSeries(nbr).getKey().toString() + date + ".csv");
-            Log.d("Flight win", FlightName + Data.getSeries(nbr).getKey().toString() + date + ".csv");
+            fileName = FlightName + "-" + Data.getSeries(nbr).getKey().toString() + date + ".csv";
+            root = new File(root, fileName);
+            Log.d("Flight win", fileName);
             try {
                 Log.d("Flight win", "attempt to write");
                 FileOutputStream fout = new FileOutputStream(root);
@@ -739,7 +792,7 @@ public class FlightViewTabActivity extends AppCompatActivity {
                 fout.close();
                 Log.d("Flight win", "write done");
                 SavedCurves = SavedCurves +
-                        FlightName + Data.getSeries(nbr).getKey().toString() + date + ".csv\n";
+                        fileName +"\n";
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -762,8 +815,39 @@ public class FlightViewTabActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            return "MotorGimbalConsoleFlights/" + fileName;
         }
 
+        //Share file
+        private void shareFile(File file) {
+
+            Uri uri = FileProvider.getUriForFile(
+                    getContext(),
+                    getContext().getPackageName() +  ".provider",
+                    file);
+
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType("file/*");
+            intent.putExtra(android.content.Intent.EXTRA_TEXT, "Motor Gimbal has shared with you some info");
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+
+
+            Intent chooser = Intent.createChooser(intent, "Share File");
+
+            List<ResolveInfo> resInfoList = getContext().getPackageManager().queryIntentActivities(chooser, PackageManager.MATCH_DEFAULT_ONLY);
+
+            for (ResolveInfo resolveInfo : resInfoList) {
+                String packageName = resolveInfo.activityInfo.packageName;
+                getContext().grantUriPermission(packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            }
+
+            try {
+                this.startActivity(chooser);
+            } catch (ActivityNotFoundException e) {
+                Toast.makeText(getContext(), "No App Available", Toast.LENGTH_SHORT).show();
+            }
+        }
         /*
         Return the position of the first X value it finds from the beginning
          */

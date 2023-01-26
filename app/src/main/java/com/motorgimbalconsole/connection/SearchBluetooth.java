@@ -109,6 +109,7 @@ public class SearchBluetooth extends AppCompatActivity {
                 finish();
             }
         });
+        pairedDevicesList();
     }
 
     private void pairedDevicesList()

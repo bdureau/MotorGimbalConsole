@@ -20,9 +20,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -51,10 +53,13 @@ import static com.physicaloid.misc.Misc.toHexStr;
 public class FlashFirmware extends AppCompatActivity {
     Physicaloid mPhysicaloid;
 
-boolean recorverFirmware = false;
+    boolean recorverFirmware = false;
     Boards mSelectedBoard;
-    Button btOpen;
-    RadioButton  rbGimbale, rbGimbaleBN055;
+    Button btFlash;
+    //RadioButton  rbGimbale, rbGimbaleBN055;
+
+    public Spinner spinnerFirmware;
+    public ImageView imageAlti;
     TextView tvRead;
     private AlertDialog.Builder builder = null;
     private AlertDialog alert;
@@ -69,6 +74,7 @@ boolean recorverFirmware = false;
     private static final String ASSET_FILE_RESET_ALTISTM32 = "recover_firmwares/ResetAltiConfigAltimultiSTM32.ino.bin";
 
     private String[] itemsBaudRate;
+    private String[] itemsFirmwares;
     private Spinner dropdownBaudRate;
 
     // fast way to call Toast
@@ -83,12 +89,24 @@ boolean recorverFirmware = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flash_firmware);
 
-        btOpen          = (Button) findViewById(R.id.btFlash);
-        tvRead          = (TextView) findViewById(R.id.tvRead);
+        spinnerFirmware = (Spinner) findViewById(R.id.spinnerFirmware);
+        itemsFirmwares = new String[]{
+                "Gimbal",
+                "Gimbal_bno055"
+        };
 
-        rbGimbale = (RadioButton) findViewById(R.id.radioButGimbale);
+        ArrayAdapter<String> adapterFirmware = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_dropdown_item, itemsFirmwares);
+        spinnerFirmware.setAdapter(adapterFirmware);
+        spinnerFirmware.setSelection(0);
+
+        btFlash          = (Button) findViewById(R.id.btFlash);
+        tvRead          = (TextView) findViewById(R.id.tvRead);
+        imageAlti = (ImageView) findViewById(R.id.imageAlti);
+
+        /*rbGimbale = (RadioButton) findViewById(R.id.radioButGimbale);
         rbGimbaleBN055 = (RadioButton) findViewById(R.id.radioButGimbaleBN055);
-        rbGimbale.setChecked(true);
+        rbGimbale.setChecked(true);*/
         mPhysicaloid = new Physicaloid(this);
         mBoardList = new ArrayList<Boards>();
         for(Boards board : Boards.values()) {
@@ -100,14 +118,13 @@ boolean recorverFirmware = false;
         mSelectedBoard = mBoardList.get(0);
         uartConfig = new UartConfig(115200, UartConfig.DATA_BITS8, UartConfig.STOP_BITS1, UartConfig.PARITY_NONE, false, false);
 
-        btOpen.setEnabled(true);
+        btFlash.setEnabled(true);
         if(mPhysicaloid.open()) {
             mPhysicaloid.setConfig(uartConfig);
 
         } else {
             //cannot open
             Toast.makeText(this, getResources().getString(R.string.msg13), Toast.LENGTH_LONG).show();
-            //btOpen.setEnabled(false);
         }
 
 
@@ -129,6 +146,22 @@ boolean recorverFirmware = false;
                 android.R.layout.simple_spinner_dropdown_item, itemsBaudRate);
         dropdownBaudRate.setAdapter(adapterBaudRate);
         dropdownBaudRate.setSelection(10);
+        spinnerFirmware.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal"))
+                    imageAlti.setImageDrawable(getResources().getDrawable(R.drawable.altigimbal, getApplicationContext().getTheme()));
+
+                if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_bno055"))
+                    imageAlti.setImageDrawable(getResources().getDrawable(R.drawable.altigimbal_bno055, getApplicationContext().getTheme()));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
         builder = new AlertDialog.Builder(this);
         //Running Saving commands
         builder.setMessage(R.string.flash_firmware_long_msg)
@@ -142,7 +175,6 @@ boolean recorverFirmware = false;
 
         alert = builder.create();
         alert.show();
-
     }
 
 
@@ -160,14 +192,20 @@ boolean recorverFirmware = false;
         String recoverFileName;
         recoverFileName = ASSET_FILE_RESET_ALTISTM32;
 
-        if (rbGimbale.isChecked())
-            recoverFileName =ASSET_FILE_RESET_ALTISTM32;
-        if (rbGimbaleBN055.isChecked())
-            recoverFileName =ASSET_FILE_RESET_ALTISTM32;
+        if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal")) {
+            //if (rbGimbale.isChecked())
+                recoverFileName =ASSET_FILE_RESET_ALTISTM32;
+        }
+        //if (rbGimbaleBN055.isChecked())
+        if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_bno055")) {
+            recoverFileName = ASSET_FILE_RESET_ALTISTM32;
+        }
 
         tvRead.setText("");
         tvRead.setText(getResources().getString(R.string.after_complete_upload));
-        if (!rbGimbale.isChecked() && !rbGimbaleBN055.isChecked()) {
+        //if (!rbGimbale.isChecked() && !rbGimbaleBN055.isChecked()) {
+        if (!itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal") &&
+                !itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_bno055")) {
             try {
                 builder = new AlertDialog.Builder(FlashFirmware.this);
                 //Recover firmware...
@@ -176,7 +214,6 @@ boolean recorverFirmware = false;
                         .setCancelable(false)
                         .setNegativeButton(getResources().getString(R.string.firmware_cancel), new DialogInterface.OnClickListener() {
                             public void onClick(final DialogInterface dialog, final int id) {
-
                                 dialog.cancel();
                                 mPhysicaloid.cancelUpload();
                             }
@@ -204,22 +241,20 @@ boolean recorverFirmware = false;
 
         firmwareFileName = ASSET_FILE_NAME_MOTORGIMBALE;
 
-        btOpen.setEnabled(true);
-        /*if(mPhysicaloid.open()) {
-            mPhysicaloid.setConfig(uartConfig);
+        btFlash.setEnabled(true);
 
-        } else {
-            //cannot open
-            Toast.makeText(this, getResources().getString(R.string.msg13), Toast.LENGTH_LONG).show();
-            //btOpen.setEnabled(false);
-        }*/
-        if (rbGimbale.isChecked())
-            firmwareFileName =ASSET_FILE_NAME_MOTORGIMBALE;
-        if(rbGimbaleBN055.isChecked())
+        //if (rbGimbale.isChecked())
+        if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal")) {
             firmwareFileName = ASSET_FILE_NAME_MOTORGIMBALE;
-
+        }
+        //if(rbGimbaleBN055.isChecked()
+        if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_bno055")) {
+            firmwareFileName = ASSET_FILE_NAME_MOTORGIMBALE;
+        }
         tvRead.setText("");
-        if(!rbGimbale.isChecked()&& !rbGimbaleBN055.isChecked()) {
+        //if(!rbGimbale.isChecked()&& !rbGimbaleBN055.isChecked()) {
+        if (!itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal") &&
+                !itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_bno055")) {
             try {
                 builder = new AlertDialog.Builder(FlashFirmware.this);
                 //Flashing firmware...
@@ -247,8 +282,6 @@ boolean recorverFirmware = false;
             recorverFirmware = false;
             new UploadSTM32Asyc().execute();
         }
-
-
     }
 
     public void onClickFirmwareInfo(View v) {
@@ -260,7 +293,6 @@ boolean recorverFirmware = false;
     }
     private class DetectAsyc extends AsyncTask<Void, Void, Void>  // UI thread
     {
-
         @Override
         protected void onPreExecute() {
             builder = new AlertDialog.Builder(FlashFirmware.this);
@@ -270,9 +302,7 @@ boolean recorverFirmware = false;
                     .setCancelable(false)
                     .setNegativeButton(getResources().getString(R.string.firmware_cancel), new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, final int id) {
-
                             dialog.cancel();
-
                         }
                     });
             alert = builder.create();
@@ -292,10 +322,12 @@ boolean recorverFirmware = false;
 
             //rbGimbale, rbGimbaleBN055;
             if (version.equals("RocketMotorGimbal")) {
-                setRadioButton(rbGimbale, true);
+                //setRadioButton(rbGimbale, true);
+                spinnerFirmware.setSelection(0);
             }
             if (version.equals("RocketMotorGimbal_bno055")) {
-                setRadioButton(rbGimbaleBN055, true);
+                //setRadioButton(rbGimbaleBN055, true);
+                spinnerFirmware.setSelection(0);
             }
 
             return null;
@@ -328,9 +360,11 @@ boolean recorverFirmware = false;
         @Override
         protected Void doInBackground(Void... voids) {
             if (!recorverFirmware) {
-                if (rbGimbale.isChecked())
+                if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal"))
+                //if (rbGimbale.isChecked())
                     uploadSTM32(ASSET_FILE_NAME_MOTORGIMBALE, mUploadSTM32Callback);
-                if (rbGimbaleBN055.isChecked())
+                if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_bno055"))
+                //if (rbGimbaleBN055.isChecked())
                     uploadSTM32(ASSET_FILE_NAME_MOTORGIMBALE_BNO55, mUploadSTM32Callback);
             } else {
                 uploadSTM32(ASSET_FILE_RESET_ALTISTM32, mUploadSTM32Callback);
@@ -439,7 +473,6 @@ boolean recorverFirmware = false;
                 //Upload fail
                 tvAppend(tvRead, getResources().getString(R.string.msg15));
             }
-
             alert.dismiss();
         }
 
@@ -514,12 +547,11 @@ boolean recorverFirmware = false;
             @Override
             public void run() {
                 ftv.append(ftext);
-
             }
         });
     }
 
-    private void setRadioButton (RadioButton rb, boolean state) {
+    /*private void setRadioButton (RadioButton rb, boolean state) {
         final RadioButton frb = rb;
         final boolean fstate = state;
         mHandler.post(new Runnable() {
@@ -528,7 +560,7 @@ boolean recorverFirmware = false;
                 frb.setChecked(fstate);
             }
         });
-    }
+    }*/
     private void dialogAppend(CharSequence text) {
         final CharSequence ftext = text;
         mHandler.post(new Runnable() {
@@ -575,5 +607,4 @@ boolean recorverFirmware = false;
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

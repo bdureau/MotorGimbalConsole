@@ -90,7 +90,7 @@ public class GimbalConfigTab4Fragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.tabconfigpart4_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_gimbal_config_part4, container, false);
 
         editTxtViewServoXMin = (EditText) view.findViewById(R.id.editTxtServoXMin);
         editTxtViewServoXMax = (EditText) view.findViewById(R.id.editTxtServoXMax);

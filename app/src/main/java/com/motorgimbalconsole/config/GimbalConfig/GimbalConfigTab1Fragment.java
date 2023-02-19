@@ -3,7 +3,6 @@ package com.motorgimbalconsole.config.GimbalConfig;
 import static com.motorgimbalconsole.config.GimbalTabConfigActivity.readConfig;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -126,7 +125,7 @@ public class GimbalConfigTab1Fragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.tabconfigpart1_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_gimbal_config_part1, container, false);
         txtViewAxOffset = (EditText) view.findViewById(R.id.editTxtAxOffset);
         txtViewAyOffset = (EditText) view.findViewById(R.id.editTxtAyOffset);
         txtViewAzOffset = (EditText) view.findViewById(R.id.editTxtAzOffset);

@@ -68,13 +68,15 @@ public class MainActivityScreen extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(ACTION_USB_PERMISSION)) {
-                boolean granted = intent.getExtras().getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED);
+                boolean granted = true;
+                if(android.os.Build.VERSION.SDK_INT < 31)
+                    granted = intent.getExtras().getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED);
+
                 if (granted) {
                     if (myBT.connect(usbManager, device, 38400)) {
                         myBT.setConnected(true);
                         EnableUI();
                         myBT.setConnectionType("usb");
-                        //btnConnectDisconnect.setText(getResources().getString(R.string.disconnect));
                     }
                 } else {
                     msg("PERM NOT GRANTED");
@@ -87,7 +89,6 @@ public class MainActivityScreen extends AppCompatActivity {
                         myBT.Disconnect();
                         DisableUI();
                         setEnabledCard(true, btnFlashFirmware, image_firmware, text_firmware);
-                        //btnConnectDisconnect.setText(getResources().getString(R.string.connect_disconnect));
                         text_connect.setText(getResources().getString(R.string.connect_disconnect));
                     }
             }
@@ -144,10 +145,8 @@ public class MainActivityScreen extends AppCompatActivity {
 
         if (myBT.getConnected()) {
             EnableUI();
-            //btnConnectDisconnect.setText(getResources().getString(R.string.disconnect));
         } else {
             DisableUI();
-            //btnConnectDisconnect.setText(getResources().getString(R.string.connect_disconnect));
             text_connect.setText(getResources().getString(R.string.connect_disconnect));
             setEnabledCard(true, btnFlashFirmware, image_firmware, text_firmware);
         }
@@ -234,12 +233,9 @@ public class MainActivityScreen extends AppCompatActivity {
                     myBT.setConnectionType("usb");
 
                 if (myBT.getConnected()) {
-
                     Disconnect(); //close connection
                     DisableUI();
-                    //btnConnectDisconnect.setText(getResources().getString(R.string.connect_disconnect));
                     text_connect.setText(getResources().getString(R.string.connect_disconnect));
-                    //btnFlashFirmware.setEnabled(true);
                     setEnabledCard(true, btnFlashFirmware, image_firmware, text_firmware);
                 } else {
                     if (myBT.getConnectionType().equals("bluetooth")) {
@@ -250,8 +246,6 @@ public class MainActivityScreen extends AppCompatActivity {
 
                             if (myBT.getConnected()) {
                                 EnableUI();
-                                //btnConnectDisconnect.setText(getResources().getString(R.string.disconnect));
-                                //btnFlashFirmware.setEnabled(false);
                             }
                         } else {
                             // choose the bluetooth device
@@ -267,10 +261,15 @@ public class MainActivityScreen extends AppCompatActivity {
                                 device = entry.getValue();
                                 int deviceVID = device.getVendorId();
 
-                                PendingIntent pi = PendingIntent.getBroadcast(MainActivityScreen.this, 0, new Intent(ACTION_USB_PERMISSION), 0);
+                                //PendingIntent pi = PendingIntent.getBroadcast(MainActivityScreen.this, 0, new Intent(ACTION_USB_PERMISSION), 0);
+                                PendingIntent pi;
+                                if(android.os.Build.VERSION.SDK_INT >= 31) {
+                                    pi = PendingIntent.getBroadcast(MainActivityScreen.this, 0, new Intent(ACTION_USB_PERMISSION), PendingIntent.FLAG_IMMUTABLE);
+                                } else {
+                                    pi = PendingIntent.getBroadcast(MainActivityScreen.this, 0, new Intent(ACTION_USB_PERMISSION), 0);
+                                }
                                 usbManager.requestPermission(device, pi);
                                 keep = false;
-
 
                                 if (!keep)
                                     break;
@@ -284,17 +283,11 @@ public class MainActivityScreen extends AppCompatActivity {
     }
 
     private void DisableUI() {
-        //btnConfig.setEnabled(false);
         setEnabledCard(false, btnConfig, image_settings, text_settings);
-        //btnStatus.setEnabled(false);
         setEnabledCard(false, btnStatus, image_status, text_status);
-        //btnFlight.setEnabled(false);
         setEnabledCard(false, btnFlight, image_curve, text_curve);
-        //btnReset.setEnabled(false);
         setEnabledCard(false, btnReset, image_reset, text_reset);
-        //btnTelemetry.setEnabled(false);
         setEnabledCard(false, btnTelemetry, image_telemetry, text_telemetry);
-        //btnFlashFirmware.setEnabled(true);
         setEnabledCard(true, btnFlashFirmware, image_firmware, text_firmware);
         // now enable or disable the menu entries by invalidating it
         invalidateOptionsMenu();
@@ -303,11 +296,6 @@ public class MainActivityScreen extends AppCompatActivity {
     private void setEnabledCard(boolean enable, CardView card, ImageView image, TextView text) {
         card.setEnabled(enable);
         image.setImageAlpha(enable? 0xFF : 0x3F);
-        /*if (enable==false)
-            if(AppCompatDelegate.getDefaultNightMode()== AppCompatDelegate.MODE_NIGHT_YES)
-                text.setTextColor(0xFF6C6666);
-            else
-                text.setTextColor(0xFFDFD5D5);*/
     }
 
     private void EnableUI() {
@@ -325,30 +313,19 @@ public class MainActivityScreen extends AppCompatActivity {
         if (myBT.getGimbalConfigData().getAltimeterName().equals("RocketMotorGimbal") ||
                 myBT.getGimbalConfigData().getAltimeterName().equals("RocketMotorGimbal_bno055")) {
             if (myBT.getAppConf().getConnectionType().equals("0") || (myBT.getAppConf().getConnectionType().equals("1") && myBT.getAppConf().getFullUSBSupport().equals("true"))) {
-                //btnConfig.setEnabled(true);
                 setEnabledCard(true, btnConfig, image_settings, text_settings);
-                //btnStatus.setEnabled(true);
                 setEnabledCard(true, btnStatus, image_status, text_status);
-                //btnFlight.setEnabled(true);
                 setEnabledCard(true, btnFlight, image_curve, text_curve);
-                //btnReset.setEnabled(true);
                 setEnabledCard(true, btnReset, image_reset, text_reset);
             } else {
-                //btnConfig.setEnabled(false);
                 setEnabledCard(false, btnConfig, image_settings, text_settings);
-                //btnStatus.setEnabled(false);
                 setEnabledCard(false, btnStatus, image_status, text_status);
-                //btnFlight.setEnabled(false);
                 setEnabledCard(false, btnFlight, image_curve, text_curve);
-                //btnReset.setEnabled(false);
                 setEnabledCard(false, btnReset, image_reset, text_reset);
             }
 
-            //btnTelemetry.setEnabled(true);
             setEnabledCard(true, btnTelemetry, image_telemetry, text_telemetry);
-            //btnConnectDisconnect.setText(getResources().getString(R.string.disconnect));
             text_connect.setText(getResources().getString(R.string.disconnect));
-            //btnFlashFirmware.setEnabled(false);
             setEnabledCard(false, btnFlashFirmware, image_firmware, text_firmware);
             if (!firmCompat.IsCompatible(myBT.getGimbalConfigData().getAltimeterName(),
                     myBT.getGimbalConfigData().getAltiMajorVersion() + "." + myBT.getGimbalConfigData().getAltiMinorVersion())) {
@@ -431,7 +408,6 @@ public class MainActivityScreen extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         myBT.getAppConf().ReadConfig();
-        //Log.d("MainScreen", "myBT.getConnectionType():" +myBT.getConnectionType());
         if (myBT.getAppConf().getConnectionType().equals("1")) {
             menu.findItem(R.id.action_bluetooth).setEnabled(false);
         } else {

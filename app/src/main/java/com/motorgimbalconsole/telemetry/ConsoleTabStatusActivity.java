@@ -156,7 +156,7 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         myBT = (ConsoleApplication) getApplication();
 
-        setContentView(R.layout.activity_console_tab_status);
+        setContentView(R.layout.activity_gimbal_tab_status);
 
         mViewPager =(ViewPager) findViewById(R.id.container);
         setupViewPager(mViewPager);
@@ -413,7 +413,7 @@ the orientation on all axis
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.tabstatuspart1_fragment,container,false);
+            View view = inflater.inflate(R.layout.fragment_gimbal_status_part1,container,false);
             txtViewGyroXValue =(TextView)view.findViewById(R.id.textViewGyroXValue);
             txtViewGyroYValue =(TextView)view.findViewById(R.id.textViewGyroYValue);
             txtViewGyroZValue =(TextView)view.findViewById(R.id.textViewGyroZValue);
@@ -472,7 +472,7 @@ the orientation on all axis
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.tabstatuspart2_fragment,container,false);
+            View view = inflater.inflate(R.layout.fragment_gimbal_status_part2,container,false);
             //
             txtViewAltitudeValue = (TextView)view.findViewById(R.id.txtAltitudeValue);
             txtViewPressureValue = (TextView)view.findViewById(R.id.txtPressureValue);
@@ -499,7 +499,7 @@ the orientation on all axis
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-            view = inflater.inflate(R.layout.tabstatuspart3_fragment,container,false);
+            view = inflater.inflate(R.layout.fragment_gimbal_status_part3,container,false);
 
             myRocket = new Rocket();
 

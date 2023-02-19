@@ -1,4 +1,4 @@
-package com.motorgimbalconsole.flights;
+package com.motorgimbalconsole.flights.FlightView;
 
 /* ===========================================================
  * AFreeChart : a free chart library for Android(tm) platform.

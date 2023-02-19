@@ -383,4 +383,8 @@
     <!-- bluetooth messages -->
     <string name="BT_msg1">Bluetooth Device Not Available</string>
     <string name="BT_msg2">No Paired Bluetooth Devices Found.</string>
+
+    <string name="unit_time">time (ms)</string>
+    <string name="unit_time_seconde">time (s)</string>
+    <string name="unit_time_minutes">time (min)</string>
 </resources>

@@ -32,7 +32,9 @@ dependencies {
     implementation 'junit:junit:4.13.2'
     implementation files('libs/afreechart-0.0.4.jar')
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-    implementation files('libs/usbserial.jar')
+    //implementation files('libs/usbserial.jar')
+    implementation files('libs/usbserial-6.1.0.aar') //special version of usbserial that work with Android 12
+    implementation 'com.squareup.okio:okio:3.3.0' //this is needed so that my local userial lib work
     implementation files('libs/physicaloid.aar')
     implementation files('libs/processing-core.jar')
     implementation fileTree(include: ['*.jar'], dir: 'libs')

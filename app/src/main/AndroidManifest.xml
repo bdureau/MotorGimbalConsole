@@ -115,10 +115,7 @@
             android:name=".flights.FlightListActivity"
             android:label="@string/Flight_list"
             android:screenOrientation="portrait" />
-        <activity android:name=".flights.FlightViewActivity" />
-        <activity
-            android:name=".flights.FlightViewMPActivity"
-            android:label="@string/flight_view" />
+
         <activity android:name=".flights.FlightViewTabActivity"
             android:screenOrientation="portrait" />
         <activity

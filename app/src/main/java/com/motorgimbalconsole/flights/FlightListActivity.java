@@ -1,15 +1,13 @@
-//package com.altimeter.bdureau.bearconsole;
+
 package com.motorgimbalconsole.flights;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import android.os.Environment;
-//import android.support.v7.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Handler;
@@ -26,10 +24,6 @@ import com.motorgimbalconsole.R;
 
 import org.afree.data.xy.XYSeries;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +43,6 @@ public class FlightListActivity extends AppCompatActivity {
     ConsoleApplication myBT;
     List<String> flightNames = null;
     private FlightData myflight = null;
-    //private ProgressDialog progress;
     private AlertDialog alert;
 
 
@@ -59,20 +52,8 @@ public class FlightListActivity extends AppCompatActivity {
         public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
             // Get the flight name
             String currentFlight = ((TextView) v).getText().toString();
-
             // Make an intent to start next activity.
-            Intent i ;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
-                //if android ver = 8 or greater use the MPlib
-                //i = new Intent(FlightListActivity.this, FlightViewMPActivity.class);
-                i = new Intent(FlightListActivity.this, FlightViewTabActivity.class);
-            } else {
-                if (myBT.getAppConf().getGraphicsLibType().equals("0"))
-                    i = new Intent(FlightListActivity.this, FlightViewActivity.class);
-                else
-                    //i = new Intent(FlightListActivity.this, FlightViewMPActivity.class);
-                    i = new Intent(FlightListActivity.this, FlightViewTabActivity.class);
-            }
+            Intent i = new Intent(FlightListActivity.this, FlightViewTabActivity.class);
             //Change the activity.
             i.putExtra(SELECTED_FLIGHT, currentFlight);
             startActivity(i);
@@ -85,8 +66,6 @@ public class FlightListActivity extends AppCompatActivity {
 
         //get the bluetooth Application pointer
         myBT = (ConsoleApplication) getApplication();
-        //Check the local and force it if needed
-        //getApplicationContext().getResources().updateConfiguration(myBT.getAppLocal(), null);
 
         setContentView(R.layout.activity_flight_list);
         buttonDismiss =  (Button) findViewById(R.id.butDismiss);
@@ -115,8 +94,6 @@ public class FlightListActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute()
         {
-
-
             builder = new AlertDialog.Builder(FlightListActivity.this);
             //Retrieving flights...
             builder.setMessage(getResources().getString(R.string.msg7))
@@ -144,6 +121,7 @@ public class FlightListActivity extends AppCompatActivity {
                 //clear anything on the connection
                 myBT.flush();
                 myBT.clearInput();
+                //myBT.setNbrOfFlight(0);
                 // clear flight object
                 myBT.getFlightData().ClearFlight();
                 //retrieve the number of flight
@@ -158,6 +136,7 @@ public class FlightListActivity extends AppCompatActivity {
 
                 String myMessage1 = "";
                 myBT.setDataReady(false);
+                myBT.initFlightData();
 
                 myMessage1 = myBT.ReadResult(60000);
 
@@ -170,6 +149,8 @@ public class FlightListActivity extends AppCompatActivity {
                     for (int i =0; i < nbrOfFlight; i++) {
 
                         dialogAppend(getString(R.string.retrieving_flight) +(i+1));
+                        myBT.flush();
+                        myBT.clearInput();
                         myBT.write(("r"+ i+";").toString());
                         myBT.flush();
 

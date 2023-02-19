@@ -121,7 +121,7 @@ public class GimbalConfigTab2Fragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.tabconfigpart2_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_gimbal_config_part2, container, false);
 
         editTxtKpX = (EditText) view.findViewById(R.id.editTxtKpX);
         editTxtKiX = (EditText) view.findViewById(R.id.editTxtKiX);

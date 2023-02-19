@@ -73,7 +73,7 @@ public class GimbalTabConfigActivity extends AppCompatActivity {
         //get the bluetooth connection pointer
         myBT = (ConsoleApplication) getApplication();
         readConfig();
-        setContentView(R.layout.activity_console_tab_config);
+        setContentView(R.layout.activity_gimbal_tab_config);
 
         mViewPager = (ViewPager) findViewById(R.id.container);
         setupViewPager(mViewPager);

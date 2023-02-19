@@ -44,7 +44,7 @@ public class PlayFlight extends AppCompatActivity {
         myBT = (ConsoleApplication) getApplication();
 
         Intent newint = getIntent();
-        FlightName = newint.getStringExtra(FlightViewActivity.SELECTED_FLIGHT);
+        FlightName = newint.getStringExtra(FlightViewTabActivity.SELECTED_FLIGHT);
         myflight = myBT.getFlightData();
         // get all the data that we have recorded for the current flight
         allFlightData = myflight.GetFlightData(FlightName);
@@ -88,7 +88,7 @@ public class PlayFlight extends AppCompatActivity {
                         Y =allFlightData.getSeries("Euler Y").getY(i).floatValue();
                         Z =allFlightData.getSeries("Euler Z").getY(i).floatValue();
                         if (ViewCreated)
-                        ((Rocket) rocket).setInputString( X,  Y,  Z, time);
+                            ((Rocket) rocket).setInputString( X,  Y,  Z, time);
                     }
                 }
             }

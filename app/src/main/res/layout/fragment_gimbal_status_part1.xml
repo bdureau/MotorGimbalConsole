@@ -62,9 +62,9 @@
 
         </TableRow>
 
-        <TableRow android:gravity="center_horizontal">
+        <TableRow android:gravity="center_horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/textViewGyroXValue"

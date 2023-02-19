@@ -25,7 +25,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +32,6 @@ import android.widget.Toast;
 
 import com.motorgimbalconsole.R;
 
-import com.motorgimbalconsole.config.ConsoleTabConfigActivity;
 import com.motorgimbalconsole.help.AboutActivity;
 import com.motorgimbalconsole.help.HelpActivity;
 import com.physicaloid.lib.Boards;

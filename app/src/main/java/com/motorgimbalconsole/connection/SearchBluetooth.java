@@ -30,7 +30,6 @@ import android.widget.Toast;
 import com.motorgimbalconsole.ConsoleApplication;
 import com.motorgimbalconsole.R;
 import com.motorgimbalconsole.ShareHandler;
-import com.motorgimbalconsole.config.AppConfigActivity;
 import com.motorgimbalconsole.help.AboutActivity;
 import com.motorgimbalconsole.help.HelpActivity;
 

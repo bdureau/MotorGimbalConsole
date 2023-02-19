@@ -1,4 +1,4 @@
-package com.motorgimbalconsole.config;
+package com.motorgimbalconsole.config.ModulesConfig;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +22,7 @@ import android.widget.Toast;
 import com.motorgimbalconsole.ConsoleApplication;
 
 import com.motorgimbalconsole.ShareHandler;
+import com.motorgimbalconsole.config.AppTabConfigActivity;
 import com.motorgimbalconsole.help.AboutActivity;
 import com.motorgimbalconsole.help.HelpActivity;
 import com.motorgimbalconsole.R;
@@ -780,7 +780,7 @@ public class ConfigBT extends AppCompatActivity {
         }
         //open application settings screen
         if (id == R.id.action_settings) {
-            Intent i = new Intent(ConfigBT.this, AppConfigActivity.class);
+            Intent i = new Intent(ConfigBT.this, AppTabConfigActivity.class);
             startActivity(i);
             return true;
         }

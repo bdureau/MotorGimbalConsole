@@ -23,7 +23,7 @@
         android:theme="@style/Theme.motorgimbalconsole">
         <!--- android:theme="@style/AppTheme">-->
         <activity
-            android:name=".config.Config3DR"
+            android:name=".config.ModulesConfig.Config3DR"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -35,7 +35,7 @@
                 android:resource="@xml/device_filter" />
         </activity>
         <activity
-            android:name=".config.ConfigBT"
+            android:name=".config.ModulesConfig.ConfigBT"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -47,7 +47,7 @@
                 android:resource="@xml/device_filter" />
         </activity>
         <activity
-            android:name=".config.ConfigLora"
+            android:name=".config.ModulesConfig.ConfigLora"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -84,7 +84,7 @@
             android:label="@string/title_activity_console_tab_status"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".config.ConsoleTabConfigActivity"
+            android:name=".config.GimbalTabConfigActivity"
             android:label="@string/title_activity_console_tab_config"
             android:screenOrientation="portrait" />
         <activity
@@ -100,7 +100,7 @@
             android:label="@string/about_screen"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".config.AppConfigActivity"
+            android:name=".config.AppTabConfigActivity"
             android:label="@string/titre_application_pref"
             android:screenOrientation="portrait" />
         <activity

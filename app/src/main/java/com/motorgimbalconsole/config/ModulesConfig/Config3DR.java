@@ -1,4 +1,4 @@
-package com.motorgimbalconsole.config;
+package com.motorgimbalconsole.config.ModulesConfig;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.motorgimbalconsole.ConsoleApplication;
 
 import com.motorgimbalconsole.ShareHandler;
+import com.motorgimbalconsole.config.AppTabConfigActivity;
 import com.motorgimbalconsole.help.AboutActivity;
 import com.motorgimbalconsole.help.HelpActivity;
 import com.motorgimbalconsole.R;
@@ -1517,7 +1518,7 @@ public class Config3DR extends AppCompatActivity {
         }
         //open application settings screen
         if (id == R.id.action_settings) {
-            Intent i= new Intent(Config3DR.this, AppConfigActivity.class);
+            Intent i= new Intent(Config3DR.this, AppTabConfigActivity.class);
             startActivity(i);
             return true;
         }

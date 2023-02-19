@@ -17,18 +17,17 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 
-import com.motorgimbalconsole.config.AppConfigActivity;
-import com.motorgimbalconsole.config.Config3DR;
-import com.motorgimbalconsole.config.ConfigBT;
-import com.motorgimbalconsole.config.ConfigLora;
-import com.motorgimbalconsole.config.ConsoleTabConfigActivity;
+import com.motorgimbalconsole.config.AppTabConfigActivity;
+import com.motorgimbalconsole.config.ModulesConfig.Config3DR;
+import com.motorgimbalconsole.config.ModulesConfig.ConfigBT;
+import com.motorgimbalconsole.config.ModulesConfig.ConfigLora;
+import com.motorgimbalconsole.config.GimbalTabConfigActivity;
 import com.motorgimbalconsole.config.GimbalConfigData;
 import com.motorgimbalconsole.connection.SearchBluetooth;
 import com.motorgimbalconsole.connection.TestConnection;
@@ -173,7 +172,7 @@ public class MainActivityScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 readConfig();
-                Intent i = new Intent(MainActivityScreen.this, ConsoleTabConfigActivity.class);
+                Intent i = new Intent(MainActivityScreen.this, GimbalTabConfigActivity.class);
                 startActivity(i);
             }
         });
@@ -469,7 +468,7 @@ public class MainActivityScreen extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent i = new Intent(MainActivityScreen.this, AppConfigActivity.class);
+            Intent i = new Intent(MainActivityScreen.this, AppTabConfigActivity.class);
             startActivity(i);
             return true;
         }

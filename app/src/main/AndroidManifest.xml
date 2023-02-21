@@ -75,12 +75,9 @@
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
         </activity>
+
         <activity
-            android:name=".flights.PlayFlight"
-            android:label="@string/play_flight"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".telemetry.ConsoleTabStatusActivity"
+            android:name=".telemetry.GimbalTabStatusActivity"
             android:label="@string/title_activity_console_tab_status"
             android:screenOrientation="portrait" />
         <activity
@@ -107,8 +104,9 @@
             android:name=".ResetSettingsActivity"
             android:label="@string/reset_settings"
             android:screenOrientation="portrait" />
+
         <activity
-            android:name=".telemetry.TelemetryMp"
+            android:name=".telemetry.GimbalTelemetryTabActivity"
             android:label="@string/telemetry_screen"
             android:screenOrientation="portrait" />
         <activity

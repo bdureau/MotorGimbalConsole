@@ -100,7 +100,6 @@ public class AppTabConfigActivity extends AppCompatActivity {
             {
                 //restore the application default configuration
                RestoreToDefault();
-
             }
         });
 
@@ -162,7 +161,7 @@ public class AppTabConfigActivity extends AppCompatActivity {
         myBT.getAppConf().setConnectionType(""+appConfigPage1.getConnectionType()+"");
         myBT.getAppConf().setGraphicsLibType(""+ appConfigPage1.getGraphicsLibType()+"");
         myBT.getAppConf().setFullUSBSupport(appConfigPage1.getFullUSBSupport());
-
+        myBT.getAppConf().setManualRecording(appConfigPage1.getAllowManualRecording());
 
         //page2
         myBT.getAppConf().setAltitude_event(appConfigPage2.getAltitudeEvent());
@@ -197,6 +196,8 @@ public class AppTabConfigActivity extends AppCompatActivity {
         } else {
             appConfigPage1.setFullUSBSupport(false);
         }
+        appConfigPage1.setAllowManualRecording(myBT.getAppConf().getManualRecording());
+
         //config page 2
         if (myBT.getAppConf().getAltitude_event().equals("true")) {
             appConfigPage2.setAltitudeEvent(true);
@@ -238,40 +239,7 @@ public class AppTabConfigActivity extends AppCompatActivity {
         appConfigPage2.setTelemetryVoice(Integer.parseInt(myBT.getAppConf().getTelemetryVoice()));
 
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_application_config, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //share screen
-        if (id == R.id.action_share) {
-            ShareHandler.takeScreenShot(findViewById(android.R.id.content).getRootView(), this);
-            return true;
-        }
-        //open help screen
-        if (id == R.id.action_help) {
-            Intent i = new Intent(AppTabConfigActivity.this, HelpActivity.class);
-            i.putExtra("help_file", "help_app_config");
-            startActivity(i);
-            return true;
-        }
-
-        if (id == R.id.action_about) {
-            Intent i = new Intent(AppTabConfigActivity.this, AboutActivity.class);
-            startActivity(i);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new AppTabConfigActivity.SectionsPageAdapter(getSupportFragmentManager());
@@ -351,5 +319,38 @@ public class AppTabConfigActivity extends AppCompatActivity {
             return mFragmentList.size();
         }
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_application_config, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //share screen
+        if (id == R.id.action_share) {
+            ShareHandler.takeScreenShot(findViewById(android.R.id.content).getRootView(), this);
+            return true;
+        }
+        //open help screen
+        if (id == R.id.action_help) {
+            Intent i = new Intent(AppTabConfigActivity.this, HelpActivity.class);
+            i.putExtra("help_file", "help_app_config");
+            startActivity(i);
+            return true;
+        }
+
+        if (id == R.id.action_about) {
+            Intent i = new Intent(AppTabConfigActivity.this, AboutActivity.class);
+            startActivity(i);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

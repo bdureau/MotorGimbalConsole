@@ -62,8 +62,6 @@ public class GimbalTabConfigActivity extends AppCompatActivity {
     private static ConsoleApplication myBT;
     private static GimbalConfigData GimbalCfg = null;
 
-    private ProgressDialog progress;
-
     private TextView[] dotsSlide;
     private LinearLayout linearDots;
 
@@ -223,7 +221,6 @@ public class GimbalTabConfigActivity extends AppCompatActivity {
             }
         }
         if (configPage2.isViewCreated()) {
-
             GimbalCfg.setKpX(configPage2.getTxtKpXValue());
             GimbalCfg.setKiX(configPage2.getTxtKiXValue());
             GimbalCfg.setKdX(configPage2.getTxtKdXValue());
@@ -243,7 +240,7 @@ public class GimbalTabConfigActivity extends AppCompatActivity {
             GimbalCfg.setGyroRange(configPage3.getGyroRange());
             GimbalCfg.setRecordingTimeout(configPage3.getRecordingTimeout());
             GimbalCfg.setBatteryType(configPage3.getBatteryType());
-
+            GimbalCfg.setTelemetryType(configPage3.getTelemetryType());
         }
         if (configPage4.isViewCreated()) {
             GimbalCfg.setServoXMin(configPage4.getServoXMin());
@@ -310,63 +307,34 @@ public class GimbalTabConfigActivity extends AppCompatActivity {
             }
         }
 
-        //String gimbalCfgStr = "";
-
-        //gimbalCfgStr = "s," +
-        //        GimbalCfg.getAxOffset() + "," +
         SendParam("p,1,"+ GimbalCfg.getAxOffset());
-        //        GimbalCfg.getAyOffset() + "," +
         SendParam("p,2,"+ GimbalCfg.getAyOffset());
-        //        GimbalCfg.getAzOffset() + "," +
         SendParam("p,3,"+ GimbalCfg.getAzOffset());
-        //        GimbalCfg.getGxOffset() + "," +
         SendParam("p,4,"+ GimbalCfg.getGxOffset());
-        //        GimbalCfg.getGyOffset() + "," +
         SendParam("p,5,"+ GimbalCfg.getGyOffset());
-        //         GimbalCfg.getGzOffset() + "," +
         SendParam("p,6,"+ GimbalCfg.getGzOffset());
-        //        (int) (GimbalCfg.getKpX() * 100) + "," +
         SendParam("p,7,"+ (int) (GimbalCfg.getKpX() * 100) );
-        //        (int) (GimbalCfg.getKiX() * 100) + "," +
         SendParam("p,8,"+ (int) (GimbalCfg.getKiX() * 100) );
-        //        (int) (GimbalCfg.getKdX() * 100) + "," +
         SendParam("p,9,"+ (int) (GimbalCfg.getKdX() * 100) );
-        //        (int) (GimbalCfg.getKpY() * 100) + "," +
         SendParam("p,10,"+ (int) (GimbalCfg.getKpY() * 100) );
-        //        (int) (GimbalCfg.getKiY() * 100) + "," +
         SendParam("p,11,"+ (int) (GimbalCfg.getKiY() * 100) );
-        //        (int) (GimbalCfg.getKdY() * 100) + "," +
         SendParam("p,12,"+ (int) (GimbalCfg.getKdY() * 100) );
-        //        GimbalCfg.getServoXMin() + "," +
         SendParam("p,13,"+ GimbalCfg.getServoXMin());
-        //        GimbalCfg.getServoXMax() + "," +
         SendParam("p,14,"+ GimbalCfg.getServoXMax());
-        //        GimbalCfg.getServoYMin() + "," +
         SendParam("p,15,"+ GimbalCfg.getServoYMin());
-        //        GimbalCfg.getServoYMax() + "," +
         SendParam("p,16,"+ GimbalCfg.getServoYMax());
-        //        GimbalCfg.getConnectionSpeed() + "," +
         SendParam("p,17,"+ GimbalCfg.getConnectionSpeed());
-        //        GimbalCfg.getAltimeterResolution() + "," +
         SendParam("p,18,"+ GimbalCfg.getAltimeterResolution());
-        //        GimbalCfg.getEepromSize() + "," +
         SendParam("p,19,"+ GimbalCfg.getEepromSize());
-        //        GimbalCfg.getUnits() + "," +
         SendParam("p,20,"+ GimbalCfg.getUnits());
-        //        GimbalCfg.getEndRecordAltitude() + "," +
         SendParam("p,21,"+ GimbalCfg.getEndRecordAltitude());
-        //        GimbalCfg.getBeepingFrequency() + "," +
         SendParam("p,22,"+ GimbalCfg.getBeepingFrequency());
-        //        GimbalCfg.getLiftOffDetect() + "," +
         SendParam("p,23,"+ GimbalCfg.getLiftOffDetect());
-        //        GimbalCfg.getGyroRange() + "," +
         SendParam("p,24,"+ GimbalCfg.getGyroRange());
-        //        GimbalCfg.getAcceleroRange() + "," +
         SendParam("p,25,"+ GimbalCfg.getAcceleroRange());
-        //        GimbalCfg.getRecordingTimeout()+ "," +
         SendParam("p,26,"+ GimbalCfg.getRecordingTimeout());
-        //        GimbalCfg.getBatteryType();
         SendParam("p,27,"+ GimbalCfg.getBatteryType());
+        SendParam("p,28,"+ GimbalCfg.getTelemetryType());
 
         if (myBT.getConnected()) {
 

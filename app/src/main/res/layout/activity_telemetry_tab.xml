@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".telemetry.GimbalTabStatusActivity">
+    tools:context=".telemetry.GimbalTelemetryTabActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -29,24 +29,18 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <LinearLayout
-            android:id="@+id/idStatusLinearDots"
+            android:id="@+id/idAltiStatusLinearDots"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignWithParentIfMissing="false"
+            android:layout_marginBottom="10dp"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
             android:orientation="horizontal"
             android:padding="20dp"></LinearLayout>
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/butRecording"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|start"
-        app:icon="@drawable/record_30x30_trans" />
 
     <Button
         android:id="@+id/butDismiss"

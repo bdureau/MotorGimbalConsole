@@ -387,4 +387,5 @@
     <string name="unit_time">time (ms)</string>
     <string name="unit_time_seconde">time (s)</string>
     <string name="unit_time_minutes">time (min)</string>
+    <string name="allow_manual_recording">Allow manual Recording</string>
 </resources>

@@ -16,6 +16,7 @@ import android.os.Bundle;
 import com.motorgimbalconsole.ConsoleApplication;
 import com.motorgimbalconsole.R;
 
+import com.motorgimbalconsole.ShareHandler;
 import com.motorgimbalconsole.flights.FlightView.FlightViewFcFragment;
 import com.motorgimbalconsole.flights.FlightView.FlightViewInfoFragment;
 import com.motorgimbalconsole.flights.FlightView.FlightViewMpFragment;
@@ -68,7 +69,9 @@ public class FlightViewTabActivity extends AppCompatActivity {
     private FlightViewMpFragment flightPage1 = null;
     private FlightViewFcFragment flightPage1bis = null;
     private FlightViewInfoFragment flightPage2 = null;
-    private Button btnDismiss, btnPlay, butSelectCurves;
+    private FlightPlayFragment flightPage3 = null;
+
+    private Button btnDismiss, butSelectCurves;
     private ConsoleApplication myBT;
 
     private String curvesNames[] = null;
@@ -77,12 +80,12 @@ public class FlightViewTabActivity extends AppCompatActivity {
     private XYSeriesCollection allFlightData = null;
     private XYSeriesCollection flightData = null;
 
-    static Font font;
+    //static Font font;
     private String FlightName = null;
 
     private String[] units = null;
 
-    public static String SELECTED_FLIGHT = "MyFlight";
+    //public static String SELECTED_FLIGHT = "MyFlight";
     public int numberOfCurves = 0;
 
 
@@ -137,7 +140,6 @@ public class FlightViewTabActivity extends AppCompatActivity {
 
         btnDismiss = (Button) findViewById(R.id.butDismiss);
         butSelectCurves = (Button) findViewById(R.id.butSelectCurves);
-        btnPlay = (Button) findViewById(R.id.butPlay);
 
         Intent newint = getIntent();
         FlightName = newint.getStringExtra(FlightListActivity.SELECTED_FLIGHT);
@@ -195,14 +197,6 @@ public class FlightViewTabActivity extends AppCompatActivity {
             }
         });
 
-        btnPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(FlightViewTabActivity.this, PlayFlight.class);
-                i.putExtra(SELECTED_FLIGHT, FlightName);
-                startActivity(i);
-            }
-        });
         butSelectCurves.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -310,6 +304,12 @@ public class FlightViewTabActivity extends AppCompatActivity {
 
         adapter.addFragment(flightPage2, "TAB2");
 
+        flightPage3 = new FlightPlayFragment(myBT,
+                                            allFlightData,
+                                            FlightName);
+
+        adapter.addFragment(flightPage3, "TAB3");
+
         linearDots=findViewById(R.id.idFlightLinearDots);
         agregaIndicateDots(0, adapter.getCount());
         viewPager.setAdapter(adapter);
@@ -341,6 +341,11 @@ public class FlightViewTabActivity extends AppCompatActivity {
         @Override
         public void onPageSelected(int i) {
             agregaIndicateDots(i, adapter.getCount());
+            if(i ==0) {
+                butSelectCurves.setVisibility(View.VISIBLE);
+            } else {
+                butSelectCurves.setVisibility(View.INVISIBLE);
+            }
         }
 
         @Override
@@ -378,7 +383,7 @@ public class FlightViewTabActivity extends AppCompatActivity {
             return mFragmentList.size();
         }
     }
-
+/*
     private  void takeScreenShot(View view) {
         Date date = new Date();
         CharSequence format = DateFormat.format("MM-dd-yyyy_hh:mm:ss", date);
@@ -430,6 +435,8 @@ public class FlightViewTabActivity extends AppCompatActivity {
             Toast.makeText(this, "No App Available", Toast.LENGTH_SHORT).show();
         }
     }
+
+    */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -446,7 +453,8 @@ public class FlightViewTabActivity extends AppCompatActivity {
 
         //open application settings screen
         if (id == R.id.action_share) {
-            takeScreenShot(findViewById(android.R.id.content).getRootView());
+            //takeScreenShot(findViewById(android.R.id.content).getRootView());
+            ShareHandler.takeScreenShot(findViewById(android.R.id.content).getRootView(), this);
             return true;
         }
         //open help screen

@@ -129,7 +129,6 @@ public class GimbalConfigTab1Fragment extends Fragment {
         txtViewAxOffset = (EditText) view.findViewById(R.id.editTxtAxOffset);
         txtViewAyOffset = (EditText) view.findViewById(R.id.editTxtAyOffset);
         txtViewAzOffset = (EditText) view.findViewById(R.id.editTxtAzOffset);
-
         txtViewGxOffset = (EditText) view.findViewById(R.id.editTxtGxOffset);
         txtViewGyOffset = (EditText) view.findViewById(R.id.editTxtGyOffset);
         txtViewGzOffset = (EditText) view.findViewById(R.id.editTxtGzOffset);
@@ -212,7 +211,6 @@ public class GimbalConfigTab1Fragment extends Fragment {
                 setGzOffsetValue(GimbalCfg.getGzOffset());
                 alert.dismiss();
             }
-
         }
     }
 }

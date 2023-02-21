@@ -33,8 +33,6 @@ public class HelpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //get the bluetooth Application pointer
         myBT = (ConsoleApplication) getApplication();
-        //Check the local and force it if needed
-        //getApplicationContext().getResources().updateConfiguration(myBT.getAppLocal(), null);
 
         setContentView(R.layout.activity_help);
         webView = (WebView) findViewById(R.id.webView);
@@ -47,16 +45,22 @@ public class HelpActivity extends AppCompatActivity {
         Intent newint = getIntent();
         String FileName = newint.getStringExtra("help_file");
 
-        try {
-            if (Locale.getDefault().getLanguage() == "fr")
-                webView.loadUrl("file:///android_asset/help/" + FileName + "_fr.html");
-            else
+        if(myBT.getAppConf().getApplicationLanguage().equals("0")) {
+            //use phone language
+            try {
+                if (Locale.getDefault().getLanguage() == "fr")
+                    webView.loadUrl("file:///android_asset/help/" + FileName + "_fr.html");
+                else
+                    webView.loadUrl("file:///android_asset/help/" + FileName + ".html");
+            } catch (Exception e) {
+                e.printStackTrace();
                 webView.loadUrl("file:///android_asset/help/" + FileName + ".html");
-        } catch (Exception e) {
-            e.printStackTrace();
+            }
+        }
+        else {
+            //force it to English
             webView.loadUrl("file:///android_asset/help/" + FileName + ".html");
         }
-
         btnDismiss = (Button) findViewById(R.id.butClose);
         btnDismiss.setOnClickListener(new View.OnClickListener() {
             @Override

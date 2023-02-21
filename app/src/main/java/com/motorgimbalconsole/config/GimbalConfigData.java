@@ -49,6 +49,7 @@ public class GimbalConfigData {
     private int gyroRange = 0;
     private int recordingTimeout = 120;
     private int batteryType =0;
+    private int TelemetryType = 0;
 
     public GimbalConfigData()
     {
@@ -273,5 +274,9 @@ public class GimbalConfigData {
     //Battery type so that we can warn on low battery
     public void setBatteryType(int value) {batteryType =value;}
     public int getBatteryType(){return batteryType;}
+
+    // TelemetryType
+    public void setTelemetryType(int value){TelemetryType=value;}
+    public int getTelemetryType(){return TelemetryType;}
 
 }

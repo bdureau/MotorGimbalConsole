@@ -1,5 +1,6 @@
 package com.motorgimbalconsole.telemetry;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,38 +13,40 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.text.Html;
-import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.motorgimbalconsole.ConsoleApplication;
 import com.motorgimbalconsole.R;
-import com.motorgimbalconsole.utils.Rocket;
+import com.motorgimbalconsole.ShareHandler;
+import com.motorgimbalconsole.help.AboutActivity;
+import com.motorgimbalconsole.help.HelpActivity;
+import com.motorgimbalconsole.telemetry.TelemetryStatusFragment.GimbalAxesInfoFragment;
+import com.motorgimbalconsole.telemetry.TelemetryStatusFragment.GimbalInfoFragment;
+import com.motorgimbalconsole.telemetry.TelemetryStatusFragment.GimbalRocketViewFragment;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import processing.android.PFragment;
-import processing.core.PApplet;
-
 /**
  * @description: Gimbal real time telemetry
  * @author: boris.dureau@neuf.fr
  **/
-public class ConsoleTabStatusActivity extends AppCompatActivity {
+public class GimbalTabStatusActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     SectionsStatusPageAdapter adapter;
 
     private TextView[] dotsSlide;
     private LinearLayout linearDots;
 
-    Tab1StatusFragment statusPage1 =null;
-    Tab2StatusFragment statusPage2 =null;
-    Tab3StatusFragment statusPage3 =null;
+    GimbalAxesInfoFragment statusPage1 =null;
+    GimbalInfoFragment statusPage2 =null;
+    GimbalRocketViewFragment statusPage3 =null;
     private Button btnDismiss, btnRecording;
     ConsoleApplication myBT ;
     Thread altiStatus;
@@ -57,7 +60,6 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
                 case 1:
                     //Value 1 contains the GyroX
                     statusPage1.setGyroXValue((String)msg.obj);
-                    //statusPage2.setAltitudeValue((String)msg.obj);
                     break;
                 case 2:
                     //Value 2 contains the GyroY
@@ -110,14 +112,7 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
                     //Value 13 contains the battery voltage
                     String voltage = (String)msg.obj;
                     if(voltage.matches("\\d+(?:\\.\\d+)?")) {
-                       /* double batVolt;
-
-                        batVolt =  (3.05*((Double.parseDouble(voltage) * 3300) / 4096)/1000);
-
-                        statusPage2.setBatteryVoltage(batVolt);*/
                         statusPage2.setBatteryVoltage(voltage + " Volts");
-                        //statusPage2.setBatteryVoltage(Double.parseDouble(voltage ));
-
                     }
                     else {
                         //txtViewVoltage.setText("NA");
@@ -163,6 +158,10 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
         myBT.setHandler(handler);
         btnDismiss = (Button)findViewById(R.id.butDismiss);
         btnRecording = (Button)findViewById(R.id.butRecording);
+        if ( myBT.getAppConf().getManualRecording())
+            btnRecording.setVisibility(View.VISIBLE);
+        else
+            btnRecording.setVisibility(View.INVISIBLE);
         btnDismiss.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -265,9 +264,7 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
             myBT.setExit(true);
             myBT.clearInput();
             myBT.flush();
-
         }
-
 
         myBT.flush();
         myBT.clearInput();
@@ -285,10 +282,9 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
     }
     private void setupViewPager(ViewPager viewPager) {
         adapter = new SectionsStatusPageAdapter(getSupportFragmentManager());
-        statusPage1 = new Tab1StatusFragment();
-        statusPage2 = new Tab2StatusFragment();
-        statusPage3 = new Tab3StatusFragment();
-
+        statusPage1 = new GimbalAxesInfoFragment();
+        statusPage2 = new GimbalInfoFragment();
+        statusPage3 = new GimbalRocketViewFragment();
 
         adapter.addFragment(statusPage1, "TAB1");
         adapter.addFragment(statusPage2, "TAB2");
@@ -360,191 +356,39 @@ public class ConsoleTabStatusActivity extends AppCompatActivity {
             return mFragmentList.size();
         }
     }
-/*
-This is the first tab which contains
-The gyros values
-the accelerometer
-the orientation on all axis
- */
-    public static class Tab1StatusFragment extends Fragment {
-        private static final String TAG = "Tab1StatusFragment";
-        private boolean ViewCreated = false;
-        private TextView txtViewGyroXValue,txtViewGyroYValue, txtViewGyroZValue;
-        private TextView txtViewAccelXValue, txtViewAccelYValue, txtViewAccelZValue;
-        private TextView txtViewOrientXValue, txtViewOrientYValue, txtViewOrientZValue;
-
-        public void setGyroXValue(String value) {
-            if(ViewCreated)
-                this.txtViewGyroXValue.setText(value);
-        }
-        public void setGyroYValue(String value) {
-            if(ViewCreated)
-                this.txtViewGyroYValue.setText(value);
-        }
-        public void setGyroZValue(String value) {
-            if(ViewCreated)
-                this.txtViewGyroZValue.setText(value);
-        }
-        public void setAccelXValue(String value) {
-            if(ViewCreated)
-                this.txtViewAccelXValue.setText(value);
-        }
-        public void setAccelYValue(String value) {
-            if(ViewCreated)
-                this.txtViewAccelYValue.setText(value);
-        }
-        public void setAccelZValue(String value) {
-            if(ViewCreated)
-                this.txtViewAccelZValue.setText(value);
-        }
-        public void setOrientXValue(String value) {
-            if(ViewCreated)
-                this.txtViewOrientXValue.setText(value);
-        }
-        public void setOrientYValue(String value) {
-            if(ViewCreated)
-                this.txtViewOrientYValue.setText(value);
-        }
-        public void setOrientZValue(String value) {
-            if(ViewCreated)
-                this.txtViewOrientZValue.setText(value);
-        }
-
-        @Nullable
-        @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.fragment_gimbal_status_part1,container,false);
-            txtViewGyroXValue =(TextView)view.findViewById(R.id.textViewGyroXValue);
-            txtViewGyroYValue =(TextView)view.findViewById(R.id.textViewGyroYValue);
-            txtViewGyroZValue =(TextView)view.findViewById(R.id.textViewGyroZValue);
-            txtViewAccelXValue =(TextView)view.findViewById(R.id.textViewAccelXValue);
-            txtViewAccelYValue =(TextView)view.findViewById(R.id.textViewAccelYValue);
-            txtViewAccelZValue =(TextView)view.findViewById(R.id.textViewAccelZValue);
-            txtViewOrientXValue = (TextView)view.findViewById(R.id.textViewOrientXValue);
-            txtViewOrientYValue = (TextView)view.findViewById(R.id.textViewOrientYValue);
-            txtViewOrientZValue = (TextView)view.findViewById(R.id.textViewOrientZValue);
-
-            ViewCreated = true;
-            return view;
-        }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_application_config, menu);
+        return true;
     }
-    /*
-    This is the second tab
-    it contains
-    The current altitude
-    the battery voltage
-    the current pressure
-    the current temperature of the sensor
-    the % of eeprom used
-     */
-    public static class Tab2StatusFragment extends Fragment {
-        private static final String TAG = "Tab2StatusFragment";
-        private TextView txtViewVoltage,txtNbrOfFlightValue;
-        private boolean ViewCreated = false;
-        private TextView txtViewBatteryVoltage,txtViewAltitudeValue;
-        private TextView txtViewPressureValue,txtViewTempValue, txtViewEEpromUsageValue;
 
-        public void setAltitudeValue(String value) {
-            if(ViewCreated)
-                this.txtViewAltitudeValue.setText(value);
-        }
-        public void setPressureValue(String value) {
-            if(ViewCreated)
-                this.txtViewPressureValue.setText(value);
-        }
-        public void setTempValue(String value) {
-            if(ViewCreated)
-                this.txtViewTempValue.setText(value);
-        }
-        public void setBatteryVoltage(String value) {
-            if(ViewCreated)
-                this.txtViewBatteryVoltage.setText(value);
-        }
-        public void setEEpromUsage(String value) {
-            if(ViewCreated)
-                this.txtViewEEpromUsageValue.setText(value);
-        }
-        public void setNbrOfFlights(String value) {
-            if(ViewCreated)
-                this.txtNbrOfFlightValue.setText(value);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //share screen
+        if (id == R.id.action_share) {
+            ShareHandler.takeScreenShot(findViewById(android.R.id.content).getRootView(), this);
+            return true;
         }
 
-        @Nullable
-        @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.fragment_gimbal_status_part2,container,false);
-            //
-            txtViewAltitudeValue = (TextView)view.findViewById(R.id.txtAltitudeValue);
-            txtViewPressureValue = (TextView)view.findViewById(R.id.txtPressureValue);
-            txtViewTempValue = (TextView)view.findViewById(R.id.txtTempValue);
-            txtViewVoltage=(TextView)view.findViewById(R.id.txtBatteryVoltage);
-            txtViewBatteryVoltage=(TextView)view.findViewById(R.id.txtBatteryVoltageValue);
-            txtViewEEpromUsageValue =(TextView)view.findViewById(R.id.txtEEpromUsageValue);
-            txtNbrOfFlightValue=(TextView)view.findViewById(R.id.txtNbrOfFlightValue);
-            ViewCreated = true;
-            return view;
-        }
-    }
-    /*
-    This is the third tab
-    it displays the rocket orientation
-     */
-    public static class Tab3StatusFragment extends Fragment {
-        private static final String TAG = "Tab3StatusFragment";
-        private PApplet myRocket;
-        boolean ViewCreated = false;
-        private PFragment fragment;
-        View view;
-        @Nullable
-        @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-            view = inflater.inflate(R.layout.fragment_gimbal_status_part3,container,false);
-
-            myRocket = new Rocket();
-
-            fragment = new PFragment(myRocket);
-
-            getChildFragmentManager().beginTransaction().add(R.id.container, fragment).commit();
-            ViewCreated = true;
-
-            return view;
+        //open help screen
+        if (id == R.id.action_help) {
+            Intent i = new Intent(GimbalTabStatusActivity.this, HelpActivity.class);
+            i.putExtra("help_file", "help_gimbal_config");
+            startActivity(i);
+            return true;
         }
 
-        @Override
-        public void onStart() {
-            super.onStart();
-            fragment.requestDraw();
-            view.refreshDrawableState();
-            view.bringToFront();
+        if (id == R.id.action_about) {
+            Intent i = new Intent(GimbalTabStatusActivity.this, AboutActivity.class);
+            startActivity(i);
+            return true;
         }
-        @Override
-        public void onResume() {
-            super.onResume();
-
-            fragment.onResume(); //perahps we can remove that
-            //This is the only way I can redraw the rocket after leaving the tab
-            getChildFragmentManager().beginTransaction().replace(R.id.container,fragment).commit();
-
-
-        }
-        //send the quaternion to the processing widget
-        public void setInputString(String value) {
-            //if (ViewCreated)
-           if(view != null)
-                ((Rocket) myRocket).setInputString(value);
-        }
-        public void setInputCorrect(String value) {
-            if(view != null)
-                ((Rocket) myRocket).setInputCorrect(value);
-        }
-        public void setServoX(String value) {
-            if(view != null)
-                ((Rocket) myRocket).setServoX(value);
-        }
-        public void setServoY(String value) {
-            if(view != null)
-                ((Rocket) myRocket).setServoY(value);
-        }
+        return super.onOptionsItemSelected(item);
     }
 }

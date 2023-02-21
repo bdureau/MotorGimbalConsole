@@ -32,6 +32,7 @@ public class AppConfigTab2Fragment extends Fragment {
     private TextToSpeech mTTS;
     private Spinner spTelemetryVoice;
     private int nbrVoices = 0;
+    private boolean ViewCreated = false;
 
     public AppConfigTab2Fragment(ConsoleApplication lBT) {
         BT = lBT;
@@ -130,7 +131,9 @@ public class AppConfigTab2Fragment extends Fragment {
     public int getTelemetryVoice() {
         return (int) this.spTelemetryVoice.getSelectedItemId();
     }
-
+    public boolean isViewCreated() {
+        return ViewCreated;
+    }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Nullable
     @Override
@@ -266,6 +269,7 @@ public class AppConfigTab2Fragment extends Fragment {
 
             }
         });
+        ViewCreated = true;
         return view;
     }
     private void msg(String s) {

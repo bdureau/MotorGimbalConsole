@@ -156,4 +156,22 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="-2dp"
         android:layout_marginRight="0dp" />
+    <TextView
+        android:id="@+id/textAllowManualRecording"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textFullUSBSupport"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="18dp"
+        android:text="@string/allow_manual_recording"
+        />
+
+    <CheckBox
+        android:id="@+id/checkBoxAllowManualRecording"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textAllowManualRecording"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="-2dp"
+        android:layout_marginRight="0dp" />
 </RelativeLayout>

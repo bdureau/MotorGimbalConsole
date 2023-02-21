@@ -847,6 +847,13 @@ public class ConsoleApplication extends Application {
                                             GimbalCfg.setBatteryType(Integer.valueOf(currentSentence[30]));
                                         else
                                             GimbalCfg.setBatteryType(0);
+
+                                    // value 30 the telemetry type
+                                    if (currentSentence.length > 31)
+                                        if (currentSentence[31].matches("\\d+(?:\\.\\d+)?"))
+                                            GimbalCfg.setTelemetryType(Integer.valueOf(currentSentence[31]));
+                                        else
+                                            GimbalCfg.setTelemetryType(0);
                                     //DataReady = true;
                                 }
                                 myMessage = myMessage + " " + "alticonfig";
@@ -1012,13 +1019,13 @@ public class ConsoleApplication extends Application {
         private String say_warning_event= "false";
         private String say_liftoff_event= "false";
         private String telemetryVoice = "0";
+        private boolean allowManualRecording = true;
 
         public GlobalConfig(Context current) {
-            appConfig = getSharedPreferences("BearConsoleCfg", MODE_PRIVATE);
+            appConfig = getSharedPreferences("GimbalConsoleCfg", MODE_PRIVATE);
             edit = appConfig.edit();
             context = current;
             appCfgData = new AppConfigData(context);
-
         }
 
         public void ResetDefaultConfig() {
@@ -1040,7 +1047,7 @@ public class ConsoleApplication extends Application {
             say_burnout_event= "false";
             say_warning_event= "false";
             say_liftoff_event="false";
-
+            allowManualRecording = true;
         }
 
         public void ReadConfig() {
@@ -1136,6 +1143,11 @@ public class ConsoleApplication extends Application {
                 if (!say_liftoff_event.equals(""))
                     setLiftOff_event(say_liftoff_event);
 
+                //allowManualRecording
+                boolean allowManualRecording = appConfig.getBoolean("allowManualRecording", false);
+                setManualRecording(allowManualRecording);
+
+
             } catch (Exception e) {
 
             }
@@ -1159,8 +1171,8 @@ public class ConsoleApplication extends Application {
             edit.putString("say_burnout_event", getBurnout_event());
             edit.putString("say_warning_event", getWarning_event());
             edit.putString("say_liftoff_event", getLiftOff_event());
+            edit.putBoolean("allowManualRecording", getManualRecording());
             edit.commit();
-
         }
 
         public String getFontSize() {
@@ -1287,6 +1299,14 @@ public class ConsoleApplication extends Application {
         public void setTelemetryVoice(String value) {telemetryVoice =value;}
         public String getTelemetryVoice() {
             return telemetryVoice;
+        }
+
+        public void setManualRecording(boolean value) {
+            allowManualRecording = value;
+        }
+
+        public boolean getManualRecording() {
+            return allowManualRecording;
         }
 
         public int ConvertFont(int font) {

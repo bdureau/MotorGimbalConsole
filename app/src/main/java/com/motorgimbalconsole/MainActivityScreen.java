@@ -35,8 +35,9 @@ import com.motorgimbalconsole.flash.FlashFirmware;
 import com.motorgimbalconsole.flights.FlightListActivity;
 import com.motorgimbalconsole.help.AboutActivity;
 import com.motorgimbalconsole.help.HelpActivity;
-import com.motorgimbalconsole.telemetry.ConsoleTabStatusActivity;
-import com.motorgimbalconsole.telemetry.TelemetryMp;
+import com.motorgimbalconsole.telemetry.GimbalTabStatusActivity;
+import com.motorgimbalconsole.telemetry.GimbalTelemetryTabActivity;
+
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -57,7 +58,7 @@ public class MainActivityScreen extends AppCompatActivity {
 
     private String address;
     ConsoleApplication myBT;
-    //private ProgressDialog progress;
+
     UsbManager usbManager;
     UsbDevice device;
     private GimbalConfigData GimbalCfg = null;
@@ -162,7 +163,7 @@ public class MainActivityScreen extends AppCompatActivity {
                     myBT.write("y1;".toString());
                 }
                 Intent i;
-                i = new Intent(MainActivityScreen.this, TelemetryMp.class);
+                i = new Intent(MainActivityScreen.this, GimbalTelemetryTabActivity.class);
                 startActivity(i);
             }
         });
@@ -188,10 +189,9 @@ public class MainActivityScreen extends AppCompatActivity {
                 if (myBT.getConnected()) {
                     myBT.flush();
                     myBT.clearInput();
-
                     myBT.write("y1;".toString());
                 }
-                Intent i = new Intent(MainActivityScreen.this, ConsoleTabStatusActivity.class);
+                Intent i = new Intent(MainActivityScreen.this, GimbalTabStatusActivity.class);
                 startActivity(i);
             }
         });
@@ -349,15 +349,12 @@ public class MainActivityScreen extends AppCompatActivity {
         // ask for config
         boolean success = false;
         if (myBT.getConnected()) {
-
+            try { Thread.sleep(1000); } catch (InterruptedException e) {}//move it elsewhere
             //msg("Retreiving altimeter config...");
             myBT.setDataReady(false);
-
             myBT.flush();
             myBT.clearInput();
-
             myBT.write("b;".toString());
-
             myBT.flush();
 
 

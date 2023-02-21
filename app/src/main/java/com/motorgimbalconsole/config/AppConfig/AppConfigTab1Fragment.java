@@ -18,9 +18,10 @@ import com.motorgimbalconsole.config.AppConfigData;
 public class AppConfigTab1Fragment extends Fragment {
     private Spinner spAppLanguage, spGraphColor, spAppUnit, spGraphBackColor, spFontSize, spBaudRate;
     private Spinner spConnectionType,spGraphicsLibType;
-    private CheckBox cbFullUSBSupport;
+    private CheckBox cbFullUSBSupport, cbAllowManualRecording;
     private ConsoleApplication BT;
     private AppConfigData appConfigData;
+    private boolean ViewCreated = false;
 
     public AppConfigTab1Fragment(ConsoleApplication lBT) {
         BT = lBT;
@@ -91,6 +92,17 @@ public class AppConfigTab1Fragment extends Fragment {
         cbFullUSBSupport.setChecked(value);
     }
 
+    public boolean getAllowManualRecording() {
+        return cbAllowManualRecording.isChecked();
+    }
+
+    public void setAllowManualRecording(boolean value) {
+        cbAllowManualRecording.setChecked(value);
+    }
+    public boolean isViewCreated() {
+        return ViewCreated;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -146,6 +158,10 @@ public class AppConfigTab1Fragment extends Fragment {
         //Allow only telemetry via USB
         cbFullUSBSupport = (CheckBox) view.findViewById(R.id.checkBoxFullUSBSupport);
 
+        // allow manual recording
+        cbAllowManualRecording = (CheckBox) view.findViewById(R.id.checkBoxAllowManualRecording);
+
+
         spAppLanguage.setSelection(Integer.parseInt(BT.getAppConf().getApplicationLanguage()));
         spAppUnit.setSelection(Integer.parseInt(BT.getAppConf().getUnits()));
         spGraphColor.setSelection(Integer.parseInt(BT.getAppConf().getGraphColor()));
@@ -166,6 +182,9 @@ public class AppConfigTab1Fragment extends Fragment {
         } else {
             cbFullUSBSupport.setChecked(false);
         }
+        cbAllowManualRecording.setChecked(BT.getAppConf().getManualRecording());
+
+        ViewCreated = true;
         return view;
     }
 }

@@ -26,16 +26,18 @@ public class GimbalConfigTab3Fragment extends Fragment {
     private String[] itemsGyroRange;
     private String[] itemsAcceleroRange;
     private String[] itemsBatteryType;
+    private String[] itemsTelemetryType;
 
     private Spinner dropdownBaudRate;
     private Spinner dropdownAltimeterResolution, dropdownEEpromSize, dropdownLaunchDetect;
     private Spinner dropdownBatteryType;
+    private Spinner dropdownTelemetryType;
     private EditText EndRecordAltitude;
     private Spinner dropdownUnits;
     private TextView altiName;
     private EditText Freq,RecordingTimeout;
     private Spinner dropdownGyroRange, dropdownAcceleroRange;
-    private TextView txtViewGyroRange, txtViewAcceleroRange;
+    private TextView txtViewGyroRange, txtViewAcceleroRange, txtViewTelemetryType;
     ConsoleApplication myBT;
     private GimbalConfigData GimbalCfg = null;
 
@@ -185,6 +187,14 @@ public class GimbalConfigTab3Fragment extends Fragment {
         this.RecordingTimeout.setText(String.valueOf(RecordingTimeout));
     }
 
+    public int getTelemetryType() {
+        return (int) this.dropdownTelemetryType.getSelectedItemId();
+    }
+
+    public void setTelemetryType(int TelemetryType) {
+        dropdownTelemetryType.setSelection(TelemetryType);
+    }
+
     public boolean isViewCreated() {
         return ViewCreated;
     }
@@ -276,6 +286,14 @@ public class GimbalConfigTab3Fragment extends Fragment {
         //Max recording time in seconds
         RecordingTimeout =(EditText) view.findViewById(R.id.editTxtRecordingTimeOut);
 
+        txtViewTelemetryType = (TextView)  view.findViewById(R.id.txtViewTelemetryType);
+        dropdownTelemetryType = (Spinner) view.findViewById(R.id.spinnerTelemetryType);
+        //"Unknown",
+        itemsTelemetryType = new String[]{"Fast", "Medium", "Slow", "Very slow"};
+        ArrayAdapter<String> adapterTelemetryType = new ArrayAdapter<String>(this.getActivity(),
+                android.R.layout.simple_spinner_dropdown_item, itemsTelemetryType);
+        dropdownTelemetryType.setAdapter(adapterTelemetryType);
+
         if (GimbalCfg != null) {
             setBaudRate(GimbalCfg.getConnectionSpeed());
             //dropdownBaudRate.setSelection(GimbalCfg.arrayIndex(itemsBaudRate,String.valueOf(GimbalCfg.getConnectionSpeed())));
@@ -306,6 +324,7 @@ public class GimbalConfigTab3Fragment extends Fragment {
             }
             dropdownBatteryType.setSelection(GimbalCfg.getBatteryType());
             RecordingTimeout.setText(String.valueOf(GimbalCfg.getRecordingTimeout()));
+            dropdownTelemetryType.setSelection(GimbalCfg.getTelemetryType());
         }
         ViewCreated = true;
         return view;

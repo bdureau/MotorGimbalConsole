@@ -234,4 +234,21 @@
         android:inputType="number"
         android:textAlignment="textEnd"
         android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/txtViewTelemetryType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:layout_below="@+id/txtViewRecordingTimeOut"
+        android:text="Telemetry type"
+        />
+
+    <Spinner
+        android:id="@+id/spinnerTelemetryType"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/txtViewTelemetryType"
+        android:layout_alignParentRight="true"
+        android:spinnerMode="dropdown" />
 </RelativeLayout>

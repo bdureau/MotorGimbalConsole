@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.motorgimbalconsole.ConsoleApplication;
 import com.motorgimbalconsole.R;
@@ -195,7 +196,8 @@ public class GimbalTabStatusActivity extends AppCompatActivity {
                     //myBT.setExit(true);
                     myBT.clearInput();
                     myBT.flush();
-                    btnRecording.setText("Start Rec");
+                    //btnRecording.setText("Start Rec");
+                    msg("Stopped recording");
                 }
                 else
                 {
@@ -203,7 +205,8 @@ public class GimbalTabStatusActivity extends AppCompatActivity {
                     myBT.write("w1;".toString());
                     myBT.clearInput();
                     myBT.flush();
-                    btnRecording.setText("Stop");
+                    //btnRecording.setText("Stop");
+                    msg("Started recording");
                 }
 
             }
@@ -221,6 +224,10 @@ public class GimbalTabStatusActivity extends AppCompatActivity {
 
         altiStatus = new Thread(r);
         altiStatus.start();
+    }
+    // fast way to call Toast
+    private void msg(String s) {
+        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -250,6 +257,19 @@ public class GimbalTabStatusActivity extends AppCompatActivity {
 
             myBT.write("y1;".toString());
             status = true;
+            ///
+            Runnable r = new Runnable() {
+
+                @Override
+                public void run() {
+                    while (true) {
+                        if (!status) break;
+                        myBT.ReadResult(10000);
+                    }
+                }
+            };
+            altiStatus = new Thread(r);
+            //
             altiStatus.start();
         }
     }
@@ -257,7 +277,7 @@ public class GimbalTabStatusActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
 
-        if (status) {
+        /*if (status) {
             status = false;
             myBT.write("h;".toString());
 
@@ -278,7 +298,7 @@ public class GimbalTabStatusActivity extends AppCompatActivity {
         long timeOut = 10000;
         //long startTime = System.currentTimeMillis();
 
-        myMessage =myBT.ReadResult(timeOut);
+        myMessage =myBT.ReadResult(timeOut);*/
     }
     private void setupViewPager(ViewPager viewPager) {
         adapter = new SectionsStatusPageAdapter(getSupportFragmentManager());

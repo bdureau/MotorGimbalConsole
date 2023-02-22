@@ -161,8 +161,10 @@ public class AppConfigTab1Fragment extends Fragment {
         // allow manual recording
         cbAllowManualRecording = (CheckBox) view.findViewById(R.id.checkBoxAllowManualRecording);
 
-
-        spAppLanguage.setSelection(Integer.parseInt(BT.getAppConf().getApplicationLanguage()));
+        try{
+        spAppLanguage.setSelection(
+                Integer.parseInt(BT.getAppConf().getApplicationLanguage()));
+        } catch (Exception e) {};
         spAppUnit.setSelection(Integer.parseInt(BT.getAppConf().getUnits()));
         spGraphColor.setSelection(Integer.parseInt(BT.getAppConf().getGraphColor()));
         spGraphBackColor.setSelection(Integer.parseInt(BT.getAppConf().getGraphBackColor()));

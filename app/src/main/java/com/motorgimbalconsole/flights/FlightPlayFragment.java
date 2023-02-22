@@ -2,6 +2,7 @@ package com.motorgimbalconsole.flights;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,16 +24,17 @@ import processing.android.PFragment;
 import processing.core.PApplet;
 
 public class FlightPlayFragment extends Fragment {
+    private String TAG = "FlightPlayFragment";
     private ConsoleApplication myBT;
     private PApplet rocket;
     private FlightData myflight = null;
-    XYSeriesCollection allFlightData;
-    String FlightName;
-    Thread altiFlightPlay;
-    boolean status = true;
-    boolean pause = false;
-    boolean ViewCreated = false;
-    Button btnPlay;
+    private XYSeriesCollection allFlightData;
+    private String FlightName;
+    private Thread altiFlightPlay;
+    private boolean status = true;
+    private boolean pause = false;
+    private boolean ViewCreated = false;
+    private Button btnPlay;
     private View view;
     private PFragment fragment;
 
@@ -52,8 +54,10 @@ public class FlightPlayFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate");
         view = inflater.inflate(R.layout.fragment_play_flight, container, false);
         pause = false;
+        status = true;
 
         btnPlay = (Button) view.findViewById(R.id.butPlay);
 
@@ -101,29 +105,63 @@ public class FlightPlayFragment extends Fragment {
 
         altiFlightPlay = new Thread(r);
         altiFlightPlay.start();
+
+
+
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Activity activity = getActivity();
+                //Activity activity = getActivity();
                 //Toast.makeText(activity.getBaseContext(), "play clicked", Toast.LENGTH_LONG).show();
-                if(pause)
+
+                if(pause) {
                     pause =false;
-                else
+                    Log.d(TAG, "pause is false");
+                    //altiFlightPlay.suspend();
+                }
+                else {
                     pause = true;
+                    Log.d(TAG, "pause is true");
+                    //altiFlightPlay.resume();
+                }
+
             }
         });
         ViewCreated = true;
         return view;
     }
+
+    @Override
+    public void onStop() {
+        status = false;
+        pause = false;
+        //altiFlightPlay.interrupt();
+        //altiFlightPlay.destroy();
+        Log.d(TAG, "onStop");
+        super.onStop();
+        fragment.onStop();
+        rocket.onStop();
+
+    }
     @Override
     public void onStart() {
+        Log.d(TAG, "onStart");
         super.onStart();
         fragment.requestDraw();
         view.refreshDrawableState();
         view.bringToFront();
     }
     @Override
+    public void onPause() {
+        status = false;
+        pause = false;
+        Log.d(TAG, "onPause");
+        super.onPause();
+        fragment.onPause();
+    }
+    @Override
     public void onResume() {
+        Log.d(TAG, "onResume");
         super.onResume();
         fragment.onResume(); //perahps we can remove that
         //This is the only way I can redraw the rocket after leaving the tab

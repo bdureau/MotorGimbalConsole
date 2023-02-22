@@ -42,7 +42,7 @@ public class ConsoleApplication extends Application {
     public int NbrOfFlight = 0;
     private FlightData MyFlight = null;
     private GlobalConfig AppConf = null;
-    private String address;
+    private String address, moduleName;
     private String myTypeOfConnection = "bluetooth";// "USB";
     private BluetoothConnection BTCon = null;
     private UsbConnection UsbCon = null;
@@ -91,6 +91,14 @@ public class ConsoleApplication extends Application {
 
     public String getAddress() {
         return address;
+    }
+
+    public String getModuleName() {
+        return moduleName;
+    }
+
+    public void setModuleName(String bTmoduleName) {
+        moduleName = bTmoduleName;
     }
 
     public int getNbrOfFlights () {

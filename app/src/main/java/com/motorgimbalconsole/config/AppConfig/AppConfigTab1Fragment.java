@@ -168,7 +168,7 @@ public class AppConfigTab1Fragment extends Fragment {
         spAppUnit.setSelection(Integer.parseInt(BT.getAppConf().getUnits()));
         spGraphColor.setSelection(Integer.parseInt(BT.getAppConf().getGraphColor()));
         spGraphBackColor.setSelection(Integer.parseInt(BT.getAppConf().getGraphBackColor()));
-        spFontSize.setSelection((Integer.parseInt(BT.getAppConf().getFontSize())-8));
+        spFontSize.setSelection((Integer.parseInt(BT.getAppConf().getFontSize())));
         spBaudRate.setSelection(Integer.parseInt(BT.getAppConf().getBaudRate()));
         spConnectionType.setSelection(Integer.parseInt(BT.getAppConf().getConnectionType()));
         spGraphicsLibType.setSelection(Integer.parseInt(BT.getAppConf().getGraphicsLibType()));

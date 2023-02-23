@@ -117,7 +117,6 @@ public class FlightViewMpFragment extends Fragment {
                 set1.setDrawCircles(false);
                 set1.setLabel(curvesNames[i] +" "+units[i]);
                 set1.setValueTextColor(labelColor);
-
                 set1.setValueTextSize(fontSize);
                 dataSets.add(set1);
             }

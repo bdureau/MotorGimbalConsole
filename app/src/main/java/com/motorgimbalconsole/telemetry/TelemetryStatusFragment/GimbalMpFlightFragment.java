@@ -223,6 +223,7 @@ public class GimbalMpFlightFragment extends Fragment{
 
         LineData data = new LineData(dataSets);
         mChart.setData(data);
+        mChart.setBackgroundColor(graphBackColor);
         Description desc = new Description();
         desc.setText(getResources().getString(R.string.telemetry));
         mChart.setDescription(desc);

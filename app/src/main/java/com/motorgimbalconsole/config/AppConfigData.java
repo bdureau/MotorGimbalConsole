@@ -24,7 +24,7 @@ public class AppConfigData {
             "RED"};*/
     private String[] itemsUnits = null;//= new String[]{"Meters", "Feet"};
     private String[] itemsFontSize = new String[]{"8","9", "10", "11", "12","13",
-            "14", "15", "16", "17", "18", "19", "20"};
+            "14", "15", "16", "17", "18", "19", "20", "25", "30", "40"};
 
     private String[] itemsBaudRate = new String[]{ "300",
             "1200",

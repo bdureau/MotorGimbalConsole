@@ -2,6 +2,7 @@ package com.motorgimbalconsole.telemetry.TelemetryStatusFragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,9 +30,9 @@ public class GimbalMpFlightFragment extends Fragment{
     private CheckBox cbLiftOff, cbApogee, cbMainChute, cbLanded;
     private TextView txtCurrentAltitude, txtMaxAltitude,  txtLandedAltitude, txtLiftOffAltitude;
     private TextView txtLandedTime, txtMaxSpeedTime, txtMaxAltitudeTime, txtLiftOffTime;
-    ConsoleApplication myBT;
+    private ConsoleApplication myBT;
     private LineChart mChart;
-    LineData data;
+    private LineData data;
     ArrayList<ILineDataSet> dataSets;
     ArrayList<Entry> yValues;
 
@@ -66,37 +67,32 @@ public class GimbalMpFlightFragment extends Fragment{
             return false;
     }
 
-    public void setLiftOffEnabled(boolean flag) {
+    public void setLiftOffChecked(boolean flag) {
         if(ViewCreated) {
-            cbLiftOff.setEnabled(flag);
+            Log.d(TAG, "setLiftOffChecked");
+            cbLiftOff.setEnabled(true);
+            cbLiftOff.setChecked(flag);
+            cbLiftOff.setEnabled(false);
         }
     }
-
-    public void setLiftOffChecked(boolean flag) {
-        if(ViewCreated)
-            cbLiftOff.setChecked(flag);
-    }
-
 
     public void setCurrentAltitude (String altitude) {
         if(ViewCreated)
             this.txtCurrentAltitude.setText(altitude);
     }
 
-
     public void setLiftOffTime(String time){
         if(ViewCreated)
             this.txtLiftOffTime.setText(time);
     }
 
-    public void setApogeeEnable(boolean flag) {
-        if(ViewCreated)
-            this.cbApogee.setEnabled(flag);
-    }
-
     public void setApogeeChecked(boolean flag) {
-        if(ViewCreated)
+        if(ViewCreated) {
+            Log.d(TAG, "setApogeeChecked");
+            this.cbApogee.setEnabled(true);
             this.cbApogee.setChecked(flag);
+            this.cbApogee.setEnabled(false);
+        }
     }
 
     public void setMaxAltitudeTime( String value) {
@@ -109,32 +105,18 @@ public class GimbalMpFlightFragment extends Fragment{
             this.txtMaxAltitude.setText(value);
     }
 
-    /*public void setMainChuteTime(String value) {
-        if(ViewCreated)
-            this.txtMainChuteTime.setText(value);
-    }*/
-
-    public void setMainChuteEnabled(boolean flag ) {
-        if(ViewCreated)
-            this.cbMainChute.setEnabled(flag);
-    }
-
     public void setMainChuteChecked(boolean flag ) {
         if(ViewCreated)
             this.cbMainChute.setChecked(flag);
     }
-    /*public void setMainAltitude(String value) {
-        if(ViewCreated)
-            this.txtMainAltitude.setText(value);
-    }*/
 
-    public void setLandedEnabled(boolean flag ) {
-        if(ViewCreated)
-            this.cbLanded.setEnabled(flag);
-    }
     public void setLandedChecked(boolean flag ) {
-        if(ViewCreated)
+        if(ViewCreated) {
+            Log.d(TAG, "setLandedChecked");
+            this.cbLanded.setEnabled(true);
             this.cbLanded.setChecked(flag);
+            this.cbLanded.setEnabled(false);
+        }
     }
 
     public void setLandedAltitude(String value) {
@@ -195,14 +177,12 @@ public class GimbalMpFlightFragment extends Fragment{
         txtLandedAltitude = (TextView) view.findViewById(R.id.textViewLandedAltitude);
         txtLiftOffAltitude = (TextView) view.findViewById(R.id.textViewLiftoffAltitude);
 
-        int graphBackColor;//= Color.WHITE;
-        graphBackColor = myBT.getAppConf().ConvertColor(Integer.parseInt(myBT.getAppConf().getGraphBackColor()));
 
-        int fontSize;
-        fontSize = myBT.getAppConf().ConvertFont(Integer.parseInt(myBT.getAppConf().getFontSize()));
+        int graphBackColor = myBT.getAppConf().ConvertColor(myBT.getAppConf().getGraphBackColor());
 
-        int axisColor;//=Color.BLACK;
-        axisColor = myBT.getAppConf().ConvertColor(Integer.parseInt(myBT.getAppConf().getGraphColor()));
+        int fontSize = myBT.getAppConf().ConvertFont(myBT.getAppConf().getFontSize());
+
+        int axisColor = myBT.getAppConf().ConvertColor(myBT.getAppConf().getGraphColor());
 
         int labelColor = Color.BLACK;
 

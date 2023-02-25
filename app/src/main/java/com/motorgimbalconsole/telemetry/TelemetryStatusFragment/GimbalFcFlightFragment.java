@@ -29,7 +29,7 @@ import org.afree.graphics.geom.Font;
 
 public class GimbalFcFlightFragment extends Fragment {
     private boolean ViewCreated = false;
-    ConsoleApplication lBT;
+    private ConsoleApplication lBT;
     private CheckBox cbLiftOff, cbApogee, cbMainChute, cbLanded;
     private TextView txtCurrentAltitude, txtMaxAltitude, txtMainAltitude, txtLandedAltitude, txtLiftOffAltitude;
     private TextView txtLandedTime, txtMaxSpeedTime, txtMaxAltitudeTime, txtLiftOffTime, txtMainChuteTime;
@@ -75,36 +75,35 @@ public class GimbalFcFlightFragment extends Fragment {
             return false;
     }
 
-    public void setLiftOffEnabled(boolean flag) {
-        if(ViewCreated)
-            cbLiftOff.setEnabled(flag);
-    }
-
     public void setLiftOffChecked(boolean flag) {
-        if(ViewCreated)
+        if(ViewCreated) {
+            cbLiftOff.setEnabled(true);
             cbLiftOff.setChecked(flag);
+            cbLiftOff.setEnabled(false);
+        }
     }
-
 
     public void setCurrentAltitude (String altitude) {
         if(ViewCreated)
             this.txtCurrentAltitude.setText(altitude);
     }
 
-
     public void setLiftOffTime(String time){
         if(ViewCreated)
             this.txtLiftOffTime.setText(time);
     }
 
-    public void setApogeeEnable(boolean flag) {
+    /*public void setApogeeEnable(boolean flag) {
         if(ViewCreated)
             this.cbApogee.setEnabled(flag);
-    }
+    }*/
 
     public void setApogeeChecked(boolean flag) {
-        if(ViewCreated)
+        if(ViewCreated) {
+            this.cbApogee.setEnabled(true);
             this.cbApogee.setChecked(flag);
+            this.cbApogee.setEnabled(false);
+        }
     }
 
     public void setMaxAltitudeTime( String value) {
@@ -122,27 +121,33 @@ public class GimbalFcFlightFragment extends Fragment {
             this.txtMainChuteTime.setText(value);
     }
 
-    public void setMainChuteEnabled(boolean flag ) {
+    /*public void setMainChuteEnabled(boolean flag ) {
         if(ViewCreated)
             this.cbMainChute.setEnabled(flag);
-    }
+    }*/
 
     public void setMainChuteChecked(boolean flag ) {
-        if(ViewCreated)
+        if(ViewCreated) {
+            this.cbMainChute.setEnabled(true);
             this.cbMainChute.setChecked(flag);
+            this.cbMainChute.setEnabled(false);
+        }
     }
     public void setMainAltitude(String value) {
         if(ViewCreated)
             this.txtMainAltitude.setText(value);
     }
 
-    public void setLandedEnabled(boolean flag ) {
+    /*public void setLandedEnabled(boolean flag ) {
         if(ViewCreated)
             this.cbLanded.setEnabled(flag);
-    }
+    }*/
     public void setLandedChecked(boolean flag ) {
-        if(ViewCreated)
+        if(ViewCreated) {
+            this.cbLanded.setEnabled(true);
             this.cbLanded.setChecked(flag);
+            this.cbLanded.setEnabled(false);
+        }
     }
 
     public void setLandedAltitude(String value) {
@@ -193,14 +198,11 @@ public class GimbalFcFlightFragment extends Fragment {
         // Read the application config
         lBT.getAppConf().ReadConfig();
 
-        int graphBackColor;//= Color.WHITE;
-        graphBackColor = lBT.getAppConf().ConvertColor(Integer.parseInt(lBT.getAppConf().getGraphBackColor()));
+        int graphBackColor = lBT.getAppConf().ConvertColor(lBT.getAppConf().getGraphBackColor());
 
-        int fontSize;
-        fontSize = lBT.getAppConf().ConvertFont(Integer.parseInt(lBT.getAppConf().getFontSize()));
+        int fontSize = lBT.getAppConf().ConvertFont(lBT.getAppConf().getFontSize());
 
-        int axisColor;//=Color.BLACK;
-        axisColor = lBT.getAppConf().ConvertColor(Integer.parseInt(lBT.getAppConf().getGraphColor()));
+        int axisColor = lBT.getAppConf().ConvertColor(lBT.getAppConf().getGraphColor());
 
         int labelColor = Color.BLACK;
 

@@ -45,7 +45,7 @@ public class HelpActivity extends AppCompatActivity {
         Intent newint = getIntent();
         String FileName = newint.getStringExtra("help_file");
 
-        if(myBT.getAppConf().getApplicationLanguage().equals("0")) {
+        if(myBT.getAppConf().getApplicationLanguage()==0) {
             //use phone language
             try {
                 if (Locale.getDefault().getLanguage() == "fr")

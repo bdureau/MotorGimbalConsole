@@ -227,7 +227,7 @@ public class MainActivityScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 myBT.getAppConf().ReadConfig();
-                if (myBT.getAppConf().getConnectionType().equals("0"))
+                if (myBT.getAppConf().getConnectionType()== GlobalConfig.ConnectionType.BT)
                     myBT.setConnectionType("bluetooth");
                 else
                     myBT.setConnectionType("usb");
@@ -313,7 +313,9 @@ public class MainActivityScreen extends AppCompatActivity {
             success = readConfig();
         if (myBT.getGimbalConfigData().getAltimeterName().equals("RocketMotorGimbal") ||
                 myBT.getGimbalConfigData().getAltimeterName().equals("RocketMotorGimbal_bno055")) {
-            if (myBT.getAppConf().getConnectionType().equals("0") || (myBT.getAppConf().getConnectionType().equals("1") && myBT.getAppConf().getFullUSBSupport().equals("true"))) {
+            if (myBT.getAppConf().getConnectionType()== GlobalConfig.ConnectionType.BT ||
+                    (myBT.getAppConf().getConnectionType()== GlobalConfig.ConnectionType.USB &&
+                            myBT.getAppConf().getFullUSBSupport())) {
                 setEnabledCard(true, btnConfig, image_settings, text_settings);
                 setEnabledCard(true, btnStatus, image_status, text_status);
                 setEnabledCard(true, btnFlight, image_curve, text_curve);
@@ -406,7 +408,7 @@ public class MainActivityScreen extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         myBT.getAppConf().ReadConfig();
-        if (myBT.getAppConf().getConnectionType().equals("1")) {
+        if (myBT.getAppConf().getConnectionType()== GlobalConfig.ConnectionType.USB) {
             menu.findItem(R.id.action_bluetooth).setEnabled(false);
         } else {
             menu.findItem(R.id.action_bluetooth).setEnabled(true);

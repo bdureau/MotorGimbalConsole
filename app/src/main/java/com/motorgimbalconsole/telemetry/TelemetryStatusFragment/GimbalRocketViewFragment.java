@@ -1,6 +1,7 @@
 package com.motorgimbalconsole.telemetry.TelemetryStatusFragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,15 @@ public class GimbalRocketViewFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onStop() {
+
+        Log.d(TAG, "onStop");
+        super.onStop();
+        fragment.onStop();
+        myRocket.onStop();
+
+    }
     @Override
     public void onStart() {
         super.onStart();

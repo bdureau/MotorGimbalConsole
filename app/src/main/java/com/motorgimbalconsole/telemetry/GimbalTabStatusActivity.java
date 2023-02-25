@@ -45,11 +45,11 @@ public class GimbalTabStatusActivity extends AppCompatActivity {
     private TextView[] dotsSlide;
     private LinearLayout linearDots;
 
-    GimbalAxesInfoFragment statusPage1 =null;
-    GimbalInfoFragment statusPage2 =null;
-    GimbalRocketViewFragment statusPage3 =null;
+    private GimbalAxesInfoFragment statusPage1 =null;
+    private GimbalInfoFragment statusPage2 =null;
+    private GimbalRocketViewFragment statusPage3 =null;
     private Button btnDismiss, btnRecording;
-    ConsoleApplication myBT ;
+    private ConsoleApplication myBT ;
     Thread altiStatus;
     boolean status = true;
     boolean recording = false;
@@ -101,12 +101,10 @@ public class GimbalTabStatusActivity extends AppCompatActivity {
                 case 11:
                     // Value 11 contains the temperature
                     statusPage2.setTempValue((String)msg.obj);
-                    //txtViewOutput3Status.setText(outputStatus((String)msg.obj));
                     break;
                 case 12:
                     //Value 12 contains the pressure
                     statusPage2.setPressureValue((String)msg.obj);
-                    //txtViewOutput4Status.setText(outputStatus((String)msg.obj));
                     break;
 
                 case 13:
@@ -159,10 +157,11 @@ public class GimbalTabStatusActivity extends AppCompatActivity {
         myBT.setHandler(handler);
         btnDismiss = (Button)findViewById(R.id.butDismiss);
         btnRecording = (Button)findViewById(R.id.butRecording);
-        if ( myBT.getAppConf().getManualRecording())
+        /*if ( myBT.getAppConf().getManualRecording())
             btnRecording.setVisibility(View.VISIBLE);
         else
-            btnRecording.setVisibility(View.INVISIBLE);
+            btnRecording.setVisibility(View.INVISIBLE);*/
+        btnRecording.setVisibility(View.INVISIBLE);
         btnDismiss.setOnClickListener(new View.OnClickListener()
         {
             @Override

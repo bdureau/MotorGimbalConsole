@@ -81,11 +81,11 @@ public class AppConfigTab1Fragment extends Fragment {
     public void setGraphicsLibType(int value) {
         spGraphicsLibType.setSelection(value);
     }
-    public String getFullUSBSupport() {
-        if (cbFullUSBSupport.isChecked())
-            return "true";
-        else
-            return "false";
+    public boolean getFullUSBSupport() {
+        //if (cbFullUSBSupport.isChecked())
+            return cbFullUSBSupport.isChecked();
+        //else
+        //    return "false";
     }
 
     public void setFullUSBSupport(boolean value) {
@@ -162,16 +162,15 @@ public class AppConfigTab1Fragment extends Fragment {
         cbAllowManualRecording = (CheckBox) view.findViewById(R.id.checkBoxAllowManualRecording);
 
         try{
-        spAppLanguage.setSelection(
-                Integer.parseInt(BT.getAppConf().getApplicationLanguage()));
+        spAppLanguage.setSelection(BT.getAppConf().getApplicationLanguage());
         } catch (Exception e) {};
-        spAppUnit.setSelection(Integer.parseInt(BT.getAppConf().getUnits()));
-        spGraphColor.setSelection(Integer.parseInt(BT.getAppConf().getGraphColor()));
-        spGraphBackColor.setSelection(Integer.parseInt(BT.getAppConf().getGraphBackColor()));
-        spFontSize.setSelection((Integer.parseInt(BT.getAppConf().getFontSize())));
-        spBaudRate.setSelection(Integer.parseInt(BT.getAppConf().getBaudRate()));
-        spConnectionType.setSelection(Integer.parseInt(BT.getAppConf().getConnectionType()));
-        spGraphicsLibType.setSelection(Integer.parseInt(BT.getAppConf().getGraphicsLibType()));
+        spAppUnit.setSelection(BT.getAppConf().getUnits());
+        spGraphColor.setSelection(BT.getAppConf().getGraphColor());
+        spGraphBackColor.setSelection(BT.getAppConf().getGraphBackColor());
+        spFontSize.setSelection(BT.getAppConf().getFontSize());
+        spBaudRate.setSelection(BT.getAppConf().getBaudRate());
+        spConnectionType.setSelection(BT.getAppConf().getConnectionType());
+        spGraphicsLibType.setSelection(BT.getAppConf().getGraphicsLibType());
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             //if android ver = 8 or greater use the MPlib so disable the choice and for it to use MP
             spGraphicsLibType.setSelection(1);
@@ -179,11 +178,11 @@ public class AppConfigTab1Fragment extends Fragment {
         }
 
 
-        if (BT.getAppConf().getFullUSBSupport().equals("true")) {
-            cbFullUSBSupport.setChecked(true);
-        } else {
+        //if (BT.getAppConf().getFullUSBSupport().equals("true")) {
+            cbFullUSBSupport.setChecked(BT.getAppConf().getFullUSBSupport());
+        /*} else {
             cbFullUSBSupport.setChecked(false);
-        }
+        }*/
         cbAllowManualRecording.setChecked(BT.getAppConf().getManualRecording());
 
         ViewCreated = true;

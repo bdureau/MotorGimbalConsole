@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.motorgimbalconsole.ConsoleApplication;
+import com.motorgimbalconsole.GlobalConfig;
 import com.motorgimbalconsole.R;
 
 import com.motorgimbalconsole.ShareHandler;
@@ -162,7 +163,7 @@ public class FlightViewTabActivity extends AppCompatActivity {
         // Read the application config
         myBT.getAppConf().ReadConfig();
 
-        if (myBT.getAppConf().getUnits().equals("0")) {
+        if (myBT.getAppConf().getUnits()== GlobalConfig.AltitudeUnit.METERS) {
             //Meters
             units[0] = "(" + getResources().getString(R.string.Meters_fview) + ")";
         } else {
@@ -228,7 +229,7 @@ public class FlightViewTabActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // The user clicked OK
-                        if ((myBT.getAppConf().getGraphicsLibType().equals("0")) &
+                        if ((myBT.getAppConf().getGraphicsLibType()== GlobalConfig.GraphLib.AfreeChart) &
                                 (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O)) {
                             flightPage1bis.setCheckedItems(checkedItems);
                         } else {
@@ -255,7 +256,7 @@ public class FlightViewTabActivity extends AppCompatActivity {
                                 k++;
                             }
                         }
-                        if ((myBT.getAppConf().getGraphicsLibType().equals("0")) &
+                        if ((myBT.getAppConf().getGraphicsLibType()== GlobalConfig.GraphLib.AfreeChart) &
                                 (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O)) {
                             flightPage1bis.drawGraph();
                             flightPage1bis.drawAllCurves(allFlightData);
@@ -279,7 +280,7 @@ public class FlightViewTabActivity extends AppCompatActivity {
         adapter = new SectionsPageAdapter(getSupportFragmentManager());
 
         //if we are using afreeChart
-        if ((myBT.getAppConf().getGraphicsLibType().equals("0")) &
+        if ((myBT.getAppConf().getGraphicsLibType()== GlobalConfig.GraphLib.AfreeChart) &
                 (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O)){
             flightPage1bis = new FlightViewFcFragment(allFlightData,
                     myBT,

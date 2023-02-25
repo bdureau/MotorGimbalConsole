@@ -38,77 +38,56 @@ public class AppConfigTab2Fragment extends Fragment {
         BT = lBT;
     }
 
-    public String getDrogueEvent() {
-        if (cbDrogueEvent.isChecked())
-            return "true";
-        else
-            return "false";
+    public boolean getDrogueEvent() {
+        return cbDrogueEvent.isChecked();
     }
 
     public void setDrogueEvent(boolean value) {
         cbDrogueEvent.setChecked(value);
     }
 
-    public String getAltitudeEvent() {
-        if (cbAltitudeEvent.isChecked())
-            return "true";
-        else
-            return "false";
+    public boolean getAltitudeEvent() {
+        return cbAltitudeEvent.isChecked();
     }
 
     public void setAltitudeEvent(boolean value) {
         cbAltitudeEvent.setChecked(value);
     }
 
-    public String getLandingEvent() {
-        if (cbLandingEvent.isChecked())
-            return "true";
-        else
-            return "false";
+    public boolean getLandingEvent() {
+        return cbLandingEvent.isChecked();
     }
 
     public void setLandingEvent(boolean value) {
         cbLandingEvent.setChecked(value);
     }
 
-    public String getBurnoutEvent() {
-        if (cbBurnoutEvent.isChecked())
-            return "true";
-        else
-            return "false";
+    public boolean getBurnoutEvent() {
+        return cbBurnoutEvent.isChecked();
     }
 
     public void setBurnoutEvent(boolean value) {
         cbBurnoutEvent.setChecked(value);
     }
 
-    public String getWarningEvent() {
-        if (cbWarningEvent.isChecked())
-            return "true";
-        else
-            return "false";
+    public boolean getWarningEvent() {
+        return cbWarningEvent.isChecked();
     }
 
     public void setWarningEvent(boolean value) {
         cbWarningEvent.setChecked(value);
     }
 
-    public String getApogeeAltitude() {
-        if (cbApogeeAltitude.isChecked())
-            return "true";
-        else
-            return "false";
+    public boolean getApogeeAltitude() {
+        return cbApogeeAltitude.isChecked();
     }
 
     public void setApogeeAltitude(boolean value) {
         cbApogeeAltitude.setChecked(value);
     }
 
-    public String getLiftOffEvent() {
-        if (cbLiftOffEvent.isChecked())
-            return "true";
-        else
-            return "false";
+    public boolean getLiftOffEvent() {
+        return cbLiftOffEvent.isChecked();
     }
 
     public void setLiftOffEvent(boolean value) {
@@ -119,8 +98,8 @@ public class AppConfigTab2Fragment extends Fragment {
         nbrVoices = itemsVoices.length;
         ArrayAdapter<String> adapterVoice = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_dropdown_item, itemsVoices);
         spTelemetryVoice.setAdapter(adapterVoice);
-        if (Integer.parseInt(BT.getAppConf().getTelemetryVoice()) < nbrVoices)
-            spTelemetryVoice.setSelection(Integer.parseInt(BT.getAppConf().getTelemetryVoice()));
+        if (BT.getAppConf().getTelemetryVoice() < nbrVoices)
+            spTelemetryVoice.setSelection(BT.getAppConf().getTelemetryVoice());
     }
 
     public void setTelemetryVoice(int value) {
@@ -152,53 +131,20 @@ public class AppConfigTab2Fragment extends Fragment {
         cbLiftOffEvent = (CheckBox) view.findViewById(R.id.checkBoxAllowTelemetryEvent9);
         spTelemetryVoice = (Spinner) view.findViewById(R.id.spinnerTelemetryVoice);
 
-           /* if (BT.getAppConf().getMain_event().equals("true")) {
-                cbMainEvent.setChecked(true);
-            } else {
-                cbMainEvent.setChecked(false);
-            }*/
-        if (BT.getAppConf().getDrogue_event().equals("true")) {
-            cbDrogueEvent.setChecked(true);
-        } else {
-            cbDrogueEvent.setChecked(false);
-        }
-        if (BT.getAppConf().getAltitude_event().equals("true")) {
-            cbAltitudeEvent.setChecked(true);
-        } else {
-            cbAltitudeEvent.setChecked(false);
-        }
-        if (BT.getAppConf().getLanding_event().equals("true")) {
-            cbLandingEvent.setChecked(true);
-        } else {
-            cbLandingEvent.setChecked(false);
-        }
-        if (BT.getAppConf().getBurnout_event().equals("true")) {
-            cbBurnoutEvent.setChecked(true);
-        } else {
-            cbBurnoutEvent.setChecked(false);
-        }
-        if (BT.getAppConf().getWarning_event().equals("true")) {
-            cbWarningEvent.setChecked(true);
-        } else {
-            cbWarningEvent.setChecked(false);
-        }
-        if (BT.getAppConf().getApogee_altitude().equals("true")) {
-            cbApogeeAltitude.setChecked(true);
-        } else {
-            cbApogeeAltitude.setChecked(false);
-        }
-            /*if (BT.getAppConf().getMain_altitude().equals("true")) {
-                cbMainAltitude.setChecked(true);
-            } else {
-                cbMainAltitude.setChecked(false);
-            }*/
-        //cbLiftOffEvent
-        if (BT.getAppConf().getLiftOff_event().equals("true")) {
-            cbLiftOffEvent.setChecked(true);
-        } else {
-            cbLiftOffEvent.setChecked(false);
-        }
+        cbDrogueEvent.setChecked(BT.getAppConf().getDrogue_event());
 
+        cbAltitudeEvent.setChecked(BT.getAppConf().getAltitude_event());
+
+        cbLandingEvent.setChecked(BT.getAppConf().getLanding_event());
+
+        cbBurnoutEvent.setChecked(BT.getAppConf().getBurnout_event());
+
+        cbWarningEvent.setChecked(BT.getAppConf().getWarning_event());
+
+        cbApogeeAltitude.setChecked(BT.getAppConf().getApogee_altitude());
+
+        //cbLiftOffEvent
+        cbLiftOffEvent.setChecked(BT.getAppConf().getLiftOff_event());
 
         btnTestVoice = (Button) view.findViewById(R.id.butTestVoice);
         btnTestVoice.setOnClickListener(new View.OnClickListener() {
@@ -211,22 +157,22 @@ public class AppConfigTab2Fragment extends Fragment {
                         if (status == TextToSpeech.SUCCESS) {
                             int result = 0;
 
-                            if (Locale.getDefault().getLanguage() == "en")
+                            if (Locale.getDefault().getLanguage().equals("en"))
                                 result = mTTS.setLanguage(Locale.ENGLISH);
-                            else if (Locale.getDefault().getLanguage() == "fr")
+                            else if (Locale.getDefault().getLanguage().equals("fr"))
                                 result = mTTS.setLanguage(Locale.FRENCH);
 
-                            else if (Locale.getDefault().getLanguage() == "nl")
+                            else if (Locale.getDefault().getLanguage().equals("nl"))
                                 result = mTTS.setLanguage(new Locale("nl_NL"));
-                            else if (Locale.getDefault().getLanguage() == "it")
+                            else if (Locale.getDefault().getLanguage().equals("it"))
                                 result = mTTS.setLanguage(getResources().getConfiguration().locale);
-                            else if (Locale.getDefault().getLanguage() == "ru")
+                            else if (Locale.getDefault().getLanguage().equals("ru"))
                                 result = mTTS.setLanguage(getResources().getConfiguration().locale);
                             else
                                 result = mTTS.setLanguage(Locale.ENGLISH);
 
-                            if (!BT.getAppConf().getTelemetryVoice().equals("")) {
-                                Log.d("Voice", BT.getAppConf().getTelemetryVoice());
+                            if (BT.getAppConf().getTelemetryVoice() !=-1 ) {
+                                Log.d("Voice", BT.getAppConf().getTelemetryVoice()+"");
                                 try {
                                     for (Voice tmpVoice : mTTS.getVoices()) {
                                         Log.d("Voice", tmpVoice.getName());
@@ -242,19 +188,19 @@ public class AppConfigTab2Fragment extends Fragment {
                             }
                             mTTS.setPitch(1.0f);
                             mTTS.setSpeechRate(1.0f);
-                            if (Locale.getDefault().getLanguage() == "en")
+                            if (Locale.getDefault().getLanguage().equals("en"))
                                 mTTS.speak("Bearaltimeter altimeters are the best", TextToSpeech.QUEUE_FLUSH, null);
 
-                            if (Locale.getDefault().getLanguage() == "fr")
+                            if (Locale.getDefault().getLanguage().equals("fr"))
                                 mTTS.speak("Les altimètres Bearaltimeter sont les meilleurs", TextToSpeech.QUEUE_FLUSH, null);
-                            if (Locale.getDefault().getLanguage() == "es")
+                            if (Locale.getDefault().getLanguage().equals("es"))
                                 mTTS.speak("Los altimietros Bearaltimeter son los mejores", TextToSpeech.QUEUE_FLUSH, null);
 
-                            if (Locale.getDefault().getLanguage() == "nl")
+                            if (Locale.getDefault().getLanguage().equals("nl"))
                                 mTTS.speak("De Bearaltimeter-hoogtemeters zijn de beste", TextToSpeech.QUEUE_FLUSH, null);
-                            if (Locale.getDefault().getLanguage() == "it")
+                            if (Locale.getDefault().getLanguage().equals("it"))
                                 mTTS.speak("Gli altimetri Bearaltimeter sono i migliori", TextToSpeech.QUEUE_FLUSH, null);
-                            if (Locale.getDefault().getLanguage() == "ru")
+                            if (Locale.getDefault().getLanguage().equals("ru"))
                                 mTTS.speak("Медвежатник - это лучшее", TextToSpeech.QUEUE_FLUSH, null);
                             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                                 Log.e("TTS", "Language not supported");

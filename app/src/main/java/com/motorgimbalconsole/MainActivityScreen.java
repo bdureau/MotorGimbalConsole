@@ -422,12 +422,15 @@ public class MainActivityScreen extends AppCompatActivity {
             menu.findItem(R.id.action_mod3dr_settings).setEnabled(false);
             // same goes for the BT module
             menu.findItem(R.id.action_modbt_settings).setEnabled(false);
+            // same goes for the Lora module
+            menu.findItem(R.id.action_modlora_settings).setEnabled(false);
             // Allow connection testing
             menu.findItem(R.id.action_test_connection).setEnabled(true);
         } else {
             // not connected so allow those
             menu.findItem(R.id.action_mod3dr_settings).setEnabled(true);
             menu.findItem(R.id.action_modbt_settings).setEnabled(true);
+            menu.findItem(R.id.action_modlora_settings).setEnabled(true);
             //cannot do connection testing until we are connected
             menu.findItem(R.id.action_test_connection).setEnabled(false);
         }
@@ -564,8 +567,8 @@ public class MainActivityScreen extends AppCompatActivity {
             hm = null;
             hm = new HashMap();
             //init compatible versions
-            Add("RocketMotorGimbal", "1.2");
-            Add("RocketMotorGimbal_bno055", "1.2");
+            Add("RocketMotorGimbal", "1.3");
+            Add("RocketMotorGimbal_bno055", "1.3");
         }
 
         public void Add(String altiName, String verList) {

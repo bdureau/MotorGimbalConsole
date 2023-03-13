@@ -42,6 +42,12 @@ public class GimbalRocketViewFragment extends Fragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        fragment.onDestroy();
+        myRocket.onDestroy();
+    }
+    @Override
     public void onStop() {
 
         Log.d(TAG, "onStop");

@@ -71,9 +71,15 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
     private int altitudeTime = 0;
 
     private boolean telemetry = true;
+
     private boolean liftOffSaid = false;
     private boolean apogeeSaid = false;
     private boolean landedSaid = false;
+
+    private boolean hasLiftOff = false;
+    private boolean hasLanded = false;
+    private boolean hasReachApogee = false;
+
 
     private Button dismissButton;
 
@@ -126,7 +132,8 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                         int altitude = (int) (Integer.parseInt((String) msg.obj) * FEET_IN_METER);
                         if ((myBT.getAppConf().getGraphicsLibType() == GlobalConfig.GraphLib.AfreeChart) &
                                 (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O)) {
-                            if (statusPage0bis.isLiftOffChecked() && !statusPage0bis.isLandedChecked()) {
+                            //if (statusPage0bis.isLiftOffChecked() && !statusPage0bis.isLandedChecked()) {
+                            if(hasLiftOff && !hasLanded) {
                                 statusPage0bis.setCurrentAltitude(altitude + "");
                                 myflight.AddToFlight(altitudeTime, altitude, "Telemetry");
                                 //plot every seconde
@@ -136,7 +143,8 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                                 }
                             }
                         } else {
-                            if (statusPage0.isLiftOffChecked() && !statusPage0.isLandedChecked()) {
+                            //if (statusPage0.isLiftOffChecked() && !statusPage0.isLandedChecked()) {
+                            if(hasLiftOff && !hasLanded) {
                                 statusPage0.setCurrentAltitude(String.valueOf(altitude));
                                 yValues.add(new Entry(altitudeTime, altitude));
                                 //plot every seconde
@@ -200,12 +208,12 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                     // Value 23 lift off yes/no
                     if ((myBT.getAppConf().getGraphicsLibType() == GlobalConfig.GraphLib.AfreeChart) &
                             (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O)) {
-                        if (!statusPage0bis.isLiftOffChecked())
+                        //if (!statusPage0bis.isLiftOffChecked())
+                        if(!hasLiftOff)
                             if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?"))
                                 if (Integer.parseInt((String) msg.obj) > 0 || LiftOffTime > 0) {
-                                    //statusPage0bis.setLiftOffEnabled(true);
                                     statusPage0bis.setLiftOffChecked(true);
-                                    //statusPage0bis.setLiftOffEnabled(false);
+                                    hasLiftOff = true;
                                     if (LiftOffTime == 0)
                                         LiftOffTime = System.currentTimeMillis();
                                     statusPage0bis.setLiftOffTime("0 ms");
@@ -217,12 +225,12 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                                     }
                                 }
                     } else {
-                        if (!statusPage0.isLiftOffChecked())
+                        //if (!statusPage0.isLiftOffChecked())
+                        if(!hasLiftOff)
                             if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?"))
                                 if (Integer.parseInt((String) msg.obj) > 0 || LiftOffTime > 0) {
-                                    //statusPage0.setLiftOffEnabled(true);
                                     statusPage0.setLiftOffChecked(true);
-                                    //statusPage0.setLiftOffEnabled(false);
+                                    hasLiftOff = true;
                                     if (LiftOffTime == 0)
                                         LiftOffTime = System.currentTimeMillis();
                                     statusPage0.setLiftOffTime("0 ms");
@@ -242,27 +250,28 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                             (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O)) {
                         //if (statusPage0bis.isViewCreated())
                         Log.d(TAG, "Apogee afreechart");
-                            if (!statusPage0bis.isApogeeChecked())
+                            //if (!statusPage0bis.isApogeeChecked())
+                            if(!hasReachApogee)
                                 if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?"))
                                     if (Integer.parseInt((String) msg.obj) > 0) {
-                                        //statusPage0bis.setApogeeEnable(true);
                                         statusPage0bis.setApogeeChecked(true);
-                                        //statusPage0bis.setApogeeEnable(false);
+                                        hasReachApogee = true;
                                         statusPage0bis.setMaxAltitudeTime((int) (System.currentTimeMillis() - LiftOffTime) + " ms");
                                     }
                     } else {
-                        Log.d(TAG, "Apogee MPchart");
-                        if (!statusPage0.isApogeeChecked())
-                            Log.d(TAG, "!isApogeeChecked:"+ (String) msg.obj);
-                            if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?"))
-
+                        //Log.d(TAG, "Apogee MPchart");
+                        //if (!statusPage0.isApogeeChecked()) {
+                        if(!hasReachApogee){
+                            //Log.d(TAG, "!isApogeeChecked:" + (String) msg.obj);
+                            if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?")) {
                                 if (Integer.parseInt((String) msg.obj) > 0) {
                                     Log.d(TAG, "setApogeeChecked");
-                                    //statusPage0.setApogeeEnable(true);
                                     statusPage0.setApogeeChecked(true);
-                                    //statusPage0.setApogeeEnable(false);
+                                    hasReachApogee = true;
                                     statusPage0.setMaxAltitudeTime((int) (System.currentTimeMillis() - LiftOffTime) + " ms");
                                 }
+                            }
+                        }
                     }
                     break;
                 case 25:
@@ -272,7 +281,8 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                         if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?")) {
                             int altitude = (int) (Integer.parseInt((String) msg.obj) * FEET_IN_METER);
 
-                            if (statusPage0bis.isApogeeChecked()) {
+                            //if (statusPage0bis.isApogeeChecked()) {
+                            if(hasReachApogee) {
                                 statusPage0bis.setMaxAltitude(altitude + "");
                                 if (!apogeeSaid) {
                                     //first check if say it is enabled
@@ -287,8 +297,8 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                         if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?")) {
                             int altitude = (int) (Integer.parseInt((String) msg.obj) * FEET_IN_METER);
 
-                            if (statusPage0.isApogeeChecked()) {
-                                //Log.d("Apogee", "apogee checked");
+                            //if (statusPage0.isApogeeChecked()) {
+                            if(hasReachApogee) {
                                 statusPage0.setMaxAltitude(String.valueOf(altitude));
                                 //Log.d("Apogee", "apogee value :" + String.valueOf(altitude));
                                 if (!apogeeSaid) {
@@ -308,12 +318,12 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                     //have we landed
                     if ((myBT.getAppConf().getGraphicsLibType() == GlobalConfig.GraphLib.AfreeChart) &
                             (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O)) {
-                        if (!statusPage0bis.isLandedChecked())
+                        //if (!statusPage0bis.isLandedChecked())
+                        if(!hasLanded)
                             if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?"))
                                 if (Integer.parseInt((String) msg.obj) > 0) {
-                                    //statusPage0bis.setLandedEnabled(true);
                                     statusPage0bis.setLandedChecked(true);
-                                    //statusPage0bis.setLandedEnabled(false);
+                                    hasLanded = true;
                                     statusPage0bis.setLandedAltitude(statusPage0bis.getLandedAltitude());
                                     statusPage0bis.setLandedTime((System.currentTimeMillis() - LiftOffTime) + " ms");
                                     if (!landedSaid) {
@@ -324,12 +334,12 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                                     }
                                 }
                     } else {
-                        if (!statusPage0.isLandedChecked())
+                        //if (!statusPage0.isLandedChecked())
+                        if(!hasLanded)
                             if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?"))
                                 if (Integer.parseInt((String) msg.obj) > 0) {
-                                    //statusPage0.setLandedEnabled(true);
                                     statusPage0.setLandedChecked(true);
-                                    //statusPage0.setLandedEnabled(false);
+                                    hasLanded = true;
                                     statusPage0.setLandedAltitude(statusPage0.getLandedAltitude());
                                     statusPage0.setLandedTime((System.currentTimeMillis() - LiftOffTime) + " ms");
                                     if (!landedSaid) {
@@ -458,14 +468,15 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Log.e(TAG, "onBackPressed()");
+        Log.d(TAG, "onBackPressed()");
         finish();
     }
 
     @Override
     public void onDestroy() {
-        Log.e(TAG, "onDestroy()");
+        Log.d(TAG, "onDestroy()");
         super.onDestroy();
+        mTTS.shutdown();
         if (telemetry) {
             telemetry = false;
             myBT.write("h;".toString());
@@ -640,7 +651,7 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
             public void run() {
                 while (true) {
                     if (!telemetry) break;
-                    myBT.ReadResult(100000);
+                    myBT.ReadResult(10000);
                 }
             }
         };

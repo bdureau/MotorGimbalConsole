@@ -1,13 +1,13 @@
 package com.motorgimbalconsole.flights;
 
-import android.app.Activity;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
+
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -132,16 +132,21 @@ public class FlightPlayFragment extends Fragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        rocket.onDestroy();
+    }
+    @Override
     public void onStop() {
+        super.onStop();
         status = false;
         pause = false;
         //altiFlightPlay.interrupt();
         //altiFlightPlay.destroy();
         Log.d(TAG, "onStop");
-        super.onStop();
         fragment.onStop();
-        rocket.onStop();
-
+        //rocket.onStop();
+        rocket.onDestroy();
     }
     @Override
     public void onStart() {
@@ -163,7 +168,8 @@ public class FlightPlayFragment extends Fragment {
     public void onResume() {
         Log.d(TAG, "onResume");
         super.onResume();
-        fragment.onResume(); //perahps we can remove that
+        fragment.onResume(); //perhaps we can remove that
+        rocket.onResume();//new
         //This is the only way I can redraw the rocket after leaving the tab
         getChildFragmentManager().beginTransaction().replace(R.id.container,fragment).commit();
     }

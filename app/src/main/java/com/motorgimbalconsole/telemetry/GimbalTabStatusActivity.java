@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +40,7 @@ import java.util.List;
  * @author: boris.dureau@neuf.fr
  **/
 public class GimbalTabStatusActivity extends AppCompatActivity {
+    public String TAG = "GimbalTabStatusActivity";
     private ViewPager mViewPager;
     SectionsStatusPageAdapter adapter;
 
@@ -232,6 +234,7 @@ public class GimbalTabStatusActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.d(TAG, "onDestroy()");
         if (status) {
             status = false;
             myBT.write("h;".toString());
@@ -249,7 +252,7 @@ public class GimbalTabStatusActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        Log.d(TAG, "onResume()");
         if(myBT.getConnected() && !status) {
             myBT.flush();
             myBT.clearInput();
@@ -275,6 +278,7 @@ public class GimbalTabStatusActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        Log.d(TAG, "onStop()");
 
         /*if (status) {
             status = false;

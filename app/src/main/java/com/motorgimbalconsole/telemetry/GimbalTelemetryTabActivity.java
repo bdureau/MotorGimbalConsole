@@ -476,7 +476,11 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
     public void onDestroy() {
         Log.d(TAG, "onDestroy()");
         super.onDestroy();
-        mTTS.shutdown();
+        try {
+            mTTS.shutdown();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (telemetry) {
             telemetry = false;
             myBT.write("h;".toString());
@@ -522,7 +526,11 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
     protected void onStop() {
         Log.e(TAG, "onStop()");
         super.onStop();
-        mTTS.shutdown();
+        try {
+            mTTS.shutdown();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (telemetry) {
             telemetry = false;
             myBT.write("h;".toString());

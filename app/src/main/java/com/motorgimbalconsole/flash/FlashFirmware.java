@@ -12,6 +12,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,7 +55,6 @@ public class FlashFirmware extends AppCompatActivity {
     boolean recorverFirmware = false;
     Boards mSelectedBoard;
     Button btFlash;
-    //RadioButton  rbGimbale, rbGimbaleBN055;
 
     public Spinner spinnerFirmware;
     public ImageView imageAlti;
@@ -65,8 +65,10 @@ public class FlashFirmware extends AppCompatActivity {
     private UartConfig uartConfig;
 
 
-    private static final String ASSET_FILE_NAME_MOTORGIMBALE  = "firmwares/2023-02-26_RocketMotorPIDGimbalV1.2.ino.bin";
-    private static final String ASSET_FILE_NAME_MOTORGIMBALE_BNO55  = "firmwares/2023-02-26_RocketMotorPIDGimbal_bno055V1.2.ino.bin";
+    private static final String ASSET_FILE_NAME_MOTORGIMBALE  = "firmwares/2023-02-26_RocketMotorPIDGimbalV1.3.ino.bin";
+    private static final String ASSET_FILE_NAME_MOTORGIMBALE_BMP280  = "firmwares/2023-03-25-RocketMotorPIDGimbal_bmp280V1.3.ino.bin";
+    private static final String ASSET_FILE_NAME_MOTORGIMBALE_BNO55  = "firmwares/2023-02-26_RocketMotorPIDGimbal_bno055V1.3.ino.bin";
+    private static final String ASSET_FILE_NAME_MOTORGIMBALE_BNO55_BMP280  = "firmwares/2023-03-25-RocketMotorPIDGimbal_bno055_bmp280V1.3.ino.bin";
 
 
     private static final String ASSET_FILE_RESET_ALTISTM32 = "recover_firmwares/ResetAltiConfigAltimultiSTM32.ino.bin";
@@ -90,7 +92,9 @@ public class FlashFirmware extends AppCompatActivity {
         spinnerFirmware = (Spinner) findViewById(R.id.spinnerFirmware);
         itemsFirmwares = new String[]{
                 "Gimbal",
-                "Gimbal_bno055"
+                "Gimbal_bno055",
+                "Gimbal_BMP280",
+                "Gimbal_bno055_BMP280"
         };
 
         ArrayAdapter<String> adapterFirmware = new ArrayAdapter<String>(this,
@@ -98,13 +102,10 @@ public class FlashFirmware extends AppCompatActivity {
         spinnerFirmware.setAdapter(adapterFirmware);
         spinnerFirmware.setSelection(0);
 
-        btFlash          = (Button) findViewById(R.id.btFlash);
+        btFlash         = (Button) findViewById(R.id.btFlash);
         tvRead          = (TextView) findViewById(R.id.tvRead);
         imageAlti = (ImageView) findViewById(R.id.imageAlti);
 
-        /*rbGimbale = (RadioButton) findViewById(R.id.radioButGimbale);
-        rbGimbaleBN055 = (RadioButton) findViewById(R.id.radioButGimbaleBN055);
-        rbGimbale.setChecked(true);*/
         mPhysicaloid = new Physicaloid(this);
         mBoardList = new ArrayList<Boards>();
         for(Boards board : Boards.values()) {
@@ -148,10 +149,21 @@ public class FlashFirmware extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal"))
-                    imageAlti.setImageDrawable(getResources().getDrawable(R.drawable.altigimbal, getApplicationContext().getTheme()));
-
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        imageAlti.setImageDrawable(getResources().getDrawable(R.drawable.altigimbal, getApplicationContext().getTheme()));
+                    }
+                if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_BMP280"))
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        imageAlti.setImageDrawable(getResources().getDrawable(R.drawable.altigimbal_bmp280, getApplicationContext().getTheme()));
+                    }
                 if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_bno055"))
-                    imageAlti.setImageDrawable(getResources().getDrawable(R.drawable.altigimbal_bno055, getApplicationContext().getTheme()));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        imageAlti.setImageDrawable(getResources().getDrawable(R.drawable.altigimbal_bno055, getApplicationContext().getTheme()));
+                    }
+                if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_bno055_BMP280"))
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        imageAlti.setImageDrawable(getResources().getDrawable(R.drawable.altigimbal_bno055_bmp280, getApplicationContext().getTheme()));
+                    }
             }
 
             @Override
@@ -191,19 +203,28 @@ public class FlashFirmware extends AppCompatActivity {
         recoverFileName = ASSET_FILE_RESET_ALTISTM32;
 
         if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal")) {
-            //if (rbGimbale.isChecked())
-                recoverFileName =ASSET_FILE_RESET_ALTISTM32;
+            recoverFileName =ASSET_FILE_RESET_ALTISTM32;
         }
-        //if (rbGimbaleBN055.isChecked())
+
+        if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_BMP280")) {
+            recoverFileName =ASSET_FILE_RESET_ALTISTM32;
+        }
+
         if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_bno055")) {
+            recoverFileName = ASSET_FILE_RESET_ALTISTM32;
+        }
+
+        if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_bno055_BMP280")) {
             recoverFileName = ASSET_FILE_RESET_ALTISTM32;
         }
 
         tvRead.setText("");
         tvRead.setText(getResources().getString(R.string.after_complete_upload));
-        //if (!rbGimbale.isChecked() && !rbGimbaleBN055.isChecked()) {
+
         if (!itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal") &&
-                !itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_bno055")) {
+                !itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_bno055") &&
+                !itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_BMP280") &&
+                !itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_bno055_BMP280")) {
             try {
                 builder = new AlertDialog.Builder(FlashFirmware.this);
                 //Recover firmware...
@@ -241,18 +262,26 @@ public class FlashFirmware extends AppCompatActivity {
 
         btFlash.setEnabled(true);
 
-        //if (rbGimbale.isChecked())
         if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal")) {
             firmwareFileName = ASSET_FILE_NAME_MOTORGIMBALE;
         }
-        //if(rbGimbaleBN055.isChecked()
+
         if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_bno055")) {
             firmwareFileName = ASSET_FILE_NAME_MOTORGIMBALE;
         }
+
+        if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_BMP280")) {
+            firmwareFileName = ASSET_FILE_NAME_MOTORGIMBALE;
+        }
+
+        if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_bno055_BMP280")) {
+            firmwareFileName = ASSET_FILE_NAME_MOTORGIMBALE;
+        }
         tvRead.setText("");
-        //if(!rbGimbale.isChecked()&& !rbGimbaleBN055.isChecked()) {
         if (!itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal") &&
-                !itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_bno055")) {
+                !itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_bno055") &&
+                !itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_BMP280") &&
+                !itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_bno055_BMP280")) {
             try {
                 builder = new AlertDialog.Builder(FlashFirmware.this);
                 //Flashing firmware...
@@ -288,6 +317,10 @@ public class FlashFirmware extends AppCompatActivity {
         tvRead.append(ASSET_FILE_NAME_MOTORGIMBALE);
         tvRead.append("\n");
         tvRead.append(ASSET_FILE_NAME_MOTORGIMBALE_BNO55);
+        tvRead.append("\n");
+        tvRead.append(ASSET_FILE_NAME_MOTORGIMBALE_BMP280);
+        tvRead.append("\n");
+        tvRead.append(ASSET_FILE_NAME_MOTORGIMBALE_BNO55_BMP280);
     }
     private class DetectAsyc extends AsyncTask<Void, Void, Void>  // UI thread
     {
@@ -318,13 +351,10 @@ public class FlashFirmware extends AppCompatActivity {
 
             tvAppend(tvRead, "Firmware version detected: " + version + "\n");
 
-            //rbGimbale, rbGimbaleBN055;
             if (version.equals("RocketMotorGimbal")) {
-                //setRadioButton(rbGimbale, true);
                 spinnerFirmware.setSelection(0);
             }
             if (version.equals("RocketMotorGimbal_bno055")) {
-                //setRadioButton(rbGimbaleBN055, true);
                 spinnerFirmware.setSelection(0);
             }
 
@@ -359,10 +389,12 @@ public class FlashFirmware extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             if (!recorverFirmware) {
                 if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal"))
-                //if (rbGimbale.isChecked())
                     uploadSTM32(ASSET_FILE_NAME_MOTORGIMBALE, mUploadSTM32Callback);
                 if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_bno055"))
-                //if (rbGimbaleBN055.isChecked())
+                    uploadSTM32(ASSET_FILE_NAME_MOTORGIMBALE_BNO55, mUploadSTM32Callback);
+                if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_BMP280"))
+                    uploadSTM32(ASSET_FILE_NAME_MOTORGIMBALE, mUploadSTM32Callback);
+                if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_bno055_BMP280"))
                     uploadSTM32(ASSET_FILE_NAME_MOTORGIMBALE_BNO55, mUploadSTM32Callback);
             } else {
                 uploadSTM32(ASSET_FILE_RESET_ALTISTM32, mUploadSTM32Callback);
@@ -549,16 +581,6 @@ public class FlashFirmware extends AppCompatActivity {
         });
     }
 
-    /*private void setRadioButton (RadioButton rb, boolean state) {
-        final RadioButton frb = rb;
-        final boolean fstate = state;
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                frb.setChecked(fstate);
-            }
-        });
-    }*/
     private void dialogAppend(CharSequence text) {
         final CharSequence ftext = text;
         mHandler.post(new Runnable() {

@@ -26,9 +26,10 @@ import android.hardware.usb.UsbManager;
 import com.motorgimbalconsole.config.AppTabConfigActivity;
 import com.motorgimbalconsole.config.ModulesConfig.Config3DR;
 import com.motorgimbalconsole.config.ModulesConfig.ConfigBT;
-import com.motorgimbalconsole.config.ModulesConfig.ConfigLora;
+import com.motorgimbalconsole.config.ModulesConfig.ConfigLoraE220;
 import com.motorgimbalconsole.config.GimbalTabConfigActivity;
 import com.motorgimbalconsole.config.GimbalConfigData;
+import com.motorgimbalconsole.config.ModulesConfig.ConfigLoraE32;
 import com.motorgimbalconsole.connection.SearchBluetooth;
 import com.motorgimbalconsole.connection.TestConnection;
 import com.motorgimbalconsole.flash.FlashFirmware;
@@ -481,7 +482,13 @@ public class MainActivityScreen extends AppCompatActivity {
         }
         //Open the lora module config
         if (id == R.id.action_modlora_settings) {
-            Intent i = new Intent(MainActivityScreen.this, ConfigLora.class);
+            Intent i = new Intent(MainActivityScreen.this, ConfigLoraE220.class);
+            startActivity(i);
+            return true;
+        }
+        //Open the lora module config
+        if (id == R.id.action_modlorae32_settings) {
+            Intent i = new Intent(MainActivityScreen.this, ConfigLoraE32.class);
             startActivity(i);
             return true;
         }

@@ -389,4 +389,10 @@
     <string name="unit_time_seconde">time (s)</string>
     <string name="unit_time_minutes">time (min)</string>
     <string name="allow_manual_recording">Allow manual Recording</string>
+    <string name="lora_e220_settings">Lora E220 settings...</string>
+    <string name="lora_e32_settings">Lora E32 settings...</string>
+    <string name="test_connection">Test connection</string>
+
+    <string name="credit_goes_to_philippe_huguenin_bergenat_n_for_all_the_testing">Credit goes to Philippe Huguenin-Bergenat \n for all the testing</string>
+
 </resources>

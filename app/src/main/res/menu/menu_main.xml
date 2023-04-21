@@ -18,12 +18,12 @@
     <item
         android:id="@+id/action_modlora_settings"
         android:orderInCategory="100"
-        android:title="Lora E220 settings..."
+        android:title="@string/lora_e220_settings"
          />
     <item
         android:id="@+id/action_modlorae32_settings"
         android:orderInCategory="100"
-        android:title="Lora E32 settings..."
+        android:title="@string/lora_e32_settings"
         />
     <item
         android:id="@+id/action_help"
@@ -38,7 +38,7 @@
     <item
         android:id="@+id/action_test_connection"
         android:orderInCategory="100"
-        android:title="Test connection"
+        android:title="@string/test_connection"
          />
     <item
         android:id="@+id/action_about"

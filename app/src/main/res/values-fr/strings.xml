@@ -37,9 +37,9 @@
     <!-- Reset screen -->
     <string name="dismiss_reset">Fermer</string>
     <string name="clear_flights">Effacer les vols</string>
-    <string name="reset_msg1">Vous allez effacer toutes les données de vols, etes vous certain?</string>
-    <string name="reset_msg2">Vous allez réinitialiser la configuration de votre altimètre, etes vous certains?</string>
-    <string name="reset_msg3">Vous allez effacer votre dernier vol, etes vous certain?</string>
+    <string name="reset_msg1">Vous allez effacer toutes les données de vols, êtes vous certain?</string>
+    <string name="reset_msg2">Vous allez réinitialiser la configuration de votre altimètre, êtes vous certains?</string>
+    <string name="reset_msg3">Vous allez effacer votre dernier vol, êtes vous certain?</string>
 
     <!-- Bluetooth-->
     <string name="select_device_to_use">Choisir périphérique</string>
@@ -95,7 +95,7 @@
     <string name="kdy">KdY</string>
     <!-- app config tab 3-->
     <string name="general">Géneral</string>
-    <string name="alti_name">Nom Gombal</string>
+    <string name="alti_name">Nom Gimbal</string>
     <string name="units">Unités</string>
     <string name="beep_freq">Freq bip</string>
     <string name="baudrate">Baud Rate</string>
@@ -258,7 +258,7 @@
     <string name="m3DR_attempt_con">Tentative de connexion au module 3DR</string>
     <string name="m3DR_attempt_con2">Tentative de connexion à:</string>
     <string name="m3DR_connect_ok">Connexion avec succès à:</string>
-    <string name="m3DR_failed_con">Echec de connexion.\n Deconnecter le cable USB et reconnectez le\n Redémarez l\'application\n et réessayez</string>
+    <string name="m3DR_failed_con">Echec de connexion.\n Deconnecter le câble USB et reconnectez le\n Redémarez l\'application\n et réessayez</string>
     <string name="m3DR_connecting">Connexion en cours</string>
     <string name="configure_telemetry_module">Configuration du module de télémetrie</string>
     <string name="m3DR_version">Version:</string>
@@ -307,7 +307,7 @@
     <string name="bt_baud_rate">Baud rate:</string>
     <string name="pin">Pin:</string>
     <string name="bt_info_msg">Cela vous permettra de configurer votre module bluetooth.
-        Vous aurez besoin d\'un cable ttl et d\'un adaptateur pour connecter votre module bluetooth
+        Vous aurez besoin d\'un câble ttl et d\'un adaptateur pour connecter votre module bluetooth
         à votre telephone. Merci de consulter l\'aide en ligne</string>
     <string name="bt_info_title">Bluetooth module configuration</string>
     <string name="bt_info_ok">OK</string>
@@ -338,7 +338,7 @@
     <string name="curve_speed">vitesse</string>
     <string name="curve_accel">accéleration</string>
 
-    <string name="flash_advice_msg">La version du firmware de votre altimètre est peut etre incompatible,
+    <string name="flash_advice_msg">La version du firmware de votre altimètre est peut être incompatible,
         il est conseillé de flasher la carte</string>
     <string name="unsuported_firmware_msg">Firmware incompatible</string>
     <string name="BatteryType">Type de batterie</string>
@@ -363,26 +363,26 @@
     <string name="lora_configure_module_title">Configure Lora module</string>
     <string name="lora_module_channel">Channel:</string>
     <string name="lora_module_trans_mode">Trans mode:</string>
-    <string name="lora_module_address">Address:</string>
+    <string name="lora_module_address">Adresse:</string>
     <string name="lora_module_channel_rssi">Channel RSSI</string>
     <string name="lora_module_key">Key:</string>
-    <string name="lora_module_parity">Parity</string>
+    <string name="lora_module_parity">Parité</string>
     <string name="lora_module_wor_cycle">Wor Cycle</string>
     <string name="lora_module_lbt">LBT:</string>
     <string name="lora_module_air_rate">Air Rate:</string>
     <string name="lora_module_power">Power:</string>
-    <string name="lora_module_packet_rssi">Packet RSSI:</string>
-    <string name="lora_module_packet_size">Packet Size:</string>
-    <string name="lora_module_config_msg">This will allow you to configure Lora telemetry modules</string>
-    <string name="lora_module_config_msg_title">Lora telemetry module configuration</string>
+    <string name="lora_module_packet_rssi">Paquet RSSI:</string>
+    <string name="lora_module_packet_size">Taille Paquet:</string>
+    <string name="lora_module_config_msg">Cela vous permettra de configurer les modules de télémetrie Lora</string>
+    <string name="lora_module_config_msg_title">Configuration module de télémétrie Lora</string>
     <string name="lora_module_config_button_ok">OK</string>
-    <string name="lora_module_loading_config_msg">Loading Lora module config</string>
-    <string name="lora_module_channel_msg">Module channel cannot be empty</string>
-    <string name="lora_module_invalid_channel">Channel is invalid</string>
-    <string name="lora_module_channel_value_msg">Channel must be between 0 and 83</string>
-    <string name="lora_module_address_empty_msg">Module address cannot be empty</string>
+    <string name="lora_module_loading_config_msg">Chargement de la config du module Lora</string>
+    <string name="lora_module_channel_msg">Le cannal du module ne peut pas être vide</string>
+    <string name="lora_module_invalid_channel">Le cannal est invalide</string>
+    <string name="lora_module_channel_value_msg">Le cannal doit être compris entre 0 et 83</string>
+    <string name="lora_module_address_empty_msg">L\'adrresse du module ne peut pas être vide</string>
     <string name="lora_module_address_range">Address must be between 0 and 65535</string>
-    <string name="lora_module_address_invalid">Address is invalid</string>
+    <string name="lora_module_address_invalid">Adresse Invalide</string>
     <string name="lora_module_updating_address_msg">Updating module address</string>
     <string name="lora_module_updating_msg2">Updating serial speed, parity and air rate</string>
     <string name="lora_module_updating_msg3">updating packet , RSSI noise and transmitting power</string>
@@ -391,17 +391,17 @@
     <string name="lora_module_updating_msg6">updating key</string>
     <string name="lora_module_connecting_msg">Attempting connecting to the Lora module</string>
     <!-- bluetooth messages -->
-    <string name="BT_msg1">Bluetooth Device Not Available</string>
-    <string name="BT_msg2">No Paired Bluetooth Devices Found.</string>
+    <string name="BT_msg1">Module Bluetooth non disponible</string>
+    <string name="BT_msg2">Aucun module Bluetooth apparé trouvés.</string>
 
-    <string name="unit_time">time (ms)</string>
-    <string name="unit_time_seconde">time (s)</string>
-    <string name="unit_time_minutes">time (min)</string>
-    <string name="allow_manual_recording">Allow manual Recording</string>
-    <string name="lora_e220_settings">Lora E220 settings...</string>
-    <string name="lora_e32_settings">Lora E32 settings...</string>
-    <string name="test_connection">Test connection</string>
+    <string name="unit_time">temps (ms)</string>
+    <string name="unit_time_seconde">temps (s)</string>
+    <string name="unit_time_minutes">temps (min)</string>
+    <string name="allow_manual_recording">Autoriser l\'enregistrement manuel</string>
+    <string name="lora_e220_settings">Config Lora E220...</string>
+    <string name="lora_e32_settings">Config Lora E32 ...</string>
+    <string name="test_connection">Test connexion</string>
 
-    <string name="credit_goes_to_philippe_huguenin_bergenat_n_for_all_the_testing">Credit goes to Philippe Huguenin-Bergenat \n for all the testing</string>
+    <string name="credit_goes_to_philippe_huguenin_bergenat_n_for_all_the_testing">Merci à Philippe Huguenin-Bergenat \n pour tous les tests</string>
 
 </resources>

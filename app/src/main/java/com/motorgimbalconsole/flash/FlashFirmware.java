@@ -150,7 +150,8 @@ public class FlashFirmware extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal"))
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        imageAlti.setImageDrawable(getResources().getDrawable(R.drawable.altigimbal, getApplicationContext().getTheme()));
+                        //imageAlti.setImageDrawable(getResources().getDrawable(R.drawable.altigimbal, getApplicationContext().getTheme()));
+                        imageAlti.setImageResource(R.drawable.altigimbal);
                     }
                 if (itemsFirmwares[(int) spinnerFirmware.getSelectedItemId()].equals("Gimbal_BMP280"))
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

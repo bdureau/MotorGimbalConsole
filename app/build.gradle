@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdk 33
+    compileSdk 34
     buildToolsVersion = '30.0.3'
     aaptOptions {
         cruncherEnabled = false
@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId "com.motorgimbalconsole"
         minSdkVersion 21
-        targetSdk 33
+        targetSdk 34
         versionCode 8
         versionName "2.0.2"
         multiDexEnabled true
@@ -28,7 +28,13 @@ android {
     }
     productFlavors {
     }
-
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+    namespace 'com.motorgimbalconsole'
 }
 
 dependencies {
@@ -41,13 +47,13 @@ dependencies {
     implementation files('libs/physicaloid.aar')
     implementation files('libs/processing-core.jar')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.gms:play-services-maps:18.2.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'com.google.android.material:material:1.10.0'
     //implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 

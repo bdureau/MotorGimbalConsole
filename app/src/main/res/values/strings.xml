@@ -124,7 +124,7 @@
     <string name="MS_msg2">Please wait!!!</string>
     <string name="MS_msg3">Connection Failed. Is it a SPP Bluetooth? Try again.</string>
     <string name="MS_msg4">Connected.</string>
-    <string name="disconnect">disconnect</string>
+    <string name="disconnect">Disconnect</string>
     <string name="MS_msg5">Connection Failed</string>
     <string name="MS_cancel">Cancel</string>
     <string name="gimbal_telemetry">Telemetry</string>

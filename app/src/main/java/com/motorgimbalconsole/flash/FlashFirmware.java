@@ -65,9 +65,9 @@ public class FlashFirmware extends AppCompatActivity {
     private UartConfig uartConfig;
 
 
-    private static final String ASSET_FILE_NAME_MOTORGIMBALE  = "firmwares/2023-02-26_RocketMotorPIDGimbalV1.3.ino.bin";
+    private static final String ASSET_FILE_NAME_MOTORGIMBALE  = "firmwares/2024-01-13-RocketMotorPIDGimbalV1.3.ino.bin";
     private static final String ASSET_FILE_NAME_MOTORGIMBALE_BMP280  = "firmwares/2023-03-25-RocketMotorPIDGimbal_bmp280V1.3.ino.bin";
-    private static final String ASSET_FILE_NAME_MOTORGIMBALE_BNO55  = "firmwares/2023-02-26_RocketMotorPIDGimbal_bno055V1.3.ino.bin";
+    private static final String ASSET_FILE_NAME_MOTORGIMBALE_BNO55  = "firmwares/2024-01-13-RocketMotorPIDGimbal_bno055V1.3.ino.bin";
     private static final String ASSET_FILE_NAME_MOTORGIMBALE_BNO55_BMP280  = "firmwares/2023-03-25-RocketMotorPIDGimbal_bno055_bmp280V1.3.ino.bin";
 
 

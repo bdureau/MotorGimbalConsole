@@ -425,6 +425,7 @@ public class MainActivityScreen extends AppCompatActivity {
             menu.findItem(R.id.action_modbt_settings).setEnabled(false);
             // same goes for the Lora module
             menu.findItem(R.id.action_modlora_settings).setEnabled(false);
+            menu.findItem(R.id.action_modlorae32_settings).setEnabled(false);
             // Allow connection testing
             menu.findItem(R.id.action_test_connection).setEnabled(true);
         } else {
@@ -432,6 +433,7 @@ public class MainActivityScreen extends AppCompatActivity {
             menu.findItem(R.id.action_mod3dr_settings).setEnabled(true);
             menu.findItem(R.id.action_modbt_settings).setEnabled(true);
             menu.findItem(R.id.action_modlora_settings).setEnabled(true);
+            menu.findItem(R.id.action_modlorae32_settings).setEnabled(true);
             //cannot do connection testing until we are connected
             menu.findItem(R.id.action_test_connection).setEnabled(false);
         }

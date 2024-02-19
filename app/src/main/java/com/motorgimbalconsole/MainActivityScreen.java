@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import android.content.Intent;
@@ -110,7 +111,12 @@ public class MainActivityScreen extends AppCompatActivity {
         filter.addAction(ACTION_USB_PERMISSION);
         filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
         filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
-        registerReceiver(broadcastReceiver, filter);
+        //registerReceiver(broadcastReceiver, filter);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            registerReceiver(broadcastReceiver, filter, RECEIVER_NOT_EXPORTED);
+        } else {
+            registerReceiver(broadcastReceiver, filter);
+        }
 
         //card
         btnConnectDisconnect = (CardView) findViewById(R.id.connect_card);

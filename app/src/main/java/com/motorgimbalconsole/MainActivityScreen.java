@@ -248,12 +248,41 @@ public class MainActivityScreen extends AppCompatActivity {
                     if (myBT.getConnectionType().equals("bluetooth")) {
                         address = myBT.getAddress();
 
+                        AlertDialog.Builder builder = null;
+                        AlertDialog alert;
+
+                        builder = new AlertDialog.Builder(MainActivityScreen.this);
                         if (address != null) {
-                            new ConnectBT().execute(); //Call the class to connect
+                           /* new ConnectBT().execute(); //Call the class to connect
 
                             if (myBT.getConnected()) {
                                 EnableUI();
-                            }
+                            }*/
+                            builder.setMessage(getString(R.string.do_you_want_to_connect_to_module) + myBT.getModuleName()+ "?")
+                                    .setTitle("")
+                                    .setCancelable(false)
+                                    .setPositiveButton(getResources().getString(R.string.Yes), new DialogInterface.OnClickListener() {
+                                        public void onClick(final DialogInterface dialog, final int id) {
+                                            dialog.cancel();
+                                            new ConnectBT().execute();
+                                            if (myBT.getConnected()) {
+                                                EnableUI();
+                                                // cannot flash firmware if connected
+                                                setEnabledCard(false, btnFlashFirmware, image_firmware, text_firmware);
+                                                text_connect.setText(getResources().getString(R.string.disconnect));
+                                            }
+                                        }
+                                    })
+                                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                                        public void onClick(final DialogInterface dialog, final int id) {
+                                            dialog.cancel();
+                                            // choose the bluetooth device
+                                            Intent i = new Intent(MainActivityScreen.this, SearchBluetooth.class);
+                                            startActivity(i);
+                                        }
+                                    });
+                            alert = builder.create();
+                            alert.show();
                         } else {
                             // choose the bluetooth device
                             Intent i = new Intent(MainActivityScreen.this, SearchBluetooth.class);

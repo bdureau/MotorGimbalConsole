@@ -6,13 +6,13 @@
     <string name="Yes">Si</string>
     <string name="No">No</string>
     <!-- Config screen -->
-    <string name="title_activity_console_tab_config">Console Config</string>
+    <string name="title_activity_console_tab_config">Configuración de la Consola</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
-    <string name="title_activity_console_tab_status">Console Status</string>
-    <string name="msg9">You have changed the baud rate, the altimeter might not be able to connect. Are you sure?</string>
-    <string name="conf_msg1">data not ready</string>
-    <string name="conf_msg2">Unable to send the config, please try again</string>
+    <string name="title_activity_console_tab_status">Estado de la Consola</string>
+    <string name="msg9">Has cambiado la velocidad de baudios, el altímetro puede no ser capaz de conectarse. ¿Estás seguro?</string>
+    <string name="conf_msg1">Datos no disponibles</string>
+    <string name="conf_msg2">No se pudo enviar la configuración, por favor intenta de nuevo</string>
     <!-- About -->
     <string name="dismiss_about">Cancelar</string>
     <string name="version">Gimbal Version:</string>
@@ -46,15 +46,15 @@
     <string name="no_paired_device">No Paired Bluetooth Devices Found.</string>
     <!-- Main Screen-->
     <string name="connect_disconnect">Conectar</string>
-    <string name="gimbal_config">Gimbal\nConfig</string>
-    <string name="gimbal_status">Gimbal\nStatus</string>
+    <string name="gimbal_config">Gimbal\nConfiguración</string>
+    <string name="gimbal_status">Gimbal\nEstado</string>
     <string name="gimbal_fight">Vuelos</string>
     <string name="gimbal_reset">Restablecer\nconfiguración</string>
-    <string name="those_functions_will_reset_the_altimeter">Those functions will reset the altimeter</string>
-    <string name="restore_alti_config">Restore Alti config</string>
+    <string name="those_functions_will_reset_the_altimeter">Estas funciones reiniciarán el altímetro</string>
+    <string name="restore_alti_config">Restaurar configuración del altímetro</string>
 
     <!-- app config tab 1-->
-    <string name="accelerometer_offsets">Accelerometer offsets</string>
+    <string name="accelerometer_offsets">Desplazamientos del acelerómetro</string>
     <string name="axoffset">AxOffset</string>
     <string name="ayoffset">AyOffset</string>
     <string name="azoffset">AzOffset</string>
@@ -65,7 +65,7 @@
     <string name="cancel_calibration">Cancelar</string>
 
     <!-- app config tab 2-->
-    <string name="pid_values">PID values</string>
+    <string name="pid_values">Valores PID</string>
     <string name="kpx">KpX</string>
     <string name="kix">KiX</string>
     <string name="kdx">KdX</string>
@@ -77,41 +77,41 @@
     <string name="alti_name">Nombre del altímetro</string>
     <string name="units">Unidades</string>
     <string name="beep_freq">Frecuencia de pitido</string>
-    <string name="baudrate">Baud Rate</string>
-    <string name="altimeterresolution">Altimeter Resolution</string>
-    <string name="eepromsize">eeprom Size</string>
-    <string name="endrecordaltitude">End Record Altitude</string>
-    <string name="launch_detect">Launch detect</string>
-    <string name="accelero_range">Accelero Range</string>
-    <string name="gyro_range">Gyro Range</string>
-    <string name="baro">Baro</string>
-    <string name="accel">Accel</string>
+    <string name="baudrate">Tasa de Baudios</string>
+    <string name="altimeterresolution">Resolución del Altímetro</string>
+    <string name="eepromsize">Tamaño de EEPROM</string>
+    <string name="endrecordaltitude">Altitud de Fin de Grabación</string>
+    <string name="launch_detect">Detección de Lanzamiento</string>
+    <string name="accelero_range">Rango del Acelerómetro</string>
+    <string name="gyro_range">Rango del Giroscopio</string>
+    <string name="baro">Barométrico</string>
+    <string name="accel">Aceleración</string>
 
 
     <!-- app config tab 4-->
     <string name="servo">Servo</string>
-    <string name="servo_x_min">Servo X Min</string>
-    <string name="servo_x_max">Servo X Max</string>
-    <string name="servo_y_min">Servo Y Min</string>
-    <string name="servo_y_max">Servo Y Max</string>
+    <string name="servo_x_min">Servo X Mín</string>
+    <string name="servo_x_max">Servo X Máx</string>
+    <string name="servo_y_min">Servo Y Mín</string>
+    <string name="servo_y_max">Servo Y Máx</string>
     <!-- app status -->
     <string name="dismiss_tab_status">Descartar</string>
     <string name="recording_tab_status">Recording</string>
     <string name="stop_recording_tab_status">Stop</string>
     <!-- app status tab 1-->
-    <string name="axis_values">Axis values</string>
-    <string name="gyroscopes_deg_s">Gyroscopes (deg/s)</string>
-    <string name="accelerometers_m_s_2">Accelerometers (m/s^2)</string>
-    <string name="orientation_deg">Orientation (deg)</string>
-    <string name="calibrate_tabconfig">Calibrate</string>
+    <string name="axis_values">Valores de Ejes</string>
+    <string name="gyroscopes_deg_s">Giroscopios (deg/s)</string>
+    <string name="accelerometers_m_s_2">Acelerómetros (m/s²)</string>
+    <string name="orientation_deg">Orientación (deg)</string>
+    <string name="calibrate_tabconfig">Calibrar</string>
     <!-- app status tab 2-->
-    <string name="other_sensors">Other sensors</string>
+    <string name="other_sensors">Otros sensores</string>
     <string name="temperature_c">Temperatura(C°):</string>
     <string name="pressure_mbar">Presión(mbar):</string>
     <string name="altitude_meters">Altitud(metros):</string>
     <string name="battery_voltage_v">Voltaje de la batería (V):</string>
     <!-- app status tab 3-->
-    <string name="rocket_orientation">Rocket Orientation</string>
+    <string name="rocket_orientation">Orientación del Cohete</string>
 
     <!-- menu-->
     <string name="application_settings">Preferencias de la aplicación</string>
@@ -120,28 +120,28 @@
     <string name="about">Acerca de</string>
 
     <!-- main screen msg-->
-    <string name="MS_msg1">Connecting...</string>
-    <string name="MS_msg2">Please wait!!!</string>
-    <string name="MS_msg3">Connection Failed. Is it a SPP Bluetooth? Try again.</string>
-    <string name="MS_msg4">Connected.</string>
-    <string name="disconnect">disconnect</string>
-    <string name="MS_msg5">Connection Failed</string>
-    <string name="MS_cancel">Cancel</string>
+    <string name="MS_msg1">Conectando...</string>
+    <string name="MS_msg2">¡Por favor espera!</string>
+    <string name="MS_msg3">Conexión fallida. ¿Es un Bluetooth SPP? Intenta de nuevo.</string>
+    <string name="MS_msg4">Conectado.</string>
+    <string name="disconnect">desconectar</string>
+    <string name="MS_msg5">Conexión fallida</string>
+    <string name="MS_cancel">Cancelar</string>
     <string name="gimbal_telemetry">Telemetría</string>
 
     <!-- Flights list -->
     <string name="Flight_list">Lista de vuelos</string>
-    <string name="Flight_list_cancel">Cancel</string>
-    <string name="msg7">Retrieving flights...</string>
-    <string name="msg8">Please wait!!!</string>
-    <string name="FL_msg9">No flights have been recorded</string>
+    <string name="Flight_list_cancel">Cancelar</string>
+    <string name="msg7">Recuperando vuelos...</string>
+    <string name="msg8">¡Por favor espera!</string>
+    <string name="FL_msg9">No se han grabado vuelos</string>
 
     <!-- flight list view -->
     <string name="Meters_fview">Metros</string>
-    <string name="Feet_fview">Feet</string>
+    <string name="Feet_fview">Pies</string>
     <string name="dismiss_flight_list">Descartar</string>
     <string name="dismiss_flight_list_view">Descartar</string>
-    <string name="close">Close</string>
+    <string name="close">Cerrar</string>
     <string name="Altitude_time">Altitud / Tiempo</string>
     <string name="Time_fv">Tiempo (ms)</string>
     <string name="Altitude">Altitud</string>
@@ -150,7 +150,7 @@
     <string name="playF_dismiss">Descartar</string>
     <string name="fv_cancel">Cancelar</string>
     <string name="fv_ok">Ok</string>
-    <string name="flight_data_title">Flight data to display</string>
+    <string name="flight_data_title">Datos de vuelo para mostrar</string>
 
     <!-- flash firmware -->
     <string name="msg10">Actualizando firmware...</string>
@@ -168,47 +168,47 @@
     <string name="recover_firmware">Recuperar Firmware</string>
     <string name="flash_firmware">Actualizar Firmware</string>
     <string name="select_altimeter_model">Seleccionar modelo de altímetro:</string>
-    <string name="after_complete_upload">After the upload is complete you will be able to flash the real firmware</string>
+    <string name="after_complete_upload">Después de que se complete la carga, podrás flashear el firmware real</string>
     <string name="flight_list_cancel">Cancelar</string>
     <string name="flight_retrieval_canceled">La recuperación de vuelos ha sido cancelada por el usuario</string>
     <string name="flight_have_been_recorded">No se han registrado vuelos</string>
     <string name="main_screen_actity">Cancelar</string>
-    <string name="title_activity_flight_view_maps">Map</string>
-    <string name="detect_firmware">Detect firmware</string>
-    <string name="msg_detect_firmware">Attempting to Detect firmware!!!</string>
+    <string name="title_activity_flight_view_maps">Mapa</string>
+    <string name="detect_firmware">Detectar firmware</string>
+    <string name="msg_detect_firmware">¡Intentando detectar el firmware!</string>
 
     <!-- app config -->
     <string name="dismiss_app_config">Descartar</string>
     <string name="unit_meter">Metros</string>
     <string name="unit_feet">Pies</string>
-    <string name="lang_english">English</string>
-    <string name="lang_french">French</string>
-    <string name="lang_phone">Phone language</string>
-    <string name="FullUSBSupport">Full USB Support</string>
+    <string name="lang_english">Inglés</string>
+    <string name="lang_french">Francés</string>
+    <string name="lang_phone">Idioma del teléfono</string>
+    <string name="FullUSBSupport">Soporte USB completo</string>
 
-    <string name="color_black">BLACK</string>
-    <string name="color_white">WHITE</string>
+    <string name="color_black">NEGRO</string>
+    <string name="color_white">BLANCO</string>
     <string name="color_magenta">MAGENTA</string>
-    <string name="color_blue">BLUE</string>
-    <string name="color_yellow">YELLOW</string>
-    <string name="color_green">GREEN</string>
-    <string name="color_gray">GRAY</string>
-    <string name="color_cyan">CYAN</string>
-    <string name="color_dkgray">DKGRAY</string>
-    <string name="color_ltgray">LTGRAY</string>
-    <string name="color_red">RED</string>
+    <string name="color_blue">AZUL</string>
+    <string name="color_yellow">AMARILLO</string>
+    <string name="color_green">VERDE</string>
+    <string name="color_gray">GRIS</string>
+    <string name="color_cyan">CIAN</string>
+    <string name="color_dkgray">GRIS OSCURO</string>
+    <string name="color_ltgray">GRIS CLARO</string>
+    <string name="color_red">ROJO</string>
 
-    <string name="phone_english">English</string>
-    <string name="phone_french">French</string>
-    <string name="phone_language">Phone language</string>
+    <string name="phone_english">Inglés</string>
+    <string name="phone_french">Francés</string>
+    <string name="phone_language">Idioma del teléfono</string>
     <string name="config_unit_meters">Metros</string>
     <string name="config_unit_feet">Pies</string>
 
     <string name="select_bluetooth_device">Disposito Bluetooth</string>
     <string name="reset_settings">Restablecer\nconfiguración</string>
     <string name="help_screen">Ayuda</string>
-    <string name="flight_view">Flight View</string>
-    <string name="play_flight">Play Flight</string>
+    <string name="flight_view">Vista de Vuelo</string>
+    <string name="play_flight">Reproducir Vuelo</string>
     <string name="flight_name">Vuelo</string>
 
     <!-- Telemetry -->
@@ -230,16 +230,16 @@
     <string name="rocket_has_landed">cohete ha aterrizado</string>
     <string name="telemetry">telemetria</string>
 
-    <string name="telemetry_voice">Telemetry voice</string>
-    <string name="test_telemetry_voice">Test Voice</string>
-    <string name="telemetry_config">Telemetry config</string>
-    <string name="apogee_altitude_event">Apogee altitud</string>
-    <string name="drogue_event">Drogue event</string>
-    <string name="altitude_event">Altitude event</string>
-    <string name="landing_event">Landing event</string>
-    <string name="burnout_event">Burnout event</string>
-    <string name="warning_event">Warning event</string>
-    <string name="liftoff_event">Lift off event</string>
+    <string name="telemetry_voice">Voz de Telemetría</string>
+    <string name="test_telemetry_voice">Probar Voz</string>
+    <string name="telemetry_config">Configuración de Telemetría</string>
+    <string name="apogee_altitude_event">Altitud de Apogeo</string>
+    <string name="drogue_event">Evento de Drogue</string>
+    <string name="altitude_event">Evento de Altitud</string>
+    <string name="landing_event">Evento de Aterrizaje</string>
+    <string name="burnout_event">Evento de Quema</string>
+    <string name="warning_event">Evento de Advertencia</string>
+    <string name="liftoff_event">Evento de Despegue</string>
 
     <!--telemetry module config -->
     <string name="m3DR_load_cfg">Cargando configuración del módulo 3DR</string>
@@ -256,10 +256,10 @@
     <string name="m3DR_attempt_con">Intentando conectarse al módulo 3DR</string>
     <string name="m3DR_attempt_con2">Intentando conectarse en:</string>
     <string name="m3DR_connect_ok">Conexión exitosa en:</string>
-    <string name="m3DR_failed_con">Failed to connect.\n Please unplug USB and plug it back\n Restart the application\n Then try again</string>
-    <string name="m3DR_connecting">Connecting</string>
-    <string name="configure_telemetry_module">Configure telemetry module</string>
-    <string name="m3DR_version">Version:</string>
+    <string name="m3DR_failed_con">Error al conectar.\n Por favor, desconecta el USB y vuelve a conectarlo.\n Reinicia la aplicación.\n Luego intenta de nuevo.</string>
+    <string name="m3DR_connecting">Conectando</string>
+    <string name="configure_telemetry_module">Configurar módulo de telemetría</string>
+    <string name="m3DR_version">Versión:</string>
     <string name="rssi">RSSI:</string>
     <string name="format">Format:</string>
     <string name="baud">Baud</string>
@@ -276,125 +276,125 @@
     <string name="nbr_of_channels"># of channels</string>
     <string name="duty_cycle">Duty Cycle</string>
     <string name="max_win_ms">Max Win (ms)</string>
-    <string name="retrieve_config">Retrieve config</string>
-    <string name="m3DR_save_config">Save Config</string>
-    <string name="flash_firmware_msg">Flash firmware</string>
-    <string name="flash_firmware_long_msg">This will allows you to flash your teststand firmware to make sure it is compatible with this application. You will need a ttl cable and an adaptator to connect your teststand board to your phone. Please look at the on line help</string>
+    <string name="retrieve_config">Recuperar configuración</string>
+    <string name="m3DR_save_config">Guardar Configuración</string>
+    <string name="flash_firmware_msg">Flashear firmware</string>
+    <string name="flash_firmware_long_msg">Esto te permitirá flashear el firmware de tu banco de pruebas para asegurarte de que sea compatible con esta aplicación. Necesitarás un cable TTL y un adaptador para conectar tu placa de banco de pruebas a tu teléfono. Por favor, consulta la ayuda en línea.</string>
     <string name="flash_firmware_ok">OK</string>
-    <string name="firmware_ver_detected">Firmware version detected: </string>
-    <string name="firmware_file_not_found">file not found: </string>
-    <string name="firmware_starting">Starting ...</string>
-    <string name="dr_config_msg">This will allows you to configure a 3DR telemetry module. You will need a ttl cable and an adaptator to connect your 3DR module to your phone. Please look at the on line help</string>
-    <string name="dr_config_title">3DR module configuration</string>
+    <string name="firmware_ver_detected">Versión de firmware detectada: </string>
+    <string name="firmware_file_not_found">archivo no encontrado: </string>
+    <string name="firmware_starting">Iniciando ...</string>
+    <string name="dr_config_msg">Esto te permitirá configurar un módulo de telemetría 3DR. Necesitarás un cable TTL y un adaptador para conectar tu módulo 3DR a tu teléfono. Por favor, consulta la ayuda en línea.</string>
+    <string name="dr_config_title">Configuración del módulo 3DR</string>
     <string name="dr_config_ok">OK</string>
-    <string name="saving_cancelled">Saving has been cancelled</string>
-    <string name="_3dr_settings">3DR settings...</string>
-    <string name="eeprom_use">EEprom use</string>
-    <string name="nbr_of_flights">Nbr of flights</string>
-    <string name="retrieving_flight">Retrieving flight:</string>
-    <string name="flight_retrieve_canceled">Flight retrieval has been canceled by user</string>
-    <string name="delete_last_flight">Delete Last Flight</string>
-    <string name="bt_settings">BT settings...</string>
-    <string name="configure_bluetooth_module">Configure Bluetooth module</string>
-    <string name="module">Module:</string>
-    <string name="bt_baud_rate">Baud rate:</string>
+    <string name="saving_cancelled">La guardado ha sido cancelado</string>
+    <string name="_3dr_settings">Configuraciones 3DR...</string>
+    <string name="eeprom_use">Uso de EEPROM</string>
+    <string name="nbr_of_flights">Número de vuelos</string>
+    <string name="retrieving_flight">Recuperando vuelo:</string>
+    <string name="flight_retrieve_canceled">La recuperación del vuelo ha sido cancelada por el usuario</string>
+    <string name="delete_last_flight">Eliminar Último Vuelo</string>
+    <string name="bt_settings">Configuraciones BT...</string>
+    <string name="configure_bluetooth_module">Configurar módulo Bluetooth</string>
+    <string name="module">Módulo:</string>
+    <string name="bt_baud_rate">Tasa de baudios:</string>
     <string name="pin">Pin:</string>
-    <string name="bt_info_msg">This will allows you to configure a bluetooth module. You will need a ttl cable and an adaptator to connect your bluetooth module to your phone. Please look at the on line help</string>
-    <string name="bt_info_title">Bluetooth module configuration</string>
+    <string name="bt_info_msg">Esto te permitirá configurar un módulo Bluetooth. Necesitarás un cable TTL y un adaptador para conectar tu módulo Bluetooth a tu teléfono. Por favor, consulta la ayuda en línea.</string>
+    <string name="bt_info_title">Configuración del módulo Bluetooth</string>
     <string name="bt_info_ok">OK</string>
-    <string name="loading_bt_config_msg">Loading bluetooth module config</string>
-    <string name="module_name">Module name:</string>
-    <string name="save_curves_title">Info</string>
+    <string name="loading_bt_config_msg">Cargando configuración del módulo Bluetooth</string>
+    <string name="module_name">Nombre del módulo:</string>
+    <string name="save_curves_title">Información</string>
     <string name="save_curve_ok">OK</string>
-    <string name="save_curve_msg">The following files have been saved under: </string>
-    <string name="curves_saved_msg">Flight curves saved</string>
+    <string name="save_curve_msg">Los siguientes archivos se han guardado en:</string>
+    <string name="curves_saved_msg">Curvas de vuelo guardadas</string>
 
-    <string name="flight_info">Flight Info</string>
-    <string name="apogee_altitude">Apogee Altitude</string>
-    <string name="max_velocity">Max Velocity</string>
-    <string name="main_alti">Main Altitude</string>
-    <string name="flight_duration">Flight duration</string>
-    <string name="burn_time">Burn Time</string>
-    <string name="max_acceleration">Max acceleration</string>
-    <string name="time_to_apogee">Time to Apogee</string>
-    <string name="max_descent_speed">Max descent speed</string>
-    <string name="landing_speed">Landing speed</string>
-    <string name="flight_nbr">Flight nbr</string>
-    <string name="nbr_of_sample">Samples</string>
+    <string name="flight_info">Información del vuelo</string>
+    <string name="apogee_altitude">Altitud del apogeo</string>
+    <string name="max_velocity">Velocidad máxima</string>
+    <string name="main_alti">Altitud principal</string>
+    <string name="flight_duration">Duración del vuelo</string>
+    <string name="burn_time">Tiempo de combustión</string>
+    <string name="max_acceleration">Máxima aceleración</string>
+    <string name="time_to_apogee">Tiempo al apogeo</string>
+    <string name="max_descent_speed">Velocidad máxima de descenso</string>
+    <string name="landing_speed">Velocidad de aterrizaje</string>
+    <string name="flight_nbr">Número de vuelo</string>
+    <string name="nbr_of_sample">Muestras</string>
 
     <!--curves name -->
-    <string name="curve_altitude">altitude</string>
-    <string name="curve_temperature">temperature</string>
-    <string name="curve_pressure">pressure</string>
-    <string name="curve_latitude">latitude</string>
-    <string name="curve_longitude">longitude</string>
-    <string name="curve_speed">speed</string>
-    <string name="curve_accel">acceleration</string>
+    <string name="curve_altitude">altitud</string>
+    <string name="curve_temperature">temperatura</string>
+    <string name="curve_pressure">presión</string>
+    <string name="curve_latitude">latitud</string>
+    <string name="curve_longitude">longitud</string>
+    <string name="curve_speed">velocidad</string>
+    <string name="curve_accel">aceleración</string>
 
-    <string name="flash_advice_msg">Altimeter firmware version might be incompatible, please consider flashing your board</string>
-    <string name="unsuported_firmware_msg">Unsupported firmware</string>
+    <string name="flash_advice_msg">La versión del firmware del altímetro puede ser incompatible, considere flashear su placa</string>
+    <string name="unsuported_firmware_msg">Firmware no soportado</string>
     <string name="BatteryType">Tipo de batería</string>
-    <string name="config_unknown">unknown</string>
-    <string name="usb_device_attached">Usb device attached</string>
-    <string name="test_connection_info_msg">This will allow to test the connection reliability</string>
-    <string name="test_connection_info_title">Info</string>
-    <string name="test_start">Start</string>
-    <string name="percentage_of_errors">Percentage of errors:</string>
-    <string name="nbr_packets_not_ok">Nbr packets not ok :</string>
-    <string name="nbr_received_ok">Nbr received ok:</string>
-    <string name="nbr_packets_received">Nbr packets received:</string>
-    <string name="nbr_packets_sent">Nbr packets sent:</string>
-    <string name="test_your_connection">Test your connection</string>
-    <string name="test_stop">Stop</string>
-    <string name="recording_timeout_sec">Recording timeout (sec)</string>
-    <string name="failed_to_create_file_msg">Failed to create flight files</string>
-    <string name="export_to_csv">Export to CSV</string>
+    <string name="config_unknown">desconocido</string>
+    <string name="usb_device_attached">Dispositivo USB conectado</string>
+    <string name="test_connection_info_msg">Esto permitirá probar la fiabilidad de la conexión</string>
+    <string name="test_connection_info_title">Información</string>
+    <string name="test_start">Iniciar</string>
+    <string name="percentage_of_errors">Porcentaje de errores:</string>
+    <string name="nbr_packets_not_ok">Número de paquetes no OK:</string>
+    <string name="nbr_received_ok">Número recibido OK:</string>
+    <string name="nbr_packets_received">Número de paquetes recibidos:</string>
+    <string name="nbr_packets_sent">Número de paquetes enviados:</string>
+    <string name="test_your_connection">Prueba tu conexión</string>
+    <string name="test_stop">Detener</string>
+    <string name="recording_timeout_sec">Tiempo de espera de grabación (seg)</string>
+    <string name="failed_to_create_file_msg">Error al crear archivos de vuelo</string>
+    <string name="export_to_csv">Exportar a CSV</string>
 
 
     <!-- Lora module-->
-    <string name="lora_configure_module_title">Configure Lora module</string>
-    <string name="lora_module_channel">Channel:</string>
-    <string name="lora_module_trans_mode">Trans mode:</string>
-    <string name="lora_module_address">Address:</string>
-    <string name="lora_module_channel_rssi">Channel RSSI</string>
-    <string name="lora_module_key">Key:</string>
-    <string name="lora_module_parity">Parity</string>
-    <string name="lora_module_wor_cycle">Wor Cycle</string>
+    <string name="lora_configure_module_title">Configurar módulo Lora</string>
+    <string name="lora_module_channel">Canal:</string>
+    <string name="lora_module_trans_mode">Modo de transmisión:</string>
+    <string name="lora_module_address">Dirección:</string>
+    <string name="lora_module_channel_rssi">RSSI del canal</string>
+    <string name="lora_module_key">Clave:</string>
+    <string name="lora_module_parity">Paridad</string>
+    <string name="lora_module_wor_cycle">Ciclo WOR</string>
     <string name="lora_module_lbt">LBT:</string>
     <string name="lora_module_air_rate">Air Rate:</string>
-    <string name="lora_module_power">Power:</string>
-    <string name="lora_module_packet_rssi">Packet RSSI:</string>
-    <string name="lora_module_packet_size">Packet Size:</string>
-    <string name="lora_module_config_msg">This will allow you to configure Lora telemetry modules</string>
-    <string name="lora_module_config_msg_title">Lora telemetry module configuration</string>
+    <string name="lora_module_power">Potencia:</string>
+    <string name="lora_module_packet_rssi">RSSI del paquete:</string>
+    <string name="lora_module_packet_size">Tamaño del paquete:</string>
+    <string name="lora_module_config_msg">Esto le permitirá configurar módulos de telemetría Lora</string>
+    <string name="lora_module_config_msg_title">Configuración del módulo de telemetría Lora</string>
     <string name="lora_module_config_button_ok">OK</string>
-    <string name="lora_module_loading_config_msg">Loading Lora module config</string>
-    <string name="lora_module_channel_msg">Module channel cannot be empty</string>
-    <string name="lora_module_invalid_channel">Channel is invalid</string>
-    <string name="lora_module_channel_value_msg">Channel must be between 0 and 83</string>
-    <string name="lora_module_address_empty_msg">Module address cannot be empty</string>
-    <string name="lora_module_address_range">Address must be between 0 and 65535</string>
-    <string name="lora_module_address_invalid">Address is invalid</string>
-    <string name="lora_module_updating_address_msg">Updating module address</string>
-    <string name="lora_module_updating_msg2">Updating serial speed, parity and air rate</string>
-    <string name="lora_module_updating_msg3">updating packet , RSSI noise and transmitting power</string>
-    <string name="lora_module_updating_msg4">updating channel</string>
-    <string name="lora_module_updating_msg5">updating RSSI Byte, trans Mode, LBT and WOR Cycle</string>
-    <string name="lora_module_updating_msg6">updating key</string>
-    <string name="lora_module_connecting_msg">Attempting connecting to the Lora module</string>
+    <string name="lora_module_loading_config_msg">Cargando la configuración del módulo Lora</string>
+    <string name="lora_module_channel_msg">El canal del módulo no puede estar vacío</string>
+    <string name="lora_module_invalid_channel">El canal es inválido</string>
+    <string name="lora_module_channel_value_msg">El canal debe estar entre 0 y 83</string>
+    <string name="lora_module_address_empty_msg">La dirección del módulo no puede estar vacía</string>
+    <string name="lora_module_address_range">La dirección debe estar entre 0 y 65535</string>
+    <string name="lora_module_address_invalid">La dirección es inválida</string>
+    <string name="lora_module_updating_address_msg">Actualizando la dirección del módulo</string>
+    <string name="lora_module_updating_msg2">Actualizando velocidad serial, paridad y tasa de aire</string>
+    <string name="lora_module_updating_msg3">actualizando paquete, ruido RSSI y potencia de transmisión</string>
+    <string name="lora_module_updating_msg4">actualizando canal</string>
+    <string name="lora_module_updating_msg5">actualizando byte RSSI, modo de transmisión, LBT y ciclo WOR</string>
+    <string name="lora_module_updating_msg6">actualizando clave</string>
+    <string name="lora_module_connecting_msg">Intentando conectar con el módulo Lora</string>
     <!-- bluetooth messages -->
-    <string name="BT_msg1">Bluetooth Device Not Available</string>
-    <string name="BT_msg2">No Paired Bluetooth Devices Found.</string>
+    <string name="BT_msg1">Dispositivo Bluetooth no disponible</string>
+    <string name="BT_msg2">No se encontraron dispositivos Bluetooth emparejados.</string>
 
     <string name="unit_time">tiempo (ms)</string>
     <string name="unit_time_seconde">tiempo (s)</string>
     <string name="unit_time_minutes">tiempo (min)</string>
-    <string name="allow_manual_recording">Allow manual Recording</string>
-    <string name="lora_e220_settings">Lora E220 settings...</string>
-    <string name="lora_e32_settings">Lora E32 settings...</string>
-    <string name="test_connection">Test connection</string>
+    <string name="allow_manual_recording">Permitir grabación manual</string>
+    <string name="lora_e220_settings">Configuraciones de Lora E220...</string>
+    <string name="lora_e32_settings">Configuraciones de Lora E32...</string>
+    <string name="test_connection">Probar conexión</string>
 
-    <string name="credit_goes_to_philippe_huguenin_bergenat_n_for_all_the_testing">Credit goes to Philippe Huguenin-Bergenat \n for all the testing</string>
-    <string name="do_you_want_to_connect_to_module">Do you want to connect to module</string>
+    <string name="credit_goes_to_philippe_huguenin_bergenat_n_for_all_the_testing">Créditos a Philippe Huguenin-Bergenat \n por todas las pruebas</string>
+    <string name="do_you_want_to_connect_to_module">¿Quieres conectar al módulo?</string>
     <string name="no">No</string>
 </resources>

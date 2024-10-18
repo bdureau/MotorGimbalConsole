@@ -381,18 +381,18 @@
     <string name="lora_module_invalid_channel">Le cannal est invalide</string>
     <string name="lora_module_channel_value_msg">Le cannal doit être compris entre 0 et 83</string>
     <string name="lora_module_address_empty_msg">L\'adrresse du module ne peut pas être vide</string>
-    <string name="lora_module_address_range">Address must be between 0 and 65535</string>
+    <string name="lora_module_address_range">L\'adresse doit etre entre 0 et 65535</string>
     <string name="lora_module_address_invalid">Adresse Invalide</string>
-    <string name="lora_module_updating_address_msg">Updating module address</string>
+    <string name="lora_module_updating_address_msg">Mise à jour de l\'adresse du module</string>
     <string name="lora_module_updating_msg2">Updating serial speed, parity and air rate</string>
     <string name="lora_module_updating_msg3">updating packet , RSSI noise and transmitting power</string>
     <string name="lora_module_updating_msg4">updating channel</string>
     <string name="lora_module_updating_msg5">updating RSSI Byte, trans Mode, LBT and WOR Cycle</string>
     <string name="lora_module_updating_msg6">updating key</string>
-    <string name="lora_module_connecting_msg">Tentative de connection au module Lora</string>
+    <string name="lora_module_connecting_msg">Tentative de connexion au module Lora</string>
     <!-- bluetooth messages -->
     <string name="BT_msg1">Module Bluetooth non disponible</string>
-    <string name="BT_msg2">Aucun module Bluetooth apparé trouvés.</string>
+    <string name="BT_msg2">Aucun module Bluetooth appairé trouvé.</string>
 
     <string name="unit_time">temps (ms)</string>
     <string name="unit_time_seconde">temps (s)</string>
@@ -403,6 +403,6 @@
     <string name="test_connection">Test connexion</string>
 
     <string name="credit_goes_to_philippe_huguenin_bergenat_n_for_all_the_testing">Merci à Philippe Huguenin-Bergenat \n pour tous les tests</string>
-    <string name="do_you_want_to_connect_to_module">Do you want to connect to module</string>
+    <string name="do_you_want_to_connect_to_module">Voulez vous vous connecter au module</string>
     <string name="no">Non</string>
 </resources>

@@ -24,6 +24,7 @@ import android.widget.Toast;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 
+import com.felhr.usbserial.UsbSerialDevice;
 import com.motorgimbalconsole.config.AppTabConfigActivity;
 import com.motorgimbalconsole.config.ModulesConfig.Config3DR;
 import com.motorgimbalconsole.config.ModulesConfig.ConfigBT;
@@ -111,9 +112,9 @@ public class MainActivityScreen extends AppCompatActivity {
         filter.addAction(ACTION_USB_PERMISSION);
         filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
         filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
-        //registerReceiver(broadcastReceiver, filter);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            registerReceiver(broadcastReceiver, filter, RECEIVER_NOT_EXPORTED);
+            registerReceiver(broadcastReceiver, filter, getApplicationContext().RECEIVER_NOT_EXPORTED);
         } else {
             registerReceiver(broadcastReceiver, filter);
         }
@@ -293,23 +294,21 @@ public class MainActivityScreen extends AppCompatActivity {
                         //this is a USB connection
                         HashMap<String, UsbDevice> usbDevices = usbManager.getDeviceList();
                         if (!usbDevices.isEmpty()) {
-                            boolean keep = true;
+
                             for (Map.Entry<String, UsbDevice> entry : usbDevices.entrySet()) {
                                 device = entry.getValue();
-                                int deviceVID = device.getVendorId();
+                                //int deviceVID = device.getVendorId();
 
-                                //PendingIntent pi = PendingIntent.getBroadcast(MainActivityScreen.this, 0, new Intent(ACTION_USB_PERMISSION), 0);
-                                PendingIntent pi;
-                                if(android.os.Build.VERSION.SDK_INT >= 31) {
-                                    pi = PendingIntent.getBroadcast(MainActivityScreen.this, 0, new Intent(ACTION_USB_PERMISSION), PendingIntent.FLAG_IMMUTABLE);
-                                } else {
-                                    pi = PendingIntent.getBroadcast(MainActivityScreen.this, 0, new Intent(ACTION_USB_PERMISSION), 0);
-                                }
-                                usbManager.requestPermission(device, pi);
-                                keep = false;
-
-                                if (!keep)
+                                if (UsbSerialDevice.isSupported(device)) {
+                                    PendingIntent pi;
+                                    if (android.os.Build.VERSION.SDK_INT >= 31) {
+                                        pi = PendingIntent.getBroadcast(MainActivityScreen.this, 0, new Intent(ACTION_USB_PERMISSION), PendingIntent.FLAG_IMMUTABLE);
+                                    } else {
+                                        pi = PendingIntent.getBroadcast(MainActivityScreen.this, 0, new Intent(ACTION_USB_PERMISSION), 0);
+                                    }
+                                    usbManager.requestPermission(device, pi);
                                     break;
+                                }
                             }
                         }
                     }

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".flights.FlightPlayFragment">
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,13 +26,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|bottom"
                 app:icon="@drawable/start_30x30_trans" />
-
         </LinearLayout>
 
         <FrameLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></FrameLayout>
+            android:layout_height="match_parent">
+
+        </FrameLayout>
 
     </LinearLayout>
 

@@ -9,6 +9,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
+    android:fitsSystemWindows="true"
     tools:context="com.motorgimbalconsole.flights.FlightListActivity">
 
     <FrameLayout

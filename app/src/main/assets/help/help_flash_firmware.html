@@ -1,37 +1,89 @@
-<h1>Flash firmware help file</h1>
-<p>This is a quick help file help you to flash the latest Motor Gimbal Firmware.
-In order to work correctly, the Gimbal firmware need to be compatible with the Gimbal console application</p>
-<p><br />In order to flash the firmware you will need to connect the Gimbal to your android device using a USB cable and an adapter</p>
-<p>First you need to select the firmware. The firmware depend on the gimbal that you want to flash</p>
-<p>Then decide if you want to directly flash your firmware or use a recovery firmware first</p>
-<p>Use a recovery firmware if the config is wrong and the gimbal can no longer connect.</p>
-<p>After using a recover firmware you will need to flash the firmware.</p>
-<p>Note that flashing the wrong firmware will result in a gimbal not working at all or not working as expected</p>
-<p>In order to be able to flash your gimbal you will need a USB cable and an adapter to plug it to your phone.</p>
-<p><img  src="file:///android_asset/help/images/ttl_cable-small.jpg"/></p>
-<p>a USB adapter (USBC or micro USB depending on your Android device)</p>
-<p><img  src="file:///android_asset/help/images/usb_adpter-small.jpg"/></p>
-<p>some jst cables are required</p>
-<p></p>
-<p>The following gimbal can be flashed, please make sure that your carefully look at the pictures to identify your gimbal</p>
-<p><strong>Gimbal (with an MPU6050)</strong> (Large version)</p>
-<p><img  src="file:///android_asset/help/images/altiGimbal-small.jpg"/></p>
-<p><strong>Gimbal-bno055</strong></p>
-<p><img  src="file:///android_asset/help/images/altiGimbal-bno055-small.jpg"/></p>
-<p></p>
-<p><strong>Flashing STM32 based altimeters (ie: AltiMultiSTM32 and AltGPS)</strong></p>
-<p>- Plug the cable</p>
-<p>- Select the correct firmware or detect it</p>
-<p>- Move the boot0 jumper to the right</p>
-<p><img  src="file:///android_asset/help/images/stm32-prog2-small.jpg"/></p>
-<p>- Press the reset button </p>
-<p>- Press the [flash firmware] button</p>
-<p>- Move the boot0 jumper back to the left</p>
-<p><img  src="file:///android_asset/help/images/stm32-prog1-small.jpg"/></p>
-<p>Firmware should be loading, when complete press the reset button</p>
-<p>&nbsp;</p>
-<p>IMPORTANT NOTE: when flashing an altimeter do not disconnect the cable while flashing, this will corrupt the firmware and you will have to flash it again</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .info-box { background-color: #E3F2FD; border-left: 4px solid #1976D2; padding: 10px; margin: 12px 0; }
+        .step-item { margin-bottom: 12px; }
+        .step-item strong { color: #0277BD; }
+        img { vertical-align: middle; margin: 6px 0; max-width: 100%; height: auto; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Firmware Flashing Guide</h1>
+
+<p>This guide explains how to flash or recover the firmware on your Motor Gimbal controller or STM32-based rocket altimeter using your Android device.</p>
+
+<div class="info-box">
+    <strong>Compatibility:</strong> The flight computer firmware version must match the communication protocol of this console application to enable configuration and telemetry streaming.
+</div>
+
+<h2>Required Hardware</h2>
+<ul>
+    <li>A USB-to-TTL serial adapter cable.<br/>
+        <img src="file:///android_asset/help/images/ttl_cable-small.jpg" alt="TTL Cable"/>
+    </li>
+    <li>A USB-OTG adapter suitable for your Android phone or tablet (USB-C or Micro-USB).<br/>
+        <img src="file:///android_asset/help/images/usb_adpter-small.jpg" alt="USB Adapter"/>
+    </li>
+    <li>JST wiring harness for serial RX/TX/GND connection.</li>
+</ul>
+
+<h2>Supported Flight Hardware</h2>
+<p>Ensure you identify your hardware revision correctly before selecting a firmware binary:</p>
+
+<p><strong>Gimbal Controller (MPU6050 6-DOF IMU)</strong></p>
+<p><img src="file:///android_asset/help/images/altiGimbal-small.jpg" alt="Gimbal MPU6050"/></p>
+
+<p><strong>Gimbal Controller (BNO055 Absolute Orientation Sensor)</strong></p>
+<p><img src="file:///android_asset/help/images/altiGimbal-bno055-small.jpg" alt="Gimbal BNO055"/></p>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; CAUTION</div>
+    <div>Flashing an incompatible firmware binary will cause sensor read failures or completely prevent the gimbal board from operating. Never disconnect the USB cable during an active flash procedure.</div>
+</div>
+
+<h2>Standard vs. Recovery Firmware</h2>
+<ul>
+    <li><strong>Standard Firmware:</strong> Use for regular firmware updates to access new flight features or protocol improvements.</li>
+    <li><strong>Recovery Firmware:</strong> Use if EEPROM data is corrupted, causing boot loops or blocking serial connections. After flashing the recovery binary to erase bad parameters, reflash the standard firmware image.</li>
+</ul>
+
+<h2>Flashing Procedure (STM32 Flight Computers)</h2>
+<ol>
+    <li class="step-item">
+        <strong>Hardware Connection:</strong> Connect the USB-TTL adapter to the flight computer and plug the OTG connector into your Android device.
+    </li>
+    <li class="step-item">
+        <strong>Select Firmware:</strong> Choose the firmware target corresponding to your hardware board, or use automatic board detection.
+    </li>
+    <li class="step-item">
+        <strong>Set Bootloader Mode:</strong> Move the <strong>BOOT0</strong> jumper to the right (programming position).<br/>
+        <img src="file:///android_asset/help/images/stm32-prog2-small.jpg" alt="BOOT0 Right"/>
+    </li>
+    <li class="step-item">
+        <strong>Reset Board:</strong> Press and release the hardware <strong>Reset</strong> button on the flight board.
+    </li>
+    <li class="step-item">
+        <strong>Flash Binary:</strong> Tap <strong>[Flash Firmware]</strong>. Wait until the progress bar reaches 100%.
+    </li>
+    <li class="step-item">
+        <strong>Normal Boot Mode:</strong> Move the <strong>BOOT0</strong> jumper back to the left (normal run position).<br/>
+        <img src="file:///android_asset/help/images/stm32-prog1-small.jpg" alt="BOOT0 Left"/>
+    </li>
+    <li class="step-item">
+        <strong>Finalize:</strong> Press the <strong>Reset</strong> button once more to boot into the newly flashed firmware.
+    </li>
+</ol>
+
+</body>
+</html>

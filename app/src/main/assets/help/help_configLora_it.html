@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .info-box { background-color: #E3F2FD; border-left: 4px solid #1976D2; padding: 10px; margin: 12px 0; }
+        .step-item { margin-bottom: 12px; }
+        .step-item strong { color: #0277BD; }
+        img { vertical-align: middle; margin: 6px 0; max-width: 100%; height: auto; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Configurazione del modulo eByte LoRa E220</h1>
+
+<p>Per la ricezione dei dati di telemetria a lungo raggio oltre la portata del Bluetooth, sostituire il modulo Bluetooth con una coppia di ricetrasmettitori eByte LoRa E220.</p>
+
+<h3>Moduli testati e supportati</h3>
+<ul>
+    <li>E220-400T30D / E220-400T30S</li>
+    <li>E220-900T30D / E220-900T30S</li>
+    <li>E220-400T22D / E220-900T22S</li>
+</ul>
+<p>
+    <img src="file:///android_asset/help/images/E220-900T22S.jpg" alt="Modulo LoRa E220 SMD"/>
+    <img src="file:///android_asset/help/images/E220-900T30D.jpg" alt="Modulo LoRa E220 DIP"/>
+</p>
+
+<div class="info-box">
+    <strong>Alimentazione elettrica:</strong> Verificare che la porta USB-OTG del dispositivo Android eroghi corrente a sufficienza. I moduli ad alta potenza da 30&nbsp;dBm (1&nbsp;W) richiedono una batteria esterna o un hub USB alimentato per prevenire cali di tensione.
+</div>
+
+<h2>Hardware richiesto per la programmazione</h2>
+<ul>
+    <li>Un cavo adattatore seriale da USB a TTL.<br/>
+        <img src="file:///android_asset/help/images/ttl_cable-small.jpg" alt="Cavo TTL"/>
+    </li>
+    <li>Un adattatore USB-OTG (USB-C o Micro-USB).<br/>
+        <img src="file:///android_asset/help/images/usb_adpter-small.jpg" alt="Adattatore USB"/>
+    </li>
+    <li>Un connettore di adattamento JST e cavetti JST.</li>
+</ul>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; CRITICO: PONTICELLI DI CONFIGURAZIONE (M0 / M1)</div>
+    <div>Per attivare la modalità configurazione, <strong>inserire entrambi i ponticelli</strong> (M0 e M1 su livello logico alto). Al termine della procedura, <strong>è obbligatorio rimuovere entrambi i ponticelli</strong> per riportare il modulo in modalità di trasmissione operativa.</div>
+</div>
+
+<h2>Allineamento della velocità seriale (Baud Rate)</h2>
+<p>La lettura dei comandi interni avviene a <code>9600</code> baud, tuttavia la porta seriale di fabbrica è impostata solitamente a <code>57600</code> baud. La scheda di volo del Gimbal opera per impostazione predefinita a <code>38400</code> baud. È indispensabile impostare la velocità UART su <code>38400</code> baud.</p>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; ATTENZIONE</div>
+    <div>Non scollegare mai il modulo durante le fasi di lettura o scrittura dei parametri.</div>
+</div>
+
+<h2>Procedura di configurazione</h2>
+<ol>
+    <li class="step-item">
+        <strong>Preparazione:</strong> Inserire entrambi i ponticelli sul modulo. Collegarlo al dispositivo Android mediante il cavo USB-TTL e l'adattatore OTG.
+    </li>
+    <li class="step-item">
+        <strong>Lettura parametri:</strong> Toccare <strong>[Retrieve cfg]</strong>. L'applicazione si collegherà a <code>9600</code> baud e caricherà i registri correnti.
+    </li>
+    <li class="step-item">
+        <strong>Modifica parametri:</strong> Impostare la velocità della porta su <code>38400</code> baud. Assicurarsi che canali di frequenza, velocità radio (Air Data Rate) e chiave di crittografia coincidano sui due moduli.
+    </li>
+    <li class="step-item">
+        <strong>Salvataggio:</strong> Toccare <strong>[Save cfg]</strong> per confermare. In presenza di errori di trasmissione la scrittura verrà interrotta.
+    </li>
+    <li class="step-item">
+        <strong>Uscita dalla configurazione:</strong> Scollegare il modulo e <strong>rimuovere entrambi i ponticelli</strong> prima del montaggio sul razzo o a terra.
+    </li>
+</ol>
+
+<div class="info-box">
+    <strong>Coppia di moduli:</strong> I moduli LoRa funzionano a coppie (trasmettitore e ricevitore). Ripetere i passaggi per entrambi i dispositivi. Nota: i moduli LoRa non sono attualmente compatibili con schede basate su ESP32.
+</div>
+
+</body>
+</html>

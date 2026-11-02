@@ -1,39 +1,89 @@
-<h1>Fichier d'aide pour Flasher le firmware</h1>
-<p>Ceci est un fichier d'aide rapide pour mettre à jour votre carte avec le dernier firmware du Gimbal.
-    De maniere à ce que cela fonctionne correctement le firmware du gimbal à besoin d'etre compatible avec l'application console du Gimbal</p>
-<p><br />Pour mettre à jour le firmware vous devez connecter la carte Gimbal à votre appareil Android à l'aide d'un cable USB et d'un adaptateur</p>
-<p>Vous devez d'abord choisir le firmware. Le firmware depend de la carte gimbal que vous voulez mettre à jour</p>
-<p>Ensuite à vous  de choisir si vous voulez directement mettre à jour votre firmware ou d'abord utiliser un firmware de récupération</p>
-<p>Utilisez un firmware de récupération si la config est incorrecte et que la carte gimbal ne peut plus se connecter.</p>
-<p>Après avoir utilisisé un firmware de récupération il sera necessaire de mettre à jour le firmware.</p>
-<p>A noter que flasher un firmware incorrecte aura pour résultat d'avoir une carte gimbal qui ne fonctionne pas ou qui fonctionne incorrectement</p>
-<p>De manière à pouvoir mettre à jour votre carte gimbal vous avez besoin d'un cable USB et d'un adaptateur pour le bancher à votre appareil Android.</p>
-<p><img  src="file:///android_asset/help/images/ttl_cable-small.jpg"/></p>
-<p>un adaptateur USB (USBC ou micro USB en fonction de votre apareil Android)</p>
-<p><img  src="file:///android_asset/help/images/usb_adpter-small.jpg"/></p>
-<p> et des cables jst</p>
-<p> </p>
-<p></p>
-<p>Les cartes Gimbal suivantes peuvent etre flashées, faites attention à bien regarder attentivement les photos pour identifier votre Gimbal </p>
-<p><strong>Gimbal (avec un MPU6050)</strong> (grande version)</p>
-<p><img  src="file:///android_asset/help/images/altiGimbal-small.jpg"/></p>
-<p><strong>Gimbal-bno055</strong></p>
-<p><img  src="file:///android_asset/help/images/altiGimbal-bno055-small.jpg"/></p>
-<p></p>
-<p><strong>Flashage des altimètres à base de STM32 (ex: AltiMultiSTM32 and AltGPS)</strong></p>
-<p>- Branchez le cable</p>
-<p>- Choisissez le firmware approprié ou détectez le</p>
-<p>- Déplacez le cavalier boot0 à droite</p>
-<p><img  src="file:///android_asset/help/images/stm32-prog2-small.jpg"/></p>
-<p>- Appuyez sur le bouton reset de l'altimètre </p>
-<p>- Appuyez sur le bouton [flash firmware]</p>
-<p>- Remettre le cavalier boot0 à gauche</p>
-<p><img  src="file:///android_asset/help/images/stm32-prog1-small.jpg"/></p>
-<p>Le firmware se charge, lorsque c'est terminé pressez le bouton reset</p>
-<p></p>
-<p>INFORMATION IMPORTANTE: lorsque vous flashez un altimètre ne deconnectez pas le cable lorsque
-    vous flashez, le firmware sera corrompu et vous aurez &agrave; flasher &agrave; nouveau</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .info-box { background-color: #E3F2FD; border-left: 4px solid #1976D2; padding: 10px; margin: 12px 0; }
+        .step-item { margin-bottom: 12px; }
+        .step-item strong { color: #0277BD; }
+        img { vertical-align: middle; margin: 6px 0; max-width: 100%; height: auto; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Guide de flashage du micrologiciel (Firmware)</h1>
+
+<p>Ce guide explique comment mettre à jour ou restaurer le micrologiciel de votre contrôleur de Gimbal ou de votre altimètre STM32 depuis votre appareil Android.</p>
+
+<div class="info-box">
+    <strong>Compatibilité :</strong> La version du firmware de la carte doit correspondre au protocole de communication de l'application console pour permettre le réglage et la réception de la télémétrie.
+</div>
+
+<h2>Matériel requis</h2>
+<ul>
+    <li>Un câble adaptateur USB vers série TTL.<br/>
+        <img src="file:///android_asset/help/images/ttl_cable-small.jpg" alt="Câble TTL"/>
+    </li>
+    <li>Un adaptateur USB-OTG adapté à votre smartphone ou tablette (USB-C ou Micro-USB).<br/>
+        <img src="file:///android_asset/help/images/usb_adpter-small.jpg" alt="Adaptateur USB"/>
+    </li>
+    <li>Un faisceau de câbles JST pour relier les broches RX/TX/GND.</li>
+</ul>
+
+<h2>Cartes et matériels pris en charge</h2>
+<p>Identifiez attentivement le modèle de votre carte avant de sélectionner le fichier binaire :</p>
+
+<p><strong>Contrôleur Gimbal (Centrale inertielle MPU6050 6-DOF)</strong></p>
+<p><img src="file:///android_asset/help/images/altiGimbal-small.jpg" alt="Gimbal MPU6050"/></p>
+
+<p><strong>Contrôleur Gimbal (Capteur d'orientation absolue BNO055)</strong></p>
+<p><img src="file:///android_asset/help/images/altiGimbal-bno055-small.jpg" alt="Gimbal BNO055"/></p>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; ATTENTION</div>
+    <div>Flasher un firmware inadapté rendra la carte inopérante ou provoquera des erreurs de lecture de capteurs. Ne débranchez jamais le câble USB pendant une opération de flashage en cours.</div>
+</div>
+
+<h2>Firmware standard vs firmware de récupération</h2>
+<ul>
+    <li><strong>Firmware standard :</strong> Utilisé lors des mises à jour régulières pour bénéficier des améliorations logicielles.</li>
+    <li><strong>Firmware de récupération :</strong> Utilisé si la mémoire EEPROM est corrompue et bloque le démarrage ou la connexion. Une fois la mémoire réinitialisée via le binaire de récupération, reflashez immédiatement le firmware standard.</li>
+</ul>
+
+<h2>Procédure de flashage (Altimètres et cartes STM32)</h2>
+<ol>
+    <li class="step-item">
+        <strong>Raccordement :</strong> Connectez l'adaptateur USB-TTL à la carte et branchez l'adaptateur OTG sur votre appareil Android.
+    </li>
+    <li class="step-item">
+        <strong>Sélection du binaire :</strong> Choisissez le firmware correspondant à votre carte ou utilisez la détection automatique.
+    </li>
+    <li class="step-item">
+        <strong>Passage en mode bootloader :</strong> Déplacez le cavalier <strong>BOOT0</strong> vers la droite (position programmation).<br/>
+        <img src="file:///android_asset/help/images/stm32-prog2-small.jpg" alt="BOOT0 à droite"/>
+    </li>
+    <li class="step-item">
+        <strong>Réinitialisation matérielle :</strong> Appuyez brièvement sur le bouton <strong>Reset</strong> de la carte.
+    </li>
+    <li class="step-item">
+        <strong>Lancement de l'écriture :</strong> Touchez le bouton <strong>[Flasher Firmware]</strong>. Patientez jusqu'à l'atteinte des 100%.
+    </li>
+    <li class="step-item">
+        <strong>Mode exécution normale :</strong> Replacez le cavalier <strong>BOOT0</strong> vers la gauche (position de fonctionnement normal).<br/>
+        <img src="file:///android_asset/help/images/stm32-prog1-small.jpg" alt="BOOT0 à gauche"/>
+    </li>
+    <li class="step-item">
+        <strong>Redémarrage :</strong> Appuyez à nouveau sur le bouton <strong>Reset</strong> pour exécuter le nouveau firmware.
+    </li>
+</ol>
+
+</body>
+</html>

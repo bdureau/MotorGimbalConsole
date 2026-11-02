@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .info-box { background-color: #E3F2FD; border-left: 4px solid #1976D2; padding: 10px; margin: 12px 0; }
+        .param-item { margin-bottom: 12px; }
+        .param-item strong { color: #0277BD; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Guía de configuración del Gimbal Motor</h1>
+
+<p>Esta guía detalla el ajuste y calibración del sistema de empuje vectorial (TVC) en la controladora de vuelo Bear Altimeter.</p>
+
+<div class="info-box">
+    <strong>Requisito de conexión:</strong> Compruebe que la conexión Bluetooth o USB-OTG esté establecida y que la controladora esté alimentada antes de editar parámetros.
+</div>
+
+<h2>Calibración y límites de los servomotores</h2>
+<div class="param-item">
+    <p><strong>Neutro / Centrado de servos (X / Y):</strong> Ajusta mecánicamente la tobera del motor para dejarla alineada con el eje longitudinal del cohete en reposo.</p>
+</div>
+<div class="param-item">
+    <p><strong>Límites de recorrido (Mín / Máx):</strong> Fija el ángulo máximo de deflexión en grados en los ejes de cabeceo y guiñada para evitar bloqueos mecánicos en los reenvíos.</p>
+</div>
+
+<h2>Bucle de estabilización PID</h2>
+<div class="param-item">
+    <p><strong>Ganancia proporcional (Kp):</strong> Genera la respuesta correctora directa en función del error de actitud angular. Un valor excesivo produce oscilaciones rápidas.</p>
+</div>
+<div class="param-item">
+    <p><strong>Ganancia integral (Ki):</strong> Corrige desviaciones persistentes y asimetrías de peso o empuje a lo largo del tiempo de combustión.</p>
+</div>
+<div class="param-item">
+    <p><strong>Ganancia derivativa (Kd):</strong> Amortigua la velocidad angular de giro y previene sobreoscilaciones en las maniobras.</p>
+</div>
+
+<h2>Orientación del sensor y tiempos de vuelo</h2>
+<div class="param-item">
+    <p><strong>Orientación del sensor IMU:</strong> Define la posición de montaje de la placa respecto al fuselaje del cohete.</p>
+</div>
+<div class="param-item">
+    <p><strong>Tiempo activo del gimbal:</strong> Determina la duración del control activo tras el encendido del motor. La estabilización suele desactivarse al agotarse el propulsor.</p>
+</div>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; VERIFICACIÓN OBLIGATORIA EN RAMPA</div>
+    <div>Compruebe siempre la respuesta de los servos antes del lanzamiento inclinando el cohete manualmente: la tobera del gimbal debe orientarse en sentido contrario al movimiento de inclinación.</div>
+</div>
+
+<h2>Lectura y escritura de datos</h2>
+<ul>
+    <li>Pulse <strong>[Leer configuración]</strong> para consultar los ajustes almacenados en la EEPROM de la placa.</li>
+    <li>Pulse <strong>[Guardar configuración]</strong> para enviar los nuevos parámetros.</li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        .info-box { background-color: #E3F2FD; border-left: 4px solid #1976D2; padding: 10px; margin: 12px 0; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .metric-item { margin-bottom: 12px; }
+        .metric-item strong { color: #0277BD; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Test di affidabilità della connessione</h1>
+
+<p>Questa schermata permette di verificare la qualità del collegamento radio e l'integrità dei dati tra la console Android e il computer di volo del razzo, in particolare quando si impiegano moduli 3DR Radio o LoRa a lungo raggio.</p>
+
+<div class="info-box">
+    <strong>Suggerimento:</strong> Eseguire questo test sulla rampa di lancio prima del decollo per confermare la stabilità del segnale e il margine di copertura radio a distanza.
+</div>
+
+<h2>Metriche analizzate</h2>
+<div class="metric-item">
+    <p><strong>Pacchetti inviati / ricevuti:</strong> Conteggio totale dei pacchetti di test scambiati sulla porta seriale attiva.</p>
+</div>
+<div class="metric-item">
+    <p><strong>Pacchetti persi:</strong> Numero di pacchetti persi o corrotti a causa di interferenze RF, orientamento non corretto delle antenne o distanza eccessiva.</p>
+</div>
+<div class="metric-item">
+    <p><strong>Tasso di perdita (%):</strong> Percentuale di pacchetti persi rispetto al totale trasmesso. Un valore inferiore al 2% garantisce una ricezione telemetrica ottimale.</p>
+</div>
+
+<h2>Interpretazione dei dati</h2>
+<ul>
+    <li><strong>Perdita &lt; 2%:</strong> Collegamento eccellente; ricezione telemetrica e sintesi vocale funzioneranno senza interruzioni.</li>
+    <li><strong>Perdita tra 2% e 10%:</strong> Collegamento accettabile, ma potrebbero verificarsi lievi ritardi nell'aggiornamento dei grafici.</li>
+    <li><strong>Perdita &gt; 10%:</strong> Segnale degradato. Controllare l'orientamento delle antenne, i cavi o incrementare la potenza di trasmissione prima del volo.</li>
+</ul>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; RACCOMANDAZIONE PRE-VOLO</div>
+    <div>Evitare il lancio se si riscontra un elevato tasso di pacchetti persi già sulla rampa. Ciò è spesso causato da polarizzazione non coincidente delle antenne, interferenze radio locali o alimentazione inadeguata del trasmettitore.</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .step-item { margin-bottom: 12px; }
+        .step-item strong { color: #0277BD; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Selección del módulo Bluetooth</h1>
+
+<p>Esta pantalla permite seleccionar el transceptor Bluetooth inalámbrico al conectarse por primera vez a su Bear Altimeter Motor Gimbal o al alternar entre distintos cohetes en el campo de vuelo.</p>
+
+<h2>Procedimiento de emparejamiento y enlace</h2>
+<ol>
+    <li class="step-item">
+        <strong>Emparejamiento en Android:</strong> Antes de seleccionarlo en la aplicación, debe emparejar el módulo Bluetooth (HC-05, HC-06 o HC-07) desde el menú <em>Ajustes &gt; Bluetooth</em> de su dispositivo. El código PIN de fábrica suele ser <code>1234</code> o <code>0000</code>.
+    </li>
+    <li class="step-item">
+        <strong>Selección del módulo:</strong> En la lista de dispositivos vinculados, toque el módulo instalado en el gimbal activo.
+    </li>
+    <li class="step-item">
+        <strong>Conexión:</strong> Regrese a la pantalla principal de la consola y pulse <em>Conectar</em>. Si selecciona el dispositivo incorrecto o si el gimbal está apagado, no se podrá establecer la conexión.
+    </li>
+</ol>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; RECOMENDACIÓN IMPORTANTE</div>
+    <div>Asigne un nombre descriptivo a cada módulo Bluetooth emparejado en los ajustes de su teléfono (por ejemplo, <em>"Cohete-Gimbal-1"</em>, <em>"Cohete-Gimbal-2"</em>). Así evitará enviar configuraciones o comandos al cohete equivocado en la rampa de lanzamiento.</div>
+</div>
+
+<h2>Resolución de problemas de comunicación</h2>
+<ul>
+    <li>Compruebe el LED de estado del módulo Bluetooth: parpadeo rápido en espera de enlace, luz fija cuando la conexión está activa.</li>
+    <li>Compruebe que la batería de la electrónica de a bordo esté conectada y proporcione la tensión adecuada.</li>
+    <li>Si el módulo no aparece en la lista, verifique que la aplicación tenga concedidos los permisos de Bluetooth y dispositivos cercanos.</li>
+</ul>
+
+</body>
+</html>

@@ -1,38 +1,72 @@
-<h1>Configuration du module 3DR</h1>
-<p>De manière à pouvoir faire de la télémétrie  longue distance vous devez remplacer votre module bluetooth par
-    un module télémétrie 3DR.</p>
-<p><img  src="file:///android_asset/help/images/3DR_module-small.png"/></p>
-<p></p>
-<p>A noter que la batterie de votre appareil Android doit être  suffisamment puissante pour alimenter le module 3DR.
-    Envisager l'utilisation d'une batterie externe si vous avez un module puissant</p>
-<p></p>
-<p>Pour programmer votre module vous aurez besoins d'un cable TTL</p>
-<p><img  src="file:///android_asset/help/images/ttl_cable-small.jpg"/></p>
-<p>un adaptateur USB  (USBC ou micro USB suivant votre apareil Android )</p>
-<p><img  src="file:///android_asset/help/images/usb_adpter-small.jpg"/></p>
-<p>un adaptateur jst et des cables jst</p>
-<p> </p>
-<p>Vous devez configurer votre module de manière à ce qu'il puisse fonctionner avec votre Gimbal.</p>
-<p>A noter que ces modules sont en général préconfigurés à 57600 bauds. Cependant votre Gimbal
-    par défaut sera configuré à 38400 bauds vous devez donc vous assurer de vous connecter à la bonne vitesse.</p>
-<p></p>
-<p>A noter que les modules 3DR sont vendu par paire donc il sera nécessaire de configurer à la fois l'émetteur et le récepteur</p>
-<p></p>
-<p><span style="color: #ff0000;">ATTENTION: assurez vous de ne pas débrancher le module lorsque vous faites les opérations qui suivent</span></p>
-<p></p>
-<p><strong>Charger la configuration du module</strong></p>
-<p>Branchez le module dans votre appareil Android en utilisant un câble OTG ou un adaptateur USB qui peut fonctionner
-    avec micro USB ou USB type C.</p>
-<p>Ensuite cliquez sur [charger cfg] , cela effectuera des tentatives de connexion au module à différentes vitesses jusqu'à ce qu'il se connecte.
-    Puis la configuration de module sera chargée de manière à ce que vous puissiez la changer</p>
-<p></p>
-<p><strong>Sauvegarder la configuration du module</strong></p>
-<p>Changez les paramètres que vous voulez changer. Assurez vous que vous avec choisi la vitesse qui fonctionnera
-    avec votre carte et cliquez [Sauver cfg]. Cela sauvegardera la configuration.
-    En cas d'erreur lors de la sauvegarde celle-ci sera annulée</p>
-<p></p>
-<p>A noter que vous devrez répéter la même opération pour chaque module</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .info-box { background-color: #E3F2FD; border-left: 4px solid #1976D2; padding: 10px; margin: 12px 0; }
+        .step-item { margin-bottom: 12px; }
+        .step-item strong { color: #0277BD; }
+        img { vertical-align: middle; margin: 6px 0; max-width: 100%; height: auto; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Configuration du module de télémétrie 3DR</h1>
+
+<p>Afin d'assurer une télémétrie longue distance au-delà de la portée du Bluetooth, vous devez remplacer l'adaptateur Bluetooth par une paire d'émetteurs-récepteurs radio 3DR.</p>
+
+<p><img src="file:///android_asset/help/images/3DR_module-small.png" alt="Module 3DR"/></p>
+
+<div class="info-box">
+    <strong>Alimentation électrique :</strong> Assurez-vous que le port USB-OTG de votre appareil Android fournit un courant suffisant pour alimenter le module au sol. Avec des modules radio puissants (500&nbsp;mW ou 1&nbsp;W), il est conseillé d'utiliser un concentrateur USB alimenté ou une batterie externe pour éviter toute déconnexion intempestive.
+</div>
+
+<h2>Matériel requis pour la configuration</h2>
+<ul>
+    <li>Un câble adaptateur USB vers série TTL.<br/>
+        <img src="file:///android_asset/help/images/ttl_cable-small.jpg" alt="Câble TTL"/>
+    </li>
+    <li>Un adaptateur USB-OTG adapté à votre smartphone ou tablette (USB-C ou Micro-USB).<br/>
+        <img src="file:///android_asset/help/images/usb_adpter-small.jpg" alt="Adaptateur USB"/>
+    </li>
+    <li>Un adaptateur JST et des cordons de liaison JST.</li>
+</ul>
+
+<h2>Compatibilité de vitesse (Baud Rate)</h2>
+<p>La plupart des modules radio 3DR sont livrés configurés en usine à <code>57600</code> bauds. Toutefois, la carte contrôleur du Gimbal fonctionne par défaut à <code>38400</code> bauds. Vous devez donc reconfigurer la vitesse série de vos modules pour qu'elle corresponde à celle de l'ordinateur de vol du Gimbal.</p>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; AVERTISSEMENT IMPORTANT</div>
+    <div>Ne débranchez jamais le module pendant la lecture ou l'écriture des paramètres afin de ne pas corrompre la mémoire EEPROM.</div>
+</div>
+
+<h2>Étapes de configuration</h2>
+<ol>
+    <li class="step-item">
+        <strong>Raccordement :</strong> Connectez le module 3DR à votre appareil Android au moyen du câble USB-TTL et de l'adaptateur OTG.
+    </li>
+    <li class="step-item">
+        <strong>Lecture des paramètres :</strong> Touchez le bouton <strong>[Charger cfg]</strong>. L'application va tester successivement différentes vitesses de transmission jusqu'à établir la liaison, puis affichera la configuration courante du module.
+    </li>
+    <li class="step-item">
+        <strong>Modification des réglages :</strong> Ajustez les paramètres voulus (canaux de fréquence, identifiant réseau Net ID et la vitesse en bauds correspondant à votre carte Gimbal).
+    </li>
+    <li class="step-item">
+        <strong>Sauvegarde :</strong> Touchez <strong>[Sauver cfg]</strong> pour enregistrer la configuration dans la mémoire du module. Si une erreur de transmission survient lors de l'écriture, la procédure d'enregistrement est immédiatement annulée.
+    </li>
+</ol>
+
+<div class="info-box">
+    <strong>Modules par paire :</strong> Les modules radio 3DR fonctionnent toujours par deux (un module embarqué à bord de la fusée et un module de réception au sol). Vous devez répéter cette procédure pour <em>chacun</em> des deux modules en vous assurant que l'identifiant réseau (Net ID), les fréquences et les vitesses série soient rigoureusement identiques.
+</div>
+
+</body>
+</html>

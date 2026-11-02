@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        .info-box { background-color: #E3F2FD; border-left: 4px solid #1976D2; padding: 10px; margin: 12px 0; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .metric-item { margin-bottom: 12px; }
+        .metric-item strong { color: #0277BD; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Проверка надежности соединения</h1>
+
+<p>Этот экран предназначен для оценки качества радиоканала и стабильности передачи данных между Android-консолью и полетным контроллером ракеты, особенно при использовании модулей 3DR Radio и LoRa увеличенного радиуса действия.</p>
+
+<div class="info-box">
+    <strong>Совет:</strong> Проводите тест качества связи непосредственно на стартовой позиции перед пуском, чтобы подтвердить устойчивость сигнала и запас по дальности.
+</div>
+
+<h2>Измеряемые показатели</h2>
+<div class="metric-item">
+    <p><strong>Отправлено / получено пакетов:</strong> Общее число тестовых кадров, переданных по активному каналу связи.</p>
+</div>
+<div class="metric-item">
+    <p><strong>Потерянные пакеты:</strong> Количество пакетов, потерянных из-за радиопомех, рассогласования антенн или предельной дистанции.</p>
+</div>
+<div class="metric-item">
+    <p><strong>Процент потерь (%):</strong> Отношение потерянных кадров к общему числу переданных. Для стабильной телеметрии этот показатель не должен превышать 2%.</p>
+</div>
+
+<h2>Оценка результатов</h2>
+<ul>
+    <li><strong>Потери &lt; 2%:</strong> Отличное качество связи; прямая телеметрия и голосовые оповещения работают без сбоев.</li>
+    <li><strong>Потери от 2% до 10%:</strong> Допустимый уровень, однако на графиках в реальном времени возможны задержки.</li>
+    <li><strong>Потери &gt; 10%:</strong> Плохой сигнал. Проверьте ориентацию антенн, целостность проводов или увеличьте мощность передатчика.</li>
+</ul>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; ПРЕДПУСКОВАЯ РЕКОМЕНДАЦИЯ</div>
+    <div>Не производите пуск при высоких потерях пакетов на стартовом столе. Это может свидетельствовать о взаимных помехах, несовпадении поляризации антенн или просадке напряжения питания приемопередатчика.</div>
+</div>
+
+</body>
+</html>

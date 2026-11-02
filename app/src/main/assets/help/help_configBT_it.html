@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .info-box { background-color: #E3F2FD; border-left: 4px solid #1976D2; padding: 10px; margin: 12px 0; }
+        .step-item { margin-bottom: 12px; }
+        .step-item strong { color: #0277BD; }
+        img { vertical-align: middle; margin: 6px 0; max-width: 100%; height: auto; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Configurazione del modulo Bluetooth</h1>
+
+<p>Affinché il modulo Bluetooth possa stabilire la connessione tra il gimbal/altimetro e lo smartphone Android, la velocità seriale del modulo deve essere allineata a quella della scheda di volo.</p>
+
+<p>Questa interfaccia consente di programmare i moduli Bluetooth più diffusi, come HC-05, HC-06 e modelli compatibili.</p>
+<p><img src="file:///android_asset/help/images/bluetooth_module.jpg" alt="Modulo Bluetooth"/></p>
+
+<h2>Hardware richiesto per la programmazione</h2>
+<ul>
+    <li>Un cavo adattatore seriale da USB a TTL.<br/>
+        <img src="file:///android_asset/help/images/ttl_cable-small.jpg" alt="Cavo TTL"/>
+    </li>
+    <li>Un adattatore USB-OTG idoneo per il proprio smartphone o tablet (USB-C o Micro-USB).<br/>
+        <img src="file:///android_asset/help/images/usb_adpter-small.jpg" alt="Adattatore USB"/>
+    </li>
+    <li>Un connettore di adattamento JST e cablaggi JST.</li>
+</ul>
+
+<h2>Allineamento della velocità seriale (Baud Rate)</h2>
+<p>Questi moduli sono generalmente preimpostati in fabbrica a <code>9600</code> baud. La scheda del gimbal e dell'altimetro opera invece per impostazione predefinita a <code>38400</code> baud. È quindi necessario riprogrammare la velocità della porta seriale a <code>38400</code> baud.</p>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; AVVISO IMPORTANTE</div>
+    <div>Non scollegare mai il modulo durante le fasi di lettura o scrittura dei parametri per non rischiare di danneggiare i registri AT interni.</div>
+</div>
+
+<h2>Procedura di configurazione</h2>
+<ol>
+    <li class="step-item">
+        <strong>Collegamento:</strong> Connettere il modulo Bluetooth al dispositivo Android mediante il cavo USB-TTL e l'adattatore OTG.
+    </li>
+    <li class="step-item">
+        <strong>Selezione del modulo:</strong> Selezionare il modello corrispondente dal menu a tendina (es. HC-05 o HC-06). In caso di dubbi, lasciare selezionata l'opzione predefinita.
+    </li>
+    <li class="step-item">
+        <strong>Lettura parametri:</strong> Toccare <strong>[Retrieve cfg]</strong>. L'app verificherà la velocità a <code>38400</code> baud e scansionerà le altre velocità standard fino a ricevere risposta dal modulo.
+    </li>
+    <li class="step-item">
+        <strong>Modifica parametri:</strong> Rinominare il dispositivo (es. <em>"Gimbal-Razzo-1"</em>), impostare la velocità su <code>38400</code> baud ed eventualmente modificare il codice PIN (predefinito: <code>1234</code>).
+    </li>
+    <li class="step-item">
+        <strong>Salvataggio:</strong> Toccare <strong>[Save cfg]</strong> per programmare le impostazioni nella memoria del modulo. Qualora si verifichino errori, il salvataggio verrà interrotto.
+    </li>
+</ol>
+
+<div class="info-box">
+    <strong>Nota:</strong> Ripetere questa procedura per ogni modulo Bluetooth destinato all'elettronica dei vostri razzi.
+</div>
+
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .info-box { background-color: #E3F2FD; border-left: 4px solid #1976D2; padding: 10px; margin: 12px 0; }
+        .step-item { margin-bottom: 12px; }
+        .step-item strong { color: #0277BD; }
+        img { vertical-align: middle; margin: 6px 0; max-width: 100%; height: auto; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Guida al Flash del Firmware</h1>
+
+<p>Questa guida descrive la procedura di aggiornamento o ripristino del firmware sulla scheda controller del Motor Gimbal o sugli altimetri STM32 utilizzando un dispositivo Android.</p>
+
+<div class="info-box">
+    <strong>Compatibilità:</strong> La versione del firmware del computer di volo deve essere allineata con l'applicazione console per consentire la corretta configurazione e la trasmissione della telemetria.
+</div>
+
+<h2>Hardware necessario</h2>
+<ul>
+    <li>Un cavo adattatore seriale da USB a TTL.<br/>
+        <img src="file:///android_asset/help/images/ttl_cable-small.jpg" alt="Cavo TTL"/>
+    </li>
+    <li>Un adattatore USB-OTG adatto al proprio dispositivo (USB-C o Micro-USB).<br/>
+        <img src="file:///android_asset/help/images/usb_adpter-small.jpg" alt="Adattatore USB"/>
+    </li>
+    <li>Cavi JST per il collegamento delle linee RX/TX/GND.</li>
+</ul>
+
+<h2>Hardware supportato</h2>
+<p>Identificare attentamente la scheda in uso prima di selezionare il file binario:</p>
+
+<p><strong>Controller Gimbal (IMU 6-DOF MPU6050)</strong></p>
+<p><img src="file:///android_asset/help/images/altiGimbal-small.jpg" alt="Gimbal MPU6050"/></p>
+
+<p><strong>Controller Gimbal (Sensore di orientamento assoluto BNO055)</strong></p>
+<p><img src="file:///android_asset/help/images/altiGimbal-bno055-small.jpg" alt="Gimbal BNO055"/></p>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; ATTENZIONE</div>
+    <div>L'installazione di un firmware incompatibile impedirà il corretto funzionamento del gimbal. Non scollegare mai il cavo USB durante la fase di scrittura.</div>
+</div>
+
+<h2>Firmware standard vs. firmware di ripristino</h2>
+<ul>
+    <li><strong>Firmware standard:</strong> Utilizzato per gli aggiornamenti regolari con le ultime funzionalità.</li>
+    <li><strong>Firmware di ripristino (Recovery):</strong> Si impiega quando la memoria EEPROM è corrotta e blocca l'avvio o la connessione seriale. Dopo aver cancellato la configurazione con questo binario, è necessario riflashare immediatamente il firmware standard.</li>
+</ul>
+
+<h2>Procedura di flash (Schede STM32)</h2>
+<ol>
+    <li class="step-item">
+        <strong>Collegamento:</strong> Connettere il cavo USB-TTL alla scheda di volo e inserire l'adattatore OTG nel dispositivo Android.
+    </li>
+    <li class="step-item">
+        <strong>Selezione file:</strong> Scegliere il firmware appropriato o utilizzare la funzionalità di rilevamento automatico.
+    </li>
+    <li class="step-item">
+        <strong>Attivazione bootloader:</strong> Spostare il ponticello <strong>BOOT0</strong> verso destra (modalità programmazione).<br/>
+        <img src="file:///android_asset/help/images/stm32-prog2-small.jpg" alt="BOOT0 a destra"/>
+    </li>
+    <li class="step-item">
+        <strong>Reset:</strong> Premere e rilasciare il pulsante fisico <strong>Reset</strong> sulla scheda.
+    </li>
+    <li class="step-item">
+        <strong>Programmazione:</strong> Toccare <strong>[Flash Firmware]</strong> e attendere il completamento (100%).
+    </li>
+    <li class="step-item">
+        <strong>Modalità operativa:</strong> Spostare il ponticello <strong>BOOT0</strong> verso sinistra (modalità di esecuzione normale).<br/>
+        <img src="file:///android_asset/help/images/stm32-prog1-small.jpg" alt="BOOT0 a sinistra"/>
+    </li>
+    <li class="step-item">
+        <strong>Riavvio:</strong> Premere nuovamente il pulsante <strong>Reset</strong> per avviare il nuovo firmware.
+    </li>
+</ol>
+
+</body>
+</html>

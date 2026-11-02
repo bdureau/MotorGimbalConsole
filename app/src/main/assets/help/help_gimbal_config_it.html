@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .info-box { background-color: #E3F2FD; border-left: 4px solid #1976D2; padding: 10px; margin: 12px 0; }
+        .param-item { margin-bottom: 12px; }
+        .param-item strong { color: #0277BD; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Guida alla configurazione del Gimbal Motore</h1>
+
+<p>Questa guida illustra le procedure di calibrazione e regolazione del sistema a controllo vettoriale della spinta (TVC) per la scheda Bear Altimeter.</p>
+
+<div class="info-box">
+    <strong>Stato connessione:</strong> Verificare che la connessione Bluetooth o USB-OTG sia attiva e che la scheda sia accesa prima di modificare i parametri.
+</div>
+
+<h2>Calibrazione e finecorsa dei servocomandi</h2>
+<div class="param-item">
+    <p><strong>Neutro / Centraggio dei servi (X / Y):</strong> Allinea meccanicamente il supporto motore con l'asse longitudinale del razzo in assetto di riposo.</p>
+</div>
+<div class="param-item">
+    <p><strong>Limiti di escursione (Min / Max):</strong> Imposta l'angolo massimo di deflessione in gradi sugli assi di beccheggio e imbardata per evitare impuntamenti meccanici dei tiranti.</p>
+</div>
+
+<h2>Anello di controllo PID</h2>
+<div class="param-item">
+    <p><strong>Guadagno proporzionale (Kp):</strong> Genera una correzione proporzionale all'errore angolare rilevato. Un valore eccessivo innesca oscillazioni rapide.</p>
+</div>
+<div class="param-item">
+    <p><strong>Guadagno integrale (Ki):</strong> Corregge deviazioni statiche residue e asimmetrie aerodinamiche nel corso della spinta.</p>
+</div>
+<div class="param-item">
+    <p><strong>Guadagno derivativo (Kd):</strong> Smorza la velocità angolare di rotazione del corpo del razzo, prevenendo le sovraoscillazioni.</p>
+</div>
+
+<h2>Orientamento del sensore e tempi di volo</h2>
+<div class="param-item">
+    <p><strong>Orientamento di montaggio IMU:</strong> Configura la rotazione della scheda rispetto al telaio del razzo.</p>
+</div>
+<div class="param-item">
+    <p><strong>Durata attiva del gimbal:</strong> Stabilisce il tempo di stabilizzazione attiva dopo l'accensione del motore. Il gimbal si disattiva al termine della spinta propulsiva.</p>
+</div>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; VERIFICA DI SICUREZZA SULLA RAMPA</div>
+    <div>Verificare sempre il movimento dei servocomandi inclinando manualmente il modello: l'ugello del gimbal deve muoversi nella direzione opposta per contrastare l'inclinazione.</div>
+</div>
+
+<h2>Lettura e scrittura dei parametri</h2>
+<ul>
+    <li>Toccare <strong>[Leggi configurazione]</strong> per caricare i valori correnti memorizzati nella EEPROM.</li>
+    <li>Toccare <strong>[Salva configurazione]</strong> per inviare le nuove impostazioni alla scheda.</li>
+</ul>
+
+</body>
+</html>

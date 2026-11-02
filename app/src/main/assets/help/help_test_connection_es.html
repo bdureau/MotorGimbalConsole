@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        .info-box { background-color: #E3F2FD; border-left: 4px solid #1976D2; padding: 10px; margin: 12px 0; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .metric-item { margin-bottom: 12px; }
+        .metric-item strong { color: #0277BD; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Prueba de fiabilidad de la conexión</h1>
+
+<p>Esta utilidad comprueba la calidad del enlace y la integridad de la transmisión entre la consola Android y la controladora de vuelo del cohete, lo cual resulta esencial con módulos de largo alcance 3DR Radio o LoRa.</p>
+
+<div class="info-box">
+    <strong>Consejo de uso:</strong> Efectúe este test en la plataforma de lanzamiento antes de volar para verificar la estabilidad de la señal y el margen de enlace.
+</div>
+
+<h2>Parámetros medidos</h2>
+<div class="metric-item">
+    <p><strong>Paquetes enviados / recibidos:</strong> Número total de tramas de prueba transmitidas por el canal activo.</p>
+</div>
+<div class="metric-item">
+    <p><strong>Paquetes perdidos:</strong> Cantidad de paquetes descartados a causa de interferencias de RF, desalineación de antenas o distancia excesiva.</p>
+</div>
+<div class="metric-item">
+    <p><strong>Tasa de pérdida (%):</strong> Porcentaje de paquetes perdidos respecto al total enviado. Se recomienda una tasa inferior al 2% para recibir telemetría continua.</p>
+</div>
+
+<h2>Interpretación de resultados</h2>
+<ul>
+    <li><strong>Pérdida &lt; 2%:</strong> Enlace excelente; la telemetría en vivo y las alertas por voz funcionarán de manera óptima.</li>
+    <li><strong>Pérdida entre 2% y 10%:</strong> Calidad aceptable, aunque pueden observarse ligeras pausas en las gráficas en directo.</li>
+    <li><strong>Pérdida &gt; 10%:</strong> Enlace deficiente. Revise la orientación de las antenas, los conectores o aumente la potencia del transmisor antes del vuelo.</li>
+</ul>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; RECOMENDACIÓN PREVIA AL VUELO</div>
+    <div>No realice el lanzamiento si la pérdida de paquetes es alta en la rampa. Suele indicar polarización cruzada de antenas, interferencias en la zona o alimentación insuficiente del transceptor.</div>
+</div>
+
+</body>
+</html>

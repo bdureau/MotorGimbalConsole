@@ -1,59 +1,105 @@
-<h1>Fichier Aide de la Console Gimbal Bear Altimeter</h1>
-<p>Ceci est une aide rapide pour utilser votre Gimbal Bear altimeter sur Android. La console Android est tr&egrave;s pratique &agrave; utiliser pour reconfigurer votre Gimbal lorsque vous etes sur le terrain.</p>
-<p>Tout d'abord vous devez vous assurer que votre Gimbal est compatible (c'est &agrave; dire que le bon firmware a &eacute;t&eacute; charg&eacute;).</p>
-<p>Ensuite assurez vous que le module bluetooth est connect&eacute; au Gimbal.&nbsp;</p>
-<p>Puis vous devez aller dans la configuration de votre appareil Android et dans&nbsp;la configuration bluetooth chercher les module bluetooth HC-05, HC-06 ou HC-07.</p>
-<p>Lorsque vous l'avez trouv&eacute; entrez le code pour associer le module. Le code par d&egrave;faut est 1234.</p>
-<p><span style="color: #ff0000;"><strong>!!! ATTENTION&nbsp;!!!!</strong></span></p>
-<p><span style="color: #ff0000;"><strong>Il est souhaitable de nommer clairement chaque adaptateur bluetooth sur votre t&eacute;l&eacute;phone de mani&egrave;re &agrave; vous assurer que vous configurez le bon Gimbal.&nbsp;</strong></span></p>
-<p>Ensuite allumer le Gimbal et attendre jusqu'&agrave; ce la fin de l'initialisation de celui-ci.</p>
-<p>Puis d&eacute;marrer l'application sur votre appareil Android, cliquer sur montrer les p&eacute;riph&eacute;riques bluetooth et choisissez le module HC-05 ou HC-06. L'application tente ensuite de se connecter au Gimbal.</p>
-<p>Si le message connect&eacute; apparait, cela veut dire que vous etes connect&eacute; et que vous pouvez utiliser la Console pour configurer votre &nbsp;Gimbal ou lire vos vols. Si cela n'arrive pas &agrave; se connecter assurez vous que vous avez selectionn&eacute; le bon module bluetooth ou que le Gimbal est sous tension.</p>
-<h2>Utilisation de la console du Gimbal</h2>
-<h3>Ecran principal du Gimbal</h3>
-<p>Sur l'&eacute;cran principal vous avez un certain nombre de boutons, d&eacute;crivons les.&nbsp;</p>
-<p><strong>[Configuration Gimbal]</strong></p>
-<p><img  src="file:///android_asset/help/images/Gimbal config75x91.png"/></p>
-<p>Charge la configuration de l'altim&egrave;tre et vous permet de la modifier.</p>
-<p>&nbsp;</p>
-<p><strong>[Vols]</strong></p>
-<p><img  src="file:///android_asset/help/images/Gimbal Flights75x91.png"/></p>
-<p>Charge la totalit&eacute; des vols que vous avez enregistr&eacute; et les affiche.</p>
-<p>&nbsp;</p>
-<p><strong>[Telemetrie]</strong></p>
-<p><img  src="file:///android_asset/help/images/Gimbal Telemetry75x90.png"/></p>
-<p>Allow rocket real time telemetry with voice.</p>
-<p>&nbsp;</p>
-<p><strong>[Réinitialisation]</strong></p>
-<p><img  src="file:///android_asset/help/images/Gimbal Reset75x90.png"/></p>
-<p>Donne la possibilit&eacute; de restaurer les param&egrave;tres d'usine de la configuration du Gimbal. Cela permet &eacute;galement d'effacer tous les vols.&nbsp;</p>
-<p>&nbsp;</p>
-<p><strong>[Status]</strong></p>
-<p><img  src="file:///android_asset/help/images/Gimbal Status75x90.png"/></p>
-<p>Show the status in real time</p>
-<p>&nbsp;</p>
-<p><strong>[Flash Firmwares]</strong></p>
-<p>Donne la possibilit&eacute; de flasher le Gimbal avec le dernier firmware pour etre certain que celui ci soit compatible avec la console Gimbal</p>
-<p>&nbsp;</p>
-<p><strong>[About]</strong></p>
-<p><img  src="file:///android_asset/help/images/Gimbal about75x91.png"/></p>
-<p> </p>
-<p><strong>[Connexion/D&eacute;connexion]</strong></p>
-<p><img  src="file:///android_asset/help/images/Gimbal Connect75x91.png"/>
-    <img  src="file:///android_asset/help/images/Gimbal disconnect75x90.png"/></p>
-<p>Se connecte ou d&eacute;connecte du Gimbal</p>
-<h3>Menu principal du Gimbal</h3>
-<p>Depuis le menu vous pouvez acc&egrave;der &agrave; ce fichier d'aide, un &eacute;cran &agrave; propos qui vous donnera des
-    informations concernant la console Gimbal et sa version . Vous avez &eacute;galment la possibilit&eacute; de
-    changer l'apparance de l'application.</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>La console est compatible avec les Gimbals suivant:</p>
-<p>    - Gimbal (MPU6050)</p>
-<p><img  src="file:///android_asset/help/images/altiGimbal-small.jpg"/></p>
-<p>    - Gimbal (BNO055)</p>
-<p><img  src="file:///android_asset/help/images/altiGimbal-bno055-small.jpg"/></p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .btn-entry { margin-bottom: 14px; }
+        .btn-entry strong { color: #0277BD; }
+        img { vertical-align: middle; margin: 4px 6px 4px 0; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Aide de la Console Bear Altimeter Motor Gimbal</h1>
+
+<p>Ce guide explique comment utiliser votre console Android Bear Altimeter Motor Gimbal. L'application constitue un outil de terrain pratique pour régler la stabilisation PID, analyser les courbes de vol et suivre la télémétrie en temps réel directement sur le pas de tir.</p>
+
+<h2>Configuration initiale et appairage Bluetooth</h2>
+<ol>
+    <li><strong>Vérification du firmware :</strong> Assurez-vous que l'ordinateur de vol du gimbal est équipé d'une version de firmware compatible.</li>
+    <li><strong>Connexion du module :</strong> Vérifiez que le module sans fil Bluetooth (HC-05, HC-06 ou HC-07) est correctement relié au contrôleur du gimbal.</li>
+    <li><strong>Appairage de l'appareil :</strong> Ouvrez les <em>Paramètres &gt; Bluetooth</em> de votre appareil Android et recherchez les périphériques disponibles. Associez le module (le code PIN par défaut est habituellement <code>1234</code> ou <code>0000</code>).</li>
+</ol>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; ATTENTION</div>
+    <div>Il est fortement recommandé de renommer clairement chaque périphérique Bluetooth associé sur votre téléphone (par exemple : <em>« Fusée-Gimbal-1 »</em>) afin de vous assurer de vous connecter au bon modèle sur la rampe de lancement.</div>
+</div>
+
+<ol start="4">
+    <li><strong>Mise sous tension :</strong> Allumez le contrôleur du gimbal et maintenez la fusée immobile en position verticale jusqu'à la fin de la calibration de l'IMU et des gyroscopes.</li>
+    <li><strong>Connexion :</strong> Lancez l'application, touchez <em>Connexion / Déconnexion</em> et sélectionnez le module appairé. L'indicateur d'état confirmera la réussite de la liaison.</li>
+</ol>
+
+<h2>Utilisation de la Console Gimbal</h2>
+
+<h3>Boutons de l'écran principal</h3>
+
+<div class="btn-entry">
+    <p><strong>[Configuration Gimbal]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal config75x91.png" alt="Configuration"/>
+        Lit la configuration enregistrée sur l'ordinateur de vol et permet de régler les limites des servomoteurs, les paramètres PID et l'orientation des capteurs.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Vols (Flights)]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Flights75x91.png" alt="Vols"/>
+        Télécharge les enregistrements de vol depuis la mémoire flash. Permet de tracer les courbes d'altitude, les profils d'accélération et de rejouer le débattement des servomoteurs durant la phase de poussée.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Télémétrie]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Telemetry75x90.png" alt="Télémétrie"/>
+        Écran de télémétrie en direct avec alertes vocales optionnelles pour l'altitude, l'apogée et le suivi de la trajectoire.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Réinitialisation (Reset)]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Reset75x90.png" alt="Reset"/>
+        Rétablit les réglages d'usine du gimbal et permet d'effacer tous les journaux de vol ou uniquement le vol le plus récent.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[État (Status)]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Status75x90.png" alt="Status"/>
+        Affiche les diagnostics en temps réel : tension de la batterie, positions de centrage des servomoteurs et vérification de l'état des capteurs.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Flasher Firmware]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Flash firmware75x91.png" alt="Flash"/>
+        Permet de flasher la dernière version du firmware sur le contrôleur du gimbal via le port USB ou le chargeur d'amorçage série.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[À propos (About)]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal about75x91.png" alt="À propos"/>
+        Affiche la version de l'application, les informations de compilation et les crédits des développeurs.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Connexion / Déconnexion]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Connect75x91.png" alt="Connexion"/>
+        <img src="file:///android_asset/help/images/Gimbal disconnect75x90.png" alt="Déconnexion"/>
+        Établit ou interrompt la liaison série Bluetooth / USB avec le gimbal.</p>
+</div>
+
+<h3>Menu des options de l'application</h3>
+<p>Depuis le menu de la barre d'action, vous pouvez accéder à cette documentation d'aide, ouvrir la fenêtre À propos, configurer les paramètres des modules de transmission (Bluetooth, 3DR, LoRa) ou personnaliser l'apparence visuelle.</p>
+
+<h3>Matériel compatible</h3>
+<p>&bull; <strong>Gimbal (Centrale inertielle 6-DOF MPU6050)</strong></p>
+<p><img src="file:///android_asset/help/images/altiGimbal-small.jpg" alt="Gimbal MPU6050"/></p>
+<p>&bull; <strong>Gimbal (Capteur d'orientation absolue BNO055)</strong></p>
+<p><img src="file:///android_asset/help/images/altiGimbal-bno055-small.jpg" alt="Gimbal BNO055"/></p>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .info-box { background-color: #E3F2FD; border-left: 4px solid #1976D2; padding: 10px; margin: 12px 0; }
+        .step-item { margin-bottom: 12px; }
+        .step-item strong { color: #0277BD; }
+        img { vertical-align: middle; margin: 6px 0; max-width: 100%; height: auto; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Настройка модуля Bluetooth</h1>
+
+<p>Для надежного обмена данными между бортовым высотомером/подвесом и приложением на смартфоне скорость последовательного интерфейса модуля Bluetooth должна строго совпадать со скоростью полетного контроллера.</p>
+
+<p>Данный инструмент предназначен для прошивки и конфигурирования модулей HC-05, HC-06 и совместимых с ними адаптеров.</p>
+<p><img src="file:///android_asset/help/images/bluetooth_module.jpg" alt="Модуль Bluetooth"/></p>
+
+<h2>Оборудование для программирования</h2>
+<ul>
+    <li>Кабель-переходник USB-TTL.<br/>
+        <img src="file:///android_asset/help/images/ttl_cable-small.jpg" alt="Кабель TTL"/>
+    </li>
+    <li>Переходник USB-OTG под разъем вашего мобильного устройства (USB-C или Micro-USB).<br/>
+        <img src="file:///android_asset/help/images/usb_adpter-small.jpg" alt="Адаптер USB"/>
+    </li>
+    <li>Переходная колодка JST и соединительные провода.</li>
+</ul>
+
+<h2>Согласование скорости обмена (Baud Rate)</h2>
+<p>Заводская скорость UART большинства модулей Bluetooth составляет <code>9600</code> бод. Контроллер высотомера и подвеса Gimbal по умолчанию работает на скорости <code>38400</code> бод. Необходимо перенастроить модуль на скорость <code>38400</code> бод.</p>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; ВНИМАНИЕ</div>
+    <div>Категорически запрещается отключать модуль от кабеля во время считывания или записи данных, чтобы не повредить регистры AT-команд.</div>
+</div>
+
+<h2>Порядок действий</h2>
+<ol>
+    <li class="step-item">
+        <strong>Подключение:</strong> Подключите модуль Bluetooth к Android-устройству через USB-TTL адаптер и кабель OTG.
+    </li>
+    <li class="step-item">
+        <strong>Выбор модели:</strong> Укажите тип используемого модуля в списке (HC-05, HC-06). Если точная модель неизвестна, оставьте вариант по умолчанию.
+    </li>
+    <li class="step-item">
+        <strong>Считывание параметров:</strong> Нажмите <strong>[Retrieve cfg]</strong>. Приложение выполнит опрос на скорости <code>38400</code> бод, а при необходимости переберет остальные скорости до установления связи с адаптером.
+    </li>
+    <li class="step-item">
+        <strong>Изменение настроек:</strong> Задайте понятное имя модуля (например, <em>«Rocket-Gimbal-1»</em>), установите скорость <code>38400</code> бод и при необходимости измените PIN-код (по умолчанию: <code>1234</code>).
+    </li>
+    <li class="step-item">
+        <strong>Запись конфигурации:</strong> Нажмите <strong>[Save cfg]</strong> для сохранения параметров в энергонезависимой памяти. При возникновении ошибки запись будет отменена.
+    </li>
+</ol>
+
+<div class="info-box">
+    <strong>Примечание:</strong> Повторите эту процедуру для каждого Bluetooth-модуля, используемого в ракетах.
+</div>
+
+</body>
+</html>

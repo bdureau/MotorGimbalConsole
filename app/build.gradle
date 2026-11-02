@@ -5,9 +5,10 @@ android {
     defaultConfig {
         applicationId "com.motorgimbalconsole"
         minSdk 23
+        //targetSdkVersion 'android-37.1-beta5'
         targetSdk 37
-        versionCode 15
-        versionName "2.0.8"
+        versionCode 16
+        versionName "2.0.9"
         multiDexEnabled true
 
     }
@@ -29,12 +30,12 @@ android {
     productFlavors {
     }
     namespace 'com.motorgimbalconsole'
-    buildToolsVersion '36.0.0 rc4'
+    buildToolsVersion '37.0.0'
     lint {
         abortOnError false
         checkReleaseBuilds false
     }
-    compileSdkMinor 0
+    compileSdkMinor 2
 }
 
 dependencies {
@@ -44,13 +45,13 @@ dependencies {
     //implementation files('libs/usbserial.jar')
     implementation files('libs/usbserial-6.1.0.aar') //special version of usbserial that work with Android 12
     //implementation 'com.squareup.okio:okio:3.3.0' //this is needed so that my local userial lib work
-    implementation 'com.squareup.okio:okio:3.17.0'
+    implementation 'com.squareup.okio:okio:3.18.1'
     implementation files('libs/physicaloid.aar')
     implementation files('libs/processing-core.jar')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.google.android.gms:play-services-maps:20.0.0'
     //implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.appcompat:appcompat-resources:1.7.1' //02/01/2025
+    implementation 'androidx.appcompat:appcompat-resources:1.8.0' //02/01/2025
 
     androidTestImplementation 'androidx.test.ext:junit:1.3.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.7.0'

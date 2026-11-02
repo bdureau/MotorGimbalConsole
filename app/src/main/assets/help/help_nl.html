@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .btn-entry { margin-bottom: 14px; }
+        .btn-entry strong { color: #0277BD; }
+        img { vertical-align: middle; margin: 4px 6px 4px 0; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Handleiding Bear Altimeter Motor Gimbal Console</h1>
+
+<p>Deze handleiding legt uit hoe u de Android Bear Altimeter Motor Gimbal console gebruikt. De Android-console is een handig hulpmiddel op het veld om de PID-stabilisatie te configureren, vluchtgegevens te analyseren en live telemetrie direct bij het lanceerplatform te monitoren.</p>
+
+<h2>Eerste configuratie en Bluetooth-koppeling</h2>
+<ol>
+    <li><strong>Firmware-compatibiliteit:</strong> Controleer of uw gimbal-vluchtcomputer is uitgerust met de juiste firmwareversie.</li>
+    <li><strong>Module-aansluiting:</strong> Zorg ervoor dat de Bluetooth-module (HC-05, HC-06 of HC-07) correct is aangesloten op de controller van de gimbal.</li>
+    <li><strong>Koppelen:</strong> Ga op uw Android-apparaat naar <em>Instellingen &gt; Bluetooth</em> en zoek naar beschikbare apparaten. Koppel de module (de standaardpincode is meestal <code>1234</code> of <code>0000</code>).</li>
+</ol>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; WAARSCHUWING</div>
+    <div>Het wordt sterk aanbevolen om elk gekoppeld Bluetooth-apparaat op uw telefoon een duidelijke herkenbare naam te geven (bijv. <em>"Raket-Gimbal-1"</em>) om te voorkomen dat u verbinding maakt met de verkeerde raket op de lanceerhelling.</div>
+</div>
+
+<ol start="4">
+    <li><strong>Inschakelen:</strong> Schakel de gimbal in en houd de raket stil en verticaal totdat de IMU-kalibratie en gyroscoopinitialisatie voltooid zijn.</li>
+    <li><strong>Verbinding maken:</strong> Start de app, tik op <em>Verbinden/Verbreken</em> en selecteer de gekoppelde module. Zodra de status "Verbonden" verschijnt, is het systeem klaar voor gebruik.</li>
+</ol>
+
+<h2>Gebruik van de Gimbal Console</h2>
+
+<h3>Functies op het hoofdscherm</h3>
+
+<div class="btn-entry">
+    <p><strong>[Gimbal Config (Configuratie)]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal config75x91.png" alt="Configuratie"/>
+        Leest de boordconfiguratie uit en stelt u in staat servolimieten, PID-parameters en sensorori&euml;ntaties aan te passen.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Vluchten (Flights)]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Flights75x91.png" alt="Vluchten"/>
+        Downloadt opgeslagen vluchten uit het geheugen. Hiermee kunt u hoogtecurven bekijken, versnellingsprofielen plotten en servobewegingen herbekijken.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Telemetrie]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Telemetry75x90.png" alt="Telemetrie"/>
+        Biedt realtime telemetrie met optionele spraakaankondigingen voor hoogte, stijgsnelheid en raketori&euml;ntatie.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Herstellen (Reset)]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Reset75x90.png" alt="Reset"/>
+        Herstelt de fabrieksinstellingen van de gimbal en biedt de mogelijkheid om alle vluchtlogs of uitsluitend de laatste vlucht te wissen.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Status]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Status75x90.png" alt="Status"/>
+        Geeft de realtime diagnostische status van het systeem weer (batterijspanning, sensorsignalen en servomiddenstanden).</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Firmware Flashen]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Flash firmware75x91.png" alt="Flash"/>
+        Maakt het mogelijk om de nieuwste compatibele firmware op de microcontroller van de gimbal te installeren via USB of seri&euml;le bootloader.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Over (About)]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal about75x91.png" alt="Over"/>
+        Toont informatie over de versie van de applicatie en ontwikkelingsgegevens.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Verbinden / Verbreken]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Connect75x91.png" alt="Verbinden"/>
+        <img src="file:///android_asset/help/images/Gimbal disconnect75x90.png" alt="Verbreken"/>
+        Brengt de seri&euml;le Bluetooth- of USB-verbinding tot stand of verbreekt deze.</p>
+</div>
+
+<h3>Applicatiemenu</h3>
+<p>Via het menu in de actiebalk hebt u toegang tot deze helpdocumentatie, het infovenster en de instellingen van verbindingsmodules (Bluetooth, 3DR-radio, LoRa), evenals het aanpassen van de interface.</p>
+
+<h3>Ondersteunde Hardware</h3>
+<p>&bull; <strong>Gimbal (MPU6050 6-DOF IMU)</strong></p>
+<p><img src="file:///android_asset/help/images/altiGimbal-small.jpg" alt="MPU6050 Gimbal"/></p>
+<p>&bull; <strong>Gimbal (BNO055 Absolute Ori&euml;ntatiesensor)</strong></p>
+<p><img src="file:///android_asset/help/images/altiGimbal-bno055-small.jpg" alt="BNO055 Gimbal"/></p>
+
+</body>
+</html>

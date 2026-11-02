@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .btn-entry { margin-bottom: 14px; }
+        .btn-entry strong { color: #0277BD; }
+        img { vertical-align: middle; margin: 4px 6px 4px 0; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Руководство консоли Bear Altimeter Motor Gimbal</h1>
+
+<p>Это краткое руководство по работе с приложением Android Bear Altimeter Motor Gimbal Console. Консоль предназначена для быстрой настройки стабилизации сопла двигателя (TVC), анализа графиков полета и мониторинга телеметрии непосредственно на стартовой площадке.</p>
+
+<h2>Подключение и сопряжение по Bluetooth</h2>
+<ol>
+    <li><strong>Проверка прошивки:</strong> Убедитесь, что на контроллере подвеса установлена совместимая версия встроенного ПО.</li>
+    <li><strong>Подключение модуля:</strong> Убедитесь, что модуль Bluetooth (HC-05, HC-06 или HC-07) подключен к плате подвеса.</li>
+    <li><strong>Сопряжение в Android:</strong> Перейдите в <em>Настройки &gt; Bluetooth</em> вашего телефона/планшета и найдите доступные устройства. Выполните сопряжение с модулем (PIN-код по умолчанию: <code>1234</code> или <code>0000</code>).</li>
+</ol>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; ВНИМАНИЕ</div>
+    <div>Настоятельно рекомендуется переименовать сопряженное устройство в настройках Android (например, <em>«Rocket-Gimbal-1»</em>), чтобы случайно не подключиться к другой ракете на стартовой позиции.</div>
+</div>
+
+<ol start="4">
+    <li><strong>Включение питания:</strong> Включите питание подвеса. Удерживайте ракету неподвижно в вертикальном положении до завершения инициализации гироскопа и калибровки IMU.</li>
+    <li><strong>Установка связи:</strong> Запустите приложение, нажмите <em>Подключить/Отключить</em> и выберите ваш модуль. Сообщение «Connected» подтвердит готовность к работе.</li>
+</ol>
+
+<h2>Работа с консолью Gimbal</h2>
+
+<h3>Элементы главного экрана</h3>
+
+<div class="btn-entry">
+    <p><strong>[Настройки (Gimbal Config)]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal config75x91.png" alt="Настройки"/>
+        Считывает текущие параметры с полетного контроллера и позволяет настраивать коэффициенты ПИД-регулятора, калибровку и пределы отклонения сервоприводов.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Полеты (Flights)]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Flights75x91.png" alt="Полеты"/>
+        Загружает записанные данные полетов из флеш-памяти. Позволяет строить графики высоты, ускорения и просматривать траекторию отклонения вектора тяги.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Телеметрия (Telemetry)]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Telemetry75x90.png" alt="Телеметрия"/>
+        Отображение параметров полета в реальном времени с поддержкой голосового оповещения о высоте и прохождении апогея.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Сброс (Reset)]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Reset75x90.png" alt="Сброс"/>
+        Позволяет сбросить параметры подвеса к заводским настройкам, а также очистить журнал полетов (все полеты или только последний).</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Статус (Status)]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Status75x90.png" alt="Статус"/>
+        Диагностика системы в реальном времени: напряжение питания, состояние датчиков и нейтральные положения рулевых машинок.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Прошивка (Flash Firmware)]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Flash firmware75x91.png" alt="Прошивка"/>
+        Инструмент для обновления микропрограммы полетного контроллера через USB или последовательный загрузчик.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[О программе (About)]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal about75x91.png" alt="О программе"/>
+        Информация о версии консоли, номере сборки и разработчиках.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Подключить / Отключить]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Connect75x91.png" alt="Подключить"/>
+        <img src="file:///android_asset/help/images/Gimbal disconnect75x90.png" alt="Отключить"/>
+        Установка и разрыв соединения с подвесом по Bluetooth или USB-OTG.</p>
+</div>
+
+<h3>Меню приложения</h3>
+<p>В верхнем меню доступны справка, окно «О программе», экраны настройки беспроводных каналов связи (Bluetooth, 3DR-модемы, LoRa), а также параметры оформления интерфейса.</p>
+
+<h3>Поддерживаемое оборудование</h3>
+<p>&bull; <strong>Gimbal (на базе датчика MPU6050 6-DOF)</strong></p>
+<p><img src="file:///android_asset/help/images/altiGimbal-small.jpg" alt="Подвес MPU6050"/></p>
+<p>&bull; <strong>Gimbal (на базе датчика BNO055 Absolute Orientation)</strong></p>
+<p><img src="file:///android_asset/help/images/altiGimbal-bno055-small.jpg" alt="Подвес BNO055"/></p>
+
+</body>
+</html>

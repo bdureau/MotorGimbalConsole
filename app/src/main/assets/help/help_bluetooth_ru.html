@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .step-item { margin-bottom: 12px; }
+        .step-item strong { color: #0277BD; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Выбор модуля Bluetooth</h1>
+
+<p>Это окно предназначено для выбора нужного модуля Bluetooth при первом подключении к контроллеру Bear Altimeter Motor Gimbal или при смене ракеты на стартовой площадке.</p>
+
+<h2>Порядок сопряжения и настройки</h2>
+<ol>
+    <li class="step-item">
+        <strong>Сопряжение в Android:</strong> Перед выбором устройства в приложении необходимо выполнить сопряжение радиомодуля (HC-05, HC-06 или HC-07) в системном меню <em>Настройки &gt; Bluetooth</em> вашего смартфона или планшета. PIN-код по умолчанию: <code>1234</code> или <code>0000</code>.
+    </li>
+    <li class="step-item">
+        <strong>Выбор адаптера:</strong> В списке сопряженных устройств выберите Bluetooth-модуль, установленный на текущем подвесе.
+    </li>
+    <li class="step-item">
+        <strong>Подключение:</strong> Вернитесь на главный экран приложения и нажмите кнопку <em>Подключить</em>. Если выбран неверный адаптер или подвес обесточен, связь не будет установлена.
+    </li>
+</ol>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; ВАЖНАЯ РЕКОМЕНДАЦИЯ</div>
+    <div>Обязательно присвойте понятное имя каждому сопряженному модулю в настройках Bluetooth Android (например, <em>«Rocket-Gimbal-1»</em>, <em>«Rocket-Gimbal-2»</em>). Это исключит передачу полетных коэффициентов и команд на чужую ракету.</div>
+</div>
+
+<h2>Устранение неполадок связи</h2>
+<ul>
+    <li>Проверьте светодиодный индикатор на плате Bluetooth: частое мигание означает ожидание подключения, постоянное свечение — установленное соединение.</li>
+    <li>Убедитесь, что бортовой аккумулятор подключен и обеспечивает достаточное напряжение питания контроллера.</li>
+    <li>Если устройство не отображается, убедитесь, что приложению предоставлены системные разрешения на доступ к Bluetooth и поиск устройств поблизости.</li>
+</ul>
+
+</body>
+</html>

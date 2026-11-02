@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .info-box { background-color: #E3F2FD; border-left: 4px solid #1976D2; padding: 10px; margin: 12px 0; }
+        .step-item { margin-bottom: 12px; }
+        .step-item strong { color: #0277BD; }
+        img { vertical-align: middle; margin: 6px 0; max-width: 100%; height: auto; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Configuración del módulo de telemetría 3DR</h1>
+
+<p>Para lograr enlaces de telemetría de largo alcance, se sustituye el enlace Bluetooth por un conjunto de radiomódems 3DR.</p>
+
+<p><img src="file:///android_asset/help/images/3DR_module-small.png" alt="Módulo 3DR"/></p>
+
+<div class="info-box">
+    <strong>Alimentación eléctrica:</strong> Verifique que la batería de su dispositivo Android entregue suficiente corriente a través de USB-OTG para alimentar el módulo terrestre. Con módulos de alta potencia (500mW o 1W) se recomienda utilizar un concentrador USB alimentado o una batería externa.
+</div>
+
+<h2>Material necesario para la configuración</h2>
+<ul>
+    <li>Un cable convertidor USB a TTL serie.<br/>
+        <img src="file:///android_asset/help/images/ttl_cable-small.jpg" alt="Cable TTL"/>
+    </li>
+    <li>Un adaptador USB-OTG compatible con su teléfono o tableta (USB-C o Micro-USB).<br/>
+        <img src="file:///android_asset/help/images/usb_adpter-small.jpg" alt="Adaptador USB"/>
+    </li>
+    <li>Un adaptador JST y cables de interconexión JST.</li>
+</ul>
+
+<h2>Compatibilidad de velocidad (Baud Rate)</h2>
+<p>La mayoría de los módulos 3DR vienen configurados de fábrica a <code>57600</code> baudios. Sin embargo, la placa controladora del Gimbal funciona por defecto a <code>38400</code> baudios. Es indispensable ajustar la velocidad serie de ambos radiomódems para que coincida con la controladora de vuelo.</p>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; ATENCIÓN CRÍTICA</div>
+    <div>No desconecte nunca el módulo durante la lectura o escritura de datos para evitar la corrupción de la memoria EEPROM.</div>
+</div>
+
+<h2>Pasos de configuración</h2>
+<ol>
+    <li class="step-item">
+        <strong>Conexión:</strong> Conecte el módulo 3DR al dispositivo Android mediante el cable USB a TTL y el adaptador OTG.
+    </li>
+    <li class="step-item">
+        <strong>Leer parámetros:</strong> Pulse en <strong>[Retrieve cfg]</strong>. La aplicación probará sucesivamente distintas velocidades en baudios hasta sincronizar con el módulo y cargar sus parámetros actuales.
+    </li>
+    <li class="step-item">
+        <strong>Modificar parámetros:</strong> Ajuste los valores deseados (velocidad en baudios compatible con el Gimbal, canales de frecuencia e ID de red).
+    </li>
+    <li class="step-item">
+        <strong>Guardar configuración:</strong> Pulse en <strong>[Save cfg]</strong> para grabar los datos en el módulo. Ante cualquier error de comunicación, el proceso de guardado se cancelará.
+    </li>
+</ol>
+
+<div class="info-box">
+    <strong>Módulos emparejados:</strong> Los módulos 3DR trabajan por parejas (emisor a bordo del cohete y receptor en tierra). Repita esta operación con <em>ambos</em> dispositivos asegurándose de que compartan el mismo Net ID, frecuencias y velocidad en baudios.
+</div>
+
+</body>
+</html>

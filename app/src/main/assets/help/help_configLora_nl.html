@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .info-box { background-color: #E3F2FD; border-left: 4px solid #1976D2; padding: 10px; margin: 12px 0; }
+        .step-item { margin-bottom: 12px; }
+        .step-item strong { color: #0277BD; }
+        img { vertical-align: middle; margin: 6px 0; max-width: 100%; height: auto; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Configuratie van de eByte LoRa E220-module</h1>
+
+<p>Voor telemetrie over lange afstanden kunt u de Bluetooth-module vervangen door een set eByte LoRa E220-transceivers.</p>
+
+<h3>Geteste en ondersteunde modules</h3>
+<ul>
+    <li>E220-400T30D / E220-400T30S</li>
+    <li>E220-900T30D / E220-900T30S</li>
+    <li>E220-400T22D / E220-900T22S</li>
+</ul>
+<p>
+    <img src="file:///android_asset/help/images/E220-900T22S.jpg" alt="LoRa E220 SMD-module"/>
+    <img src="file:///android_asset/help/images/E220-900T30D.jpg" alt="LoRa E220 DIP-module"/>
+</p>
+
+<div class="info-box">
+    <strong>Voedingsopmerking:</strong> Zorg ervoor dat uw Android-apparaat via USB-OTG voldoende stroom kan leveren. Krachtige 30dBm (1 Watt) modules vereisen een externe accu of een actieve USB-hub om stroomuitval te voorkomen.
+</div>
+
+<h2>Benodigde hardware voor programmering</h2>
+<ul>
+    <li>Een USB-naar-TTL seriële adapterkabel.<br/>
+        <img src="file:///android_asset/help/images/ttl_cable-small.jpg" alt="TTL-kabel"/>
+    </li>
+    <li>Een USB-OTG-adapter (USB-C of Micro-USB).<br/>
+        <img src="file:///android_asset/help/images/usb_adpter-small.jpg" alt="USB-adapter"/>
+    </li>
+    <li>Een JST-adapter en bijbehorende JST-bekabeling.</li>
+</ul>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; BELANGRIJK: CONFIGURATIEJUMPERS (M0 / M1)</div>
+    <div>Om de configuratiemodus te activeren, moet u <strong>beide jumpers</strong> plaatsen (M0 en M1 op HIGH). Na het opslaan <strong>moet u beide jumpers weer verwijderen</strong> om terug te keren naar de normale zendmodus.</div>
+</div>
+
+<h2>Baudrate-compatibiliteit</h2>
+<p>Het ophalen van configuratieparameters gebeurt op <code>9600</code> baud, maar de standaardpoort van deze modules staat vaak op <code>57600</code> baud. De Gimbal-vluchtcomputer werkt standaard op <code>38400</code> baud. U moet de UART-snelheid aanpassen naar <code>38400</code> baud.</p>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; WAARSCHUWING</div>
+    <div>Koppel de module nooit los tijdens het lezen of wegschrijven van configuratiegegevens.</div>
+</div>
+
+<h2>Configuratiestappen</h2>
+<ol>
+    <li class="step-item">
+        <strong>Hardware voorbereiden:</strong> Plaats beide jumpers op de module. Sluit deze aan op uw Android-apparaat via de USB-TTL-kabel en de OTG-adapter.
+    </li>
+    <li class="step-item">
+        <strong>Configuratie inlezen:</strong> Tik op <strong>[Retrieve cfg]</strong>. De app maakt verbinding op <code>9600</code> baud en leest de huidige parameters uit.
+    </li>
+    <li class="step-item">
+        <strong>Instellingen aanpassen:</strong> Kies <code>38400</code> baud voor compatibiliteit met de vluchtcomputer. Zorg dat het frequentiekanaal, de overdrachtssnelheid en de eventuele versleutelingssleutel op beide modules identiek zijn.
+    </li>
+    <li class="step-item">
+        <strong>Configuratie opslaan:</strong> Tik op <strong>[Save cfg]</strong> om de data naar het geheugen te schrijven. Bij transmissiefouten wordt het opslaan direct gestopt.
+    </li>
+    <li class="step-item">
+        <strong>Configuratiemodus verlaten:</strong> Koppel de module los en <strong>verwijder beide jumpers</strong> voordat u de module inzet.
+    </li>
+</ol>
+
+<div class="info-box">
+    <strong>Werking in paren:</strong> LoRa-modules werken altijd in zender/ontvanger-paren. Herhaal deze procedure voor beide modules. Let op: LoRa-modules functioneren momenteel niet met ESP32-printplaten.
+</div>
+
+</body>
+</html>

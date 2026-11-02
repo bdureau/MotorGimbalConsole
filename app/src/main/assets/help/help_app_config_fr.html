@@ -1,7 +1,55 @@
-<h1>Configuration de l'application Gimbal</h1>
-<p>Ceci est un fichier d'aide pour vous aider à configurer rapidement l'application Motor Gimbal console.</p>
-<p><br />Cela vous permettra de changer l'apparence et le comportement de l'application Android</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
+        .info-box { background-color: #E3F2FD; border-left: 4px solid #1976D2; padding: 10px; margin: 12px 0; }
+        .setting-item { margin-bottom: 12px; }
+        .setting-item strong { color: #0277BD; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Configuration de l'application Motor Gimbal</h1>
+
+<p>Ce guide décrit la configuration des préférences globales, de l'apparence et du comportement de la console Android Bear Altimeter Motor Gimbal.</p>
+
+<div class="info-box">
+    <strong>Remarque :</strong> Les réglages effectués dans cet écran concernent le fonctionnement de l'application mobile et de ses modules de liaison, et non les paramètres de vol internes du gimbal.
+</div>
+
+<h2>Communication et type de connexion</h2>
+<div class="setting-item">
+    <p><strong>Interface de connexion par défaut :</strong> Choisissez le canal de communication principal : Bluetooth (RFCOMM) ou liaison série filaire USB-OTG.</p>
+</div>
+<div class="setting-item">
+    <p><strong>Vitesse de transmission (Baud Rate) :</strong> Définissez la vitesse de communication pour la télémétrie sol (généralement <code>38400</code> ou <code>57600</code> bauds selon votre émetteur-récepteur).</p>
+</div>
+<div class="setting-item">
+    <p><strong>Modules de télémétrie longue portée :</strong> Paramétrez les modems externes tels que les modules radio 3DR, LoRa E32 ou LoRa E220 pour étendre la portée sol-fusée.</p>
+</div>
+
+<h2>Affichage et unités de mesure</h2>
+<div class="setting-item">
+    <p><strong>Système d'unités :</strong> Basculez entre le système métrique (mètres, m/s, °C) et le système impérial (pieds, ft/s, °F) pour les cadrans et graphiques de vol.</p>
+</div>
+<div class="setting-item">
+    <p><strong>Thème et apparence :</strong> Personnalisez les couleurs de l'interface, le mode sombre/haute visibilité pour le plein soleil et le lissage des courbes de trajectoire.</p>
+</div>
+
+<h2>Télémétrie vocale et alertes sonores</h2>
+<div class="setting-item">
+    <p><strong>Synthèse vocale (TTS) :</strong> Activez ou désactivez les annonces audio en vol (altitude instantanée, franchissement de l'apogée, alerte de batterie faible).</p>
+</div>
+<div class="setting-item">
+    <p><strong>Fréquence des annonces :</strong> Déterminez l'intervalle des notifications vocales (par exemple tous les 50 mètres de montée ou toutes les secondes).</p>
+</div>
+
+</body>
+</html>

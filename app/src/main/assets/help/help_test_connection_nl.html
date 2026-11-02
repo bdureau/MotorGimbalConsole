@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        .info-box { background-color: #E3F2FD; border-left: 4px solid #1976D2; padding: 10px; margin: 12px 0; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .metric-item { margin-bottom: 12px; }
+        .metric-item strong { color: #0277BD; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Verbindingstest Betrouwbaarheid</h1>
+
+<p>Met dit scherm test u de signaalkwaliteit en communicatiebetrouwbaarheid tussen de console en de raketvluchtcomputer, wat vooral belangrijk is bij het gebruik van 3DR-radiomodems of LoRa-modules over lange afstand.</p>
+
+<div class="info-box">
+    <strong>Gebruikstip:</strong> Voer deze verbindingstest uit op het lanceerplatform vóór de lancering om de signaalstabiliteit en reikwijdte te controleren.
+</div>
+
+<h2>Gemeten parameters</h2>
+<div class="metric-item">
+    <p><strong>Verzonden / Ontvangen pakketten:</strong> Totaal aantal testpakketten dat over de actieve verbinding is verstuurd.</p>
+</div>
+<div class="metric-item">
+    <p><strong>Verloren pakketten:</strong> Aantal datavelden dat verloren is gegaan door radiostoringen, foute antenne-uitlijning of te grote afstand.</p>
+</div>
+<div class="metric-item">
+    <p><strong>Pakketverlies (%):</strong> Percentage verloren pakketten ten opzichte van het totaal. Een verlies onder 2% is aanbevolen voor stabiele telemetrie.</p>
+</div>
+
+<h2>Resultaten interpreteren</h2>
+<ul>
+    <li><strong>Verlies &lt; 2%:</strong> Uitstekende verbinding; telemetrie en spraakmeldingen werken zonder onderbreking.</li>
+    <li><strong>Verlies tussen 2% en 10%:</strong> Voldoende verbinding, maar er kunnen kleine vertragingen optreden in live grafieken.</li>
+    <li><strong>Verlies &gt; 10%:</strong> Slechte verbinding. Controleer de antennepositie, inspecteer kabelverbindingen of verhoog het zendvermogen vóór de vlucht.</li>
+</ul>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; VEILIGHEIDSADVIES VÓÓR LANCERING</div>
+    <div>Lanceer de raket niet als er op het lanceerplatform al sprake is van aanzienlijk pakketverlies. Dit wijst vaak op interferentie, een onjuiste antennehoek of een zender met te weinig voedingsspanning.</div>
+</div>
+
+</body>
+</html>

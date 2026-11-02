@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .info-box { background-color: #E3F2FD; border-left: 4px solid #1976D2; padding: 10px; margin: 12px 0; }
+        .param-item { margin-bottom: 12px; }
+        .param-item strong { color: #0277BD; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Configuratiegids Motor Gimbal</h1>
+
+<p>Deze handleiding beschrijft het kalibreren en afstellen van de stuwkrachtvectorregeling (TVC) op de Bear Altimeter-vluchtcomputer.</p>
+
+<div class="info-box">
+    <strong>Verbinding vereist:</strong> Zorg ervoor dat uw toestel via Bluetooth of USB-OTG verbonden is en de vluchtcomputer ingeschakeld is voordat u parameters wijzigt.
+</div>
+
+<h2>Servokalibratie &amp; Limieten</h2>
+<div class="param-item">
+    <p><strong>Servomiddenstand / Neutraal (X / Y):</strong> Brengt de motorophanging mechanisch op één lijn met de lengteas van de raket.</p>
+</div>
+<div class="param-item">
+    <p><strong>Uitslaglimieten (Min / Max):</strong> Bepaalt de maximale kantelhoek in graden om mechanische blokkades van de stuurstangen te voorkomen.</p>
+</div>
+
+<h2>PID-Stabilisatielus</h2>
+<div class="param-item">
+    <p><strong>Proportionele versterking (Kp):</strong> Bepaalt de corrigerende stuuruitslag evenredig aan de gedetecteerde hoekafwijking. Een te hoge Kp veroorzaakt oscillaties.</p>
+</div>
+<div class="param-item">
+    <p><strong>Integrale versterking (Ki):</strong> Compenseert aanhoudende richtingsafwijkingen en aerodynamische asymmetrie tijdens de vlucht.</p>
+</div>
+<div class="param-item">
+    <p><strong>Differentiële versterking (Kd):</strong> Dempt snelle hoekrotaties en voorkomt dat de stuuruitslag doorschiet.</p>
+</div>
+
+<h2>Sensororiëntatie &amp; Tijdsinstellingen</h2>
+<div class="param-item">
+    <p><strong>IMU-montagerichting:</strong> Bepaalt de rotatie-oriëntatie van de printplaat ten opzichte van het raketlichaam.</p>
+</div>
+<div class="param-item">
+    <p><strong>Actieve gimbalduur:</strong> Bepaalt hoelang de actieve besturing actief blijft na motorontsteking. De stabilisatie stopt zodra de motor uitbrandt.</p>
+</div>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; BELANGRIJKE VEILIGHEIDSCHECK</div>
+    <div>Controleer altijd de servoreactie op het lanceerplatform door de raket handmatig te kantelen. De gimbal moet altijd tegen de kantelrichting in bewegen.</div>
+</div>
+
+<h2>Parameters Lezen &amp; Opslaan</h2>
+<ul>
+    <li>Tik op <strong>[Configuratie lezen]</strong> om de actuele gegevens uit het EEPROM-geheugen op te halen.</li>
+    <li>Tik op <strong>[Configuratie opslaan]</strong> om uw wijzigingen vast te leggen.</li>
+</ul>
+
+</body>
+</html>

@@ -1,40 +1,72 @@
-<h1>Configuration d'un module Bluetooth </h1>
-<p>De manière à pouvoir configurer un module bluetooth pour connecter un altimetre à votre telephone
-    vous aurez besoin de le configurer pour qu'il soit à la meme vitesse que votre altimètre .</p>
-<p></p>
-<p>Cet ecran vous aidera à configurer un module bluetooth de maniere à pouvoir l'utiliser avec votre carte.</p>
-<p>Les modules comme le HC05, HC06 etc ... devraient fonctionner</p>
-<p><img  src="file:///android_asset/help/images/bluetooth_module.jpg"/></p>
-<p>Pour programmer le module vous avez besoin d'un cable TTL</p>
-<p><img  src="file:///android_asset/help/images/ttl_cable-small.jpg"/></p>
-<p>un adaptateur USB  (USBC ou micro USB suivant votre apareil Android )</p>
-<p><img  src="file:///android_asset/help/images/usb_adpter-small.jpg"/></p>
-<p>un adaptateur jst et des cables jst</p>
-<p> </p>
-<p>Notez que ces modules sont en général pré-configurés à 9600 bauds. Cependant votre altimetre par defaut est
-    configuré à 38400 bauds, il faudra donc vous assurer de vous connecter à la bonne vittesse.</p>
-<p></p>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .info-box { background-color: #E3F2FD; border-left: 4px solid #1976D2; padding: 10px; margin: 12px 0; }
+        .step-item { margin-bottom: 12px; }
+        .step-item strong { color: #0277BD; }
+        img { vertical-align: middle; margin: 6px 0; max-width: 100%; height: auto; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
 
-<p><span style="color: #ff0000;">Attention: Assurez vous de ne pas débrancher le module lorsque vous faites ce qui suit</span></p>
-<p></p>
-<p><strong>Charger la configuration du module</strong></p>
-<p>Connectez le module à votre appareil Android en utilisant un cable TTL et un adaptateur USB
-    compatible avec votre telephone en micro USB ou USB type C.</p>
-<p>Vous auraez besoin de choisir le module bluetooth que vous avez. Si vous ne savez pas lequel vous avez
-    choisissez celui par defaut ou tout autre module compatible. Si vous ne pouvez utilisez aucun des modules
-    envoyez moi la reference du module et/ou des photos du module.</p>
-<p>Ensuite cliquez sur [Charger cfg], cela tentera de se connectez au module en utilisant la vitesse pour defaut de 38600 baud.
-    Si cela ne fonctionne pas essayez encore, cela utilisera differentes vitesses jusqu'à ce qu'il se connecte.
-Cela chargera la configuration du module de manière à ce que vous puissiez la changer</p>
-<p></p>
-<p><strong>Sauvegarder la configuration du module </strong></p>
-<p>Changez les parametres que vous desirez comme le nom du module ou sa vitesse. Assurez vous que
-    vous avez choisi une vitesse qui fonctionnera avec votre carte et cliquez [Sauvez cfg].
-    Cela sauvegardera la configuration.
-    Si il y a une erreur pendant la sauvegarde celle ci est interrompue</p>
-<p></p>
-<p>Notez qu'il faudra refaire les memes etapes pour chaque module bluetooth que vous devez configurer</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<h1>Configuration d'un module Bluetooth</h1>
+
+<p>Pour connecter votre altimètre ou votre gimbal moteur à votre téléphone Android via Bluetooth, le module sans fil doit impérativement être configuré à la même vitesse série que la carte de vol.</p>
+
+<p>Cet utilitaire prend en charge les modules Bluetooth courants tels que les HC-05, HC-06 et modèles compatibles.</p>
+<p><img src="file:///android_asset/help/images/bluetooth_module.jpg" alt="Module Bluetooth"/></p>
+
+<h2>Matériel requis pour la programmation</h2>
+<ul>
+    <li>Un câble adaptateur USB vers série TTL.<br/>
+        <img src="file:///android_asset/help/images/ttl_cable-small.jpg" alt="Câble TTL"/>
+    </li>
+    <li>Un adaptateur USB-OTG adapté à votre smartphone ou tablette (USB-C ou Micro-USB).<br/>
+        <img src="file:///android_asset/help/images/usb_adpter-small.jpg" alt="Adaptateur USB"/>
+    </li>
+    <li>Un adaptateur JST et des cordons de liaison JST.</li>
+</ul>
+
+<h2>Harmonisation de la vitesse (Baud Rate)</h2>
+<p>Ces modules sont généralement configurés d'usine à <code>9600</code> bauds. Cependant, l'ordinateur de vol de votre altimètre/gimbal fonctionne par défaut à <code>38400</code> bauds. Il est donc nécessaire de modifier la vitesse interne du module pour qu'elle soit de <code>38400</code> bauds.</p>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; AVERTISSEMENT IMPORTANT</div>
+    <div>Ne débranchez jamais le module pendant la lecture ou l'écriture des paramètres afin de ne pas corrompre ses registres AT ou sa mémoire interne.</div>
+</div>
+
+<h2>Procédure de configuration</h2>
+<ol>
+    <li class="step-item">
+        <strong>Raccordement matériel :</strong> Reliez le module Bluetooth à votre appareil Android en utilisant le câble USB-TTL et l'adaptateur OTG.
+    </li>
+    <li class="step-item">
+        <strong>Choix du modèle :</strong> Sélectionnez le type de votre module dans la liste déroulante (par exemple HC-05 ou HC-06). Si vous ne connaissez pas le modèle exact, laissez l'option par défaut.
+    </li>
+    <li class="step-item">
+        <strong>Lecture de la configuration :</strong> Touchez <strong>[Charger cfg]</strong>. L'application testera la communication à <code>38400</code> bauds puis balayera les autres vitesses usuelles (<code>9600</code>, <code>19200</code>, <code>57600</code>, <code>115200</code>) jusqu'à obtenir une réponse valide.
+    </li>
+    <li class="step-item">
+        <strong>Modification des paramètres :</strong> Renommez le module (par exemple : <em>« Fusée-Gimbal-1 »</em>), ajustez la vitesse à <code>38400</code> bauds et modifiez si nécessaire le code PIN d'association (par défaut : <code>1234</code>).
+    </li>
+    <li class="step-item">
+        <strong>Sauvegarde :</strong> Touchez <strong>[Sauver cfg]</strong> pour enregistrer les paramètres dans le module. En cas d'erreur de communication, l'opération est automatiquement interrompue.
+    </li>
+</ol>
+
+<div class="info-box">
+    <strong>Remarque :</strong> Répétez cette même procédure pour chaque module Bluetooth que vous prévoyez d'utiliser sur vos fusées.
+</div>
+
+</body>
+</html>

@@ -1,9 +1,68 @@
-<h1>Fichier d'aide à la configuration du Gimbal </h1>
-<p>Ceci est un fichier d'aide pour vous aider à configurer rapidement votre carte Gimbal. </p>
-<p><br />Cela vous permettra de changer les parametres suivants: </p>
-<p>coefficients PID</p>
-<p>Servos</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .info-box { background-color: #E3F2FD; border-left: 4px solid #1976D2; padding: 10px; margin: 12px 0; }
+        .param-item { margin-bottom: 12px; }
+        .param-item strong { color: #0277BD; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Guide de configuration du Gimbal Moteur</h1>
+
+<p>Ce guide détaille la calibration et le réglage des paramètres de contrôle vectoriel de la poussée (TVC) de votre ordinateur de vol Bear Altimeter.</p>
+
+<div class="info-box">
+    <strong>Prérequis de communication :</strong> Vérifiez que votre appareil mobile est connecté en Bluetooth ou via USB-OTG et que la carte de vol est bien alimentée avant de modifier les paramètres.
+</div>
+
+<h2>Calibration et fins de course des servomoteurs</h2>
+<div class="param-item">
+    <p><strong>Neutre / Centrage des servos (X / Y) :</strong> Permet d'aligner parfaitement l'axe de poussée du moteur sur l'axe longitudinal de la fusée au repos.</p>
+</div>
+<div class="param-item">
+    <p><strong>Limites de débattement (Min / Max) :</strong> Définit l'angle de braquage maximal en degrés sur les axes de tangage et de lacet afin d'éviter tout blocage mécanique des tringleries.</p>
+</div>
+
+<h2>Boucle d'asservissement PID</h2>
+<div class="param-item">
+    <p><strong>Gain proportionnel (Kp) :</strong> Détermine la force de correction en réponse directe à l'écart d'attitude mesuré. Une valeur excessive provoque de fortes oscillations.</p>
+</div>
+<div class="param-item">
+    <p><strong>Gain intégral (Ki) :</strong> Compense les écarts statiques persistants et les dissymétries aérodynamiques cumulées au cours du vol.</p>
+</div>
+<div class="param-item">
+    <p><strong>Gain dérivé (Kd) :</strong> Amortit la vitesse de basculement angulaire et limite les dépassements brusques de consigne.</p>
+</div>
+
+<h2>Orientation du capteur et durée d'activation</h2>
+<div class="param-item">
+    <p><strong>Orientation de l'IMU :</strong> Définit le sens de montage de la carte par rapport au repère géométrique du fuselage de la fusée.</p>
+</div>
+<div class="param-item">
+    <p><strong>Durée d'activation du gimbal :</strong> Définit la durée de maintien du contrôle actif après allumage du propulseur. La stabilisation se coupe généralement dès l'extinction du moteur.</p>
+</div>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; CONTRÔLE DE SÉCURITÉ INDISPENSABLE</div>
+    <div>Vérifiez toujours la réponse des servomoteurs au pas de tir en inclinant manuellement la fusée : la tuyère du gimbal doit impérativement s'orienter pour contrer le mouvement d'inclinaison.</div>
+</div>
+
+<h2>Lecture et écriture des données</h2>
+<ul>
+    <li>Touchez <strong>[Lire config]</strong> pour récupérer les réglages enregistrés dans la mémoire EEPROM de la carte.</li>
+    <li>Touchez <strong>[Écrire config]</strong> pour sauvegarder vos modifications. Attendez la confirmation avant de redémarrer.</li>
+</ul>
+
+</body>
+</html>

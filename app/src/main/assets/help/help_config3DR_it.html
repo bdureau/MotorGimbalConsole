@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .info-box { background-color: #E3F2FD; border-left: 4px solid #1976D2; padding: 10px; margin: 12px 0; }
+        .step-item { margin-bottom: 12px; }
+        .step-item strong { color: #0277BD; }
+        img { vertical-align: middle; margin: 6px 0; max-width: 100%; height: auto; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Configurazione del modulo di telemetria 3DR</h1>
+
+<p>Per la telemetria a lungo raggio è necessario sostituire il modulo Bluetooth con una coppia di ricetrasmettitori radio 3DR.</p>
+
+<p><img src="file:///android_asset/help/images/3DR_module-small.png" alt="Modulo 3DR"/></p>
+
+<div class="info-box">
+    <strong>Alimentazione:</strong> Assicurarsi che la batteria del dispositivo Android sia sufficiente a fornire alimentazione al modulo via USB-OTG. Nel caso di moduli ad elevata potenza (500mW o 1W) è consigliabile impiegare un hub USB alimentato o un power bank esterno.
+</div>
+
+<h2>Hardware necessario per la configurazione</h2>
+<ul>
+    <li>Un cavo adattatore seriale da USB a TTL.<br/>
+        <img src="file:///android_asset/help/images/ttl_cable-small.jpg" alt="Cavo TTL"/>
+    </li>
+    <li>Un adattatore USB-OTG (USB-C o Micro-USB in base al proprio dispositivo Android).<br/>
+        <img src="file:///android_asset/help/images/usb_adpter-small.jpg" alt="Adattatore USB"/>
+    </li>
+    <li>Un connettore di adattamento JST e cavetti JST.</li>
+</ul>
+
+<h2>Compatibilità della velocità (Baud Rate)</h2>
+<p>I moduli radio 3DR sono impostati in fabbrica a <code>57600</code> baud. Tuttavia, la scheda del Gimbal opera normalmente a <code>38400</code> baud. È indispensabile riconfigurare la velocità seriale dei moduli per allinearla a quella della scheda di volo.</p>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; AVVISO IMPORTANTE</div>
+    <div>Non scollegare mai il modulo durante le fasi di lettura o salvataggio per evitare il danneggiamento della memoria EEPROM.</div>
+</div>
+
+<h2>Procedura di configurazione</h2>
+<ol>
+    <li class="step-item">
+        <strong>Connessione:</strong> Collegare il modulo 3DR al dispositivo Android tramite il cavo USB-TTL e l'adattatore OTG.
+    </li>
+    <li class="step-item">
+        <strong>Lettura configurazione:</strong> Toccare <strong>[Retrieve cfg]</strong>. L'applicazione proverà diverse velocità seriali fino a connettersi al modulo e mostrare i parametri correnti.
+    </li>
+    <li class="step-item">
+        <strong>Modifica parametri:</strong> Impostare i parametri richiesti (baud rate corrispondente alla scheda del Gimbal, canali radio e Net ID).
+    </li>
+    <li class="step-item">
+        <strong>Salvataggio configurazione:</strong> Toccare <strong>[Save cfg]</strong> per memorizzare le impostazioni. In presenza di errori di trasmissione l'operazione verrà annullata automaticamente.
+    </li>
+</ol>
+
+<div class="info-box">
+    <strong>Moduli in coppia:</strong> I radiomodem 3DR funzionano in coppia (uno a bordo del razzo e uno a terra). Ripetere questa procedura per <em>entrambi</em> i dispositivi verificando che Net ID, canali di frequenza e baud rate coincidano perfettamente.
+</div>
+
+</body>
+</html>

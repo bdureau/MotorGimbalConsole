@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .info-box { background-color: #E3F2FD; border-left: 4px solid #1976D2; padding: 10px; margin: 12px 0; }
+        .step-item { margin-bottom: 12px; }
+        .step-item strong { color: #0277BD; }
+        img { vertical-align: middle; margin: 6px 0; max-width: 100%; height: auto; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Configuración del módulo eByte LoRa E220</h1>
+
+<p>Para establecer telemetría de largo alcance fuera del rango de Bluetooth, sustituya el transceptor por un conjunto de módulos eByte LoRa E220.</p>
+
+<h3>Módulos probados y compatibles</h3>
+<ul>
+    <li>E220-400T30D / E220-400T30S</li>
+    <li>E220-900T30D / E220-900T30S</li>
+    <li>E220-400T22D / E220-900T22S</li>
+</ul>
+<p>
+    <img src="file:///android_asset/help/images/E220-900T22S.jpg" alt="Módulo LoRa E220 SMD"/>
+    <img src="file:///android_asset/help/images/E220-900T30D.jpg" alt="Módulo LoRa E220 DIP"/>
+</p>
+
+<div class="info-box">
+    <strong>Alimentación eléctrica:</strong> Asegúrese de que el puerto USB-OTG de su dispositivo Android entregue suficiente corriente. Los módulos potentes de 30&nbsp;dBm (1&nbsp;W) requieren una batería externa o un concentrador USB alimentado para evitar caídas de tensión.
+</div>
+
+<h2>Material necesario para la programación</h2>
+<ul>
+    <li>Un cable adaptador USB a TTL serie.<br/>
+        <img src="file:///android_asset/help/images/ttl_cable-small.jpg" alt="Cable TTL"/>
+    </li>
+    <li>Un adaptador USB-OTG compatible (USB-C o Micro-USB).<br/>
+        <img src="file:///android_asset/help/images/usb_adpter-small.jpg" alt="Adaptador USB"/>
+    </li>
+    <li>Un adaptador JST y cables de interconexión JST.</li>
+</ul>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; CRÍTICO: PUENTES DE CONFIGURACIÓN (M0 / M1)</div>
+    <div>Para entrar en modo de configuración, <strong>coloque ambos puentes</strong> (jumpers M0 y M1 en nivel alto). Una vez finalizada la grabación, <strong>debe retirar ambos puentes obligatoriamente</strong> para regresar al modo de transmisión estándar.</div>
+</div>
+
+<h2>Ajuste de la velocidad en baudios (Baud Rate)</h2>
+<p>La lectura de los parámetros se efectúa a <code>9600</code> baudios, pero de fábrica la interfaz serie de estos módulos suele venir a <code>57600</code> baudios. El ordenador de vuelo del Gimbal funciona a <code>38400</code> baudios por defecto. Debe configurar la velocidad serie en <code>38400</code> baudios.</p>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; ATENCIÓN</div>
+    <div>No desconecte nunca el módulo durante la lectura o escritura de datos.</div>
+</div>
+
+<h2>Procedimiento de configuración</h2>
+<ol>
+    <li class="step-item">
+        <strong>Preparación:</strong> Instale ambos puentes en el módulo. Conéctelo al dispositivo Android mediante el cable USB-TTL y el adaptador OTG.
+    </li>
+    <li class="step-item">
+        <strong>Leer parámetros:</strong> Pulse en <strong>[Retrieve cfg]</strong>. La aplicación se conectará a <code>9600</code> baudios y mostrará la configuración actual.
+    </li>
+    <li class="step-item">
+        <strong>Modificar parámetros:</strong> Fije la velocidad serie en <code>38400</code> baudios. Compruebe que el canal de frecuencia, la velocidad en el aire y la clave de cifrado sean exactamente iguales en ambos módulos.
+    </li>
+    <li class="step-item">
+        <strong>Guardar configuración:</strong> Pulse en <strong>[Save cfg]</strong> para grabar los datos. Ante cualquier error, el guardado se cancelará automáticamente.
+    </li>
+    <li class="step-item">
+        <strong>Salir del modo configuración:</strong> Desconecte el módulo y <strong>retire ambos puentes</strong> antes de conectarlo al cohete o la base.
+    </li>
+</ol>
+
+<div class="info-box">
+    <strong>Operación por parejas:</strong> Los módulos LoRa funcionan en parejas (emisor y receptor). Repita este proceso con ambos módulos. Nota: los módulos de telemetría LoRa no son compatibles actualmente con placas ESP32.
+</div>
+
+</body>
+</html>

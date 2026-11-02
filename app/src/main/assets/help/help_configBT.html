@@ -1,40 +1,72 @@
-<h1>Bluetooth module configuration</h1>
-<p>In order to your bluetooth module to connect your altimeter to your phone you will first need to configure it so that it works at the same speed
-    as your altimeter board.</p>
-<p></p>
-<p>The following screen will help you to configure a bluetooth module so that you can use it with your board.</p>
-<p>Module such as the HC05, HC06 etc ... should work</p>
-<p><img  src="file:///android_asset/help/images/bluetooth_module.jpg"/></p>
-<p>To program the module you need a TTL cable</p>
-<p><img  src="file:///android_asset/help/images/ttl_cable-small.jpg"/></p>
-<p>a USB adapter (USBC or micro USB depending on your Android device)</p>
-<p><img  src="file:///android_asset/help/images/usb_adpter-small.jpg"/></p>
-<p>a jst adapter and some jst cables are required</p>
-<p> </p>
-<p>You will need to configure the module so that it works with your altimeter board.</p>
-<p>Note that those modules usually come pre-set to work at 9600 bauds. However your altimeter board
-by default will work at 38400 bauds so will need to make sure that you are connecting at the correct speed.</p>
-<p></p>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .info-box { background-color: #E3F2FD; border-left: 4px solid #1976D2; padding: 10px; margin: 12px 0; }
+        .step-item { margin-bottom: 12px; }
+        .step-item strong { color: #0277BD; }
+        img { vertical-align: middle; margin: 6px 0; max-width: 100%; height: auto; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
 
-<p><span style="color: #ff0000;">CAUTION: make sure that you do not unplug the module while doing the following</span></p>
-<p></p>
-<p><strong>Retrieving the module configuration</strong></p>
-<p>Plug the module in your Android device using a TTL cable and a USB adaptor that can work with
-micro USB or type C USB</p>
-<p>You will need to select the bluetooth module that you have. If you do not know which one you have
-    select the default one or any other one that is compatible. If you cannot use any of the module,
-    send me the module references and/or pictures of the module.</p>
-<p>Then click on [retrieve cfg] this will try to connect to the module using the default 38600 baud.
-    If it fails try again, it will use various baudrates until it connects.
-It will then retrieve the module config so that you can change it</p>
-<p></p>
-<p><strong>Saving the module configuration</strong></p>
-<p>Change the settings that you want to change such as the module name or speed. Make sure that you have selected a baudrate that will
-work with your board and click [Save cfg]. This will save the configuration.
-    If any error occur while saving it will abort the save</p>
-<p></p>
-<p>Note that you will need to repeat the same steps for each bluetooth module that you want to configure</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<h1>Bluetooth Module Configuration</h1>
+
+<p>To connect your rocket altimeter or motor gimbal controller to your Android phone, the Bluetooth transceiver must be configured to operate at the exact same serial baud rate as the flight computer board.</p>
+
+<p>This utility programs commercial Bluetooth modules such as the HC-05, HC-06, or compatible transceivers.</p>
+<p><img src="file:///android_asset/help/images/bluetooth_module.jpg" alt="Bluetooth Module"/></p>
+
+<h2>Required Programming Hardware</h2>
+<ul>
+    <li>A USB-to-TTL serial adapter cable.<br/>
+        <img src="file:///android_asset/help/images/ttl_cable-small.jpg" alt="TTL Cable"/>
+    </li>
+    <li>A USB-OTG adapter suitable for your Android phone or tablet (USB-C or Micro-USB).<br/>
+        <img src="file:///android_asset/help/images/usb_adpter-small.jpg" alt="USB Adapter"/>
+    </li>
+    <li>A JST connector adapter and wiring harness.</li>
+</ul>
+
+<h2>Baud Rate Alignment</h2>
+<p>Most commercial Bluetooth modules arrive from the factory preset to <code>9600</code> baud. However, your altimeter and gimbal board communicates by default at <code>38400</code> baud. You must reconfigure the module's internal UART speed to <code>38400</code> baud so that flight data packets can be transmitted successfully.</p>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; CRITICAL PRECAUTION</div>
+    <div>Do not disconnect or unplug the module during the read or write process, as doing so may corrupt its internal firmware or AT register settings.</div>
+</div>
+
+<h2>Configuration Procedure</h2>
+<ol>
+    <li class="step-item">
+        <strong>Hardware Connection:</strong> Connect your Bluetooth module to your Android device using the USB-to-TTL adapter cable and OTG connector.
+    </li>
+    <li class="step-item">
+        <strong>Module Type:</strong> Select your specific module model from the dropdown list (e.g., HC-05 or HC-06). If you are uncertain, keep the default option.
+    </li>
+    <li class="step-item">
+        <strong>Retrieve Settings:</strong> Tap <strong>[Retrieve cfg]</strong>. The app will attempt to contact the module at the target speed (<code>38400</code> baud) and will automatically scan other standard speeds (<code>9600</code>, <code>19200</code>, <code>57600</code>, <code>115200</code>) until a valid AT response is received.
+    </li>
+    <li class="step-item">
+        <strong>Modify Parameters:</strong> Rename the device (e.g., <em>"Rocket-Gimbal-1"</em>) and ensure the new baud rate is set to <code>38400</code> baud. You may also set a custom PIN code (default: <code>1234</code>).
+    </li>
+    <li class="step-item">
+        <strong>Save Settings:</strong> Tap <strong>[Save cfg]</strong> to write the new configuration into the module's memory. If an error occurs, the process will abort safely.
+    </li>
+</ol>
+
+<div class="info-box">
+    <strong>Note:</strong> Repeat this configuration procedure for each Bluetooth transceiver you intend to use with your rocket avionics.
+</div>
+
+</body>
+</html>

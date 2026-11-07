@@ -3,8 +3,10 @@ package com.motorgimbalconsole.flights;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -89,6 +91,14 @@ public class FlightViewTabActivity extends AppCompatActivity {
     //public static String SELECTED_FLIGHT = "MyFlight";
     public int numberOfCurves = 0;
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        // Read language configuration directly from SharedPreferences to ensure
+        // context localization is configured before Activity inflation
+        SharedPreferences prefs = base.getSharedPreferences("GimbalConsoleCfg", MODE_PRIVATE);
+        int lang = prefs.getInt("AppLanguage", 0);
+        super.attachBaseContext(ConsoleApplication.updateBaseContextLocale(base, lang));
+    }
 
     @Override
     protected void onDestroy() {

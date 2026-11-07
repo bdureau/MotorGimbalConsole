@@ -9,8 +9,10 @@ package com.motorgimbalconsole.flash;
  *
  **/
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
@@ -31,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.motorgimbalconsole.ConsoleApplication;
 import com.motorgimbalconsole.R;
 
 import com.motorgimbalconsole.help.AboutActivity;
@@ -81,7 +84,14 @@ public class FlashFirmware extends AppCompatActivity {
     private void msg(String s) {
         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
     }
-
+    @Override
+    protected void attachBaseContext(Context base) {
+        // Read language configuration directly from SharedPreferences to ensure
+        // context localization is configured before Activity inflation
+        SharedPreferences prefs = base.getSharedPreferences("GimbalConsoleCfg", MODE_PRIVATE);
+        int lang = prefs.getInt("AppLanguage", 0);
+        super.attachBaseContext(ConsoleApplication.updateBaseContextLocale(base, lang));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

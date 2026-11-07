@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.os.Build;
@@ -101,7 +102,14 @@ public class MainActivityScreen extends AppCompatActivity {
     private volatile boolean cancelRequested = false;
     private AlertDialog progressDialog;
     private boolean receiverRegistered = false;
-
+    @Override
+    protected void attachBaseContext(Context base) {
+        // Read language configuration directly from SharedPreferences to ensure
+        // context localization is configured before Activity inflation
+        SharedPreferences prefs = base.getSharedPreferences("GimbalConsoleCfg", MODE_PRIVATE);
+        int lang = prefs.getInt("AppLanguage", 0);
+        super.attachBaseContext(ConsoleApplication.updateBaseContextLocale(base, lang));
+    }
     /** Receives the USB permission result and the USB attach / detach events. */
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override

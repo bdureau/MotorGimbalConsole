@@ -2,6 +2,9 @@ package com.motorgimbalconsole.help;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +25,14 @@ public class AboutActivity extends AppCompatActivity {
     TextView txtViewVersion;
     ConsoleApplication myBT;
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        // Read language configuration directly from SharedPreferences to ensure
+        // context localization is configured before Activity inflation
+        SharedPreferences prefs = base.getSharedPreferences("GimbalConsoleCfg", MODE_PRIVATE);
+        int lang = prefs.getInt("AppLanguage", 0);
+        super.attachBaseContext(ConsoleApplication.updateBaseContextLocale(base, lang));
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

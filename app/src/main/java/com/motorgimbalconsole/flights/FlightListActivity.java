@@ -1,8 +1,10 @@
 package com.motorgimbalconsole.flights;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -50,6 +52,14 @@ public class FlightListActivity extends AppCompatActivity {
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private boolean canceled = false;
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        // Read language configuration directly from SharedPreferences to ensure
+        // context localization is configured before Activity inflation
+        SharedPreferences prefs = base.getSharedPreferences("GimbalConsoleCfg", MODE_PRIVATE);
+        int lang = prefs.getInt("AppLanguage", 0);
+        super.attachBaseContext(ConsoleApplication.updateBaseContextLocale(base, lang));
+    }
     private AdapterView.OnItemClickListener myListClickListener = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView<?> av, View v, int arg2, long arg3) {
             // Get the flight name

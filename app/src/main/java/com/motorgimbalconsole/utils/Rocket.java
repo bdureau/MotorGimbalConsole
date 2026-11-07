@@ -192,7 +192,6 @@ public class Rocket extends PApplet {
      * Draws the rocket assembly. Restores the essential rotateY(PI / 2) from original code.
      */
     private void drawRocket() {
-        // Essential alignment from original Rocket.java
         rotateY(PI / 2);
 
         // Attitude reference ring around Center of Gravity
@@ -207,7 +206,6 @@ public class Rocket extends PApplet {
         popMatrix();
 
         // 2. NOSE CONE (Height = 150, centered at Z = -325 -> Base at -250, Apex at -400)
-        // Joint is exactly flush at Z = -250
         pushMatrix();
         translate(0, 0, - (BODY_HEIGHT / 2.0f + CONE_HEIGHT / 2.0f)); // Z = -325
         drawTaperedCone(36, 0.0f, BODY_RADIUS, CONE_HEIGHT);
@@ -223,10 +221,6 @@ public class Rocket extends PApplet {
         drawFins();
     }
 
-    /**
-     * Draws the nose cone perfectly matching the cylinder base radius.
-     * In local coordinates: apex is at -halfHeight, base is at +halfHeight.
-     */
     private void drawTaperedCone(int sides, float rTop, float rBottom, float h) {
         float angle = 360.0f / sides;
         float halfHeight = h / 2.0f;
@@ -234,9 +228,8 @@ public class Rocket extends PApplet {
         noStroke();
         fill(225, 45, 35); // Aerospace Red
 
-        // Conical surface
         beginShape(TRIANGLE_FAN);
-        vertex(0, 0, -halfHeight); // Apex tip
+        vertex(0, 0, -halfHeight);
         for (int i = 0; i <= sides; i++) {
             float x = cos(radians(i * angle)) * rBottom;
             float y = sin(radians(i * angle)) * rBottom;
@@ -244,7 +237,6 @@ public class Rocket extends PApplet {
         }
         endShape(CLOSE);
 
-        // Flat base cap (at the junction)
         beginShape();
         for (int i = 0; i < sides; i++) {
             float x = cos(radians(i * angle)) * rBottom;
@@ -254,13 +246,10 @@ public class Rocket extends PApplet {
         endShape(CLOSE);
     }
 
-    /**
-     * Draws the motor nozzle extending backward from the rear bulkhead.
-     */
     private void drawNozzle(int sides, float rTop, float rBottom, float h) {
         float angle = 360.0f / sides;
         noStroke();
-        fill(55, 60, 68); // Dark Titanium
+        fill(55, 60, 68);
 
         beginShape(QUAD_STRIP);
         for (int i = 0; i <= sides; i++) {
@@ -274,9 +263,6 @@ public class Rocket extends PApplet {
         endShape(CLOSE);
     }
 
-    /**
-     * Draws 4 beveled stabilizing fins positioned at 90° angles around the base.
-     */
     private void drawFins() {
         fill(225, 45, 35);
         stroke(20, 22, 28);
@@ -286,26 +272,21 @@ public class Rocket extends PApplet {
             pushMatrix();
             rotateZ(HALF_PI * i);
 
-            // Trailing edge at Z = +250 (bottom of fuselage)
             beginShape();
-            vertex(BODY_RADIUS, 0, 100);       // Root leading edge
-            vertex(BODY_RADIUS + 55, 0, 210);  // Tip leading edge
-            vertex(BODY_RADIUS + 55, 0, 250);  // Tip trailing edge
-            vertex(BODY_RADIUS, 0, 245);       // Root trailing edge
+            vertex(BODY_RADIUS, 0, 100);
+            vertex(BODY_RADIUS + 55, 0, 210);
+            vertex(BODY_RADIUS + 55, 0, 250);
+            vertex(BODY_RADIUS, 0, 245);
             endShape(CLOSE);
 
             popMatrix();
         }
     }
 
-    /**
-     * Draws the textured cylinder with the checkerboard pattern along Z axis.
-     */
     private void drawTextureCylinder(int sides, float r1, float r2, float h, PImage image) {
         float angle = 360.0f / sides;
         float halfHeight = h / 2.0f;
 
-        // Top cap (at Z = -halfHeight)
         beginShape();
         fill(230);
         noStroke();
@@ -316,7 +297,6 @@ public class Rocket extends PApplet {
         }
         endShape(CLOSE);
 
-        // Bottom cap (at Z = +halfHeight)
         beginShape();
         fill(45);
         noStroke();
@@ -327,7 +307,6 @@ public class Rocket extends PApplet {
         }
         endShape(CLOSE);
 
-        // Lateral body surface with texture
         beginShape(QUAD_STRIP);
         noStroke();
         if (image != null) {
@@ -350,7 +329,38 @@ public class Rocket extends PApplet {
     }
 
     /**
-     * 2D Overlay HUD.
+     * 2D Overlay HUD with larger telemetry figures.
+     */
+    /*private void drawTelemetryHUD() {
+        hint(DISABLE_DEPTH_TEST);
+        camera();
+
+        if (font != null) {
+            textFont(font);
+        }
+        // Font size doubled for clear visibility
+        textSize(32);
+
+        // Header background strip expanded to accommodate larger text
+        noStroke();
+        fill(10, 14, 20, 215);
+        rect(16, 16, width - 32, 76, 12);
+
+        fill(0, 215, 255);
+        textAlign(LEFT, CENTER);
+        text(String.format("T+ %.2f s", currentTime / 1000.0f), 36, 54);
+
+        fill(255);
+        textAlign(RIGHT, CENTER);
+        text(String.format("X: %+.1f°   Y: %+.1f°   Z: %+.1f°",
+                degrees(Euler[0]), degrees(Euler[1]), degrees(Euler[2])), width - 36, 54);
+
+        hint(ENABLE_DEPTH_TEST);
+    }*/
+
+    /**
+     * 2D Overlay HUD with stacked orientation axes (X, Y, Z on separate lines)
+     * to prevent text clipping on the right edge of the screen.
      */
     private void drawTelemetryHUD() {
         hint(DISABLE_DEPTH_TEST);
@@ -359,25 +369,27 @@ public class Rocket extends PApplet {
         if (font != null) {
             textFont(font);
         }
-        textSize(16);
+        textSize(32);
 
-        // Background header strip
+        // Header background strip (height expanded to 140px to fit 3 stacked lines)
         noStroke();
-        fill(10, 14, 20, 200);
-        rect(16, 16, width - 32, 52, 10);
+        fill(10, 14, 20, 215);
+        rect(16, 16, width - 32, 140, 12);
 
+        // Telemetry time on the left (vertically centered)
         fill(0, 215, 255);
         textAlign(LEFT, CENTER);
-        text(String.format("T+ %.2f s", currentTime / 1000.0f), 32, 42);
+        text(String.format("T+ %.2f s", currentTime / 1000.0f), 36, 86);
 
+        // Stacked orientation axes aligned to the right
         fill(255);
         textAlign(RIGHT, CENTER);
-        text(String.format("X: %+.1f°   Y: %+.1f°   Z: %+.1f°",
-                degrees(Euler[0]), degrees(Euler[1]), degrees(Euler[2])), width - 32, 42);
+        text(String.format("X: %+.1f°", degrees(Euler[0])), width - 140, 44);
+        text(String.format("Y: %+.1f°", degrees(Euler[1])), width - 140, 86);
+        text(String.format("Z: %+.1f°", degrees(Euler[2])), width - 140, 128);
 
         hint(ENABLE_DEPTH_TEST);
     }
-
     // Quaternion math routines
     void quaternionToEuler(float[] q, float[] euler) {
         euler[0] = atan2(2 * q[1] * q[2] - 2 * q[0] * q[3], 2 * q[0] * q[0] + 2 * q[1] * q[1] - 1);

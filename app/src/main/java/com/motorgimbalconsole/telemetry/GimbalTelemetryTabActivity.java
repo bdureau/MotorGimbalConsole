@@ -1,6 +1,8 @@
 package com.motorgimbalconsole.telemetry;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -86,6 +88,14 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
 
     private TextToSpeech mTTS;
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        // Read language configuration directly from SharedPreferences to ensure
+        // context localization is configured before Activity inflation
+        SharedPreferences prefs = base.getSharedPreferences("GimbalConsoleCfg", MODE_PRIVATE);
+        int lang = prefs.getInt("AppLanguage", 0);
+        super.attachBaseContext(ConsoleApplication.updateBaseContextLocale(base, lang));
+    }
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

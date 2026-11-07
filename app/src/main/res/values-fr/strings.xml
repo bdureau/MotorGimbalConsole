@@ -405,4 +405,6 @@
     <string name="credit_goes_to_philippe_huguenin_bergenat_n_for_all_the_testing">Merci à Philippe Huguenin-Bergenat \n pour tous les tests</string>
     <string name="do_you_want_to_connect_to_module">Voulez vous vous connecter au module</string>
     <string name="no">Non</string>
+    <string name="flash_nfirmware">Flash\nfirmware</string>
+    <string name="about_button">About</string>
 </resources>

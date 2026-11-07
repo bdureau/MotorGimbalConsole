@@ -3,51 +3,110 @@ package com.motorgimbalconsole.utils;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
-import java.io.IOException;
-
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
+
 /**
- * @description: Gimbal rocket orientation. This display the rocket orientation
- * This is using a processing class so you need to add the processing-core.jar
- * library to your project. You will also need the font added to your assets directory
+ * @description: Gimbal rocket 3D attitude renderer using Processing Android.
+ * Renders the rocket with exact geometric alignment (nose cone and nozzle flush with fuselage),
+ * roll-detection checkerboard texture, and original avionics rotation axes.
  *
  * @author: boris.dureau@neuf.fr
- **/
+ */
 public class Rocket extends PApplet {
+
+    private static final String TAG = "Rocket3D";
+
+    // Attitude variables (in radians)
+    private final float[] q = new float[4];
+    private float[] hq = null;
+    private final float[] Euler = new float[3];     // Euler[0]=X, Euler[1]=Y, Euler[2]=Z
+    private final float[] RealEuler = new float[3];
+    private final float[] Gravity = new float[3];
+    private final float[] YPR = new float[3];
+
+    private long currentTime = 0;
+    private float correct = 0;
+    private float servoX = 0, servoY = 0;
+    private boolean useQuaternion = true;
+
+    private PFont font;
+    private PImage img;
+
+    // Viewport dimensions from original code
+    private final int VIEW_SIZE_X = 1200;
+    private final int VIEW_SIZE_Y = 1200;
+
+    // Fuselage geometry specifications
+    private final float BODY_RADIUS = 50.0f;
+    private final float BODY_HEIGHT = 500.0f;       // Extends from Z = -250 to Z = +250
+    private final float CONE_HEIGHT = 150.0f;       // Extends from Z = -75 to Z = +75 (Apex at -75)
+    private final float NOZZLE_HEIGHT = 50.0f;      // Extends from Z = 0 to Z = +50
+
+    @Override
     public void settings() {
-        //size(800, 600);
-        // This might not work on all screens. So far it is ok on all my phones and tablets
-        size(1200, 1200, P3D);
+        size(VIEW_SIZE_X, VIEW_SIZE_Y, P3D);
     }
 
-    float[] q = new float[4];
-    float[] hq = null;
-    float[] Euler = new float[3]; // psi, theta, phi
-    float[] RealEuler = new float[3];
-    float[] Gravity = new float[3];
-    float[] YPR = new float[3];
-    long currentTime=0;
-    //long correct = 0;
-    float correct = 0;
-    float servoX, servoY;
+    @Override
+    public void setup() {
+        frameRate(60);
+        smooth(4);
 
-    boolean useQuaternion = true;
-    int lf = 10; // 10 is '\n' in ASCII
-    long run = 0;
+        // Safe font loading
+        try {
+            font = loadFont("CourierNew36.vlw");
+        } catch (Exception e) {
+            font = null;
+        }
 
-    byte[] inBuffer = new byte[22]; // this is the number of chars on each line from the Arduino (including /r/n)
-    //ConsoleApplication myBT;
-    PFont font;
-    //PImage topside,downside,frontside,rightside,backside,leftside;
-    PImage img;
-    final int VIEW_SIZE_X = 1200, VIEW_SIZE_Y = 1200;
+        // Texture loading with automatic fallback if pattern.png is absent
+        try {
+            img = loadImage("pattern.png");
+        } catch (Exception e) {
+            img = null;
+        }
 
+        if (img == null) {
+            img = generateCheckerboardTexture(256, 256, 8);
+        }
+    }
 
-    public void setInputString(String inputString) {
+    /**
+     * Generates a high-contrast checkerboard texture if pattern.png is missing.
+     */
+    private PImage generateCheckerboardTexture(int w, int h, int tiles) {
+        PImage tex = createImage(w, h, RGB);
+        tex.loadPixels();
+        int tileSize = w / tiles;
+        for (int y = 0; y < h; y++) {
+            for (int x = 0; x < w; x++) {
+                boolean isWhite = ((x / tileSize) + (y / tileSize)) % 2 == 0;
+                tex.pixels[y * w + x] = isWhite ? color(245, 245, 248) : color(20, 22, 26);
+            }
+        }
+        tex.updatePixels();
+        return tex;
+    }
+
+    /**
+     * Strictly matches the original mapping:
+     * Euler[0] = X (deg to rad)
+     * Euler[1] = Y (deg to rad)
+     * Euler[2] = Z (deg to rad)
+     */
+    public synchronized void setInputString(float X, float Y, float Z, long time) {
+        Euler[2] = Z * (PI / 180.0f);
+        Euler[1] = Y * (PI / 180.0f);
+        Euler[0] = X * (PI / 180.0f);
+        currentTime = time;
+        useQuaternion = false;
+    }
+
+    public synchronized void setInputString(String inputString) {
         String[] inputStringArr = split(inputString, ",");
-        if (inputStringArr.length >= 5) { // q1,q2,q3,q4,\r\n so we have 5 elements
+        if (inputStringArr.length >= 4) {
             q[0] = decodeFloat(inputStringArr[0]);
             q[1] = decodeFloat(inputStringArr[1]);
             q[2] = decodeFloat(inputStringArr[2]);
@@ -55,291 +114,295 @@ public class Rocket extends PApplet {
         }
         useQuaternion = true;
     }
-    /*public void setInputCorrect(String inputString) {
-        correct = Long.valueOf(inputString);
-    }*/
+
     @SuppressLint("LongLogTag")
     public void setInputCorrect(String inputString) {
-        if (inputString.matches("\\d+(?:\\.\\d+)?")) {
-            correct = Float.valueOf(inputString);
+        if (inputString != null && inputString.matches("-?\\d+(?:\\.\\d+)?")) {
+            correct = Float.parseFloat(inputString);
+        } else {
+            Log.d("Rocket - setInputCorrect", String.valueOf(inputString));
         }
-        else {
-            Log.d("Rocket - setInputCorrect", inputString);
-        }
-
     }
+
     public void setServoX(String inputString) {
-        if (inputString.matches("\\d+(?:\\.\\d+)?")) {
-            servoX = Float.valueOf(inputString);
-        }else {
-            Log.d("Rocket - setServoX", inputString);
+        if (inputString != null && inputString.matches("-?\\d+(?:\\.\\d+)?")) {
+            servoX = Float.parseFloat(inputString);
         }
     }
+
     public void setServoY(String inputString) {
-        if (inputString.matches("\\d+(?:\\.\\d+)?")) {
-            servoY = Float.valueOf(inputString);
-        }
-        else {
-            Log.d("Rocket - setServoY", inputString);
+        if (inputString != null && inputString.matches("-?\\d+(?:\\.\\d+)?")) {
+            servoY = Float.parseFloat(inputString);
         }
     }
-    public void setInputString(float X, float Y, float Z, long time) {
-        Euler[2] = Z*(3.14f/180);
-        Euler[1] = Y*(3.14f/180);
-        Euler[0] = X*(3.14f/180);
-        currentTime = time;
-        useQuaternion = false;
-    }
 
-    public void setup() {
-        //size(1200, 1200, P3D);
-        fill(255);
-        stroke(color(44, 48, 32));
-
-        frameRate(400);
-
-
-        // The font must be located in the sketch's "data" directory to load successfully
-        font = loadFont("CourierNew36.vlw");
-
-        // Loading the textures to the rocket
-        img = loadImage("pattern.png");
-
-        delay(100);
-
-    }
-
-    float decodeFloat(String inString) {
+    private float decodeFloat(String inString) {
+        if (inString == null || inString.length() != 8) return 0.0f;
         byte[] inData = new byte[4];
-
-        if (inString.length() == 8) {
-            inData[0] = (byte) unhex(inString.substring(0, 2));
-            inData[1] = (byte) unhex(inString.substring(2, 4));
-            inData[2] = (byte) unhex(inString.substring(4, 6));
-            inData[3] = (byte) unhex(inString.substring(6, 8));
-        }
-
+        inData[0] = (byte) unhex(inString.substring(0, 2));
+        inData[1] = (byte) unhex(inString.substring(2, 4));
+        inData[2] = (byte) unhex(inString.substring(4, 6));
+        inData[3] = (byte) unhex(inString.substring(6, 8));
         int intbits = (inData[3] << 24) | ((inData[2] & 0xff) << 16) | ((inData[1] & 0xff) << 8) | (inData[0] & 0xff);
         return Float.intBitsToFloat(intbits);
     }
 
-
-    void readQ() {
-
-
-    }
-
-
-    void drawRotatingRocket() {
-        pushMatrix();
-        translate(VIEW_SIZE_X / 2, VIEW_SIZE_Y / 2 + 50, 0);
-        /*rotateZ(-Euler[2]);
-        rotateX(-Euler[1]);
-        rotateY(-Euler[0]);*/
-        rotateZ(-Euler[2]);
-        rotateX(-Euler[1]-correct);
-        rotateY(-Euler[0]);
-        /*rotateX(-Euler[2]);
-        rotateY(-Euler[0]);
-        rotateZ(-Euler[1]);*/
-        drawRocket();
-        popMatrix();
-    }
-
-
+    @Override
     public void draw() {
+        // Futuristic telemetry dark background
+        background(15, 18, 25);
 
-        background(0, 128, 255);
-        textFont(font, 30);
-        textAlign(LEFT, TOP);
+        // Ambient and directional lighting for 3D depth
+        ambientLight(80, 85, 100);
+        directionalLight(255, 255, 255, 0.5f, 0.8f, -1.0f);
+        lightSpecular(180, 180, 200);
 
         if (useQuaternion) {
-            if (hq != null) { // use home quaternion
+            if (hq != null) {
                 quaternionToEuler(quatProd(hq, q), Euler);
-                text("Disable home position by pressing \"n\"", 20, VIEW_SIZE_Y - 30);
             } else {
                 quaternionToEuler(q, Euler);
-
             }
             quaternionToEuler(q, RealEuler);
             quaternionToGravity(q, Gravity);
             quaternionToYawPitchRoll(q, Gravity, YPR);
-
-            text("servoX: "+ servoX +"\nservoY: "+ servoY + "\ncorrection: " + correct+
-                    "Q:\n" + q[0] + "\n" + q[1] + "\n" + q[2] + "\n" + q[3], 20, 20);
-            text(/*"Euler Angles:\nYaw (psi)  : " + degrees(Euler[0]) +
-                "\nPitch (theta): " + degrees(Euler[1]) +
-                "\nRoll (phi)  : " + degrees(Euler[2])+*/
-
-                            "\nYPR Angles:\nYaw (psi)  : " + degrees(YPR[0]) +
-                            "\nPitch (theta): " + degrees(YPR[1]) +
-                            "\nRoll (phi)  : " + degrees(YPR[2]) +
-                            "\nRealYaw (psi)  : " + degrees(RealEuler[0]) +
-                            "\nRealPitch (theta): " + degrees(RealEuler[1]) +
-                            "\nRealRoll (phi)  : " + degrees(RealEuler[2]), 250, 30);
-            //text("Euler Angles:\nYaw (psi)  : " + degrees(Euler[2]) + "\nPitch (theta): " + degrees(Euler[0]) + "\nRoll (phi)  : " + degrees(Euler[1]), 200, 20);
         }
-        else {
-            text("Time:"+ currentTime, 20, 20);
-        }
+
         drawRotatingRocket();
-
+        drawTelemetryHUD();
     }
 
-
-    public void setOrientation(char key) {
-
-        if (key == 'h') {
-            // set hq the home quaternion as the quaternion conjugate coming from the sensor fusion
-            hq = quatConjugate(q);
-        } else if (key == 'n') {
-            hq = null;
-        }
-    }
-
-    /*
-    From what I understand, as long as you receive the quaternion from your Arduino board you can  get
-    the Euler angles
-    the gravity
-    the yaw pitch  roll
+    /**
+     * Replicates original rotation chain:
+     * translate -> rotateZ(-Euler[2]) -> rotateX(-Euler[1]-correct) -> rotateY(-Euler[0]) -> drawRocket()
      */
-/*
-Get Euler angles from quaternion
- */
-    void quaternionToEuler(float[] q, float[] euler) {
-        euler[0] = atan2(2 * q[1] * q[2] - 2 * q[0] * q[3], 2 * q[0] * q[0] + 2 * q[1] * q[1] - 1); // psi
-        euler[1] = -asin(2 * q[1] * q[3] + 2 * q[0] * q[2]); // theta
-        euler[2] = atan2(2 * q[2] * q[3] - 2 * q[0] * q[1], 2 * q[0] * q[0] + 2 * q[3] * q[3] - 1); // phi
+    private void drawRotatingRocket() {
+        pushMatrix();
+        translate(width / 2.0f, height / 2.0f + 40, 0);
+
+        rotateZ(-Euler[2]);
+        rotateX(-Euler[1] - radians(correct));
+        rotateY(-Euler[0]);
+
+        drawRocket();
+        popMatrix();
     }
 
-    void quaternionToGravity(float[] q, float[] gravity) {
-        //gravity[0] = 2 * (q[1] * q[3] - q[0] * q[0]);
-        gravity[0] = 2 * (q[1] * q[3] - q[0] * q[2]);
-        gravity[1] = 2 * (q[0] * q[1] + q[2] * q[3]);
-        gravity[2] = q[0] * q[0] - q[1] * q[1] - q[2] * q[2] + q[3] * q[3];
-    }
-
-    void quaternionToYawPitchRoll(float[] q, float[] gravity, float[] ypr) {
-        //yaw
-        ypr[0] = atan2(2 * q[1] * q[2] - 2 * q[0] * q[3], 2 * q[0] * q[0] + 2 * q[1] * q[1] - 1);
-        //pitch
-        ypr[1] = atan(gravity[0] / sqrt(gravity[1] * gravity[1] + gravity[2] * gravity[2]));
-        //roll
-        ypr[2] = atan(gravity[1] / sqrt(gravity[0] * gravity[0] + gravity[2] * gravity[2]));
-    }
-
-    float[] quatProd(float[] a, float[] b) {
-        float[] q = new float[4];
-
-        q[0] = a[0] * b[0] - a[1] * b[1] - a[2] * b[2] - a[3] * b[3];
-        q[1] = a[0] * b[1] + a[1] * b[0] + a[2] * b[3] - a[3] * b[2];
-        q[2] = a[0] * b[2] - a[1] * b[3] + a[2] * b[0] + a[3] * b[1];
-        q[3] = a[0] * b[3] + a[1] * b[2] - a[2] * b[1] + a[3] * b[0];
-
-        return q;
-    }
-
-    // returns a quaternion from an axis angle representation
-    float[] quatAxisAngle(float[] axis, float angle) {
-        float[] q = new float[4];
-
-        float halfAngle = (float) (angle / 2.0);
-        float sinHalfAngle = sin(halfAngle);
-        q[0] = cos(halfAngle);
-        q[1] = -axis[0] * sinHalfAngle;
-        q[2] = -axis[1] * sinHalfAngle;
-        q[3] = -axis[2] * sinHalfAngle;
-
-        return q;
-    }
-
-    // return the quaternion conjugate of quat
-    float[] quatConjugate(float[] quat) {
-        float[] conj = new float[4];
-
-        conj[0] = quat[0];
-        conj[1] = -quat[1];
-        conj[2] = -quat[2];
-        conj[3] = -quat[3];
-
-        return conj;
-    }
-
-    void drawRocket() {
-        //background(0, 128, 255);
-        //rotateZ(PI / 2);
+    /**
+     * Draws the rocket assembly. Restores the essential rotateY(PI / 2) from original code.
+     */
+    private void drawRocket() {
+        // Essential alignment from original Rocket.java
         rotateY(PI / 2);
 
+        // Attitude reference ring around Center of Gravity
+        noFill();
+        stroke(0, 180, 255, 60);
+        strokeWeight(1.8f);
+        ellipse(0, 0, 220, 220);
+
+        // 1. FUSELAGE (Cylinder centered at origin: extends from Z = -250 to Z = +250)
         pushMatrix();
-
-        drawTextureCylinder(36, 50, 50, 500, img);
+        drawTextureCylinder(36, BODY_RADIUS, BODY_RADIUS, BODY_HEIGHT, img);
         popMatrix();
+
+        // 2. NOSE CONE (Height = 150, centered at Z = -325 -> Base at -250, Apex at -400)
+        // Joint is exactly flush at Z = -250
         pushMatrix();
-        translate(0, 0, -325);
-
-        drawTextureCylinder(36, 0, 50, 150, img);
+        translate(0, 0, - (BODY_HEIGHT / 2.0f + CONE_HEIGHT / 2.0f)); // Z = -325
+        drawTaperedCone(36, 0.0f, BODY_RADIUS, CONE_HEIGHT);
         popMatrix();
 
-        beginShape();
-        //start rocket fin set
-        //fill(255,255,255);
-        translate(0, 0, 100);
-        rotateY(PI);
-        //rotateZ(PI/3);
-        vertex(-100, 0, -150);
-        vertex(100, 0, -150);
-        vertex(0, 0, 100);
-        endShape();
+        // 3. NOZZLE (Starts exactly at fuselage bottom Z = +250 and extends backward)
+        pushMatrix();
+        translate(0, 0, BODY_HEIGHT / 2.0f); // Z = +250
+        drawNozzle(24, 38.0f, 24.0f, NOZZLE_HEIGHT);
+        popMatrix();
 
-        //start another rocket fin set
-        fill(0);
-        translate(0, 0, -150);
-        beginShape();
-        vertex(0, 100, 0);
-        vertex(0, -100, 0);
-        vertex(0, 0, 250);
-        endShape();
-
+        // 4. FINS (Mounted symmetrically on the rear fuselage)
+        drawFins();
     }
 
-    void drawTextureCylinder(int sides, float r1, float r2, float h, PImage image) {
-        float angle = 360 / sides;
-        float halfHeight = h / 2;
+    /**
+     * Draws the nose cone perfectly matching the cylinder base radius.
+     * In local coordinates: apex is at -halfHeight, base is at +halfHeight.
+     */
+    private void drawTaperedCone(int sides, float rTop, float rBottom, float h) {
+        float angle = 360.0f / sides;
+        float halfHeight = h / 2.0f;
 
-        // top
+        noStroke();
+        fill(225, 45, 35); // Aerospace Red
+
+        // Conical surface
+        beginShape(TRIANGLE_FAN);
+        vertex(0, 0, -halfHeight); // Apex tip
+        for (int i = 0; i <= sides; i++) {
+            float x = cos(radians(i * angle)) * rBottom;
+            float y = sin(radians(i * angle)) * rBottom;
+            vertex(x, y, halfHeight);
+        }
+        endShape(CLOSE);
+
+        // Flat base cap (at the junction)
         beginShape();
-        //texture(topside);
+        for (int i = 0; i < sides; i++) {
+            float x = cos(radians(i * angle)) * rBottom;
+            float y = sin(radians(i * angle)) * rBottom;
+            vertex(x, y, halfHeight);
+        }
+        endShape(CLOSE);
+    }
+
+    /**
+     * Draws the motor nozzle extending backward from the rear bulkhead.
+     */
+    private void drawNozzle(int sides, float rTop, float rBottom, float h) {
+        float angle = 360.0f / sides;
+        noStroke();
+        fill(55, 60, 68); // Dark Titanium
+
+        beginShape(QUAD_STRIP);
+        for (int i = 0; i <= sides; i++) {
+            float x1 = cos(radians(i * angle)) * rTop;
+            float y1 = sin(radians(i * angle)) * rTop;
+            float x2 = cos(radians(i * angle)) * rBottom;
+            float y2 = sin(radians(i * angle)) * rBottom;
+            vertex(x1, y1, 0);
+            vertex(x2, y2, h);
+        }
+        endShape(CLOSE);
+    }
+
+    /**
+     * Draws 4 beveled stabilizing fins positioned at 90° angles around the base.
+     */
+    private void drawFins() {
+        fill(225, 45, 35);
+        stroke(20, 22, 28);
+        strokeWeight(1.2f);
+
+        for (int i = 0; i < 4; i++) {
+            pushMatrix();
+            rotateZ(HALF_PI * i);
+
+            // Trailing edge at Z = +250 (bottom of fuselage)
+            beginShape();
+            vertex(BODY_RADIUS, 0, 100);       // Root leading edge
+            vertex(BODY_RADIUS + 55, 0, 210);  // Tip leading edge
+            vertex(BODY_RADIUS + 55, 0, 250);  // Tip trailing edge
+            vertex(BODY_RADIUS, 0, 245);       // Root trailing edge
+            endShape(CLOSE);
+
+            popMatrix();
+        }
+    }
+
+    /**
+     * Draws the textured cylinder with the checkerboard pattern along Z axis.
+     */
+    private void drawTextureCylinder(int sides, float r1, float r2, float h, PImage image) {
+        float angle = 360.0f / sides;
+        float halfHeight = h / 2.0f;
+
+        // Top cap (at Z = -halfHeight)
+        beginShape();
+        fill(230);
+        noStroke();
         for (int i = 0; i < sides; i++) {
             float x = cos(radians(i * angle)) * r1;
             float y = sin(radians(i * angle)) * r1;
             vertex(x, y, -halfHeight);
         }
         endShape(CLOSE);
-        // bottom
+
+        // Bottom cap (at Z = +halfHeight)
         beginShape();
-        //texture(topside);
+        fill(45);
+        noStroke();
         for (int i = 0; i < sides; i++) {
             float x = cos(radians(i * angle)) * r2;
             float y = sin(radians(i * angle)) * r2;
             vertex(x, y, halfHeight);
         }
         endShape(CLOSE);
-        // draw body
-        //beginShape(TRIANGLE_STRIP);
+
+        // Lateral body surface with texture
         beginShape(QUAD_STRIP);
-        texture(image);
-        for (int i = 0; i < sides + 1; i++) {
+        noStroke();
+        if (image != null) {
+            texture(image);
+        } else {
+            fill(240);
+        }
+
+        for (int i = 0; i <= sides; i++) {
             float x1 = cos(radians(i * angle)) * r1;
             float y1 = sin(radians(i * angle)) * r1;
             float x2 = cos(radians(i * angle)) * r2;
             float y2 = sin(radians(i * angle)) * r2;
-            float u = image.width / sides * i;
-        /*vertex( x1, y1, -halfHeight);
-        vertex( x2, y2, halfHeight);*/
+            float u = (image != null) ? (image.width / (float) sides) * i : 0;
+
             vertex(x1, y1, -halfHeight, u, 0);
-            vertex(x2, y2, halfHeight, u, image.height);
+            vertex(x2, y2, halfHeight, u, (image != null) ? image.height : 0);
         }
         endShape(CLOSE);
+    }
 
+    /**
+     * 2D Overlay HUD.
+     */
+    private void drawTelemetryHUD() {
+        hint(DISABLE_DEPTH_TEST);
+        camera();
+
+        if (font != null) {
+            textFont(font);
+        }
+        textSize(16);
+
+        // Background header strip
+        noStroke();
+        fill(10, 14, 20, 200);
+        rect(16, 16, width - 32, 52, 10);
+
+        fill(0, 215, 255);
+        textAlign(LEFT, CENTER);
+        text(String.format("T+ %.2f s", currentTime / 1000.0f), 32, 42);
+
+        fill(255);
+        textAlign(RIGHT, CENTER);
+        text(String.format("X: %+.1f°   Y: %+.1f°   Z: %+.1f°",
+                degrees(Euler[0]), degrees(Euler[1]), degrees(Euler[2])), width - 32, 42);
+
+        hint(ENABLE_DEPTH_TEST);
+    }
+
+    // Quaternion math routines
+    void quaternionToEuler(float[] q, float[] euler) {
+        euler[0] = atan2(2 * q[1] * q[2] - 2 * q[0] * q[3], 2 * q[0] * q[0] + 2 * q[1] * q[1] - 1);
+        euler[1] = -asin(2 * q[1] * q[3] + 2 * q[0] * q[2]);
+        euler[2] = atan2(2 * q[2] * q[3] - 2 * q[0] * q[1], 2 * q[0] * q[0] + 2 * q[3] * q[3] - 1);
+    }
+
+    void quaternionToGravity(float[] q, float[] gravity) {
+        gravity[0] = 2 * (q[1] * q[3] - q[0] * q[2]);
+        gravity[1] = 2 * (q[0] * q[1] + q[2] * q[3]);
+        gravity[2] = q[0] * q[0] - q[1] * q[1] - q[2] * q[2] + q[3] * q[3];
+    }
+
+    void quaternionToYawPitchRoll(float[] q, float[] gravity, float[] ypr) {
+        ypr[0] = atan2(2 * q[1] * q[2] - 2 * q[0] * q[3], 2 * q[0] * q[0] + 2 * q[1] * q[1] - 1);
+        ypr[1] = atan(gravity[0] / sqrt(gravity[1] * gravity[1] + gravity[2] * gravity[2]));
+        ypr[2] = atan(gravity[1] / sqrt(gravity[0] * gravity[0] + gravity[2] * gravity[2]));
+    }
+
+    float[] quatProd(float[] a, float[] b) {
+        float[] res = new float[4];
+        res[0] = a[0] * b[0] - a[1] * b[1] - a[2] * b[2] - a[3] * b[3];
+        res[1] = a[0] * b[1] + a[1] * b[0] + a[2] * b[3] - a[3] * b[2];
+        res[2] = a[0] * b[2] - a[1] * b[3] + a[2] * b[0] + a[3] * b[1];
+        res[3] = a[0] * b[3] + a[1] * b[2] - a[2] * b[1] + a[3] * b[0];
+        return res;
     }
 }

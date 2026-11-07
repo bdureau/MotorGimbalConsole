@@ -30,7 +30,7 @@ public class GimbalConfigTab1Fragment extends Fragment {
 
     public GimbalConfigTab1Fragment(ConsoleApplication pBT,
                                     GimbalConfigData pGimbalCfg
-                                    ) {
+    ) {
         myBT = pBT;
         GimbalCfg = pGimbalCfg;
     }

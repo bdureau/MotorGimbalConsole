@@ -397,5 +397,7 @@
     <string name="credit_goes_to_philippe_huguenin_bergenat_n_for_all_the_testing">Credit goes to Philippe Huguenin-Bergenat \n for all the testing</string>
     <string name="do_you_want_to_connect_to_module">Do you want to connect to module</string>
     <string name="no">No</string>
+    <string name="flash_nfirmware">Flash\nfirmware</string>
+    <string name="about_button">About</string>
 
 </resources>

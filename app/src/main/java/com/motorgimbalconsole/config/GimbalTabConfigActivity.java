@@ -189,10 +189,10 @@ public class GimbalTabConfigActivity extends AppCompatActivity {
                     success = true;
                     //String conf;
                     //conf = GimbalCfg.getKpX() + "," + GimbalCfg.getKpY() +
-                      //      "," + GimbalCfg.getKiY() + "," + GimbalCfg.getKdY();
+                    //      "," + GimbalCfg.getKiY() + "," + GimbalCfg.getKdY();
 
                 } catch (Exception e) {
-                   // msg("pb ready data");
+                    // msg("pb ready data");
                 }
             } else {
                 //msg(getResources().getString(R.string.conf_msg1));
@@ -281,7 +281,7 @@ public class GimbalTabConfigActivity extends AppCompatActivity {
             finish();
         }
         //sendAltiCfgV2();
-       // finish();
+        // finish();
         return true;
     }
 

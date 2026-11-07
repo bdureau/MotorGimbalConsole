@@ -26,10 +26,8 @@ public class AboutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         myBT = (ConsoleApplication) getApplication();
 
-        //getApplicationContext().getResources().updateConfiguration(myBT.getAppLocal(), null);
         setContentView(R.layout.activity_about);
 
         btnDismiss = (Button)findViewById(R.id.butDismiss);
@@ -43,9 +41,5 @@ public class AboutActivity extends AppCompatActivity {
                 finish();      //exit the about activity
             }
         });
-
-
     }
-
-
 }

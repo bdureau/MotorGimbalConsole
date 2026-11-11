@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,96 +10,116 @@
         h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
         .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
         .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .info-box { background-color: #E3F2FD; border-left: 4px solid #1976D2; padding: 10px; margin: 12px 0; }
         .btn-entry { margin-bottom: 14px; }
         .btn-entry strong { color: #0277BD; }
-        img { vertical-align: middle; margin: 4px 6px 4px 0; }
+        .hardware-item { margin-bottom: 12px; }
+        img { vertical-align: middle; margin: 4px 6px 4px 0; max-width: 100%; height: auto; }
         ul, ol { padding-left: 20px; }
     </style>
 </head>
 <body>
 
-<h1>Руководство консоли Bear Altimeter Motor Gimbal</h1>
+<h1>Справка по испытательному стенду</h1>
 
-<p>Это краткое руководство по работе с приложением Android Bear Altimeter Motor Gimbal Console. Консоль предназначена для быстрой настройки стабилизации сопла двигателя (TVC), анализа графиков полета и мониторинга телеметрии непосредственно на стартовой площадке.</p>
+<p>Это краткая справка по использованию приложения Test Stand. Приложение Test Stand — очень удобный способ записывать кривые тяги ваших двигателей прямо на полигоне.</p>
 
-<h2>Подключение и сопряжение по Bluetooth</h2>
+<h2>Первоначальная настройка и сопряжение Bluetooth</h2>
 <ol>
-    <li><strong>Проверка прошивки:</strong> Убедитесь, что на контроллере подвеса установлена совместимая версия встроенного ПО.</li>
-    <li><strong>Подключение модуля:</strong> Убедитесь, что модуль Bluetooth (HC-05, HC-06 или HC-07) подключен к плате подвеса.</li>
-    <li><strong>Сопряжение в Android:</strong> Перейдите в <em>Настройки &gt; Bluetooth</em> вашего телефона/планшета и найдите доступные устройства. Выполните сопряжение с модулем (PIN-код по умолчанию: <code>1234</code> или <code>0000</code>).</li>
+    <li><strong>Совместимость прошивки:</strong> Убедитесь, что плата вашего испытательного стенда совместима (то есть на неё загружена правильная прошивка).</li>
+    <li><strong>Подключение модуля:</strong> Убедитесь, что модуль Bluetooth подключён к плате испытательного стенда.</li>
+    <li><strong>Сопряжение в системе:</strong> Откройте настройки устройства Android, перейдите в настройки Bluetooth и найдите модуль HC-05, HC-06 или другой модуль Bluetooth. Введите PIN-код сопряжения (по умолчанию <strong>1234</strong>).</li>
 </ol>
 
 <div class="warning-box">
     <div class="warning-title">&#9888; ВНИМАНИЕ</div>
-    <div>Настоятельно рекомендуется переименовать сопряженное устройство в настройках Android (например, <em>«Rocket-Gimbal-1»</em>), чтобы случайно не подключиться к другой ракете на стартовой позиции.</div>
+    <div>Дайте каждому сопряжённому устройству Bluetooth на телефоне понятное имя, чтобы быть уверенным, что вы настраиваете нужный испытательный стенд.</div>
 </div>
 
 <ol start="4">
-    <li><strong>Включение питания:</strong> Включите питание подвеса. Удерживайте ракету неподвижно в вертикальном положении до завершения инициализации гироскопа и калибровки IMU.</li>
-    <li><strong>Установка связи:</strong> Запустите приложение, нажмите <em>Подключить/Отключить</em> и выберите ваш модуль. Сообщение «Connected» подтвердит готовность к работе.</li>
+    <li><strong>Включение:</strong> Включите испытательный стенд и дождитесь, пока он перестанет издавать звуковые сигналы.</li>
+    <li><strong>Подключение:</strong> Запустите приложение на устройстве Android, нажмите «Показать сопряженные устройства» и выберите свой модуль HC-05 или HC-06. Консоль попытается подключиться.</li>
 </ol>
 
-<h2>Работа с консолью Gimbal</h2>
+<p>После подключения вы можете использовать приложение для настройки испытательного стенда или чтения записанных кривых тяги. Если подключиться не удаётся, проверьте, что плата включена и выбран правильный адаптер Bluetooth.</p>
 
-<h3>Элементы главного экрана</h3>
+<h2>Работа с приложением Test Stand</h2>
+
+<h3>Действия на главном экране</h3>
 
 <div class="btn-entry">
-    <p><strong>[Настройки (Gimbal Config)]</strong></p>
-    <p><img src="file:///android_asset/help/images/Gimbal config75x91.png" alt="Настройки"/>
-        Считывает текущие параметры с полетного контроллера и позволяет настраивать коэффициенты ПИД-регулятора, калибровку и пределы отклонения сервоприводов.</p>
+    <p><strong>[Настройки стенда]</strong></p>
+    <p><img src="file:///android_asset/help/images/Motor settings75x91.png" alt="Настройки стенда"/>
+        Считывает текущую конфигурацию испытательного стенда и позволяет её изменить.</p>
 </div>
 
 <div class="btn-entry">
-    <p><strong>[Полеты (Flights)]</strong></p>
-    <p><img src="file:///android_asset/help/images/Gimbal Flights75x91.png" alt="Полеты"/>
-        Загружает записанные данные полетов из флеш-памяти. Позволяет строить графики высоты, ускорения и просматривать траекторию отклонения вектора тяги.</p>
+    <p><strong>[Считать кривые тяги]</strong></p>
+    <p><img src="file:///android_asset/help/images/Motor Thrust Curves75x87.png" alt="Считать кривые тяги"/>
+        Считывает из памяти все записанные кривые тяги и отображает их в виде интерактивных графиков.</p>
 </div>
 
 <div class="btn-entry">
-    <p><strong>[Телеметрия (Telemetry)]</strong></p>
-    <p><img src="file:///android_asset/help/images/Gimbal Telemetry75x90.png" alt="Телеметрия"/>
-        Отображение параметров полета в реальном времени с поддержкой голосового оповещения о высоте и прохождении апогея.</p>
+    <p><strong>[Телеметрия]</strong></p>
+    <p><img src="file:///android_asset/help/images/Motor Telemetry75x91.png" alt="Телеметрия"/>
+        Открывает телеметрию испытательного стенда в реальном времени.</p>
 </div>
 
 <div class="btn-entry">
-    <p><strong>[Сброс (Reset)]</strong></p>
-    <p><img src="file:///android_asset/help/images/Gimbal Reset75x90.png" alt="Сброс"/>
-        Позволяет сбросить параметры подвеса к заводским настройкам, а также очистить журнал полетов (все полеты или только последний).</p>
+    <p><strong>[Сброс настроек]</strong></p>
+    <p><img src="file:///android_asset/help/images/Motor reset settings75x90.png" alt="Сброс настроек"/>
+        Восстанавливает заводские параметры. Также позволяет удалить все сохранённые кривые тяги.</p>
 </div>
 
 <div class="btn-entry">
-    <p><strong>[Статус (Status)]</strong></p>
-    <p><img src="file:///android_asset/help/images/Gimbal Status75x90.png" alt="Статус"/>
-        Диагностика системы в реальном времени: напряжение питания, состояние датчиков и нейтральные положения рулевых машинок.</p>
+    <p><strong>[Статус]</strong></p>
+    <p><img src="file:///android_asset/help/images/Motor Status75x90.png" alt="Статус"/>
+        Открывает экран диагностики оборудования с состоянием датчиков, напряжением батареи и состоянием платы.</p>
 </div>
 
 <div class="btn-entry">
-    <p><strong>[Прошивка (Flash Firmware)]</strong></p>
-    <p><img src="file:///android_asset/help/images/Gimbal Flash firmware75x91.png" alt="Прошивка"/>
-        Инструмент для обновления микропрограммы полетного контроллера через USB или последовательный загрузчик.</p>
-</div>
-
-<div class="btn-entry">
-    <p><strong>[О программе (About)]</strong></p>
-    <p><img src="file:///android_asset/help/images/Gimbal about75x91.png" alt="О программе"/>
-        Информация о версии консоли, номере сборки и разработчиках.</p>
+    <p><strong>[Прошивка]</strong></p>
+    <p><img src="file:///android_asset/help/images/Motor flash75x85.png" alt="Прошивка"/>
+        Позволяет обновить прошивку платы напрямую через USB-кабель.</p>
 </div>
 
 <div class="btn-entry">
     <p><strong>[Подключить / Отключить]</strong></p>
-    <p><img src="file:///android_asset/help/images/Gimbal Connect75x91.png" alt="Подключить"/>
-        <img src="file:///android_asset/help/images/Gimbal disconnect75x90.png" alt="Отключить"/>
-        Установка и разрыв соединения с подвесом по Bluetooth или USB-OTG.</p>
+    <p>
+        <img src="file:///android_asset/help/images/Motor connect75x87.png" alt="Подключить"/>
+        <img src="file:///android_asset/help/images/Motor disconnect75x86.png" alt="Отключить"/>
+    </p>
+    <p>Устанавливает или прерывает связь с испытательным стендом.</p>
 </div>
 
-<h3>Меню приложения</h3>
-<p>В верхнем меню доступны справка, окно «О программе», экраны настройки беспроводных каналов связи (Bluetooth, 3DR-модемы, LoRa), а также параметры оформления интерфейса.</p>
+<h3>Меню главного экрана</h3>
+<p>Из меню параметров можно открыть эту справку, перейти на экран «О программе» со сведениями о версии и настроить внешний вид приложения.</p>
 
 <h3>Поддерживаемое оборудование</h3>
-<p>&bull; <strong>Gimbal (на базе датчика MPU6050 6-DOF)</strong></p>
-<p><img src="file:///android_asset/help/images/altiGimbal-small.jpg" alt="Подвес MPU6050"/></p>
-<p>&bull; <strong>Gimbal (на базе датчика BNO055 Absolute Orientation)</strong></p>
-<p><img src="file:///android_asset/help/images/altiGimbal-bno055-small.jpg" alt="Подвес BNO055"/></p>
+<p>Приложение поддерживает следующие платы испытательных стендов:</p>
+
+<div class="hardware-item">
+    <p>&bull; <strong>Испытательный стенд на ATmega328</strong></p>
+    <p>Это исходный прототип испытательного стенда, который я сделал на ATmega328.</p>
+</div>
+
+<div class="hardware-item">
+    <p>&bull; <strong>Испытательный стенд на STM32 (версия 1)</strong></p>
+    <p>Это первый серийный испытательный стенд с платой STM32. У него только один вход для тензодатчика, поэтому он может измерять только тягу.</p>
+    <p><img src="file:///android_asset/help/images/testStandV1-small.jpg" alt="Испытательный стенд на STM32 (версия 1)"/></p>
+</div>
+
+<div class="hardware-item">
+    <p>&bull; <strong>Испытательный стенд на STM32 (версия 2)</strong></p>
+    <p>Это вторая версия испытательного стенда, также на плате STM32. У неё есть вход для тензодатчика для измерения тяги и 2 аналоговых входа для измерения давления внутри корпуса двигателя.</p>
+    <p><img src="file:///android_asset/help/images/testStandV2-small-1.jpg" alt="Испытательный стенд на STM32 (версия 2)"/></p>
+</div>
+
+<div class="hardware-item">
+    <p>&bull; <strong>Испытательный стенд на ESP32 (версия 3)</strong></p>
+    <p>Это третья версия испытательного стенда на микросхеме ESP32. У неё есть вход для тензодатчика для измерения тяги и 2 аналоговых входа для измерения давления внутри корпуса двигателя. Обратите внимание: по какой-то причине она записывает меньше</p>
+    <p><img src="file:///android_asset/help/images/testStandESP32-small.jpg" alt="Испытательный стенд на ESP32 (версия 3)"/></p>
+</div>
 
 </body>
 </html>

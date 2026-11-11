@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    fragment_app_config_part2.xml
+
+    Author: boris.dureau@neuf.fr
+    Used by: AppConfigTab2Fragment
+
+    Description:
+    Application settings, tab 2: one check box per announced flight event of the talking
+    telemetry, the voice spinner and the voice test button.
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"

@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    fragment_gimbal_config_part2.xml
+
+    Author: boris.dureau@neuf.fr
+    Used by: GimbalConfigTab2Fragment
+
+    Description:
+    Gimbal configuration, tab 2: PID gains Kp, Ki and Kd of the X and Y axes (decimal fields).
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"

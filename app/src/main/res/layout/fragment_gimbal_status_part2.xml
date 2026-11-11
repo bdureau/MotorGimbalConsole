@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    fragment_gimbal_status_part2.xml
+
+    Author: boris.dureau@neuf.fr
+    Used by: GimbalInfoFragment
+
+    Description:
+    Status / telemetry, tab 2: temperature, pressure, altitude, battery voltage, EEPROM usage
+    and number of recorded flights.
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

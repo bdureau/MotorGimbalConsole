@@ -6,16 +6,15 @@ package com.motorgimbalconsole.connection;
  *
  **/
 
-import android.Manifest;
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 //import android.support.v7.app.AppCompatActivity;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,6 +45,37 @@ public class SearchBluetooth extends AppCompatActivity {
     public static String EXTRA_ADDRESS = "device_address";
     ConsoleApplication myBT ;
 
+    /**
+     * Asks for the "Nearby devices" permissions (Android 12+). Both are requested in one
+     * system dialog; the device list is shown as soon as they are granted. The former code
+     * requested them and returned, so the user had to press the button again.
+     */
+    private final ActivityResultLauncher<String[]> permissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(),
+                    result -> {
+                        if (BluetoothConnection.hasConnectPermission(this)) {
+                            ensureBluetoothEnabledThenList();
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    getResources().getString(R.string.BT_msg3), Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+    /**
+     * Asks the user to turn Bluetooth on, then lists the paired devices. The former code only
+     * did it when the permission was missing, so with Bluetooth off the list stayed empty.
+     */
+    private final ActivityResultLauncher<Intent> enableBluetoothLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (myBluetooth != null && myBluetooth.isEnabled()) {
+                            pairedDevicesList();
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    getResources().getString(R.string.BT_msg4), Toast.LENGTH_LONG).show();
+                        }
+                    });
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -60,45 +90,23 @@ public class SearchBluetooth extends AppCompatActivity {
         btnDismiss = (Button) findViewById(R.id.butSearchBTDismiss);
         devicelist = (ListView)findViewById(R.id.listView);
 
-        //if the device has bluetooth
-        myBluetooth = BluetoothAdapter.getDefaultAdapter();
+        // Bluetooth adapter from the system service (BluetoothAdapter.getDefaultAdapter() is
+        // deprecated)
+        myBluetooth = BluetoothConnection.getAdapter(this);
 
         if(myBluetooth == null)
         {
-            //Show a menssage. that the device has no bluetooth adapter
             //Bluetooth Device Not Available
-            //Toast.makeText(getApplicationContext(), getResources().getString(R.string.BT_msg1), Toast.LENGTH_LONG).show();
-
-            //finish apk
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.BT_msg1), Toast.LENGTH_LONG).show();
             finish();
-        }
-        else if(!myBluetooth.isEnabled())
-        {
-            //Ask to the user turn the bluetooth on
-            Intent turnBTon = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-                {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT}, 2);
-                    return;
-                }
-                startActivityForResult(turnBTon, 1);
-                return;
-            }
+            return;
         }
 
         btnPaired.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-                pairedDevicesList();
+                startDeviceSelection();
             }
         });
 
@@ -108,37 +116,42 @@ public class SearchBluetooth extends AppCompatActivity {
                 finish();
             }
         });
+        startDeviceSelection();
+    }
+
+    /** Permissions first, then Bluetooth on, then the list of paired devices. */
+    private void startDeviceSelection() {
+        if (!BluetoothConnection.hasConnectPermission(this)) {
+            permissionLauncher.launch(BluetoothConnection.requiredPermissions());
+            return;
+        }
+        ensureBluetoothEnabledThenList();
+    }
+
+    /** Lists the paired devices, after asking to turn Bluetooth on if needed. */
+    private void ensureBluetoothEnabledThenList() {
+        if (!myBluetooth.isEnabled()) {
+            enableBluetoothLauncher.launch(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE));
+            return;
+        }
         pairedDevicesList();
     }
 
+    /**
+     * Displays the devices already paired in the Android settings (the HC-05 / HC-06 module of
+     * the board must be paired first). No discovery is done, so only BLUETOOTH_CONNECT is
+     * needed here (BLUETOOTH_SCAN was requested for nothing).
+     */
+    @SuppressLint("MissingPermission") // checked by hasConnectPermission()
     private void pairedDevicesList()
     {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-            {
-                ActivityCompat.requestPermissions(SearchBluetooth.this, new String[]{Manifest.permission.BLUETOOTH_SCAN}, 2);
-                return;
-            }
-        }
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            //return;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-            {
-                ActivityCompat.requestPermissions(SearchBluetooth.this, new String[]{Manifest.permission.BLUETOOTH_CONNECT}, 2);
-                return;
-            }
+        if (!BluetoothConnection.hasConnectPermission(this)) {
+            return;
         }
         pairedDevices = myBluetooth.getBondedDevices();
-        ArrayList list = new ArrayList();
+        ArrayList<String> list = new ArrayList<>();
 
-        if (pairedDevices.size()>0)
+        if (pairedDevices != null && pairedDevices.size()>0)
         {
             for(BluetoothDevice bt : pairedDevices)
             {
@@ -151,7 +164,7 @@ public class SearchBluetooth extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.BT_msg2), Toast.LENGTH_LONG).show();
         }
 
-        final ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, list);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, list);
         devicelist.setAdapter(adapter);
         devicelist.setOnItemClickListener(myListClickListener); //Method called when the device from the list is clicked
     }

@@ -1,5 +1,8 @@
 package com.motorgimbalconsole.config.GimbalConfig;
 
+import com.motorgimbalconsole.utils.NumberParser;
+import java.util.ArrayList;
+import java.util.List;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +16,15 @@ import com.motorgimbalconsole.ConsoleApplication;
 import com.motorgimbalconsole.R;
 import com.motorgimbalconsole.config.GimbalConfigData;
 
+/**
+ * GimbalConfigTab4Fragment.java
+ *
+ * @author boris.dureau@neuf.fr
+ *
+ * Description: Fourth tab of the gimbal configuration: travel limits (minimum and maximum
+ * angle, in degrees) of the X and Y gimbal servos. The limits are checked by
+ * GimbalConfigValidator before upload.
+ */
 public class GimbalConfigTab4Fragment extends Fragment {
     private static final String TAG = "Tab4Fragment";
     private boolean ViewCreated = false;
@@ -21,11 +33,14 @@ public class GimbalConfigTab4Fragment extends Fragment {
     ConsoleApplication myBT;
     private GimbalConfigData GimbalCfg = null;
 
-    public GimbalConfigTab4Fragment(ConsoleApplication pBT,
-                                    GimbalConfigData pGimbalCfg
-    ) {
-        myBT = pBT;
-        GimbalCfg = pGimbalCfg;
+    /**
+     * No-argument constructor, required by Android: the system re-creates fragments with it
+     * after a rotation or when the process is restored. The dependencies that used to be
+     * passed as constructor parameters are taken from the application object instead.
+     */
+    public GimbalConfigTab4Fragment() {
+        myBT = ConsoleApplication.getInstance();
+        GimbalCfg = myBT.getGimbalConfigData();
     }
     public void setServoXMin(int value) {
         this.editTxtViewServoXMin.setText(String.valueOf(value));
@@ -81,6 +96,22 @@ public class GimbalConfigTab4Fragment extends Fragment {
             ret = 0;
         }
         return ret;
+    }
+
+    /**
+     * Lists the input fields of this tab that are empty or not a number. Their getters return 0
+     * in that case, a value that would otherwise be sent to the board without any warning.
+     *
+     * @return names of the invalid fields; empty if the tab view has not been created
+     */
+    public List<String> getInvalidFields() {
+        List<String> invalid = new ArrayList<>();
+        if (!ViewCreated) return invalid;
+        if (!NumberParser.isInteger(editTxtViewServoXMin.getText().toString())) invalid.add("Servo X min");
+        if (!NumberParser.isInteger(editTxtViewServoXMax.getText().toString())) invalid.add("Servo X max");
+        if (!NumberParser.isInteger(editTxtViewServoYMin.getText().toString())) invalid.add("Servo Y min");
+        if (!NumberParser.isInteger(editTxtViewServoYMax.getText().toString())) invalid.add("Servo Y max");
+        return invalid;
     }
 
     public boolean isViewCreated() {

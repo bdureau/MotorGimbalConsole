@@ -10,14 +10,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.motorgimbalconsole.R;
-/*
-This is the second tab
-it contains
-The current altitude
-the battery voltage
-the current pressure
-the current temperature of the sensor
-the % of eeprom used
+
+/**
+ * GimbalInfoFragment.java
+ *
+ * @author boris.dureau@neuf.fr
+ *
+ * Description: Second tab of the status and telemetry screens: current altitude, pressure,
+ * temperature, battery voltage, number of recorded flights and EEPROM usage of the board. The
+ * values are pushed by the activity; the setters ignore them until the view exists.
  */
 public class GimbalInfoFragment extends Fragment {
     private static final String TAG = "Tab2StatusFragment";

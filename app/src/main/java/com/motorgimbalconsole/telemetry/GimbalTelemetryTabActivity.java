@@ -1,10 +1,13 @@
 package com.motorgimbalconsole.telemetry;
 
+import com.motorgimbalconsole.utils.NumberParser;
+import com.motorgimbalconsole.utils.PagerFragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.Voice;
@@ -39,11 +42,22 @@ import com.motorgimbalconsole.telemetry.TelemetryStatusFragment.GimbalMpFlightFr
 import com.motorgimbalconsole.telemetry.TelemetryStatusFragment.GimbalFcFlightFragment;
 import com.motorgimbalconsole.telemetry.TelemetryStatusFragment.GimbalRocketViewFragment;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * GimbalTelemetryTabActivity.java
+ *
+ * @author boris.dureau@neuf.fr
+ *
+ * Description: Live flight telemetry screen. It starts the telemetry stream of the board
+ * (TelemetryStreamReader), receives the parsed values through a Handler and dispatches them to
+ * four tabs: altitude chart with the flight events (lift-off, apogee, landing), raw sensor
+ * values, board information and 3D orientation of the rocket. The flight events and the
+ * altitude are announced by text to speech, according to the application settings. The screen
+ * stays on while it is displayed.
+ */
 public class GimbalTelemetryTabActivity extends AppCompatActivity {
 
     public String TAG = "TelemetryMp.class";
@@ -63,7 +77,8 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
     ArrayList<Entry> yValues;
 
     private ConsoleApplication myBT;
-    Thread rocketTelemetry;
+    // Starts / stops the board telemetry stream and reads it in the background
+    private TelemetryStreamReader telemetryReader;
 
     //telemetry var
     private long LiftOffTime = 0;
@@ -72,8 +87,6 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
     private double FEET_IN_METER = 1;
 
     private int altitudeTime = 0;
-
-    private boolean telemetry = true;
 
     private boolean liftOffSaid = false;
     private boolean apogeeSaid = false;
@@ -96,7 +109,10 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
         int lang = prefs.getInt("AppLanguage", 0);
         super.attachBaseContext(ConsoleApplication.updateBaseContextLocale(base, lang));
     }
-    Handler handler = new Handler() {
+    // Receives the parsed telemetry values from the reader thread (see
+    // ConsoleApplication.dispatchTelemetry) and updates the tabs on the UI thread.
+    // Bound explicitly to the main looper: the implicit-looper constructor is deprecated.
+    Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -138,9 +154,9 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                     break;
                 case 10:
                     // Value 1 contain the current altitude
-                    if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?")) {
+                    if (NumberParser.isNumber((String) msg.obj)) {
                         //Log.d("Altitude plot", "In altitude");
-                        int altitude = (int) (Integer.parseInt((String) msg.obj) * FEET_IN_METER);
+                        int altitude = (int) (NumberParser.toInt((String) msg.obj) * FEET_IN_METER);
                         if ((myBT.getAppConf().getGraphicsLibType() == GlobalConfig.GraphLib.AfreeChart) &
                                 (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O)) {
                             //if (statusPage0bis.isLiftOffChecked() && !statusPage0bis.isLandedChecked()) {
@@ -170,7 +186,7 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                         if ((altitudeTime - lastSpeakTime) > 5000 && liftOffSaid && !landedSaid) {
                             if (myBT.getAppConf().getAltitude_event()) {
                                 Log.d("Altitude plot", "say:" + String.valueOf(altitude));
-                                mTTS.speak(getResources().getString(R.string.altitude) + " " + String.valueOf(altitude) + " " + myBT.getAppConf().getUnitsValue(), TextToSpeech.QUEUE_FLUSH, null);
+                                speak(getResources().getString(R.string.altitude) + " " + String.valueOf(altitude) + " " + myBT.getAppConf().getUnitsValue());
                             }
                             lastSpeakTime = altitudeTime;
                         }
@@ -189,7 +205,7 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                 case 13:
                     //Value 13 contains the battery voltage
                     String voltage = (String) msg.obj;
-                    if (voltage.matches("\\d+(?:\\.\\d+)?")) {
+                    if (NumberParser.isNumber(voltage)) {
                         statusPage2.setBatteryVoltage(voltage + " Volts");
                     } else {
                         //txtViewVoltage.setText("NA");
@@ -221,8 +237,8 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                             (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O)) {
                         //if (!statusPage0bis.isLiftOffChecked())
                         if(!hasLiftOff)
-                            if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?"))
-                                if (Integer.parseInt((String) msg.obj) > 0 || LiftOffTime > 0) {
+                            if (NumberParser.isNumber((String) msg.obj))
+                                if (NumberParser.toInt((String) msg.obj) > 0 || LiftOffTime > 0) {
                                     statusPage0bis.setLiftOffChecked(true);
                                     hasLiftOff = true;
                                     if (LiftOffTime == 0)
@@ -230,7 +246,7 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                                     statusPage0bis.setLiftOffTime("0 ms");
                                     if (!liftOffSaid) {
                                         if (myBT.getAppConf().getLiftOff_event()) {
-                                            mTTS.speak(getResources().getString(R.string.lift_off), TextToSpeech.QUEUE_FLUSH, null);
+                                            speak(getResources().getString(R.string.lift_off));
                                         }
                                         liftOffSaid = true;
                                     }
@@ -238,8 +254,8 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                     } else {
                         //if (!statusPage0.isLiftOffChecked())
                         if(!hasLiftOff)
-                            if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?"))
-                                if (Integer.parseInt((String) msg.obj) > 0 || LiftOffTime > 0) {
+                            if (NumberParser.isNumber((String) msg.obj))
+                                if (NumberParser.toInt((String) msg.obj) > 0 || LiftOffTime > 0) {
                                     statusPage0.setLiftOffChecked(true);
                                     hasLiftOff = true;
                                     if (LiftOffTime == 0)
@@ -248,7 +264,7 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                                     if (!liftOffSaid) {
                                         if (myBT.getAppConf().getLiftOff_event()) {
                                             //lift_off
-                                            mTTS.speak(getResources().getString(R.string.lift_off), TextToSpeech.QUEUE_FLUSH, null);
+                                            speak(getResources().getString(R.string.lift_off));
                                         }
                                         liftOffSaid = true;
                                     }
@@ -263,8 +279,8 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                         Log.d(TAG, "Apogee afreechart");
                             //if (!statusPage0bis.isApogeeChecked())
                             if(!hasReachApogee)
-                                if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?"))
-                                    if (Integer.parseInt((String) msg.obj) > 0) {
+                                if (NumberParser.isNumber((String) msg.obj))
+                                    if (NumberParser.toInt((String) msg.obj) > 0) {
                                         statusPage0bis.setApogeeChecked(true);
                                         hasReachApogee = true;
                                         statusPage0bis.setMaxAltitudeTime((int) (System.currentTimeMillis() - LiftOffTime) + " ms");
@@ -274,8 +290,8 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                         //if (!statusPage0.isApogeeChecked()) {
                         if(!hasReachApogee){
                             //Log.d(TAG, "!isApogeeChecked:" + (String) msg.obj);
-                            if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?")) {
-                                if (Integer.parseInt((String) msg.obj) > 0) {
+                            if (NumberParser.isNumber((String) msg.obj)) {
+                                if (NumberParser.toInt((String) msg.obj) > 0) {
                                     Log.d(TAG, "setApogeeChecked");
                                     statusPage0.setApogeeChecked(true);
                                     hasReachApogee = true;
@@ -289,8 +305,8 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                     //Value 4 apogee altitude
                     if ((myBT.getAppConf().getGraphicsLibType() == GlobalConfig.GraphLib.AfreeChart) &
                             (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O)) {
-                        if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?")) {
-                            int altitude = (int) (Integer.parseInt((String) msg.obj) * FEET_IN_METER);
+                        if (NumberParser.isNumber((String) msg.obj)) {
+                            int altitude = (int) (NumberParser.toInt((String) msg.obj) * FEET_IN_METER);
 
                             //if (statusPage0bis.isApogeeChecked()) {
                             if(hasReachApogee) {
@@ -298,15 +314,15 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                                 if (!apogeeSaid) {
                                     //first check if say it is enabled
                                     if (myBT.getAppConf().getApogee_altitude()) {
-                                        mTTS.speak(getResources().getString(R.string.telemetry_apogee) + " " + String.valueOf(altitude) + " " + myBT.getAppConf().getUnitsValue(), TextToSpeech.QUEUE_FLUSH, null);
+                                        speak(getResources().getString(R.string.telemetry_apogee) + " " + String.valueOf(altitude) + " " + myBT.getAppConf().getUnitsValue());
                                     }
                                     apogeeSaid = true;
                                 }
                             }
                         }
                     } else {
-                        if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?")) {
-                            int altitude = (int) (Integer.parseInt((String) msg.obj) * FEET_IN_METER);
+                        if (NumberParser.isNumber((String) msg.obj)) {
+                            int altitude = (int) (NumberParser.toInt((String) msg.obj) * FEET_IN_METER);
 
                             //if (statusPage0.isApogeeChecked()) {
                             if(hasReachApogee) {
@@ -316,7 +332,7 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                                     //first check if say it is enabled
                                     if (myBT.getAppConf().getApogee_altitude()) {
                                         //Log.d("Apogee", "say apogee value");
-                                        mTTS.speak(getResources().getString(R.string.telemetry_apogee) + " " + String.valueOf(altitude) + " " + myBT.getAppConf().getUnitsValue(), TextToSpeech.QUEUE_FLUSH, null);
+                                        speak(getResources().getString(R.string.telemetry_apogee) + " " + String.valueOf(altitude) + " " + myBT.getAppConf().getUnitsValue());
                                     }
                                     apogeeSaid = true;
                                 }
@@ -331,15 +347,15 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                             (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O)) {
                         //if (!statusPage0bis.isLandedChecked())
                         if(!hasLanded)
-                            if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?"))
-                                if (Integer.parseInt((String) msg.obj) > 0) {
+                            if (NumberParser.isNumber((String) msg.obj))
+                                if (NumberParser.toInt((String) msg.obj) > 0) {
                                     statusPage0bis.setLandedChecked(true);
                                     hasLanded = true;
                                     statusPage0bis.setLandedAltitude(statusPage0bis.getLandedAltitude());
                                     statusPage0bis.setLandedTime((System.currentTimeMillis() - LiftOffTime) + " ms");
                                     if (!landedSaid) {
                                         if (myBT.getAppConf().getLanding_event()) {
-                                            mTTS.speak(getResources().getString(R.string.rocket_has_landed), TextToSpeech.QUEUE_FLUSH, null);
+                                            speak(getResources().getString(R.string.rocket_has_landed));
                                         }
                                         landedSaid = true;
                                     }
@@ -347,8 +363,8 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                     } else {
                         //if (!statusPage0.isLandedChecked())
                         if(!hasLanded)
-                            if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?"))
-                                if (Integer.parseInt((String) msg.obj) > 0) {
+                            if (NumberParser.isNumber((String) msg.obj))
+                                if (NumberParser.toInt((String) msg.obj) > 0) {
                                     statusPage0.setLandedChecked(true);
                                     hasLanded = true;
                                     statusPage0.setLandedAltitude(statusPage0.getLandedAltitude());
@@ -356,7 +372,7 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                                     if (!landedSaid) {
                                         if (myBT.getAppConf().getLanding_event()) {
                                             //  if (Locale.getDefault().getLanguage() == "en")
-                                            mTTS.speak(getResources().getString(R.string.rocket_has_landed), TextToSpeech.QUEUE_FLUSH, null);
+                                            speak(getResources().getString(R.string.rocket_has_landed));
                                         }
                                         landedSaid = true;
                                     }
@@ -365,9 +381,9 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                     break;
                 case 27:
                     // Value 27 contain the sample time
-                    if (((String) msg.obj).matches("\\d+(?:\\.\\d+)?")) {
-                        if (Integer.parseInt((String) msg.obj) > 0) {
-                            altitudeTime = Integer.parseInt((String) msg.obj);
+                    if (NumberParser.isNumber((String) msg.obj)) {
+                        if (NumberParser.toInt((String) msg.obj) > 0) {
+                            altitudeTime = NumberParser.toInt((String) msg.obj);
                         }
                     }
                     break;
@@ -390,21 +406,79 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
 
         //get the bluetooth Application pointer
         myBT = (ConsoleApplication) getApplication();
+        telemetryReader = new TelemetryStreamReader(myBT);
+
+        // Read the application config first: the tabs depend on the graphic library setting
+        myBT.getAppConf().ReadConfig();
 
         mViewPager = (ViewPager) findViewById(R.id.container);
         setupViewPager(mViewPager);
 
         dismissButton = (Button) findViewById(R.id.butDismiss);
 
+        if (myBT.getAppConf().getUnits() == GlobalConfig.AltitudeUnit.METERS) {
+            //Meters
+            FEET_IN_METER = 1;
+        } else {
+            //Feet
+            FEET_IN_METER = 3.28084;
+        }
+
+        initTelemetryData();
+        dismissButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();      //exit the activity
+            }
+        });
+    }
+
+    /**
+     * Screen visible: register the handler, create the speech engine and start the stream.
+     * Everything that talks to the board runs in the background (TelemetryStreamReader).
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart()");
         myBT.setHandler(handler);
+        initTextToSpeech();
+        telemetryReader.start();
+    }
 
-        // Read the application config
-        myBT.getAppConf().ReadConfig();
+    /**
+     * Screen hidden: stop the stream and release the speech engine.
+     * This used to wait for the board answer on the UI thread (ANR if it did not answer), and
+     * the speech engine shut down here was never re-created, so talking telemetry stayed
+     * silent after coming back to the screen.
+     */
+    @Override
+    protected void onStop() {
+        Log.d(TAG, "onStop()");
+        super.onStop();
+        telemetryReader.stop();
+        shutdownTextToSpeech();
+    }
 
-        //init text to speech
+    @Override
+    public void onDestroy() {
+        Log.d(TAG, "onDestroy()");
+        super.onDestroy();
+        // Stop receiving values: the fragments are being destroyed
+        myBT.clearHandler(handler);
+        handler.removeCallbacksAndMessages(null);
+    }
+
+    /**
+     * Creates the text to speech engine with the application language and the voice chosen in
+     * the settings. Called from onStart(), released in onStop().
+     */
+    private void initTextToSpeech() {
+        if (mTTS != null) return;
         mTTS = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
+                if (mTTS == null) return; // screen stopped before the engine was ready
                 if (status == TextToSpeech.SUCCESS) {
                     int result = 0;
 
@@ -421,10 +495,8 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                     else
                         result = mTTS.setLanguage(Locale.ENGLISH);
 
-                    //if (myBT.getAppConf().getTelemetryVoice()!=-1) {
-                    // Log.d("Voice", myBT.getAppConf().getTelemetryVoice());
-                    //String[] itemsVoices;
-                    //String items = "";
+                    // Select the voice chosen in the application settings (index among the
+                    // voices of the current language)
                     int i = 0;
                     try {
                         for (Voice tmpVoice : mTTS.getVoices()) {
@@ -440,14 +512,11 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
                             }
                         }
                     } catch (Exception e) {
-
+                        Log.w("TTS", "Unable to select the telemetry voice", e);
                     }
-                    //}
 
                     if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         Log.e("TTS", "Language not supported");
-                    } else {
-
                     }
                 } else {
                     Log.e("TTS", "Init failed");
@@ -456,131 +525,51 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
         });
         mTTS.setPitch(1.0f);
         mTTS.setSpeechRate(1.0f);
+    }
 
-
-        String myUnits = "";
-        if (myBT.getAppConf().getUnits() == GlobalConfig.AltitudeUnit.METERS) {
-            //Meters
-            FEET_IN_METER = 1;
-            myUnits = getResources().getString(R.string.Meters_fview);
-        } else {
-            //Feet
-            FEET_IN_METER = 3.28084;
-            myUnits = getResources().getString(R.string.Feet_fview);
-        }
-
-        startTelemetry();
-        dismissButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();      //exit the activity
+    /** Releases the text to speech engine. */
+    private void shutdownTextToSpeech() {
+        if (mTTS != null) {
+            try {
+                mTTS.stop();
+                mTTS.shutdown();
+            } catch (Exception e) {
+                Log.w("TTS", "Shutdown failed", e);
             }
-        });
-    }
-
-    @Override
-    public void onBackPressed() {
-        Log.d(TAG, "onBackPressed()");
-        finish();
-    }
-
-    @Override
-    public void onDestroy() {
-        Log.d(TAG, "onDestroy()");
-        super.onDestroy();
-        try {
-            mTTS.shutdown();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (telemetry) {
-            telemetry = false;
-            myBT.write("h;".toString());
-
-            myBT.setExit(true);
-            myBT.clearInput();
-            myBT.flush();
-        }
-        //turn off telemetry
-        myBT.flush();
-        myBT.clearInput();
-        myBT.write("y0;".toString());
-        //mTTS.shutdown();
-    }
-
-    @Override
-    public void onResume() {
-        Log.d(TAG, "onResume()");
-        super.onResume();
-        if (myBT.getConnected() && !telemetry) {
-            myBT.flush();
-            myBT.clearInput();
-
-            myBT.write("y1;".toString());
-            telemetry = true;
-            //rocketTelemetry.start();
-            Runnable r = new Runnable() {
-
-                @Override
-                public void run() {
-                    while (true) {
-                        if (!telemetry) break;
-                        myBT.ReadResult(10000);
-                    }
-                }
-            };
-            rocketTelemetry = new Thread(r);
-            rocketTelemetry.start();
+            mTTS = null;
         }
     }
 
-    @Override
-    protected void onStop() {
-        Log.e(TAG, "onStop()");
-        super.onStop();
-        try {
-            mTTS.shutdown();
-        } catch (Exception e) {
-            e.printStackTrace();
+    /**
+     * Speaks a telemetry announcement (lift off, altitude, apogee, landing), interrupting the
+     * previous one. Silently ignored while the speech engine is not available.
+     *
+     * @param text sentence to say
+     */
+    private void speak(String text) {
+        if (mTTS != null) {
+            mTTS.speak(text, TextToSpeech.QUEUE_FLUSH, null, "telemetry");
         }
-        if (telemetry) {
-            telemetry = false;
-            myBT.write("h;".toString());
-
-            myBT.setExit(true);
-            myBT.clearInput();
-            myBT.flush();
-        }
-
-
-        myBT.flush();
-        myBT.clearInput();
-        myBT.write("h;".toString());
-        try {
-            while (myBT.getInputStream().available() <= 0) ;
-        } catch (IOException e) {
-
-        }
-        String myMessage = "";
-        long timeOut = 10000;
-        long startTime = System.currentTimeMillis();
-
-        myMessage = myBT.ReadResult(100000);
     }
 
+    /**
+     * Builds the tabs. The fragments restored by Android after a re-creation are re-used
+     * (see PagerFragments), otherwise the handler would update fragments that are not shown.
+     */
     private void setupViewPager(ViewPager viewPager) {
-        adapter = new SectionsStatusPageAdapter(getSupportFragmentManager());
+        FragmentManager fm = getSupportFragmentManager();
+        adapter = new SectionsStatusPageAdapter(fm);
         if ((myBT.getAppConf().getGraphicsLibType() == GlobalConfig.GraphLib.AfreeChart) &
                 (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O)) {
-            statusPage0bis = new GimbalFcFlightFragment(myBT);
+            statusPage0bis = PagerFragments.restoredOr(fm, GimbalFcFlightFragment.class, GimbalFcFlightFragment::new);
             adapter.addFragment(statusPage0bis, "TAB0");
         } else {
-            statusPage0 = new GimbalMpFlightFragment(myBT);
+            statusPage0 = PagerFragments.restoredOr(fm, GimbalMpFlightFragment.class, GimbalMpFlightFragment::new);
             adapter.addFragment(statusPage0, "TAB0");
         }
-        statusPage1 = new GimbalAxesInfoFragment();
-        statusPage2 = new GimbalInfoFragment();
-        statusPage3 = new GimbalRocketViewFragment();
+        statusPage1 = PagerFragments.restoredOr(fm, GimbalAxesInfoFragment.class, GimbalAxesInfoFragment::new);
+        statusPage2 = PagerFragments.restoredOr(fm, GimbalInfoFragment.class, GimbalInfoFragment::new);
+        statusPage3 = PagerFragments.restoredOr(fm, GimbalRocketViewFragment.class, GimbalRocketViewFragment::new);
 
         adapter.addFragment(statusPage1, "TAB1");
         adapter.addFragment(statusPage2, "TAB2");
@@ -625,6 +614,11 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * Tab adapter. FragmentPagerAdapter is kept on purpose (see the note in the change log):
+     * moving to ViewPager2 changes the lifecycle of the off-screen tabs, which the Processing
+     * 3D rocket view relies on, and must be validated on a device.
+     */
     public class SectionsStatusPageAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList();
         private final List<String> mFragmentTitleList = new ArrayList();
@@ -657,28 +651,13 @@ public class GimbalTelemetryTabActivity extends AppCompatActivity {
     }
 
 
-    public void startTelemetry() {
-        telemetry = true;
-
+    /** Resets the in-flight state and the recorded curve before a new telemetry session. */
+    private void initTelemetryData() {
         lastPlotTime = 0;
         myBT.initFlightData();
 
         myflight = myBT.getFlightData(); //this is used by the afreeChart
         LiftOffTime = 0;
-        Runnable r = new Runnable() {
-
-            @Override
-            public void run() {
-                while (true) {
-                    if (!telemetry) break;
-                    myBT.ReadResult(10000);
-                }
-            }
-        };
-
-        rocketTelemetry = new Thread(r);
-        rocketTelemetry.start();
-
     }
 
     @Override

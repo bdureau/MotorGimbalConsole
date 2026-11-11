@@ -23,7 +23,14 @@ import com.motorgimbalconsole.R;
 
 import java.util.ArrayList;
 
-
+/**
+ * GimbalMpFlightFragment.java
+ *
+ * @author boris.dureau@neuf.fr
+ *
+ * Description: Telemetry chart tab drawn with MPAndroidChart (default library): live altitude
+ * curve, and the flight events (lift-off, apogee, landing) with their time and altitude.
+ */
 public class GimbalMpFlightFragment extends Fragment{
     private static final String TAG = "GimbalMpFlightFragment";
     private boolean ViewCreated = false;
@@ -36,8 +43,13 @@ public class GimbalMpFlightFragment extends Fragment{
     ArrayList<ILineDataSet> dataSets;
     ArrayList<Entry> yValues;
 
-    public GimbalMpFlightFragment (ConsoleApplication pBT) {
-        myBT = pBT;
+    /**
+     * No-argument constructor, required by Android: the system re-creates fragments with it
+     * after a rotation or when the process is restored. The dependencies that used to be
+     * passed as constructor parameters are taken from the application object instead.
+     */
+    public GimbalMpFlightFragment() {
+        myBT = ConsoleApplication.getInstance();
     }
     public boolean isLiftOffChecked() {
         if(ViewCreated)

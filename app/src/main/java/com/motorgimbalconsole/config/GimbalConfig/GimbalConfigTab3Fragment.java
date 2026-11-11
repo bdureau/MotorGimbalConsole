@@ -1,5 +1,8 @@
 package com.motorgimbalconsole.config.GimbalConfig;
 
+import com.motorgimbalconsole.utils.NumberParser;
+import java.util.ArrayList;
+import java.util.List;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +19,16 @@ import com.motorgimbalconsole.ConsoleApplication;
 import com.motorgimbalconsole.R;
 import com.motorgimbalconsole.config.GimbalConfigData;
 
+/**
+ * GimbalConfigTab3Fragment.java
+ *
+ * @author boris.dureau@neuf.fr
+ *
+ * Description: Third tab of the gimbal configuration: general board settings (altitude units,
+ * beep frequency, connection speed, altimeter resolution, EEPROM size, end of recording
+ * altitude, lift-off detection, gyroscope and accelerometer ranges, battery type, recording
+ * timeout and telemetry type).
+ */
 public class GimbalConfigTab3Fragment extends Fragment {
     private static final String TAG = "Tab3Fragment";
     private boolean ViewCreated = false;
@@ -48,11 +61,14 @@ public class GimbalConfigTab3Fragment extends Fragment {
     //spinnerAltimeterResolution
     //spinnerEEpromSize
     //txtViewEndRecordAltitude
-    public GimbalConfigTab3Fragment(ConsoleApplication pBT,
-                                    GimbalConfigData pGimbalCfg
-    ) {
-        myBT = pBT;
-        GimbalCfg = pGimbalCfg;
+    /**
+     * No-argument constructor, required by Android: the system re-creates fragments with it
+     * after a rotation or when the process is restored. The dependencies that used to be
+     * passed as constructor parameters are taken from the application object instead.
+     */
+    public GimbalConfigTab3Fragment() {
+        myBT = ConsoleApplication.getInstance();
+        GimbalCfg = myBT.getGimbalConfigData();
     }
     public int getFreq() {
         int ret;
@@ -193,6 +209,21 @@ public class GimbalConfigTab3Fragment extends Fragment {
 
     public void setTelemetryType(int TelemetryType) {
         dropdownTelemetryType.setSelection(TelemetryType);
+    }
+
+    /**
+     * Lists the input fields of this tab that are empty or not a number. Their getters return 0
+     * in that case, a value that would otherwise be sent to the board without any warning.
+     *
+     * @return names of the invalid fields; empty if the tab view has not been created
+     */
+    public List<String> getInvalidFields() {
+        List<String> invalid = new ArrayList<>();
+        if (!ViewCreated) return invalid;
+        if (!NumberParser.isInteger(Freq.getText().toString())) invalid.add("Beep");
+        if (!NumberParser.isInteger(EndRecordAltitude.getText().toString())) invalid.add("End record altitude");
+        if (!NumberParser.isInteger(RecordingTimeout.getText().toString())) invalid.add("Recording timeout");
+        return invalid;
     }
 
     public boolean isViewCreated() {

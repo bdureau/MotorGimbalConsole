@@ -1,10 +1,13 @@
 package com.motorgimbalconsole.telemetry;
 
+import com.motorgimbalconsole.utils.NumberParser;
+import com.motorgimbalconsole.utils.PagerFragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 
 import androidx.annotation.Nullable;
@@ -33,7 +36,6 @@ import com.motorgimbalconsole.telemetry.TelemetryStatusFragment.GimbalAxesInfoFr
 import com.motorgimbalconsole.telemetry.TelemetryStatusFragment.GimbalInfoFragment;
 import com.motorgimbalconsole.telemetry.TelemetryStatusFragment.GimbalRocketViewFragment;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,8 +56,8 @@ public class GimbalTabStatusActivity extends AppCompatActivity {
     private GimbalRocketViewFragment statusPage3 =null;
     private Button btnDismiss, btnRecording;
     private ConsoleApplication myBT ;
-    Thread altiStatus;
-    boolean status = true;
+    // Starts / stops the board telemetry stream and reads it in the background
+    private TelemetryStreamReader statusReader;
     boolean recording = false;
 
     @Override
@@ -66,7 +68,9 @@ public class GimbalTabStatusActivity extends AppCompatActivity {
         int lang = prefs.getInt("AppLanguage", 0);
         super.attachBaseContext(ConsoleApplication.updateBaseContextLocale(base, lang));
     }
-    Handler handler = new Handler () {
+    // Receives the parsed live values from the reader thread and updates the tabs on the UI
+    // thread. Bound explicitly to the main looper: the implicit-looper constructor is deprecated.
+    Handler handler = new Handler (Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -122,7 +126,7 @@ public class GimbalTabStatusActivity extends AppCompatActivity {
                 case 13:
                     //Value 13 contains the battery voltage
                     String voltage = (String)msg.obj;
-                    if(voltage.matches("\\d+(?:\\.\\d+)?")) {
+                    if(NumberParser.isNumber(voltage)) {
                         statusPage2.setBatteryVoltage(voltage + " Volts");
                     }
                     else {
@@ -161,12 +165,12 @@ public class GimbalTabStatusActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         myBT = (ConsoleApplication) getApplication();
+        statusReader = new TelemetryStreamReader(myBT);
 
         setContentView(R.layout.activity_gimbal_tab_status);
 
         mViewPager =(ViewPager) findViewById(R.id.container);
         setupViewPager(mViewPager);
-        myBT.setHandler(handler);
         btnDismiss = (Button)findViewById(R.id.butDismiss);
         btnRecording = (Button)findViewById(R.id.butRecording);
         /*if ( myBT.getAppConf().getManualRecording())
@@ -222,102 +226,53 @@ public class GimbalTabStatusActivity extends AppCompatActivity {
 
             }
         });
-
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                while (true){
-                    if(!status) break;
-                    myBT.ReadResult(10000);
-                }
-            }
-        };
-
-        altiStatus = new Thread(r);
-        altiStatus.start();
     }
     // fast way to call Toast
     private void msg(String s) {
         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * Screen visible: register the handler and start the live status stream in the background.
+     */
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "onDestroy()");
-        if (status) {
-            status = false;
-            myBT.write("h;".toString());
-            myBT.setExit(true);
-            myBT.clearInput();
-            myBT.flush();
-        }
-        //if(myBT.getConnected()) {
-            //turn off telemetry
-            myBT.flush();
-            myBT.clearInput();
-            myBT.write("y0;".toString());
-        //}
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart()");
+        myBT.setHandler(handler);
+        statusReader.start();
     }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume()");
-        if(myBT.getConnected() && !status) {
-            myBT.flush();
-            myBT.clearInput();
 
-            myBT.write("y1;".toString());
-            status = true;
-            ///
-            Runnable r = new Runnable() {
-
-                @Override
-                public void run() {
-                    while (true) {
-                        if (!status) break;
-                        myBT.ReadResult(10000);
-                    }
-                }
-            };
-            altiStatus = new Thread(r);
-            //
-            altiStatus.start();
-        }
-    }
+    /**
+     * Screen hidden: stop the stream without blocking the UI thread. The reader used to keep
+     * running when the screen was hidden, and the board kept streaming until onDestroy.
+     */
     @Override
     protected void onStop() {
         super.onStop();
         Log.d(TAG, "onStop()");
-
-        /*if (status) {
-            status = false;
-            myBT.write("h;".toString());
-
-            myBT.setExit(true);
-            myBT.clearInput();
-            myBT.flush();
-        }
-
-        myBT.flush();
-        myBT.clearInput();
-        myBT.write("h;".toString());
-        try {
-            while (myBT.getInputStream().available() <= 0) ;
-        } catch (IOException e) {
-
-        }
-        String myMessage = "";
-        long timeOut = 10000;
-        //long startTime = System.currentTimeMillis();
-
-        myMessage =myBT.ReadResult(timeOut);*/
+        statusReader.stop();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy()");
+        // Stop receiving values: the fragments are being destroyed
+        myBT.clearHandler(handler);
+        handler.removeCallbacksAndMessages(null);
+    }
+
+    /**
+     * Builds the tabs, re-using the fragments restored by Android after a re-creation
+     * (see PagerFragments) so that the handler updates the fragments actually displayed.
+     */
     private void setupViewPager(ViewPager viewPager) {
-        adapter = new SectionsStatusPageAdapter(getSupportFragmentManager());
-        statusPage1 = new GimbalAxesInfoFragment();
-        statusPage2 = new GimbalInfoFragment();
-        statusPage3 = new GimbalRocketViewFragment();
+        FragmentManager fm = getSupportFragmentManager();
+        adapter = new SectionsStatusPageAdapter(fm);
+        statusPage1 = PagerFragments.restoredOr(fm, GimbalAxesInfoFragment.class, GimbalAxesInfoFragment::new);
+        statusPage2 = PagerFragments.restoredOr(fm, GimbalInfoFragment.class, GimbalInfoFragment::new);
+        statusPage3 = PagerFragments.restoredOr(fm, GimbalRocketViewFragment.class, GimbalRocketViewFragment::new);
 
         adapter.addFragment(statusPage1, "TAB1");
         adapter.addFragment(statusPage2, "TAB2");

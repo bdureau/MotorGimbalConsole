@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_gimbal_tab_status.xml
+
+    Author: boris.dureau@neuf.fr
+    Used by: GimbalTabStatusActivity
+
+    Description:
+    Tab pager screen: app bar, ViewPager "container" holding the tabs, page indicator dots
+    (idStatusLinearDots), the manual recording button (hidden) and the Dismiss button.
+-->
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"

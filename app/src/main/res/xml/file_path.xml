@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    file_path.xml
+
+    Author: boris.dureau@neuf.fr
+
+    Description: folders that the FileProvider (see AndroidManifest.xml) may expose to other
+    applications through content:// URIs when the user shares a file.
+
+    Only the "shared" sub-folder of the application cache is exposed: it holds the screenshots
+    and the zip of flight curves created just before opening the Android share sheet. The
+    previous declaration (external-path ".") exposed the whole shared storage of the phone.
+    Cache files are removed by Android when space is needed, so they do not accumulate.
+-->
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
-    <external-path
-        name="external_files"
-        path="."/>
+    <cache-path
+        name="shared"
+        path="shared/" />
 </paths>

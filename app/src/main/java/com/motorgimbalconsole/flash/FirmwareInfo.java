@@ -2,6 +2,14 @@ package com.motorgimbalconsole.flash;
 
 import com.physicaloid.lib.Physicaloid;
 
+/**
+ * FirmwareInfo.java
+ *
+ * @author boris.dureau@neuf.fr
+ *
+ * Description: Reads the version of the firmware currently on the board through the USB serial
+ * link (Physicaloid), so that the flash screen can show it before flashing.
+ */
 public class FirmwareInfo {
     //UploadSTM32CallBack mUpCallback;
     Physicaloid lPhysicaloid;

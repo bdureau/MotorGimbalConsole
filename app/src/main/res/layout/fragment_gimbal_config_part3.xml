@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    fragment_gimbal_config_part3.xml
+
+    Author: boris.dureau@neuf.fr
+    Used by: GimbalConfigTab3Fragment
+
+    Description:
+    Gimbal configuration, tab 3: board name, units, beep frequency, baud rate, altimeter
+    resolution, EEPROM size, end of recording altitude, lift-off detection, sensor ranges,
+    battery type, recording timeout and telemetry type.
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"

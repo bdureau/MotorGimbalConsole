@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    fragment_play_flight.xml
+
+    Author: boris.dureau@neuf.fr
+    Used by: FlightPlayFragment
+
+    Description:
+    3D replay of a downloaded flight: "container" hosting the Processing rocket view, and the
+    Play / Pause control card.
+-->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"

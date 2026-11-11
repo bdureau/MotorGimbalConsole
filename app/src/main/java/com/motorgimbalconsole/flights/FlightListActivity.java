@@ -47,7 +47,7 @@ public class FlightListActivity extends AppCompatActivity {
 
     private Button buttonDismiss;
 
-    // Point 1 : Gestion de l'exécution en arrière-plan sans AsyncTask
+    // Background execution of the flight download (replaces the former AsyncTask)
     private final ExecutorService backgroundExecutor = Executors.newSingleThreadExecutor();
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private boolean canceled = false;
@@ -82,7 +82,7 @@ public class FlightListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_flight_list);
         buttonDismiss = (Button) findViewById(R.id.butDismiss);
 
-        // Point 1 : Lancement de la récupération sans AsyncTask
+        // Start the download in the background (replaces the former AsyncTask)
         startRetrieveFlights();
 
         buttonDismiss.setOnClickListener(new View.OnClickListener() {
@@ -101,14 +101,14 @@ public class FlightListActivity extends AppCompatActivity {
         if (alert != null && alert.isShowing()) {
             alert.dismiss();
         }
-        backgroundExecutor.shutdownNow(); // Point 1 : Nettoyage du thread d'arrière-plan
+        backgroundExecutor.shutdownNow(); // Stop the background download thread
     }
 
     private void msg(String s) {
         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
     }
 
-    // Point 1 : Remplacement de RetrieveFlights extends AsyncTask
+    // Flight download, run in the background (replaces the former RetrieveFlights AsyncTask)
     private void startRetrieveFlights() {
         AlertDialog.Builder builder = new AlertDialog.Builder(FlightListActivity.this);
         //Retrieving flights...
@@ -145,7 +145,7 @@ public class FlightListActivity extends AppCompatActivity {
             myBT.write("n;");
             myBT.flush();
 
-            // Point 2 : Suppression de l'attente active bloquante (while (available <= 0);)
+            // No busy-wait (while (available() <= 0);): ReadResult() waits itself, with a timeout
 
             String myMessage1 = "";
             myBT.setDataReady(false);
@@ -167,7 +167,7 @@ public class FlightListActivity extends AppCompatActivity {
                     myBT.write("r" + i + ";");
                     myBT.flush();
 
-                    // Point 2 : Suppression de l'attente active bloquante (while (available <= 0);)
+                    // No busy-wait here: ReadResult() waits for the answer itself, with a timeout
 
                     String myMessage = "";
                     myBT.setDataReady(false);
@@ -188,7 +188,8 @@ public class FlightListActivity extends AppCompatActivity {
             myflight = myBT.getFlightData();
             flightNames = myflight.getAllFlightNames2();
 
-            // Point 3 : Sécurisation lors de l'annulation (vérification que la liste n'est pas vide)
+            // Cancelled download: the last flight may be incomplete and is dropped (only if the
+            // list is not empty)
             if (canceled) {
                 //order the names in the collection
                 Collections.sort(flightNames);
@@ -198,7 +199,8 @@ public class FlightListActivity extends AppCompatActivity {
                 }
             }
 
-            // Point 3 : Protection contre la division par zéro (dt <= 0) pour la vitesse
+            // Speed curve (FlightData.SERIE_SPEED): absolute vertical speed between two altitude
+            // samples; samples with the same time stamp are skipped (no division by zero)
             for (String flight : flightNames) {
                 XYSeries serie = myflight.GetFlightData(flight).getSeries(getResources().getString(R.string.altitude));
                 int nbrData = serie.getItemCount();
@@ -212,22 +214,14 @@ public class FlightListActivity extends AppCompatActivity {
                 }
             }
 
-            // Point 3 : Protection contre la division par zéro (dt <= 0) pour l'accélération
-            for (String flight : flightNames) {
-                XYSeries serie = myflight.GetFlightData(flight).getSeries(17);
-                int nbrData = serie.getItemCount();
-                for (int i = 1; i < nbrData; i++) {
-                    double dt = (serie.getX(i).doubleValue() - serie.getX(i - 1).doubleValue()) / 1000.0;
-                    if (dt > 0.0) {
-                        double X = serie.getX(i).doubleValue();
-                        double Y = abs(serie.getY(i).doubleValue() - serie.getY(i - 1).doubleValue()) / dt;
-                        myflight.AddToFlight((long) X, (long) (Y), flight, 18);
-                    }
-                }
-            }
+            // Acceleration curve (FlightData.SERIE_ACCEL): it is filled while the flight is
+            // downloaded, from the IMU accelerometer, in G (see ConsoleApplication, "$data"
+            // sentence, and AccelerationUtils). The former second derivative of the altitude
+            // computed here was removed: it was mixed into the same curve, in m/s^2, and a
+            // sample-by-sample double derivative of a barometric altitude is mostly noise.
         }
 
-        // Point 1 : Notification sur le thread UI pour finaliser l'affichage
+        // Back on the UI thread to display the list of flights
         mHandler.post(new Runnable() {
             @Override
             public void run() {

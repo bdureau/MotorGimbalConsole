@@ -14,10 +14,16 @@ import com.motorgimbalconsole.utils.Rocket;
 
 import processing.android.PFragment;
 import processing.core.PApplet;
-/*
-    This is the third tab
-    it displays the rocket orientation
-     */
+
+/**
+ * GimbalRocketViewFragment.java
+ *
+ * @author boris.dureau@neuf.fr
+ *
+ * Description: Third tab of the status and telemetry screens: 3D view of the rocket orientation,
+ * drawn by a Processing sketch (utils.Rocket) hosted in a child PFragment. Receives the
+ * quaternion, the angle correction and the servo positions of each telemetry frame.
+ */
 public class GimbalRocketViewFragment extends Fragment {
     private static final String TAG = "Tab3StatusFragment";
     private PApplet myRocket;

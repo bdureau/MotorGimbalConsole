@@ -1,5 +1,13 @@
 package com.motorgimbalconsole.flash;
 
+/**
+ * UploadSTM32Errors.java
+ *
+ * @author boris.dureau@neuf.fr
+ *
+ * Description: Error codes of the STM32 firmware upload (FlashFirmware, CommandInterface),
+ * with the message displayed to the user.
+ */
 public enum UploadSTM32Errors {
     // reference
     // http://stackoverflow.com/questions/446663/best-way-to-define-error-codes-strings-in-java

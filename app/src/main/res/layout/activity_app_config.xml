@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_app_config.xml
+
+    Author: boris.dureau@neuf.fr
+    Used by: AppTabConfigActivity
+
+    Description:
+    Tab pager screen: app bar, ViewPager "container" holding the tabs, page indicator dots
+    (idAppConfigLinearDots) and the Save / Dismiss / Default buttons of the application
+    settings.
+-->
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"

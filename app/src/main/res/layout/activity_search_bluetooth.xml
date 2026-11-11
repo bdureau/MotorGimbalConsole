@@ -1,3 +1,13 @@
+<!--
+    activity_search_bluetooth.xml
+
+    Author: boris.dureau@neuf.fr
+    Used by: SearchBluetooth
+
+    Description:
+    Selection of the Bluetooth module of the board: list of the paired devices (listView),
+    button to refresh it and Dismiss button.
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"

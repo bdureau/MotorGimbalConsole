@@ -400,4 +400,17 @@
     <string name="flash_nfirmware">Flash\nfirmware</string>
     <string name="about_button">About</string>
 
+    <!-- Bluetooth device selection (SearchBluetooth) -->
+    <string name="BT_msg3">Bluetooth permission refused: the paired modules cannot be listed.</string>
+    <string name="BT_msg4">Bluetooth must be turned on to select the module of the board.</string>
+    <!-- Gimbal configuration checks before upload (GimbalConfigValidator) -->
+    <string name="cfg_err_title">Configuration not sent</string>
+    <string name="cfg_err_empty_fields">These fields are empty or are not valid numbers: %1$s</string>
+    <string name="cfg_err_servo">Servo %1$s: the minimum (%2$s) must be lower than the maximum (%3$s), both between 0 and 180°.</string>
+    <string name="cfg_err_pid">%1$s = %2$s: a PID gain must be between 0 and 100.</string>
+    <string name="cfg_err_offset">%1$s = %2$s: an offset must be between -32768 and 32767.</string>
+    <string name="cfg_err_sensor_range">%1$s range: choose one of the proposed values.</string>
+    <string name="cfg_err_beep">Beep frequency %1$s Hz: must be between 20 and 20000 Hz.</string>
+    <string name="cfg_err_end_record">End of recording altitude %1$s: must be between 0 and 10000.</string>
+    <string name="cfg_err_timeout">Recording timeout %1$s: must be between 0 and 32767.</string>
 </resources>

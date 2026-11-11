@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,9 +23,15 @@ import com.motorgimbalconsole.help.AboutActivity;
 import com.motorgimbalconsole.help.HelpActivity;
 import com.motorgimbalconsole.R;
 
-import java.io.IOException;
-
-
+/**
+ * TestConnection.java
+ *
+ * @author boris.dureau@neuf.fr
+ *
+ * Description: Telemetry link test: sends the test command ("o;") in a loop and counts the
+ * packets sent, received, valid and invalid (checksum), to check the range and the quality of
+ * the radio link before a flight.
+ */
 public class TestConnection extends AppCompatActivity {
 
     Thread testTelemetry;
@@ -36,7 +43,8 @@ public class TestConnection extends AppCompatActivity {
     private AlertDialog alert;
     private TextView tvRead;
     private Button butStartStop, butDismiss;
-    private boolean testRunning = false;
+    // Read by the test thread, written by the UI thread: volatile so that the stop is seen
+    private volatile boolean testRunning = false;
     private TextView textNbrPacketsSentVal, textNbrPacketsReceivedVal, textNbrPacketsReceivedValOK;
     private TextView textNbrPacketsReceivedValNotOK, textNbrPacketsReceivedValPercentageError;
     private long packetsSent = 0;
@@ -104,6 +112,14 @@ public class TestConnection extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        // Stop the test thread: it would otherwise keep writing to the board
+        testRunning = false;
+        myBT.setExit(true);
+        super.onDestroy();
+    }
+
     public void startTestTelemetry() {
         testRunning = true;
 
@@ -120,13 +136,9 @@ public class TestConnection extends AppCompatActivity {
                     packetsSent++;
                     setPacketSent("" + packetsSent);
                     myBT.setDataReady(false);
-                    //get the results
-                    //wait for the result to come back
-                    try {
-                        while (myBT.getInputStream().available() <= 0) ;
-                    } catch (IOException e) {
-                        //success = false;
-                    }
+                    //get the results: ReadResult() waits for the answer itself (3 s
+                    //timeout). The former busy-wait loop spun forever, at 100 % CPU, when a
+                    //packet was lost, and the test could not be stopped any more.
                     myMessage = myBT.ReadResult(3000);
                     if (myBT.getDataReady()) {
                         Log.d("test conection", myMessage + "\n");
@@ -177,7 +189,7 @@ public class TestConnection extends AppCompatActivity {
         finish();
     }
 
-    Handler mHandler = new Handler();
+    Handler mHandler = new Handler(Looper.getMainLooper());
 
     private void tvAppend(TextView tv, CharSequence text) {
         final TextView ftv = tv;

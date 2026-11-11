@@ -398,4 +398,17 @@
     <string name="no">No</string>
     <string name="flash_nfirmware">Flash\nfirmware</string>
     <string name="about_button">About</string>
+    <!-- Bluetooth device selection (SearchBluetooth) -->
+    <string name="BT_msg3">Bluetooth-toestemming geweigerd: de gekoppelde modules kunnen niet worden weergegeven.</string>
+    <string name="BT_msg4">Bluetooth moet zijn ingeschakeld om de module van het bord te kiezen.</string>
+    <!-- Gimbal configuration checks before upload (GimbalConfigValidator) -->
+    <string name="cfg_err_title">Configuratie niet verzonden</string>
+    <string name="cfg_err_empty_fields">Deze velden zijn leeg of bevatten geen geldig getal: %1$s</string>
+    <string name="cfg_err_servo">Servo %1$s: het minimum (%2$s) moet kleiner zijn dan het maximum (%3$s), beide tussen 0 en 180°.</string>
+    <string name="cfg_err_pid">%1$s = %2$s: een PID-versterking moet tussen 0 en 100 liggen.</string>
+    <string name="cfg_err_offset">%1$s = %2$s: een offset moet tussen -32768 en 32767 liggen.</string>
+    <string name="cfg_err_sensor_range">Bereik %1$s: kies een van de voorgestelde waarden.</string>
+    <string name="cfg_err_beep">Pieptoonfrequentie %1$s Hz: moet tussen 20 en 20000 Hz liggen.</string>
+    <string name="cfg_err_end_record">Hoogte einde opname %1$s: moet tussen 0 en 10000 liggen.</string>
+    <string name="cfg_err_timeout">Maximale opnameduur %1$s: moet tussen 0 en 32767 liggen.</string>
 </resources>

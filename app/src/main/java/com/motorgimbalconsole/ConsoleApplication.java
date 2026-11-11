@@ -4,15 +4,16 @@ package com.motorgimbalconsole;
  * @author: boris.dureau@neuf.fr
  **/
 
+import com.motorgimbalconsole.utils.NumberParser;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
-import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
@@ -21,11 +22,9 @@ import com.motorgimbalconsole.config.AppConfigData;
 import com.motorgimbalconsole.config.GimbalConfigData;
 import com.motorgimbalconsole.connection.BluetoothConnection;
 import com.motorgimbalconsole.connection.UsbConnection;
+import com.motorgimbalconsole.flights.AccelerationUtils;
 import com.motorgimbalconsole.flights.FlightData;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
@@ -37,34 +36,76 @@ import java.util.Locale;
  **/
 public class ConsoleApplication extends Application {
     private boolean isConnected = false;
-    private static boolean DataReady = false;
+    // Written by the reader threads and read by the UI thread: volatile so that every thread
+    // sees the latest value
+    private static volatile boolean DataReady = false;
     // Store number of flight
-    public int NbrOfFlight = 0;
-    private FlightData MyFlight = null;
+    public volatile int NbrOfFlight = 0;
+    private volatile FlightData MyFlight = null;
     private GlobalConfig AppConf = null;
     private String address, moduleName;
-    private String myTypeOfConnection = "bluetooth";// "USB";
+    private volatile String myTypeOfConnection = "bluetooth";// "USB";
     private BluetoothConnection BTCon = null;
     private UsbConnection UsbCon = null;
     private GimbalConfigData GimbalCfg = null;
     private TestTrame testTrame = null;
-    private Handler mHandler;
+    // Handler of the screen currently displaying live values; read by the reader thread
+    private volatile Handler mHandler;
 
+    /**
+     * Registers the handler of the screen that receives the parsed telemetry values.
+     *
+     * @param mHandler UI thread handler of the screen, or null
+     */
     public void setHandler(Handler mHandler) {
         this.mHandler = mHandler;
     }
 
     /**
-     * Met à jour la locale du contexte en fonction de la configuration de l'application.
-     * 0 = Langue du téléphone, 1 = Anglais
+     * Unregisters a screen handler, but only if it is still the current one: a screen being
+     * destroyed must not remove the handler that the next screen has already registered.
+     *
+     * @param handler handler of the screen being destroyed
+     */
+    public void clearHandler(Handler handler) {
+        if (this.mHandler == handler) {
+            this.mHandler = null;
+        }
+    }
+
+    /** "AppLanguage" setting: follow the phone language (index 0 of the language spinner). */
+    public static final int LANGUAGE_PHONE = 0;
+    /** "AppLanguage" setting: force English (index 1 of the language spinner). */
+    public static final int LANGUAGE_ENGLISH = 1;
+
+    /**
+     * Single source of truth for the "AppLanguage" setting, shared by every activity.
+     * The values match the order of AppConfigData.itemsLanguages:
+     * 0 = phone language, 1 = English.
+     *
+     * The phone language is read from the system resources and not from Locale.getDefault():
+     * once English has been forced, Locale.getDefault() stays English for the whole process,
+     * so switching back to "phone language" would otherwise only work after a restart.
+     *
+     * @param appLanguage value of the "AppLanguage" setting
+     * @return the locale the user interface must use
+     */
+    public static Locale resolveAppLocale(int appLanguage) {
+        if (appLanguage == LANGUAGE_ENGLISH) {
+            return Locale.ENGLISH;
+        }
+        return Resources.getSystem().getConfiguration().getLocales().get(0);
+    }
+
+    /**
+     * Returns a context whose resources use the language selected in the application settings.
+     *
+     * @param context     base context to wrap
+     * @param appLanguage value of the "AppLanguage" setting (0 = phone language, 1 = English)
+     * @return the localized context
      */
     public static Context updateBaseContextLocale(Context context, int appLanguage) {
-        Locale locale;
-        if (appLanguage == 1) {
-            locale = Locale.ENGLISH;
-        } else {
-            locale = Locale.getDefault();
-        }
+        Locale locale = resolveAppLocale(appLanguage);
         Locale.setDefault(locale);
 
         Configuration config = new Configuration(context.getResources().getConfiguration());
@@ -96,9 +137,25 @@ public class ConsoleApplication extends Application {
     public String commandRet = "";
     private double FEET_IN_METER = 1;
 
+    /** The single application object, set in onCreate() before any activity or fragment exists. */
+    private static volatile ConsoleApplication instance;
+
+    /**
+     * Returns the application object (link, configuration, downloaded flights).
+     * Fragments use it instead of receiving it as a constructor parameter: Android re-creates
+     * fragments with their no-argument constructor (rotation, process restore), so values
+     * passed to another constructor were lost and the fragment crashed.
+     *
+     * @return the application object, never null once the application has started
+     */
+    public static ConsoleApplication getInstance() {
+        return instance;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
         MyFlight = new FlightData(this);
         BTCon = new BluetoothConnection();
         UsbCon = new UsbConnection();
@@ -328,35 +385,6 @@ public class ConsoleApplication extends Application {
         }
     }
 
-    public void appendLog(String text) {
-        //File logFile = new File("sdcard/debugfile.txt");
-        //File logFile = new File(Environment.getDataDirectory() +"/debugfile.txt");
-        //getExternalStorageDirectory()
-
-        File logFile = new File(Environment.getExternalStorageDirectory() +"/test/debugfile.txt");
-        //Environment.getDownloadCacheDirectory()
-        if (!logFile.exists()) {
-            try {
-                logFile.createNewFile();
-
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-        try {
-            //BufferedWriter for performance, true to set append to file flag
-            BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
-            buf.append(text);
-            buf.newLine();
-            buf.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-
     public void setExit(boolean b) {
         this.exit = b;
     }
@@ -386,7 +414,7 @@ public class ConsoleApplication extends Application {
 
         checksum = checksum % 256;
 
-        return new Long( checksum ).intValue();
+        return (int) checksum; // same value as before: fits in an int after the modulo
 
     }
     @SuppressLint("LongLogTag")
@@ -400,6 +428,11 @@ public class ConsoleApplication extends Application {
         lastReceived = System.currentTimeMillis();
         try {
             while (!this.exit) {
+                // A reader thread being stopped is interrupted (see TelemetryStreamReader):
+                // the exit flag alone is not enough because it is reset when this method starts
+                if (Thread.currentThread().isInterrupted()) {
+                    break;
+                }
                 if ((System.currentTimeMillis() - lastReceived) > timeout) {
                     this.exit = true;
                     break;
@@ -449,178 +482,20 @@ public class ConsoleApplication extends Application {
                     long chk=0;
                     switch (currentSentence[0]) {
                         case "telemetry":
-                            if (currentSentence[currentSentence.length-1].matches("\\d+(?:\\.\\d+)?"))
-                                chk = Long.valueOf(currentSentence[currentSentence.length-1]);
-                            //Log.d("checksum", "check from sentence: " + chk);
+                            if (NumberParser.isNumber(currentSentence[currentSentence.length-1]))
+                                chk = NumberParser.toLong(currentSentence[currentSentence.length-1]);
                             if (calculateSentenceCHK(currentSentence) == chk) {
-                                //Log.d("calculated checksum", "calculated check: " + calculateSentenceCHK(currentSentence));
-                                if (mHandler != null) {
-                                    // Value 1 contains the altimeter name
-                                    if (currentSentence.length > 1)
-                                        mHandler.obtainMessage(0, String.valueOf(currentSentence[1])).sendToTarget();
-                                    // Value 1 contains the GyroX
-                                    if (currentSentence.length > 2)
-                                        if (currentSentence[2].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(1, String.valueOf(currentSentence[2])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(1, String.valueOf(-0.0)).sendToTarget();
-                                    // Value 2 contains the GyroY
-                                    if (currentSentence.length > 3)
-                                        if (currentSentence[3].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(2, String.valueOf(currentSentence[3])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(2, String.valueOf(-0.0)).sendToTarget();
-                                    // Value 3 contains the GyroZ
-                                    if (currentSentence.length > 4)
-                                        if (currentSentence[4].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(3, String.valueOf(currentSentence[4])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(3, String.valueOf(-0.0)).sendToTarget();
-                                    //Value 4 contains the AccelX
-                                    if (currentSentence.length > 5)
-                                        if (currentSentence[5].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(4, String.valueOf(currentSentence[5])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(4, String.valueOf(-0.0)).sendToTarget();
-                                    // Value 5 contains the AccelY
-                                    if (currentSentence.length > 6)
-                                        if (currentSentence[6].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(5, String.valueOf(currentSentence[6])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(5, String.valueOf(-0.0)).sendToTarget();
-                                    // Value 6 contains the AccelZ
-                                    if (currentSentence.length > 7)
-                                        if (currentSentence[7].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(6, String.valueOf(currentSentence[7])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(6, String.valueOf(-0.0)).sendToTarget();
-                                    // Value 7 contains the OrientX
-                                    if (currentSentence.length > 8)
-                                        if (currentSentence[8].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(7, String.valueOf(currentSentence[8])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(7, String.valueOf(-0.0)).sendToTarget();
-                                    // value 8 contains the OrientY
-                                    if (currentSentence.length > 9)
-                                        if (currentSentence[9].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(8, String.valueOf(currentSentence[9])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(8, String.valueOf(-0.0)).sendToTarget();
-                                    // Value 9 contains the OrientZ
-                                    if (currentSentence.length > 10)
-                                        if (currentSentence[10].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(9, String.valueOf(currentSentence[10])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(9, String.valueOf(-0.0)).sendToTarget();
-                                    // Value 10 contains the altitude
-                                    if (currentSentence.length > 11)
-                                        if (currentSentence[11].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(10, String.valueOf(currentSentence[11])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(10, String.valueOf(0)).sendToTarget();
-                                    // Value 11 contains the temperature
-                                    if (currentSentence.length > 12)
-                                        if (currentSentence[12].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(11, String.valueOf(currentSentence[12])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(11, String.valueOf(-0.0)).sendToTarget();
-                                    // Value 12 contains the pressure
-                                    if (currentSentence.length > 13)
-                                        if (currentSentence[13].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(12, String.valueOf(currentSentence[13])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(12, String.valueOf(0.0)).sendToTarget();
-                                    // Value 13 contains the battery voltage
-                                    if (currentSentence.length > 14)
-                                        if (currentSentence[14].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(13, String.valueOf(currentSentence[14])).sendToTarget();
-                                        else
-                                            mHandler.obtainMessage(13, String.valueOf(-0.0)).sendToTarget();
-                                    // Value 14 contains graph
-                                    if (currentSentence.length > 18)
-                                        mHandler.obtainMessage(14, String.valueOf(currentSentence[15] + "," +
-                                                currentSentence[16] + "," + currentSentence[17] + "," + currentSentence[18])).sendToTarget();
-                                    // Value 19 contains the eeprom usage
-                                    if (currentSentence.length > 19)
-                                        if (currentSentence[19].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(19, String.valueOf(currentSentence[19])).sendToTarget();
-                                    // Value 20 contains the correction
-                                    if (currentSentence.length > 20)
-                                        if (currentSentence[20].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(20, String.valueOf(currentSentence[20])).sendToTarget();
-                                        else
-                                            Log.d("Console - correction", tempBuff);
-                                    // Value 21 contains ServoX
-                                    if (currentSentence.length > 21)
-                                        if (currentSentence[21].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(21, String.valueOf(currentSentence[21])).sendToTarget();
-                                        else
-                                            Log.d("Console - ServoX", tempBuff);
-                                    // Value 22 contains ServoY
-                                    if (currentSentence.length > 22)
-                                        if (currentSentence[22].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(22, String.valueOf(currentSentence[22])).sendToTarget();
-                                        else
-                                            Log.d("Console - ServoY", tempBuff);
-
-                                    // Value 23 contains liftoff
-                                    if (currentSentence.length > 23)
-                                        if (currentSentence[23].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(23, String.valueOf(currentSentence[23])).sendToTarget();
-                                        else {
-                                            mHandler.obtainMessage(23, String.valueOf(0)).sendToTarget();
-
-                                            Log.d("Console - liftoff", tempBuff);
-                                        }
-                                    // Value 24 contains apogee
-                                    if (currentSentence.length > 24)
-                                        if (currentSentence[24].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(24, String.valueOf(currentSentence[24])).sendToTarget();
-                                        else {
-                                            Log.d("Console - apogee", tempBuff);
-                                            mHandler.obtainMessage(24, String.valueOf(0)).sendToTarget();
-                                        }
-
-                                    // Value 25 contains apogee altitude
-                                    if (currentSentence.length > 25)
-                                        if (currentSentence[25].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(25, String.valueOf(currentSentence[25])).sendToTarget();
-                                        else {
-                                            Log.d("Console - apogee altitude", tempBuff);
-                                            mHandler.obtainMessage(25, String.valueOf(0)).sendToTarget();
-                                        }
-                                    // Value 26 contains landed
-                                    if (currentSentence.length > 26)
-                                        if (currentSentence[26].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(26, String.valueOf(currentSentence[26])).sendToTarget();
-                                        else {
-                                            Log.d("Console - landed", tempBuff);
-                                            mHandler.obtainMessage(26, String.valueOf(0)).sendToTarget();
-                                        }
-                                    // Value 27 contains currentTime
-                                    if (currentSentence.length > 27)
-                                        if (currentSentence[27].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(27, String.valueOf(currentSentence[27])).sendToTarget();
-                                        else {
-                                            Log.d("Console - current time", tempBuff);
-                                            mHandler.obtainMessage(27, String.valueOf(0)).sendToTarget();
-                                        }
-                                    // Value 28 contains nbr of flight
-                                    if (currentSentence.length > 28)
-                                        if (currentSentence[28].matches("\\d+(?:\\.\\d+)?"))
-                                            mHandler.obtainMessage(28, String.valueOf(currentSentence[28])).sendToTarget();
-                                        else {
-                                            //Log.d("Console - nbr of flight", tempBuff);
-                                            mHandler.obtainMessage(28, String.valueOf(0)).sendToTarget();
-                                        }
+                                Handler handler = mHandler;
+                                if (handler != null) {
+                                    dispatchTelemetry(handler, currentSentence, tempBuff);
                                 }
                             }
                             break;
 
                         case "data":
 
-                            if (currentSentence[currentSentence.length-1].matches("\\d+(?:\\.\\d+)?"))
-                                chk = Long.valueOf(currentSentence[currentSentence.length-1]);
+                            if (NumberParser.isNumber(currentSentence[currentSentence.length-1]))
+                                chk = NumberParser.toLong(currentSentence[currentSentence.length-1]);
                             Log.d("checksum", "check from sentence: " + chk);
                             Log.d("calculated checksum", "calculated check: " + calculateSentenceCHK(currentSentence));
 
@@ -630,8 +505,8 @@ public class ConsoleApplication extends Application {
 
                                 // Value 1 contain the flight number
                                 if (currentSentence.length > 1)
-                                    if (currentSentence[1].matches("\\d+(?:\\.\\d+)?")) {
-                                        currentFlightNbr = Integer.valueOf(currentSentence[1]) + 1;
+                                    if (NumberParser.isNumber(currentSentence[1])) {
+                                        currentFlightNbr = NumberParser.toInt(currentSentence[1]) + 1;
                                         if (currentFlightNbr < 10)
                                             flightName = getResources().getString(R.string.flight_name) + " "+ "0" + currentFlightNbr;
                                         else
@@ -641,23 +516,24 @@ public class ConsoleApplication extends Application {
                                 // value
                                 // Value 2 contain the time
                                 if (currentSentence.length > 2)
-                                    if (currentSentence[2].matches("\\d+(?:\\.\\d+)?"))
-                                        time = Long.valueOf(currentSentence[2]);
+                                    if (NumberParser.isNumber(currentSentence[2]))
+                                        time = NumberParser.toLong(currentSentence[2]);
                                 // Value 3 contain the altitude
                                 double altitude = 0;
                                 if (currentSentence.length > 3) {
-                                    if (currentSentence[3].matches("\\d+(?:\\.\\d+)?"))
-                                        altitude = Double.valueOf(currentSentence[3]);
+                                    if (NumberParser.isNumber(currentSentence[3]))
+                                        altitude = NumberParser.toDouble(currentSentence[3]);
                                     // To do
+                                    // Rounded rather than truncated: truncation biases toward zero
                                     MyFlight.AddToFlight(time,
-                                            (long) (altitude * FEET_IN_METER), flightName, 0);
+                                            Math.round(altitude * FEET_IN_METER), flightName, 0);
 
                                 }
                                 //Value 4 contains the temperature
                                 double temperature = 0;
                                 if (currentSentence.length > 4) {
-                                    if (currentSentence[4].matches("\\d+(?:\\.\\d+)?"))
-                                        temperature = Long.valueOf(currentSentence[4]);
+                                    if (NumberParser.isNumber(currentSentence[4]))
+                                        temperature = NumberParser.toLong(currentSentence[4]);
                                     // To do
 
                                     MyFlight.AddToFlight(time,
@@ -666,8 +542,8 @@ public class ConsoleApplication extends Application {
                                 //Value 5 contains the pressure
                                 double pressure = 0;
                                 if (currentSentence.length > 5) {
-                                    if (currentSentence[5].matches("\\d+(?:\\.\\d+)?"))
-                                        pressure = Long.valueOf(currentSentence[5]);
+                                    if (NumberParser.isNumber(currentSentence[5]))
+                                        pressure = NumberParser.toLong(currentSentence[5]);
                                     // To do
 
                                     MyFlight.AddToFlight(time,
@@ -723,46 +599,56 @@ public class ConsoleApplication extends Application {
                                 //outputX
                                 long outputX = 0;
                                 if (currentSentence.length > 10) {
-                                    if (currentSentence[10].matches("\\d+(?:\\.\\d+)?")) {
-                                        outputX = Long.valueOf(currentSentence[10]);
+                                    if (NumberParser.isNumber(currentSentence[10])) {
+                                        outputX = NumberParser.toLong(currentSentence[10]);
                                         MyFlight.AddToFlight(time, (long) (outputX), flightName, 12);
                                     }
                                 }
                                 //outputY
                                 long outputY = 0;
                                 if (currentSentence.length > 11) {
-                                    if (currentSentence[11].matches("\\d+(?:\\.\\d+)?")) {
-                                        outputY = Long.valueOf(currentSentence[11]);
+                                    if (NumberParser.isNumber(currentSentence[11])) {
+                                        outputY = NumberParser.toLong(currentSentence[11]);
                                         MyFlight.AddToFlight(time, (long) (outputY), flightName, 13);
                                     }
                                 }
                                 long accelX = 0;
                                 if (currentSentence.length > 12) {
-                                    if (currentSentence[12].matches("\\d+(?:\\.\\d+)?")) {
-                                        accelX = Long.valueOf(currentSentence[12]);
+                                    if (NumberParser.isNumber(currentSentence[12])) {
+                                        accelX = NumberParser.toLong(currentSentence[12]);
                                         MyFlight.AddToFlight(time, (long) (accelX), flightName, 14);
                                     }
                                 }
                                 long accelY = 0;
                                 if (currentSentence.length > 13) {
-                                    if (currentSentence[13].matches("\\d+(?:\\.\\d+)?")) {
-                                        accelY = Long.valueOf(currentSentence[13]);
+                                    if (NumberParser.isNumber(currentSentence[13])) {
+                                        accelY = NumberParser.toLong(currentSentence[13]);
                                         MyFlight.AddToFlight(time, (long) (accelY), flightName, 15);
                                     }
                                 }
                                 long accelZ = 0;
                                 if (currentSentence.length > 14) {
-                                    if (currentSentence[14].matches("\\d+(?:\\.\\d+)?")) {
-                                        accelZ = Long.valueOf(currentSentence[14]);
+                                    if (NumberParser.isNumber(currentSentence[14])) {
+                                        accelZ = NumberParser.toLong(currentSentence[14]);
                                         MyFlight.AddToFlight(time, (long) (accelZ), flightName, 16);
                                     }
+                                }
+                                // Derived curve: magnitude of the acceleration vector in G, computed
+                                // only when the three axes are present and valid in this sentence
+                                if (currentSentence.length > 14
+                                        && NumberParser.isNumber(currentSentence[12])
+                                        && NumberParser.isNumber(currentSentence[13])
+                                        && NumberParser.isNumber(currentSentence[14])) {
+                                    double accelG = AccelerationUtils.magnitudeInG(accelX, accelY, accelZ,
+                                            GimbalCfg.getAltimeterName(), GimbalCfg.getAcceleroRange());
+                                    MyFlight.AddToFlight(time, accelG, flightName, FlightData.SERIE_ACCEL);
                                 }
                             }
                             break;
                         case "alticonfig":
 
-                            if (currentSentence[currentSentence.length-1].matches("\\d+(?:\\.\\d+)?"))
-                                chk = Long.valueOf(currentSentence[currentSentence.length-1]);
+                            if (NumberParser.isNumber(currentSentence[currentSentence.length-1]))
+                                chk = NumberParser.toLong(currentSentence[currentSentence.length-1]);
                             Log.d("checksum", "check from sentence: " + chk);
                             Log.d("calculated checksum", "calculated check: " + calculateSentenceCHK(currentSentence));
                             if (calculateSentenceCHK(currentSentence) == chk) {
@@ -772,180 +658,180 @@ public class ConsoleApplication extends Application {
                                     GimbalCfg.setAltimeterName(currentSentence[1]);
                                 //Value 1 contains ax_offset
                                 if (currentSentence.length > 2)
-                                    if (currentSentence[2].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setAxOffset(Integer.valueOf(currentSentence[2]));
+                                    if (NumberParser.isNumber(currentSentence[2]))
+                                        GimbalCfg.setAxOffset(NumberParser.toInt(currentSentence[2]));
                                     else
                                         GimbalCfg.setAxOffset(0);
                                 // Value 2 contains ay_offset
                                 if (currentSentence.length > 3)
-                                    if (currentSentence[3].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setAyOffset(Integer.valueOf(currentSentence[3]));
+                                    if (NumberParser.isNumber(currentSentence[3]))
+                                        GimbalCfg.setAyOffset(NumberParser.toInt(currentSentence[3]));
                                     else
                                         GimbalCfg.setAyOffset(0);
                                 // Value 3 contains az_offset
                                 if (currentSentence.length > 4)
-                                    if (currentSentence[4].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setAzOffset(Integer.valueOf(currentSentence[4]));
+                                    if (NumberParser.isNumber(currentSentence[4]))
+                                        GimbalCfg.setAzOffset(NumberParser.toInt(currentSentence[4]));
                                     else
                                         GimbalCfg.setAzOffset(0);
                                 // Value 4 contains gx_offset
                                 if (currentSentence.length > 5)
-                                    if (currentSentence[5].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setGxOffset(Integer.valueOf(currentSentence[5]));
+                                    if (NumberParser.isNumber(currentSentence[5]))
+                                        GimbalCfg.setGxOffset(NumberParser.toInt(currentSentence[5]));
                                     else
                                         GimbalCfg.setGxOffset(0);
                                 // Value 5 contains gy_offset
                                 if (currentSentence.length > 6)
-                                    if (currentSentence[6].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setGyOffset(Integer.valueOf(currentSentence[6]));
+                                    if (NumberParser.isNumber(currentSentence[6]))
+                                        GimbalCfg.setGyOffset(NumberParser.toInt(currentSentence[6]));
                                     else
                                         GimbalCfg.setGyOffset(0);
                                 // Value 6 contains gz_offset
                                 if (currentSentence.length > 7)
-                                    if (currentSentence[7].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setGzOffset(Integer.valueOf(currentSentence[7]));
+                                    if (NumberParser.isNumber(currentSentence[7]))
+                                        GimbalCfg.setGzOffset(NumberParser.toInt(currentSentence[7]));
                                     else
                                         GimbalCfg.setGzOffset(0);
                                 // Value 7 contains KpX
                                 if (currentSentence.length > 8)
-                                    if (currentSentence[8].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setKpX(Double.valueOf(currentSentence[8]) / 100);
+                                    if (NumberParser.isNumber(currentSentence[8]))
+                                        GimbalCfg.setKpX(NumberParser.toDouble(currentSentence[8]) / 100);
                                     else
                                         GimbalCfg.setKpX(0.0);
                                 // Value 8 contains KiX
                                 if (currentSentence.length > 9)
-                                    if (currentSentence[9].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setKiX(Double.valueOf(currentSentence[9]) / 100);
+                                    if (NumberParser.isNumber(currentSentence[9]))
+                                        GimbalCfg.setKiX(NumberParser.toDouble(currentSentence[9]) / 100);
                                     else
                                         GimbalCfg.setKiX(0.0);
                                 // Value 9 contains KdX
                                 if (currentSentence.length > 10)
-                                    if (currentSentence[10].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setKdX(Double.valueOf(currentSentence[10]) / 100);
+                                    if (NumberParser.isNumber(currentSentence[10]))
+                                        GimbalCfg.setKdX(NumberParser.toDouble(currentSentence[10]) / 100);
                                     else
                                         GimbalCfg.setKdX(0.0);
                                 // Value 10 contains KpY
                                 if (currentSentence.length > 11)
-                                    if (currentSentence[11].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setKpY(Double.valueOf(currentSentence[11]) / 100);
+                                    if (NumberParser.isNumber(currentSentence[11]))
+                                        GimbalCfg.setKpY(NumberParser.toDouble(currentSentence[11]) / 100);
                                     else
                                         GimbalCfg.setKpY(0.0);
                                 // Value 11 contains KiY
                                 if (currentSentence.length > 12)
-                                    if (currentSentence[12].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setKiY(Double.valueOf(currentSentence[12]) / 100);
+                                    if (NumberParser.isNumber(currentSentence[12]))
+                                        GimbalCfg.setKiY(NumberParser.toDouble(currentSentence[12]) / 100);
                                     else
                                         GimbalCfg.setKiY(0.0);
                                 // Value 12 contains KdY
                                 if (currentSentence.length > 13)
-                                    if (currentSentence[13].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setKdY(Double.valueOf(currentSentence[13]) / 100);
+                                    if (NumberParser.isNumber(currentSentence[13]))
+                                        GimbalCfg.setKdY(NumberParser.toDouble(currentSentence[13]) / 100);
                                     else
                                         GimbalCfg.setKdY(0.0);
                                 // Value 13 contains servoXMin
                                 if (currentSentence.length > 14)
-                                    if (currentSentence[14].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setServoXMin(Integer.valueOf(currentSentence[14]));
+                                    if (NumberParser.isNumber(currentSentence[14]))
+                                        GimbalCfg.setServoXMin(NumberParser.toInt(currentSentence[14]));
                                     else
                                         GimbalCfg.setServoXMin(0);
                                 // Value 14 contains servoXMax
                                 if (currentSentence.length > 15)
-                                    if (currentSentence[15].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setServoXMax(Integer.valueOf(currentSentence[15]));
+                                    if (NumberParser.isNumber(currentSentence[15]))
+                                        GimbalCfg.setServoXMax(NumberParser.toInt(currentSentence[15]));
                                     else
                                         GimbalCfg.setServoXMax(0);
                                 // Value 15 contains servoYMin
                                 if (currentSentence.length > 16)
-                                    if (currentSentence[16].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setServoYMin(Integer.valueOf(currentSentence[16]));
+                                    if (NumberParser.isNumber(currentSentence[16]))
+                                        GimbalCfg.setServoYMin(NumberParser.toInt(currentSentence[16]));
                                     else
                                         GimbalCfg.setServoYMin(0);
                                 // Value 16 contains servoYMax
                                 if (currentSentence.length > 17)
-                                    if (currentSentence[17].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setServoYMax(Integer.valueOf(currentSentence[17]));
+                                    if (NumberParser.isNumber(currentSentence[17]))
+                                        GimbalCfg.setServoYMax(NumberParser.toInt(currentSentence[17]));
                                     else
                                         GimbalCfg.setServoYMax(0);
                                 // Value 17 contains the connection speed
                                 if (currentSentence.length > 18)
-                                    if (currentSentence[18].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setConnectionSpeed(Integer.valueOf(currentSentence[18]));
+                                    if (NumberParser.isNumber(currentSentence[18]))
+                                        GimbalCfg.setConnectionSpeed(NumberParser.toInt(currentSentence[18]));
                                     else
                                         GimbalCfg.setConnectionSpeed(38400);
                                 // Value 18 contains the altimeter resolution
                                 if (currentSentence.length > 19)
-                                    if (currentSentence[19].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setAltimeterResolution(Integer.valueOf(currentSentence[19]));
+                                    if (NumberParser.isNumber(currentSentence[19]))
+                                        GimbalCfg.setAltimeterResolution(NumberParser.toInt(currentSentence[19]));
                                     else
                                         GimbalCfg.setAltimeterResolution(0);
                                 // Value 19 contains the eeprom size
                                 if (currentSentence.length > 20)
-                                    if (currentSentence[20].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setEepromSize(Integer.valueOf(currentSentence[20]));
+                                    if (NumberParser.isNumber(currentSentence[20]))
+                                        GimbalCfg.setEepromSize(NumberParser.toInt(currentSentence[20]));
                                     else
                                         GimbalCfg.setEepromSize(512);
                                 // Value 20
                                 if (currentSentence.length > 21)
-                                    if (currentSentence[21].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setAltiMajorVersion(Integer.valueOf(currentSentence[21]));
+                                    if (NumberParser.isNumber(currentSentence[21]))
+                                        GimbalCfg.setAltiMajorVersion(NumberParser.toInt(currentSentence[21]));
                                 // Value 21
                                 if (currentSentence.length > 22)
-                                    if (currentSentence[22].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setAltiMinorVersion(Integer.valueOf(currentSentence[22]));
+                                    if (NumberParser.isNumber(currentSentence[22]))
+                                        GimbalCfg.setAltiMinorVersion(NumberParser.toInt(currentSentence[22]));
                                 // Value 22 units
                                 if (currentSentence.length > 23)
-                                    if (currentSentence[23].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setUnits(Integer.valueOf(currentSentence[23]));
+                                    if (NumberParser.isNumber(currentSentence[23]))
+                                        GimbalCfg.setUnits(NumberParser.toInt(currentSentence[23]));
                                     else
                                         GimbalCfg.setUnits(0);
                                 // Value 23 endRecordAltitude
                                 if (currentSentence.length > 24)
-                                    if (currentSentence[24].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setEndRecordAltitude(Integer.valueOf(currentSentence[24]));
+                                    if (NumberParser.isNumber(currentSentence[24]))
+                                        GimbalCfg.setEndRecordAltitude(NumberParser.toInt(currentSentence[24]));
                                     else
                                         GimbalCfg.setEndRecordAltitude(5);
                                 // Value 24 beepingFrequency
                                 if (currentSentence.length > 25)
-                                    if (currentSentence[25].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setBeepingFrequency(Integer.valueOf(currentSentence[25]));
+                                    if (NumberParser.isNumber(currentSentence[25]))
+                                        GimbalCfg.setBeepingFrequency(NumberParser.toInt(currentSentence[25]));
                                     else
                                         GimbalCfg.setBeepingFrequency(440);
                                 // value 25 LaunchDetect
                                 if (currentSentence.length > 26)
-                                    if (currentSentence[26].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setLiftOffDetect(Integer.valueOf(currentSentence[26]));
+                                    if (NumberParser.isNumber(currentSentence[26]))
+                                        GimbalCfg.setLiftOffDetect(NumberParser.toInt(currentSentence[26]));
                                     else
                                         GimbalCfg.setLiftOffDetect(0);
                                 // value 26 Gyro Range
                                 if (currentSentence.length > 27)
-                                    if (currentSentence[27].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setGyroRange(Integer.valueOf(currentSentence[27]));
+                                    if (NumberParser.isNumber(currentSentence[27]))
+                                        GimbalCfg.setGyroRange(NumberParser.toInt(currentSentence[27]));
                                     else
                                         GimbalCfg.setGyroRange(0);
 
                                 // value 27 Accelero Range
                                 if (currentSentence.length > 28)
-                                    if (currentSentence[28].matches("^-?[0-9]\\d*(\\.\\d+)?$"))
-                                        GimbalCfg.setAcceleroRange(Integer.valueOf(currentSentence[28]));
+                                    if (NumberParser.isNumber(currentSentence[28]))
+                                        GimbalCfg.setAcceleroRange(NumberParser.toInt(currentSentence[28]));
                                     else
                                         GimbalCfg.setAcceleroRange(0);
                                 // value 28 Recording timout
                                 if (currentSentence.length > 29)
-                                    if (currentSentence[29].matches("\\d+(?:\\.\\d+)?"))
-                                        GimbalCfg.setRecordingTimeout(Integer.valueOf(currentSentence[29]));
+                                    if (NumberParser.isNumber(currentSentence[29]))
+                                        GimbalCfg.setRecordingTimeout(NumberParser.toInt(currentSentence[29]));
                                     else
                                         GimbalCfg.setRecordingTimeout(0);
                                 // value 29 the battery type
                                 if (currentSentence.length > 30)
-                                    if (currentSentence[30].matches("\\d+(?:\\.\\d+)?"))
-                                        GimbalCfg.setBatteryType(Integer.valueOf(currentSentence[30]));
+                                    if (NumberParser.isNumber(currentSentence[30]))
+                                        GimbalCfg.setBatteryType(NumberParser.toInt(currentSentence[30]));
                                     else
                                         GimbalCfg.setBatteryType(0);
 
                                 // value 30 the telemetry type
                                 if (currentSentence.length > 31)
-                                    if (currentSentence[31].matches("\\d+(?:\\.\\d+)?"))
-                                        GimbalCfg.setTelemetryType(Integer.valueOf(currentSentence[31]));
+                                    if (NumberParser.isNumber(currentSentence[31]))
+                                        GimbalCfg.setTelemetryType(NumberParser.toInt(currentSentence[31]));
                                     else
                                         GimbalCfg.setTelemetryType(0);
                                 //DataReady = true;
@@ -953,8 +839,8 @@ public class ConsoleApplication extends Application {
                             myMessage = myMessage + " " + "alticonfig";
                             break;
                         case "testTrame":
-                            if (currentSentence[currentSentence.length - 1].matches("\\d+(?:\\.\\d+)?"))
-                                chk = Long.valueOf(currentSentence[currentSentence.length - 1]);
+                            if (NumberParser.isNumber(currentSentence[currentSentence.length - 1]))
+                                chk = NumberParser.toLong(currentSentence[currentSentence.length - 1]);
                             if (calculateSentenceCHK(currentSentence) == chk) {
                                 testTrame.setTrameStatus(true);
                             } else
@@ -970,8 +856,8 @@ public class ConsoleApplication extends Application {
                         case "nbrOfFlight":
                             // Value 1 contains the number of flight
                             if (currentSentence.length > 1)
-                                if (currentSentence[1].matches("\\d+(?:\\.\\d+)?"))
-                                    NbrOfFlight = (Integer.valueOf(currentSentence[1]));
+                                if (NumberParser.isNumber(currentSentence[1]))
+                                    NbrOfFlight = (NumberParser.toInt(currentSentence[1]));
                             myMessage = myMessage + " " + "nbrOfFlight";
                             break;
                         case "start":
@@ -1020,6 +906,78 @@ public class ConsoleApplication extends Application {
         return myMessage;
     }
 
+    /**
+     * Forwards the fields of a valid "$telemetry" sentence to the screen handler.
+     * The message "what" codes are unchanged (see GimbalTelemetryTabActivity and
+     * GimbalTabStatusActivity); only the ORDER in which they are sent matters here:
+     *  1. sample time (27) first, so that the altitude of this frame is stamped with the time
+     *     of this frame (it used to receive the time of the previous frame);
+     *  2. lift-off / apogee events (23, 24, 25) before the altitude, so that the first
+     *     altitude sample after lift-off is already plotted;
+     *  3. the sensor values;
+     *  4. landed (26) after the altitude, so that the landing altitude is the one of this frame.
+     *
+     * @param handler  UI handler of the current screen
+     * @param s        sentence fields (s[0] = "telemetry", last field = checksum)
+     * @param rawFrame complete sentence, for the logs
+     */
+    private void dispatchTelemetry(Handler handler, String[] s, String rawFrame) {
+        // 1. Sample time
+        sendTelemetryField(handler, 27, s, 27, "0", rawFrame);
+        // 2. Flight events
+        sendTelemetryField(handler, 23, s, 23, "0", rawFrame);      // lift off
+        sendTelemetryField(handler, 24, s, 24, "0", rawFrame);      // apogee reached
+        sendTelemetryField(handler, 25, s, 25, "0", rawFrame);      // apogee altitude
+        // 3. Values
+        if (s.length > 1) {
+            handler.obtainMessage(0, String.valueOf(s[1])).sendToTarget(); // board name
+        }
+        for (int what = 1; what <= 9; what++) {
+            // gyro X/Y/Z, accel X/Y/Z, orientation X/Y/Z
+            sendTelemetryField(handler, what, s, what + 1, String.valueOf(-0.0), rawFrame);
+        }
+        sendTelemetryField(handler, 10, s, 11, String.valueOf(0), rawFrame);       // altitude
+        sendTelemetryField(handler, 11, s, 12, String.valueOf(-0.0), rawFrame);    // temperature
+        sendTelemetryField(handler, 12, s, 13, String.valueOf(0.0), rawFrame);     // pressure
+        sendTelemetryField(handler, 13, s, 14, String.valueOf(-0.0), rawFrame);    // battery voltage
+        if (s.length > 18) {
+            // quaternion (4 hexadecimal encoded floats) for the 3D rocket view
+            handler.obtainMessage(14, s[15] + "," + s[16] + "," + s[17] + "," + s[18]).sendToTarget();
+        }
+        sendTelemetryField(handler, 19, s, 19, null, rawFrame);                    // eeprom usage
+        sendTelemetryField(handler, 20, s, 20, null, rawFrame);                    // correction
+        sendTelemetryField(handler, 21, s, 21, null, rawFrame);                    // servo X
+        sendTelemetryField(handler, 22, s, 22, null, rawFrame);                    // servo Y
+        // 4. Landing, then number of flights
+        sendTelemetryField(handler, 26, s, 26, "0", rawFrame);
+        sendTelemetryField(handler, 28, s, 28, "0", rawFrame);
+    }
+
+    /**
+     * Sends one numeric telemetry field to the screen handler.
+     *
+     * @param handler      UI handler of the current screen
+     * @param what         message code expected by the screens
+     * @param s            sentence fields
+     * @param index        index of the field in the sentence
+     * @param defaultValue value sent when the field is not a number, or null to send nothing
+     * @param rawFrame     complete sentence, logged when a field is invalid
+     */
+    private void sendTelemetryField(Handler handler, int what, String[] s, int index,
+                                    String defaultValue, String rawFrame) {
+        if (s.length <= index) return; // older firmware: field not present
+        if (NumberParser.isNumber(s[index])) {
+            handler.obtainMessage(what, s[index]).sendToTarget();
+        } else {
+            if (what >= 20) {
+                Log.d(TAG, "Invalid telemetry field " + index + ": " + rawFrame);
+            }
+            if (defaultValue != null) {
+                handler.obtainMessage(what, defaultValue).sendToTarget();
+            }
+        }
+    }
+
     public void setDataReady(boolean value) {
         DataReady = value;
     }
@@ -1029,22 +987,17 @@ public class ConsoleApplication extends Application {
     }
 
 
+    /**
+     * Builds a configuration holding the locale selected in the application settings.
+     * Uses the same mapping as updateBaseContextLocale (0 = phone language, 1 = English);
+     * it previously mapped 1 to French and 2 to English, which did not match the settings menu.
+     *
+     * @return a configuration carrying the application locale
+     */
     public Configuration getAppLocal() {
-
-        Locale locale = null;
-        if (AppConf.getApplicationLanguage()==1) {
-            locale = Locale.FRENCH;//new Locale("fr_FR");
-        } else if (AppConf.getApplicationLanguage()== 2) {
-            locale = Locale.ENGLISH;//new Locale("en_US");
-        } else {
-            locale = Locale.getDefault();
-        }
-
-
         Configuration config = new Configuration();
-        config.locale = locale;
+        config.setLocale(resolveAppLocale(AppConf.getApplicationLanguage()));
         return config;
-
     }
 
 

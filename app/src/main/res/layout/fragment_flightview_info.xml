@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    fragment_flightview_info.xml
+
+    Author: boris.dureau@neuf.fr
+    Used by: FlightViewInfoFragment
+
+    Description:
+    Statistics of a downloaded flight: flight number, number of samples, apogee, flight
+    duration, time to apogee, max velocity, burnout, descent rate, main deployment altitude,
+    landing speed, max acceleration; and the CSV export / share buttons.
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"

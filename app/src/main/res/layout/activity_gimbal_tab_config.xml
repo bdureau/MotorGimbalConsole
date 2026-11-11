@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_gimbal_tab_config.xml
+
+    Author: boris.dureau@neuf.fr
+    Used by: GimbalTabConfigActivity
+
+    Description:
+    Tab pager screen: app bar, ViewPager "container" holding the tabs, page indicator dots
+    (idConsoleConfigLinearDots) and the Upload / Dismiss buttons of the gimbal configuration.
+    Upload stays disabled until the configuration has been read from the board.
+-->
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"

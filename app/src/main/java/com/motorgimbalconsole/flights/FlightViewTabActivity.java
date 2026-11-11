@@ -20,6 +20,7 @@ import com.motorgimbalconsole.GlobalConfig;
 import com.motorgimbalconsole.R;
 
 import com.motorgimbalconsole.ShareHandler;
+import com.motorgimbalconsole.utils.PagerFragments;
 import com.motorgimbalconsole.flights.FlightView.FlightViewFcFragment;
 import com.motorgimbalconsole.flights.FlightView.FlightViewInfoFragment;
 import com.motorgimbalconsole.flights.FlightView.FlightViewMpFragment;
@@ -61,6 +62,16 @@ import java.util.List;
 
 //import static java.lang.Math.abs;
 
+/**
+ * FlightViewTabActivity.java
+ *
+ * @author boris.dureau@neuf.fr
+ *
+ * Description: Screen of one downloaded flight, in three tabs: curves (with the curve selection
+ * dialog), statistics and CSV export (FlightViewInfoFragment), and 3D replay
+ * (FlightPlayFragment). The flights only live in memory: if Android killed the process
+ * meanwhile, the screen closes instead of crashing.
+ */
 public class FlightViewTabActivity extends AppCompatActivity {
     private FlightData myflight = null;
     private ViewPager mViewPager;
@@ -129,7 +140,10 @@ public class FlightViewTabActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= 23) {
+        // Storage permission, Android 9 and lower only: from Android 10 the CSV export goes
+        // through MediaStore (no permission), and from Android 13 this permission can no
+        // longer be granted at all, so asking for it only displayed a useless refusal.
+        if (Build.VERSION.SDK_INT >= 23 && Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
             int REQUEST_CODE_ASK_PERMISSIONS = 123;
             int hasWriteContactsPermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
             if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
@@ -157,8 +171,15 @@ public class FlightViewTabActivity extends AppCompatActivity {
         this.setTitle(FlightName);
         myflight = myBT.getFlightData();
         // get all the data that we have recorded for the current flight
-        allFlightData = new XYSeriesCollection(); //??? remove
         allFlightData = myflight.GetFlightData(FlightName);
+        if (allFlightData == null) {
+            // The downloaded flights only live in memory: after Android killed the process
+            // (application in background) they are gone and this screen used to crash.
+            // Go back to the flight list instead; the flights can be downloaded again.
+            Log.w("FlightViewTabActivity", "Flight not in memory any more: " + FlightName);
+            finish();
+            return;
+        }
 
         // get a list of all the curves that have been recorded
         numberOfCurves = allFlightData.getSeries().size();
@@ -190,6 +211,10 @@ public class FlightViewTabActivity extends AppCompatActivity {
         units[8] ="";
         units[9] ="";
         units[10] ="";
+        // Acceleration magnitude computed from the IMU when the flight is downloaded
+        if (units.length > FlightData.SERIE_ACCEL) {
+            units[FlightData.SERIE_ACCEL] = "(G)";
+        }
 
         if (currentCurvesNames == null) {
             //This is the first time so only display the altitude
@@ -286,38 +311,33 @@ public class FlightViewTabActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Builds the tabs. The fragments restored by Android after a re-creation are re-used
+     * (see PagerFragments): the curve selection dialog must update the displayed chart.
+     * New fragments receive the flight name through their arguments (newInstance).
+     */
     private void setupViewPager(ViewPager viewPager) {
-        adapter = new SectionsPageAdapter(getSupportFragmentManager());
+        FragmentManager fm = getSupportFragmentManager();
+        adapter = new SectionsPageAdapter(fm);
 
         //if we are using afreeChart
         if ((myBT.getAppConf().getGraphicsLibType()== GlobalConfig.GraphLib.AfreeChart) &
                 (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O)){
-            flightPage1bis = new FlightViewFcFragment(allFlightData,
-                    myBT,
-                    curvesNames,
-                    checkedItems,
-                    units);
+            flightPage1bis = PagerFragments.restoredOr(fm, FlightViewFcFragment.class,
+                    () -> FlightViewFcFragment.newInstance(FlightName, curvesNames, checkedItems, units));
             adapter.addFragment(flightPage1bis, "TAB1");
         } else {
-            flightPage1 = new FlightViewMpFragment(allFlightData,
-                    myBT,
-                    curvesNames,
-                    checkedItems,
-                    units);
+            flightPage1 = PagerFragments.restoredOr(fm, FlightViewMpFragment.class,
+                    () -> FlightViewMpFragment.newInstance(FlightName, curvesNames, checkedItems, units));
             adapter.addFragment(flightPage1, "TAB1");
         }
-        flightPage2 = new FlightViewInfoFragment(myflight,
-                                                allFlightData,
-                                                myBT,
-                                                units,
-                                                FlightName);
-
+        flightPage2 = PagerFragments.restoredOr(fm, FlightViewInfoFragment.class,
+                () -> FlightViewInfoFragment.newInstance(FlightName, units));
 
         adapter.addFragment(flightPage2, "TAB2");
 
-        flightPage3 = new FlightPlayFragment(myBT,
-                                            allFlightData,
-                                            FlightName);
+        flightPage3 = PagerFragments.restoredOr(fm, FlightPlayFragment.class,
+                () -> FlightPlayFragment.newInstance(FlightName));
 
         adapter.addFragment(flightPage3, "TAB3");
 

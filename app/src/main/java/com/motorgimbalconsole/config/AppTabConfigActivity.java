@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.motorgimbalconsole.ConsoleApplication;
 import com.motorgimbalconsole.R;
 import com.motorgimbalconsole.ShareHandler;
+import com.motorgimbalconsole.utils.PagerFragments;
 import com.motorgimbalconsole.config.AppConfig.AppConfigTab1Fragment;
 import com.motorgimbalconsole.config.AppConfig.AppConfigTab2Fragment;
 import com.motorgimbalconsole.help.AboutActivity;
@@ -252,10 +253,15 @@ public class AppTabConfigActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Builds the tabs, re-using the fragments restored by Android after a re-creation
+     * (see PagerFragments) so that the settings saved are the ones displayed.
+     */
     private void setupViewPager(ViewPager viewPager) {
-        adapter = new AppTabConfigActivity.SectionsPageAdapter(getSupportFragmentManager());
-        appConfigPage1 = new AppConfigTab1Fragment(myBT);
-        appConfigPage2 = new AppConfigTab2Fragment(myBT);
+        FragmentManager fm = getSupportFragmentManager();
+        adapter = new AppTabConfigActivity.SectionsPageAdapter(fm);
+        appConfigPage1 = PagerFragments.restoredOr(fm, AppConfigTab1Fragment.class, AppConfigTab1Fragment::new);
+        appConfigPage2 = PagerFragments.restoredOr(fm, AppConfigTab2Fragment.class, AppConfigTab2Fragment::new);
 
         adapter.addFragment(appConfigPage1, "TAB1");
         adapter.addFragment(appConfigPage2, "TAB2");

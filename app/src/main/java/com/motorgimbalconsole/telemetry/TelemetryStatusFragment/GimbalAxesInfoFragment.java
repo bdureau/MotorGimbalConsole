@@ -10,11 +10,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.motorgimbalconsole.R;
-/*
-This is the first tab which contains
-The gyros values
-the accelerometer
-the orientation on all axis
+
+/**
+ * GimbalAxesInfoFragment.java
+ *
+ * @author boris.dureau@neuf.fr
+ *
+ * Description: First tab of the status and telemetry screens: gyroscope, accelerometer and
+ * orientation values on the three axes, as sent by the board. The setters ignore the values
+ * until the view exists.
  */
 public class GimbalAxesInfoFragment extends Fragment {
     private static final String TAG = "Tab1StatusFragment";

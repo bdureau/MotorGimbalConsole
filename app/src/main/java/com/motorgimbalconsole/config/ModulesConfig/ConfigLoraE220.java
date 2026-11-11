@@ -5,9 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
+import com.motorgimbalconsole.utils.BackgroundTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -481,7 +482,7 @@ public class ConfigLoraE220 extends AppCompatActivity {
         GetAllConfig
 
     */
-    private class getAllConfigAsyc extends AsyncTask<Void, Void, Void>  // UI thread
+    private class getAllConfigAsyc extends BackgroundTask  // replaces the deprecated AsyncTask (same callbacks)
     {
 
         byte[] value;
@@ -614,7 +615,7 @@ public class ConfigLoraE220 extends AppCompatActivity {
         }
     }
 
-    private class saveAllConfigAsyc extends AsyncTask<Void, Void, Void>  // UI thread
+    private class saveAllConfigAsyc extends BackgroundTask  // replaces the deprecated AsyncTask (same callbacks)
     {
 
         String value = "";
@@ -800,7 +801,7 @@ public class ConfigLoraE220 extends AppCompatActivity {
         }
     }
 
-    private class connectRetrieveAsyc extends AsyncTask<Void, Void, Void>  // UI thread
+    private class connectRetrieveAsyc extends BackgroundTask  // replaces the deprecated AsyncTask (same callbacks)
     {
 
         @Override
@@ -841,7 +842,7 @@ public class ConfigLoraE220 extends AppCompatActivity {
         }
     }
 
-    private class connectSaveAsyc extends AsyncTask<Void, Void, Void>  // UI thread
+    private class connectSaveAsyc extends BackgroundTask  // replaces the deprecated AsyncTask (same callbacks)
     {
 
         @Override
@@ -879,7 +880,7 @@ public class ConfigLoraE220 extends AppCompatActivity {
         }
     }
 
-    Handler mHandler = new Handler();
+    Handler mHandler = new Handler(Looper.getMainLooper());
 
     private void dialogAppend(CharSequence text) {
         final CharSequence ftext = text;

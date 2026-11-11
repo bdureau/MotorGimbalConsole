@@ -1,10 +1,13 @@
 package com.motorgimbalconsole.config.GimbalConfig;
 
+import com.motorgimbalconsole.utils.NumberParser;
+import java.util.ArrayList;
+import java.util.List;
 import static com.motorgimbalconsole.config.GimbalTabConfigActivity.readConfig;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
+import com.motorgimbalconsole.utils.BackgroundTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,15 @@ import com.motorgimbalconsole.ConsoleApplication;
 import com.motorgimbalconsole.R;
 import com.motorgimbalconsole.config.GimbalConfigData;
 
+/**
+ * GimbalConfigTab1Fragment.java
+ *
+ * @author boris.dureau@neuf.fr
+ *
+ * Description: First tab of the gimbal configuration (MPU6050 board only): accelerometer and
+ * gyroscope offsets, and the calibration command ("c;") that measures them on the board and
+ * reads them back. getInvalidFields() reports the empty or non numeric offsets.
+ */
 public class GimbalConfigTab1Fragment extends Fragment {
     private static final String TAG = "Tab1Fragment";
     private boolean ViewCreated = false;
@@ -28,11 +40,14 @@ public class GimbalConfigTab1Fragment extends Fragment {
     ConsoleApplication myBT;
     private GimbalConfigData GimbalCfg = null;
 
-    public GimbalConfigTab1Fragment(ConsoleApplication pBT,
-                                    GimbalConfigData pGimbalCfg
-    ) {
-        myBT = pBT;
-        GimbalCfg = pGimbalCfg;
+    /**
+     * No-argument constructor, required by Android: the system re-creates fragments with it
+     * after a rotation or when the process is restored. The dependencies that used to be
+     * passed as constructor parameters are taken from the application object instead.
+     */
+    public GimbalConfigTab1Fragment() {
+        myBT = ConsoleApplication.getInstance();
+        GimbalCfg = myBT.getGimbalConfigData();
     }
     public void setAxOffsetValue(long value) {
         this.txtViewAxOffset.setText(String.valueOf(value));
@@ -118,6 +133,24 @@ public class GimbalConfigTab1Fragment extends Fragment {
         return ret;
     }
 
+    /**
+     * Lists the input fields of this tab that are empty or not a number. Their getters return 0
+     * in that case, a value that would otherwise be sent to the board without any warning.
+     *
+     * @return names of the invalid fields; empty if the tab view has not been created
+     */
+    public List<String> getInvalidFields() {
+        List<String> invalid = new ArrayList<>();
+        if (!ViewCreated) return invalid;
+        if (!NumberParser.isInteger(txtViewAxOffset.getText().toString())) invalid.add("ax offset");
+        if (!NumberParser.isInteger(txtViewAyOffset.getText().toString())) invalid.add("ay offset");
+        if (!NumberParser.isInteger(txtViewAzOffset.getText().toString())) invalid.add("az offset");
+        if (!NumberParser.isInteger(txtViewGxOffset.getText().toString())) invalid.add("gx offset");
+        if (!NumberParser.isInteger(txtViewGyOffset.getText().toString())) invalid.add("gy offset");
+        if (!NumberParser.isInteger(txtViewGzOffset.getText().toString())) invalid.add("gz offset");
+        return invalid;
+    }
+
     public boolean isViewCreated() {
         return ViewCreated;
     }
@@ -153,7 +186,7 @@ public class GimbalConfigTab1Fragment extends Fragment {
         return view;
     }
     // calibration
-    private class Calibration extends AsyncTask<Void, Void, Void>  // UI thread
+    private class Calibration extends BackgroundTask  // replaces the deprecated AsyncTask (same callbacks)
     {
         private AlertDialog.Builder builder = null;
         private AlertDialog alert;
@@ -202,7 +235,8 @@ public class GimbalConfigTab1Fragment extends Fragment {
         {
             super.onPostExecute(result);
             if (!canceled) {
-                readConfig();
+                // The configuration was re-read in doInBackground(): reading it again here ran
+                // board I/O on the UI thread
                 setAxOffsetValue(GimbalCfg.getAxOffset());
                 setAyOffsetValue(GimbalCfg.getAyOffset());
                 setAzOffsetValue(GimbalCfg.getAzOffset());

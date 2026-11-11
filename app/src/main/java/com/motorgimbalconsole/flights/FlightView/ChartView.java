@@ -49,6 +49,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -85,13 +86,13 @@ public class ChartView extends View
 
     public ChartView(Context context) {
         super(context);
-        mHandler = new Handler();
+        mHandler = new Handler(Looper.getMainLooper());
         this.initialize();
     }
 
     public ChartView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mHandler = new Handler();
+        mHandler = new Handler(Looper.getMainLooper());
         this.initialize();
     }
 

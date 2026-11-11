@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_reset_settings.xml
+
+    Author: boris.dureau@neuf.fr
+    Used by: ResetSettingsActivity
+
+    Description:
+    Board maintenance: buttons to erase all the flights, delete the last flight and restore the
+    default configuration, each confirmed by a dialog.
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"

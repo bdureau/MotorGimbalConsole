@@ -17,29 +17,43 @@ import android.util.Log;
 import com.felhr.usbserial.UsbSerialDevice;
 import com.felhr.usbserial.UsbSerialInterface;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 //import java.util.HashMap;
 //import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 /**
- *   @description:
+ *   @description: USB serial link to the gimbal board (CDC / FTDI / CH340... adapters through
+ *   the felhr usbserial library). Exposes the received bytes as an InputStream so that the
+ *   rest of the application reads Bluetooth and USB the same way.
+ *   All methods are null-safe: calling them on a closed or never opened port does nothing
+ *   instead of crashing (the screens call write() / clearInput() during their lifecycle even
+ *   when the board has been unplugged).
  *   @author: boris.dureau@neuf.fr
  **/
 
 public class UsbConnection {
 
-    UsbSerialDevice serialPort;
-    UsbDeviceConnection connection;
-    SerialInputStream usbInputStream;
-    private boolean isUSBConnected = false;
+    private static final String TAG = "UsbConnection";
+    /** Receive buffer size: about 1 s of data at 38400 bauds. */
+    private static final int RX_BUFFER_SIZE = 4096;
+
+    // Opened by connect() on a background thread, used by the reader and UI threads
+    private volatile UsbSerialDevice serialPort;
+    private volatile UsbDeviceConnection connection;
+    private volatile SerialInputStream usbInputStream;
+    private volatile boolean isUSBConnected = false;
 
     public boolean connect( UsbManager usbManager,UsbDevice device, int baudRate) {
         boolean connected = false;
+        Disconnect(); // never leak a previous port
         connection = usbManager.openDevice(device);
+        if (connection == null) {
+            // No USB permission, or the device has been unplugged
+            Log.d("SERIAL", "UNABLE TO OPEN DEVICE");
+            setUSBConnected(false);
+            return false;
+        }
         serialPort = UsbSerialDevice.createUsbSerialDevice(device, connection);
         if (serialPort != null) {
             if (serialPort.open()) { //Set Serial Connection Parameters.
@@ -63,29 +77,61 @@ public class UsbConnection {
         } else {
             Log.d("SERIAL", "PORT IS NULL");
         }
+        if (!connected) {
+            Disconnect(); // release the device connection opened above
+        }
         setUSBConnected(connected);
         return connected;
 
     }
+    /**
+     * Closes the port and the USB device connection. Safe to call several times or when the
+     * port was never opened (it used to throw a NullPointerException, and the device
+     * connection was never closed).
+     */
     public void Disconnect() {
-        serialPort.close();
         setUSBConnected(false);
+        SerialInputStream in = usbInputStream;
+        usbInputStream = null;
+        if (in != null) {
+            in.close(); // unblocks a reader waiting in read()
+        }
+        UsbSerialDevice port = serialPort;
+        serialPort = null;
+        if (port != null) {
+            try {
+                port.close();
+            } catch (RuntimeException e) {
+                Log.w(TAG, "Error closing the serial port", e);
+            }
+        }
+        UsbDeviceConnection conn = connection;
+        connection = null;
+        if (conn != null) {
+            conn.close();
+        }
     }
 
+    /** Sends a command to the board; ignored if the port is closed. */
     public void write (String data) {
-
-        serialPort.write(data.getBytes());
-
+        UsbSerialDevice port = serialPort;
+        if (port != null) {
+            port.write(data.getBytes());
+        }
     }
 
     public void flush () {
      //not implemented
     }
 
+    /** Discards the bytes received but not read yet. */
     public void clearInput() {
+        SerialInputStream in = usbInputStream;
+        if (in == null) return;
         try {
-        usbInputStream.skip(usbInputStream.available());
+            in.skip(in.available());
         } catch (IOException e) {
+            Log.w(TAG, "clearInput failed", e);
         }
     }
 
@@ -106,7 +152,9 @@ public class UsbConnection {
    public class SerialInputStream extends InputStream implements UsbSerialInterface.UsbReadCallback
     {
         protected final UsbSerialInterface device;
-        protected ArrayBlockingQueue data = new ArrayBlockingQueue<Integer>(256);
+        protected final ArrayBlockingQueue<Integer> data = new ArrayBlockingQueue<>(RX_BUFFER_SIZE);
+        /** Bytes dropped because the application did not read fast enough (for the logs). */
+        private long droppedBytes = 0;
 
         protected volatile boolean is_open;
 
@@ -115,36 +163,6 @@ public class UsbConnection {
             this.device = mydevice;
             is_open = true;
             device.read(this);
-        }
-
-        public void appendLog(String text)
-        {
-            File logFile = new File("sdcard/debugfileStream.txt");
-            if (!logFile.exists())
-            {
-                try
-                {
-                    logFile.createNewFile();
-                }
-                catch (IOException e)
-                {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-            try
-            {
-                //BufferedWriter for performance, true to set append to file flag
-                BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
-                buf.append(text);
-                buf.newLine();
-                buf.close();
-            }
-            catch (IOException e)
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
         }
 
         @Override
@@ -160,7 +178,9 @@ public class UsbConnection {
             {
                 try
                 {
-                    return (Integer)data.take();
+                    int value = data.take();
+                    if (!is_open && value < 0) return -1; // close() marker
+                    return value;
                 } catch (InterruptedException e)
                 {
                     // ignore, will be retried by while loop
@@ -172,25 +192,27 @@ public class UsbConnection {
         public void close()
         {
             is_open = false;
-            try
-            {
-                data.put(-1);
-            } catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
+            data.clear();
+            // Wakes up a reader blocked in read(); never blocks (the queue was just cleared)
+            data.offer(-1);
         }
 
+        /**
+         * Called by the usbserial library on its own thread for every received chunk.
+         * Uses offer() instead of put(): put() blocked the library thread when the buffer was
+         * full, which stalled the whole USB reception. When the buffer is full the oldest
+         * unread data is no longer useful anyway, so the new bytes are dropped and counted.
+         */
         public void onReceivedData(byte[] new_data)
         {
+            if (!is_open || new_data == null) return;
             for (byte b : new_data)
             {
-                try
-                {
-                    data.put(((int)b) & 0xff);
-                } catch (InterruptedException e)
-                {
-                    // ignore, possibly losing bytes when buffer is full
+                if (!data.offer(((int)b) & 0xff)) {
+                    droppedBytes++;
+                    if (droppedBytes % 1024 == 1) {
+                        Log.w(TAG, "USB receive buffer full, bytes dropped: " + droppedBytes);
+                    }
                 }
             }
         }

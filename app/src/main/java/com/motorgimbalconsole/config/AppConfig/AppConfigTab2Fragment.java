@@ -23,6 +23,15 @@ import com.motorgimbalconsole.R;
 
 import java.util.Locale;
 
+/**
+ * AppConfigTab2Fragment.java
+ *
+ * @author boris.dureau@neuf.fr
+ *
+ * Description: Second tab of the application settings: talking telemetry. Selects the flight
+ * events that are announced (lift-off, burnout, apogee, drogue, landing, altitude, warnings)
+ * and the voice, with a button to test it.
+ */
 public class AppConfigTab2Fragment extends Fragment {
     private CheckBox cbDrogueEvent, cbAltitudeEvent, cbLandingEvent;
     private CheckBox cbBurnoutEvent, cbWarningEvent, cbApogeeAltitude;
@@ -34,8 +43,13 @@ public class AppConfigTab2Fragment extends Fragment {
     private int nbrVoices = 0;
     private boolean ViewCreated = false;
 
-    public AppConfigTab2Fragment(ConsoleApplication lBT) {
-        BT = lBT;
+    /**
+     * No-argument constructor, required by Android: the system re-creates fragments with it
+     * after a rotation or when the process is restored. The dependencies that used to be
+     * passed as constructor parameters are taken from the application object instead.
+     */
+    public AppConfigTab2Fragment() {
+        BT = ConsoleApplication.getInstance();
     }
 
     public boolean getDrogueEvent() {

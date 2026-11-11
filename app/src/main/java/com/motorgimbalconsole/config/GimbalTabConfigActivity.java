@@ -2,7 +2,6 @@ package com.motorgimbalconsole.config;
 
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,6 +22,7 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 
 import android.view.Menu;
@@ -36,6 +36,8 @@ import android.widget.Toast;
 import com.motorgimbalconsole.ConsoleApplication;
 import com.motorgimbalconsole.R;
 import com.motorgimbalconsole.ShareHandler;
+import com.motorgimbalconsole.utils.BackgroundTask;
+import com.motorgimbalconsole.utils.PagerFragments;
 import com.motorgimbalconsole.config.GimbalConfig.GimbalConfigTab1Fragment;
 import com.motorgimbalconsole.config.GimbalConfig.GimbalConfigTab2Fragment;
 import com.motorgimbalconsole.config.GimbalConfig.GimbalConfigTab3Fragment;
@@ -43,7 +45,6 @@ import com.motorgimbalconsole.config.GimbalConfig.GimbalConfigTab4Fragment;
 import com.motorgimbalconsole.help.AboutActivity;
 import com.motorgimbalconsole.help.HelpActivity;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,8 +62,11 @@ public class GimbalTabConfigActivity extends AppCompatActivity {
     GimbalConfigTab4Fragment configPage4 = null;
 
     private Button btnDismiss, btnUpload;
-    private static ConsoleApplication myBT;
-    private static GimbalConfigData GimbalCfg = null;
+    // Not static any more: a static reference to the activity state outlived the screen
+    private ConsoleApplication myBT;
+    private GimbalConfigData GimbalCfg = null;
+    // "Please wait" dialog shown while the board is read or written in the background
+    private AlertDialog progressDialog = null;
 
     private TextView[] dotsSlide;
     private LinearLayout linearDots;
@@ -81,11 +85,11 @@ public class GimbalTabConfigActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //get the bluetooth connection pointer
         myBT = (ConsoleApplication) getApplication();
-        readConfig();
+        // Configuration already read when the board was connected; refreshed below
+        GimbalCfg = myBT.getGimbalConfigData();
         setContentView(R.layout.activity_gimbal_tab_config);
 
         mViewPager = (ViewPager) findViewById(R.id.container);
-        setupViewPager(mViewPager);
         btnDismiss = (Button) findViewById(R.id.butDismiss);
 
         btnDismiss.setOnClickListener(new View.OnClickListener() {
@@ -104,18 +108,91 @@ public class GimbalTabConfigActivity extends AppCompatActivity {
                 sendConfig();
             }
         });
+
+        if (savedInstanceState == null && myBT.getConnected()) {
+            // First opening: re-read the board configuration in the background (it used to be
+            // read on the UI thread with a busy-wait, freezing the screen), then build the tabs
+            loadConfigThenShowTabs();
+        } else {
+            // Re-creation (rotation...): the restored tabs keep the values being edited
+            setupViewPager(mViewPager);
+        }
     }
 
+    /**
+     * Reads the configuration from the board in the background, then builds the tabs.
+     * The upload button stays disabled until the tabs exist.
+     */
+    private void loadConfigThenShowTabs() {
+        btnUpload.setEnabled(false);
+        new BackgroundTask() {
+            @Override
+            protected void onPreExecute() {
+                showProgress();
+            }
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                if (!readConfig()) {
+                    Log.w("conftab", "Unable to refresh the configuration, using the cached one");
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void result) {
+                hideProgress();
+                if (isFinishing() || isDestroyed()) return; // screen closed meanwhile
+                GimbalCfg = myBT.getGimbalConfigData();
+                setupViewPager(mViewPager);
+                btnUpload.setEnabled(true);
+            }
+        }.execute();
+    }
+
+    /** Shows the non cancelable "Please wait" dialog. */
+    private void showProgress() {
+        hideProgress();
+        progressDialog = new AlertDialog.Builder(this)
+                .setMessage(getResources().getString(R.string.MS_msg2))
+                .setCancelable(false)
+                .create();
+        progressDialog.show();
+    }
+
+    /** Hides the "Please wait" dialog if it is displayed. */
+    private void hideProgress() {
+        if (progressDialog != null) {
+            try {
+                progressDialog.dismiss();
+            } catch (IllegalArgumentException e) {
+                // window already gone (screen closed)
+            }
+            progressDialog = null;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        hideProgress();
+        super.onDestroy();
+    }
+
+    /**
+     * Builds the tabs, re-using the fragments restored by Android after a re-creation
+     * (see PagerFragments) so that sendConfig() reads the values of the tabs displayed.
+     */
     private void setupViewPager(ViewPager viewPager) {
-        adapter = new SectionsPageAdapter(getSupportFragmentManager());
+        FragmentManager fm = getSupportFragmentManager();
+        adapter = new SectionsPageAdapter(fm);
 
         if (myBT.getGimbalConfigData().getAltimeterName().equals("RocketMotorGimbal")) {
-            configPage1 = new GimbalConfigTab1Fragment(myBT,GimbalCfg);
+            configPage1 = PagerFragments.restoredOr(fm, GimbalConfigTab1Fragment.class, GimbalConfigTab1Fragment::new);
             adapter.addFragment(configPage1, "TAB1");
         }
-        configPage2 = new GimbalConfigTab2Fragment(myBT,GimbalCfg);
-        configPage3 = new GimbalConfigTab3Fragment(myBT,GimbalCfg);
-        configPage4 = new GimbalConfigTab4Fragment(myBT,GimbalCfg);
+        configPage2 = PagerFragments.restoredOr(fm, GimbalConfigTab2Fragment.class, GimbalConfigTab2Fragment::new);
+        configPage3 = PagerFragments.restoredOr(fm, GimbalConfigTab3Fragment.class, GimbalConfigTab3Fragment::new);
+        configPage4 = PagerFragments.restoredOr(fm, GimbalConfigTab4Fragment.class, GimbalConfigTab4Fragment::new);
 
         adapter.addFragment(configPage2, "TAB2");
         adapter.addFragment(configPage3, "TAB3");
@@ -161,54 +238,33 @@ public class GimbalTabConfigActivity extends AppCompatActivity {
         }
     };
 
-    public static void readConfig() {
-        // ask for config
-        boolean success = false;
-        if (myBT.getConnected()) {
-            myBT.flush();
-            myBT.clearInput();
-            //msg("Retrieving altimeter config...");
-            myBT.setDataReady(false);
+    /**
+     * Reads the configuration from the board ("b;" then "$alticonfig" sentence). The values
+     * are stored in the shared GimbalConfigData of the application.
+     *
+     * Blocking: must be called from a background thread (BackgroundTask). It used to start
+     * with a busy-wait loop (while (available() <= 0);) that froze the UI thread forever if the
+     * board did not answer; ReadResult() already waits for the answer, with a timeout.
+     *
+     * @return true if a complete configuration was received
+     */
+    public static boolean readConfig() {
+        ConsoleApplication app = ConsoleApplication.getInstance();
+        if (app == null || !app.getConnected()) return false;
 
-            myBT.flush();
-            myBT.clearInput();
-            myBT.write("b;".toString());
-            myBT.flush();
+        app.setDataReady(false);
+        app.flush();
+        app.clearInput();
+        app.write("b;");
+        app.flush();
 
-            //get the results
-            //wait for the result to come back
-            try {
-                while (myBT.getInputStream().available() <= 0) ;
-            } catch (IOException e) {
-
-            }
+        String myMessage = app.ReadResult(3000);
+        if (myMessage.equals("OK")) {
+            // acknowledgement first, then the configuration itself
+            app.setDataReady(false);
+            myMessage = app.ReadResult(10000);
         }
-        //reading the config
-        if (myBT.getConnected()) {
-            String myMessage = "";
-
-            myMessage = myBT.ReadResult(3000);
-            if (myMessage.equals("OK")) {
-                myBT.setDataReady(false);
-                myMessage = myBT.ReadResult(10000);
-            }
-
-            if (myMessage.equals("start alticonfig end")) {
-                try {
-                    // getGimbalConfigData
-                    GimbalCfg = myBT.getGimbalConfigData();
-                    success = true;
-                    //String conf;
-                    //conf = GimbalCfg.getKpX() + "," + GimbalCfg.getKpY() +
-                    //      "," + GimbalCfg.getKiY() + "," + GimbalCfg.getKdY();
-
-                } catch (Exception e) {
-                    // msg("pb ready data");
-                }
-            } else {
-                //msg(getResources().getString(R.string.conf_msg1));
-            }
-        }
+        return myMessage.equals("start alticonfig end");
     }
 
     public void msg(String s) {
@@ -261,6 +317,12 @@ public class GimbalTabConfigActivity extends AppCompatActivity {
         }
 
 
+        // Refuse to send an aberrant configuration (empty field read as 0, inverted servo
+        // limits, negative PID gain...): the board would store it in EEPROM for the next flight
+        if (!checkConfigBeforeUpload()) {
+            return false;
+        }
+
         if (configPage3.isViewCreated()) {
             //GimbalCfg.setConnectionSpeed(configPage3.getBaudRate());
             if (GimbalCfg.getConnectionSpeed() != configPage3.getBaudRate()) {
@@ -272,8 +334,7 @@ public class GimbalTabConfigActivity extends AppCompatActivity {
                             public void onClick(final DialogInterface dialog, final int id) {
                                 dialog.cancel();
                                 GimbalCfg.setConnectionSpeed(configPage3.getBaudRate());
-                                sendAltiCfgV2();
-                                finish();
+                                uploadConfigThenFinish();
                             }
                         })
                         .setNegativeButton(getResources().getString(R.string.No), new DialogInterface.OnClickListener() {
@@ -284,19 +345,119 @@ public class GimbalTabConfigActivity extends AppCompatActivity {
                 final AlertDialog alert = builder.create();
                 alert.show();
             } else {
-                sendAltiCfgV2();
-                finish();
+                uploadConfigThenFinish();
             }
         } else {
-            sendAltiCfgV2();
-            finish();
+            uploadConfigThenFinish();
         }
         //sendAltiCfgV2();
         // finish();
         return true;
     }
 
-    private void sendAltiCfgV2() {
+    /**
+     * Checks the values about to be sent: empty or non numeric fields first, then the ranges
+     * of GimbalConfigValidator. Displays every problem in one dialog.
+     *
+     * @return true if the configuration can be sent
+     */
+    private boolean checkConfigBeforeUpload() {
+        boolean mpuBoard = GimbalCfg.getAltimeterName().equals("RocketMotorGimbal");
+        List<String> invalidFields = new ArrayList<>();
+        if (mpuBoard && configPage1 != null) invalidFields.addAll(configPage1.getInvalidFields());
+        invalidFields.addAll(configPage2.getInvalidFields());
+        invalidFields.addAll(configPage3.getInvalidFields());
+        invalidFields.addAll(configPage4.getInvalidFields());
+
+        StringBuilder message = new StringBuilder();
+        if (!invalidFields.isEmpty()) {
+            message.append(getString(R.string.cfg_err_empty_fields, TextUtils.join(", ", invalidFields)));
+        } else {
+            // Ranges are only meaningful once every field holds a number
+            for (GimbalConfigValidator.Problem problem : GimbalConfigValidator.validate(GimbalCfg, mpuBoard)) {
+                if (message.length() > 0) message.append("\n\n");
+                message.append(describe(problem));
+            }
+        }
+        if (message.length() == 0) return true;
+
+        Log.w("conftab", "Configuration refused: " + message);
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.cfg_err_title))
+                .setMessage(message.toString())
+                .setPositiveButton(getString(R.string.save_curve_ok), null)
+                .show();
+        return false;
+    }
+
+    /**
+     * @param problem problem found by GimbalConfigValidator
+     * @return the translated explanation displayed to the user
+     */
+    private String describe(GimbalConfigValidator.Problem problem) {
+        switch (problem.rule) {
+            case SERVO_LIMITS:
+                return getString(R.string.cfg_err_servo, problem.field, problem.values[0], problem.values[1]);
+            case PID_GAIN:
+                return getString(R.string.cfg_err_pid, problem.field, problem.values[0]);
+            case SENSOR_OFFSET:
+                return getString(R.string.cfg_err_offset, problem.field, problem.values[0]);
+            case SENSOR_RANGE:
+                return getString(R.string.cfg_err_sensor_range, problem.field);
+            case BEEP_FREQUENCY:
+                return getString(R.string.cfg_err_beep, problem.values[0]);
+            case END_RECORD_ALTITUDE:
+                return getString(R.string.cfg_err_end_record, problem.values[0]);
+            case RECORDING_TIMEOUT:
+            default:
+                return getString(R.string.cfg_err_timeout, problem.values[0]);
+        }
+    }
+
+    /**
+     * Sends the configuration to the board in the background (28 parameters, each waiting for
+     * the board acknowledgement: this used to freeze the UI thread for several seconds), then
+     * closes the screen. If a parameter was refused, the screen stays open with a message so
+     * that the user can try again.
+     */
+    private void uploadConfigThenFinish() {
+        btnUpload.setEnabled(false);
+        final boolean[] success = {false};
+        new BackgroundTask() {
+            @Override
+            protected void onPreExecute() {
+                showProgress();
+            }
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                success[0] = sendAltiCfgV2();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void result) {
+                hideProgress();
+                if (isFinishing() || isDestroyed()) return;
+                if (success[0]) {
+                    finish();
+                } else {
+                    btnUpload.setEnabled(true);
+                    msg(getResources().getString(R.string.conf_msg2));
+                }
+            }
+        }.execute();
+    }
+
+    /**
+     * Writes the configuration to the board: main loop off, every parameter, save, main loop on.
+     * Blocking: called from a background thread.
+     *
+     * @return true if the board acknowledged every parameter
+     */
+    private boolean sendAltiCfgV2() {
+        if (!myBT.getConnected()) return false;
+        boolean allSent = true;
 
         if (myBT.getConnected()) {
             myBT.setDataReady(false);
@@ -306,11 +467,7 @@ public class GimbalTabConfigActivity extends AppCompatActivity {
             myBT.write("m0;".toString());
             Log.d("conftab", "switch off main loop");
             //wait for the result to come back
-            try {
-                while (myBT.getInputStream().available() <= 0) ;
-            } catch (IOException e) {
-
-            }
+            // ReadResult() waits for the answer itself (bounded by its timeout)
             String myMessage = "";
             myMessage = myBT.ReadResult(3000);
             if (myMessage.equals("OK")) {
@@ -318,55 +475,60 @@ public class GimbalTabConfigActivity extends AppCompatActivity {
             }
         }
 
-        SendParam("p,1,"+ GimbalCfg.getAxOffset());
-        SendParam("p,2,"+ GimbalCfg.getAyOffset());
-        SendParam("p,3,"+ GimbalCfg.getAzOffset());
-        SendParam("p,4,"+ GimbalCfg.getGxOffset());
-        SendParam("p,5,"+ GimbalCfg.getGyOffset());
-        SendParam("p,6,"+ GimbalCfg.getGzOffset());
-        SendParam("p,7,"+ (int) (GimbalCfg.getKpX() * 100) );
-        SendParam("p,8,"+ (int) (GimbalCfg.getKiX() * 100) );
-        SendParam("p,9,"+ (int) (GimbalCfg.getKdX() * 100) );
-        SendParam("p,10,"+ (int) (GimbalCfg.getKpY() * 100) );
-        SendParam("p,11,"+ (int) (GimbalCfg.getKiY() * 100) );
-        SendParam("p,12,"+ (int) (GimbalCfg.getKdY() * 100) );
-        SendParam("p,13,"+ GimbalCfg.getServoXMin());
-        SendParam("p,14,"+ GimbalCfg.getServoXMax());
-        SendParam("p,15,"+ GimbalCfg.getServoYMin());
-        SendParam("p,16,"+ GimbalCfg.getServoYMax());
-        SendParam("p,17,"+ GimbalCfg.getConnectionSpeed());
-        SendParam("p,18,"+ GimbalCfg.getAltimeterResolution());
-        SendParam("p,19,"+ GimbalCfg.getEepromSize());
-        SendParam("p,20,"+ GimbalCfg.getUnits());
-        SendParam("p,21,"+ GimbalCfg.getEndRecordAltitude());
-        SendParam("p,22,"+ GimbalCfg.getBeepingFrequency());
-        SendParam("p,23,"+ GimbalCfg.getLiftOffDetect());
-        SendParam("p,24,"+ GimbalCfg.getGyroRange());
-        SendParam("p,25,"+ GimbalCfg.getAcceleroRange());
-        SendParam("p,26,"+ GimbalCfg.getRecordingTimeout());
-        SendParam("p,27,"+ GimbalCfg.getBatteryType());
-        SendParam("p,28,"+ GimbalCfg.getTelemetryType());
-
+        allSent &= SendParam("p,1,"+ GimbalCfg.getAxOffset());
+        allSent &= SendParam("p,2,"+ GimbalCfg.getAyOffset());
+        allSent &= SendParam("p,3,"+ GimbalCfg.getAzOffset());
+        allSent &= SendParam("p,4,"+ GimbalCfg.getGxOffset());
+        allSent &= SendParam("p,5,"+ GimbalCfg.getGyOffset());
+        allSent &= SendParam("p,6,"+ GimbalCfg.getGzOffset());
+        // PID gains are sent as hundredths. Math.round is required: a plain (int) cast truncates
+        // binary floating point errors (0.29 * 100 = 28.999...), so every read/save cycle
+        // lowered the gain by 0.01.
+        allSent &= SendParam("p,7,"+ Math.round(GimbalCfg.getKpX() * 100) );
+        allSent &= SendParam("p,8,"+ Math.round(GimbalCfg.getKiX() * 100) );
+        allSent &= SendParam("p,9,"+ Math.round(GimbalCfg.getKdX() * 100) );
+        allSent &= SendParam("p,10,"+ Math.round(GimbalCfg.getKpY() * 100) );
+        allSent &= SendParam("p,11,"+ Math.round(GimbalCfg.getKiY() * 100) );
+        allSent &= SendParam("p,12,"+ Math.round(GimbalCfg.getKdY() * 100) );
+        allSent &= SendParam("p,13,"+ GimbalCfg.getServoXMin());
+        allSent &= SendParam("p,14,"+ GimbalCfg.getServoXMax());
+        allSent &= SendParam("p,15,"+ GimbalCfg.getServoYMin());
+        allSent &= SendParam("p,16,"+ GimbalCfg.getServoYMax());
+        allSent &= SendParam("p,17,"+ GimbalCfg.getConnectionSpeed());
+        allSent &= SendParam("p,18,"+ GimbalCfg.getAltimeterResolution());
+        allSent &= SendParam("p,19,"+ GimbalCfg.getEepromSize());
+        allSent &= SendParam("p,20,"+ GimbalCfg.getUnits());
+        allSent &= SendParam("p,21,"+ GimbalCfg.getEndRecordAltitude());
+        allSent &= SendParam("p,22,"+ GimbalCfg.getBeepingFrequency());
+        allSent &= SendParam("p,23,"+ GimbalCfg.getLiftOffDetect());
+        allSent &= SendParam("p,24,"+ GimbalCfg.getGyroRange());
+        allSent &= SendParam("p,25,"+ GimbalCfg.getAcceleroRange());
+        allSent &= SendParam("p,26,"+ GimbalCfg.getRecordingTimeout());
+        allSent &= SendParam("p,27,"+ GimbalCfg.getBatteryType());
+        allSent &= SendParam("p,28,"+ GimbalCfg.getTelemetryType());
         if (myBT.getConnected()) {
 
             String myMessage = "";
 
-            myBT.setDataReady(false);
-            myBT.flush();
-            myBT.clearInput();
-            //Write the config structure
-            myBT.write("q;".toString());
-            Log.d("conftab", "write config");
+            if (allSent) {
+                myBT.setDataReady(false);
+                myBT.flush();
+                myBT.clearInput();
+                //Write the config structure
+                myBT.write("q;".toString());
+                Log.d("conftab", "write config");
 
-            //wait for the result to come back
-            try {
-                while (myBT.getInputStream().available() <= 0) ;
-            } catch (IOException e) {
-
+                //wait for the result to come back
+                // ReadResult() waits for the answer itself (bounded by its timeout)
+                myMessage = "";
+                myMessage = myBT.ReadResult(3000);
+                //msg(getResources().getString(R.string.msg3));
+            } else {
+                // A parameter was refused or lost: do not save a configuration that mixes old
+                // and new values (PID gains, servo limits) in the board EEPROM. The previous
+                // saved configuration is kept; the user is asked to try again.
+                Log.w("conftab", "Configuration not saved: at least one parameter was not acknowledged");
             }
-            myMessage = "";
-            myMessage = myBT.ReadResult(3000);
-            //msg(getResources().getString(R.string.msg3));
 
             myBT.setDataReady(false);
             myBT.flush();
@@ -376,20 +538,24 @@ public class GimbalTabConfigActivity extends AppCompatActivity {
             Log.d("conftab", "switch on main loop");
 
             //wait for the result to come back
-            try {
-                while (myBT.getInputStream().available() <= 0) ;
-            } catch (IOException e) {
-
-            }
+            // ReadResult() waits for the answer itself (bounded by its timeout)
             myMessage = "";
             myMessage = myBT.ReadResult(3000);
             //msg(getResources().getString(R.string.msg3));
 
             myBT.flush();
         }
+        return allSent;
     }
 
-    private void SendParam (String altiCfgStr) {
+    /**
+     * Sends one configuration parameter ("p,index,value,checksum;") and waits for "OK".
+     * Blocking: called from a background thread.
+     *
+     * @param altiCfgStr parameter without checksum, e.g. "p,7,29"
+     * @return true if the board acknowledged the parameter
+     */
+    private boolean SendParam (String altiCfgStr) {
         String cfg = altiCfgStr;
         cfg = cfg.replace("p", "");
         cfg = cfg.replace(",", "");
@@ -412,11 +578,7 @@ public class GimbalTabConfigActivity extends AppCompatActivity {
             myBT.flush();
             //get the results
             //wait for the result to come back
-            try {
-                while (myBT.getInputStream().available() <= 0) ;
-            } catch (IOException e) {
-
-            }
+            // ReadResult() waits for the answer itself (bounded by its timeout)
             myMessage = "";
             myMessage = myBT.ReadResult(3000);
             if (myMessage.equals("OK")) {
@@ -431,7 +593,9 @@ public class GimbalTabConfigActivity extends AppCompatActivity {
             if (myMessage.equals("KO")) {
                 //   msg(getResources().getString(R.string.msg2));
             }
+            return myMessage.equals("OK");
         }
+        return false;
     }
     public static Integer generateCheckSum(String value)  {
 
@@ -444,7 +608,7 @@ public class GimbalTabConfigActivity extends AppCompatActivity {
 
         checksum = checksum % 256;
 
-        return new Long( checksum ).intValue();
+        return (int) checksum; // same value as before: fits in an int after the modulo
 
     }
     public class SectionsPageAdapter extends FragmentPagerAdapter {

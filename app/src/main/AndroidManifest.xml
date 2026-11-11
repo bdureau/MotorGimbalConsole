@@ -1,29 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    AndroidManifest.xml
+
+    Author: boris.dureau@neuf.fr
+
+    Description: declaration of the Motor Gimbal Console application, the Android front end of
+    the RocketMotorPIDGimbal boards. It configures the board (PID gains, servo limits, sensor
+    ranges), displays live telemetry with talking announcements, downloads and plots the
+    recorded flights, configures the radio / Bluetooth modules and flashes the STM32 firmware.
+
+    The board is reached through a classic Bluetooth SPP link (HC-05 / HC-06 module) or through
+    a USB serial adapter (USB host mode).
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <!--
+        Bluetooth, Android 11 and lower: install-time permissions to use the adapter.
+        From Android 12 they are replaced by the runtime "Nearby devices" permissions below,
+        so they are limited to API 30 to avoid declaring permissions that are never used.
+    -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+    <!-- Bluetooth, Android 12+: list the paired modules and open the SPP link to the board. -->
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--
+        Bluetooth, Android 12+: only used to cancel a discovery before connecting (the
+        application never scans). "neverForLocation" states that Bluetooth results are not
+        used to locate the user, so no location permission is needed.
+    -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation"
+        tools:targetApi="s" />
+    <!--
+        Storage, Android 9 and lower only: needed to save the exported flight curves (CSV) in
+        the public Download folder. From Android 10 the files are written through MediaStore,
+        which needs no permission. READ_EXTERNAL_STORAGE was never used and has been removed.
+    -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
 
+    <!-- USB host mode: talks to the board and to the radio modules through a USB serial adapter. -->
     <uses-feature android:name="android.hardware.usb.host" />
 
+    <!--
+        requestLegacyExternalStorage has been removed: it is ignored when targeting Android 11+
+        and the application no longer writes outside its own folders and MediaStore.
+    -->
     <application
         android:name=".ConsoleApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.motorgimbalconsole">
-        <!--- android:theme="@style/AppTheme">-->
+        <!--
+            Radio / Bluetooth module configuration screens. The module is plugged into the
+            phone with a USB serial adapter; each screen can be opened directly when such an
+            adapter is attached (USB_DEVICE_ATTACHED, adapters listed in xml/device_filter).
+        -->
+        <!-- Configuration of a 3DR telemetry radio module. -->
         <activity
             android:name=".config.ModulesConfig.Config3DR"
             android:exported="true"
+            android:label="Config 3DR module"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
@@ -33,9 +80,11 @@
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
         </activity>
+        <!-- Configuration of an HC-05 / HC-06 Bluetooth module (name, PIN, speed). -->
         <activity
             android:name=".config.ModulesConfig.ConfigBT"
             android:exported="true"
+            android:label="Config bluetooth module"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
@@ -45,9 +94,11 @@
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
         </activity>
+        <!-- Configuration of an Ebyte E220 LoRa telemetry module. -->
         <activity
             android:name=".config.ModulesConfig.ConfigLoraE220"
             android:exported="true"
+            android:label="Config LoraE220 module"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
@@ -56,9 +107,11 @@
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
         </activity>
+        <!-- Configuration of an Ebyte E32 LoRa telemetry module. -->
         <activity
             android:name=".config.ModulesConfig.ConfigLoraE32"
             android:exported="true"
+            android:label="Config LoraE32 module"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
@@ -67,7 +120,12 @@
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
         </activity>
+        <!-- Flashes the gimbal firmware to the STM32 board through its serial bootloader. -->
         <activity android:name=".flash.FlashFirmware" />
+        <!--
+            Main screen and launcher: connection to the board (Bluetooth or USB) and access to
+            every feature. Also opened when a USB serial adapter is plugged in.
+        -->
         <activity
             android:name=".MainActivityScreen"
             android:exported="true"
@@ -86,49 +144,65 @@
                 android:resource="@xml/device_filter" />
         </activity>
 
+        <!-- Live status of the board sensors (gyro, accelerometer, orientation, altitude). -->
         <activity
             android:name=".telemetry.GimbalTabStatusActivity"
             android:label="@string/title_activity_console_tab_status"
             android:screenOrientation="portrait" />
+        <!-- Gimbal configuration: offsets, PID gains, servo limits, sensor ranges, alarms. -->
         <activity
             android:name=".config.GimbalTabConfigActivity"
             android:label="@string/title_activity_console_tab_config"
             android:screenOrientation="portrait" />
+        <!-- Telemetry link test: sends test frames and counts the valid / invalid answers. -->
         <activity
             android:name=".connection.TestConnection"
             android:label="Test connection"
             android:screenOrientation="portrait" />
+        <!-- Selection of the paired Bluetooth module of the board. -->
         <activity
             android:name=".connection.SearchBluetooth"
             android:label="@string/select_bluetooth_device"
             android:screenOrientation="portrait" />
+        <!-- Application version and credits. -->
         <activity
             android:name=".help.AboutActivity"
             android:label="@string/about_screen"
             android:screenOrientation="portrait" />
+        <!-- Application settings: language, units, chart colors, connection type, voices. -->
         <activity
             android:name=".config.AppTabConfigActivity"
             android:label="@string/titre_application_pref"
             android:screenOrientation="portrait" />
+        <!-- Board maintenance: erase all the flights, delete the last one, restore the default configuration. -->
         <activity
             android:name=".ResetSettingsActivity"
             android:label="@string/reset_settings"
             android:screenOrientation="portrait" />
 
+        <!-- Live flight telemetry: altitude chart, flight events, talking announcements, 3D view. -->
         <activity
             android:name=".telemetry.GimbalTelemetryTabActivity"
             android:label="@string/telemetry_screen"
             android:screenOrientation="portrait" />
+        <!-- Downloads the flights recorded by the board and lists them. -->
         <activity
             android:name=".flights.FlightListActivity"
             android:label="@string/Flight_list"
             android:screenOrientation="portrait" />
 
+        <!-- One recorded flight: curves, statistics and CSV export, 3D replay. -->
         <activity android:name=".flights.FlightViewTabActivity"
             android:screenOrientation="portrait" />
+        <!-- On-line help pages (HTML files of assets/help, one per language). -->
         <activity
             android:name=".help.HelpActivity"
             android:label="@string/help_screen" />
+        <!--
+            Gives other applications (mail, messaging, drive...) temporary read access to the
+            files shared by the application: screenshots and the zipped flight curves. Only the
+            "shared" folder of the application cache is exposed (see xml/file_path.xml).
+        -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.motorgimbalconsole.provider"

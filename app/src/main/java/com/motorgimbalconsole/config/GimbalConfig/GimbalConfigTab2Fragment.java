@@ -1,5 +1,8 @@
 package com.motorgimbalconsole.config.GimbalConfig;
 
+import com.motorgimbalconsole.utils.NumberParser;
+import java.util.ArrayList;
+import java.util.List;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +16,16 @@ import com.motorgimbalconsole.ConsoleApplication;
 import com.motorgimbalconsole.R;
 import com.motorgimbalconsole.config.GimbalConfigData;
 
+/**
+ * GimbalConfigTab2Fragment.java
+ *
+ * @author boris.dureau@neuf.fr
+ *
+ * Description: Second tab of the gimbal configuration: PID gains (Kp, Ki, Kd) of the X and Y
+ * gimbal axes. The gains are displayed as typed (e.g. 0.29) and sent to the board in
+ * hundredths. A decimal comma is accepted; getInvalidFields() reports the empty or non
+ * numeric gains.
+ */
 public class GimbalConfigTab2Fragment extends Fragment {
     private static final String TAG = "Tab2Fragment";
     private boolean ViewCreated = false;
@@ -21,11 +34,14 @@ public class GimbalConfigTab2Fragment extends Fragment {
     ConsoleApplication myBT;
     private GimbalConfigData GimbalCfg = null;
 
-    public GimbalConfigTab2Fragment(ConsoleApplication pBT,
-                                    GimbalConfigData pGimbalCfg
-    ) {
-        myBT = pBT;
-        GimbalCfg = pGimbalCfg;
+    /**
+     * No-argument constructor, required by Android: the system re-creates fragments with it
+     * after a rotation or when the process is restored. The dependencies that used to be
+     * passed as constructor parameters are taken from the application object instead.
+     */
+    public GimbalConfigTab2Fragment() {
+        myBT = ConsoleApplication.getInstance();
+        GimbalCfg = myBT.getGimbalConfigData();
     }
 
     public void setTxtKpXValue(double value) {
@@ -35,7 +51,7 @@ public class GimbalConfigTab2Fragment extends Fragment {
     public double getTxtKpXValue() {
         double ret;
         try {
-            ret = Double.parseDouble(this.editTxtKpX.getText().toString());
+            ret = NumberParser.decimalInputToDouble(this.editTxtKpX.getText().toString(), 0.0);
         } catch (Exception e) {
             ret = 0.0;
         }
@@ -49,7 +65,7 @@ public class GimbalConfigTab2Fragment extends Fragment {
     public double getTxtKiXValue() {
         double ret;
         try {
-            ret = Double.parseDouble(this.editTxtKiX.getText().toString());
+            ret = NumberParser.decimalInputToDouble(this.editTxtKiX.getText().toString(), 0.0);
         } catch (Exception e) {
             ret = 0.0;
         }
@@ -63,7 +79,7 @@ public class GimbalConfigTab2Fragment extends Fragment {
     public double getTxtKdXValue() {
         double ret;
         try {
-            ret = Double.parseDouble(this.editTxtKdX.getText().toString());
+            ret = NumberParser.decimalInputToDouble(this.editTxtKdX.getText().toString(), 0.0);
         } catch (Exception e) {
             ret = 0.0;
         }
@@ -78,7 +94,7 @@ public class GimbalConfigTab2Fragment extends Fragment {
     public double getTxtKpYValue() {
         double ret;
         try {
-            ret = Double.parseDouble(this.editTxtKpY.getText().toString());
+            ret = NumberParser.decimalInputToDouble(this.editTxtKpY.getText().toString(), 0.0);
         } catch (Exception e) {
             ret = 0.0;
         }
@@ -93,7 +109,7 @@ public class GimbalConfigTab2Fragment extends Fragment {
     public double getTxtKiYValue() {
         double ret;
         try {
-            ret = Double.parseDouble(this.editTxtKiY.getText().toString());
+            ret = NumberParser.decimalInputToDouble(this.editTxtKiY.getText().toString(), 0.0);
         } catch (Exception e) {
             ret = 0.0;
         }
@@ -107,11 +123,29 @@ public class GimbalConfigTab2Fragment extends Fragment {
     public double getTxtKdYValue() {
         double ret;
         try {
-            ret = Double.parseDouble(this.editTxtKdY.getText().toString());
+            ret = NumberParser.decimalInputToDouble(this.editTxtKdY.getText().toString(), 0.0);
         } catch (Exception e) {
             ret = 0.0;
         }
         return ret;
+    }
+
+    /**
+     * Lists the input fields of this tab that are empty or not a number. Their getters return 0
+     * in that case, a value that would otherwise be sent to the board without any warning.
+     *
+     * @return names of the invalid fields; empty if the tab view has not been created
+     */
+    public List<String> getInvalidFields() {
+        List<String> invalid = new ArrayList<>();
+        if (!ViewCreated) return invalid;
+        if (!NumberParser.isDecimalInput(editTxtKpX.getText().toString())) invalid.add("Kp X");
+        if (!NumberParser.isDecimalInput(editTxtKiX.getText().toString())) invalid.add("Ki X");
+        if (!NumberParser.isDecimalInput(editTxtKdX.getText().toString())) invalid.add("Kd X");
+        if (!NumberParser.isDecimalInput(editTxtKpY.getText().toString())) invalid.add("Kp Y");
+        if (!NumberParser.isDecimalInput(editTxtKiY.getText().toString())) invalid.add("Ki Y");
+        if (!NumberParser.isDecimalInput(editTxtKdY.getText().toString())) invalid.add("Kd Y");
+        return invalid;
     }
 
     public boolean isViewCreated() {

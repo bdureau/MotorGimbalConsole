@@ -397,4 +397,17 @@
     <string name="no">No</string>
     <string name="flash_nfirmware">Flash\nfirmware</string>
     <string name="about_button">About</string>
+    <!-- Bluetooth device selection (SearchBluetooth) -->
+    <string name="BT_msg3">Permesso Bluetooth negato: impossibile mostrare i moduli associati.</string>
+    <string name="BT_msg4">Il Bluetooth deve essere attivato per scegliere il modulo della scheda.</string>
+    <!-- Gimbal configuration checks before upload (GimbalConfigValidator) -->
+    <string name="cfg_err_title">Configurazione non inviata</string>
+    <string name="cfg_err_empty_fields">Questi campi sono vuoti o non sono numeri validi: %1$s</string>
+    <string name="cfg_err_servo">Servo %1$s: il minimo (%2$s) deve essere inferiore al massimo (%3$s), entrambi tra 0 e 180°.</string>
+    <string name="cfg_err_pid">%1$s = %2$s: un guadagno PID deve essere compreso tra 0 e 100.</string>
+    <string name="cfg_err_offset">%1$s = %2$s: un offset deve essere compreso tra -32768 e 32767.</string>
+    <string name="cfg_err_sensor_range">Intervallo %1$s: scegliere uno dei valori proposti.</string>
+    <string name="cfg_err_beep">Frequenza del bip %1$s Hz: deve essere compresa tra 20 e 20000 Hz.</string>
+    <string name="cfg_err_end_record">Altitudine di fine registrazione %1$s: deve essere compresa tra 0 e 10000.</string>
+    <string name="cfg_err_timeout">Durata massima di registrazione %1$s: deve essere compresa tra 0 e 32767.</string>
 </resources>

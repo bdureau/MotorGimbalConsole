@@ -5,9 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
+import com.motorgimbalconsole.utils.BackgroundTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,7 +30,15 @@ import com.motorgimbalconsole.R;
 
 import com.physicaloid.lib.Physicaloid;
 
-
+/**
+ * Config3DR.java
+ *
+ * @author boris.dureau@neuf.fr
+ *
+ * Description: Configuration of a 3DR (SiK) telemetry radio plugged into the phone with a USB
+ * serial adapter: reads the radio parameters with the ATI / ATS commands, lets the user edit
+ * them (frequency range, power, air speed, net ID...) and writes them back to the radio.
+ */
 public class Config3DR extends AppCompatActivity {
 
     Physicaloid mPhysicaloid;
@@ -142,7 +151,7 @@ public class Config3DR extends AppCompatActivity {
         dropdownMavLink.setAdapter(adapterMavLink);
 
 
-        //414000 à 460000 step 50
+        //414000 to 460000, step 50
         dropdownMinFreq = (Spinner) findViewById(R.id.spinnerMinFreq);
         itemsMinFreq = new String[921];
         int a = 0;
@@ -155,7 +164,7 @@ public class Config3DR extends AppCompatActivity {
                 android.R.layout.simple_spinner_item, itemsMinFreq);
         dropdownMinFreq.setAdapter(adapterMinFreq);
 
-        //414000 à 460000 step 50
+        //414000 to 460000, step 50
         dropdownMaxFreq = (Spinner) findViewById(R.id.spinnerMaxFreq);
         //itemsMaxFreq = new String[921];
 
@@ -311,7 +320,7 @@ public class Config3DR extends AppCompatActivity {
     GetAllConfig
 
      */
-    private class getAllConfigAsyc extends AsyncTask<Void, Void, Void>  // UI thread
+    private class getAllConfigAsyc extends BackgroundTask  // replaces the deprecated AsyncTask (same callbacks)
     {
 
         String value = "";
@@ -732,7 +741,7 @@ public class Config3DR extends AppCompatActivity {
         }
     }
 
-    private class saveAllConfigAsyc extends AsyncTask<Void, Void, Void>  // UI thread
+    private class saveAllConfigAsyc extends BackgroundTask  // replaces the deprecated AsyncTask (same callbacks)
     {
 
         String value = "";
@@ -1056,7 +1065,7 @@ public class Config3DR extends AppCompatActivity {
     }
 
 
-    private class connectRetrieveAsyc extends AsyncTask<Void, Void, Void>  // UI thread
+    private class connectRetrieveAsyc extends BackgroundTask  // replaces the deprecated AsyncTask (same callbacks)
     {
 
         @Override
@@ -1131,7 +1140,7 @@ public class Config3DR extends AppCompatActivity {
             }
         }
 
-    private class connectSaveAsyc extends AsyncTask<Void, Void, Void>  // UI thread
+    private class connectSaveAsyc extends BackgroundTask  // replaces the deprecated AsyncTask (same callbacks)
     {
 
         @Override
@@ -1325,7 +1334,7 @@ public class Config3DR extends AppCompatActivity {
 
     }
 
-    Handler mHandler = new Handler();
+    Handler mHandler = new Handler(Looper.getMainLooper());
 
     private void dialogAppend(CharSequence text) {
         final CharSequence ftext = text;

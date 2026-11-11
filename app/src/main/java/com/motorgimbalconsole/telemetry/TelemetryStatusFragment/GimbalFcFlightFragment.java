@@ -27,6 +27,15 @@ import org.afree.data.xy.XYSeriesCollection;
 import org.afree.graphics.SolidColor;
 import org.afree.graphics.geom.Font;
 
+/**
+ * GimbalFcFlightFragment.java
+ *
+ * @author boris.dureau@neuf.fr
+ *
+ * Description: Telemetry chart tab drawn with AFreeChart (used on Android 7 and lower when this
+ * library is selected in the settings): live altitude curve, and the flight events (lift-off,
+ * apogee, main chute, landing) with their time and altitude.
+ */
 public class GimbalFcFlightFragment extends Fragment {
     private boolean ViewCreated = false;
     private ConsoleApplication lBT;
@@ -39,8 +48,13 @@ public class GimbalFcFlightFragment extends Fragment {
     private XYPlot plot;
     private FlightData myflight=null;
 
-    public GimbalFcFlightFragment(ConsoleApplication bt) {
-        lBT = bt;
+    /**
+     * No-argument constructor, required by Android: the system re-creates fragments with it
+     * after a rotation or when the process is restored. The dependencies that used to be
+     * passed as constructor parameters are taken from the application object instead.
+     */
+    public GimbalFcFlightFragment() {
+        lBT = ConsoleApplication.getInstance();
     }
 
     public boolean isViewCreated() {

@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    fragment_gimbal_config_part4.xml
+
+    Author: boris.dureau@neuf.fr
+    Used by: GimbalConfigTab4Fragment
+
+    Description:
+    Gimbal configuration, tab 4: minimum and maximum angles of the X and Y servos (integer
+    fields, 0 to 180).
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"

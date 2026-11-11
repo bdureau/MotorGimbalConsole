@@ -16,6 +16,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Looper;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -580,7 +581,7 @@ public class FlashFirmware extends AppCompatActivity {
         }
 
     };
-    Handler mHandler = new Handler();
+    Handler mHandler = new Handler(Looper.getMainLooper());
     private void tvAppend(TextView tv, CharSequence text) {
         final TextView ftv = tv;
         final CharSequence ftext = text;

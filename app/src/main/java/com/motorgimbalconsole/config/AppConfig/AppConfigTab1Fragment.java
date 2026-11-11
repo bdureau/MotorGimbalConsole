@@ -15,6 +15,15 @@ import com.motorgimbalconsole.ConsoleApplication;
 import com.motorgimbalconsole.R;
 import com.motorgimbalconsole.config.AppConfigData;
 
+/**
+ * AppConfigTab1Fragment.java
+ *
+ * @author boris.dureau@neuf.fr
+ *
+ * Description: First tab of the application settings: language, altitude units, chart colors and
+ * font size, graphic library, connection type (Bluetooth or USB), USB baud rate, full USB
+ * support and manual recording options.
+ */
 public class AppConfigTab1Fragment extends Fragment {
     private Spinner spAppLanguage, spGraphColor, spAppUnit, spGraphBackColor, spFontSize, spBaudRate;
     private Spinner spConnectionType,spGraphicsLibType;
@@ -23,8 +32,13 @@ public class AppConfigTab1Fragment extends Fragment {
     private AppConfigData appConfigData;
     private boolean ViewCreated = false;
 
-    public AppConfigTab1Fragment(ConsoleApplication lBT) {
-        BT = lBT;
+    /**
+     * No-argument constructor, required by Android: the system re-creates fragments with it
+     * after a rotation or when the process is restored. The dependencies that used to be
+     * passed as constructor parameters are taken from the application object instead.
+     */
+    public AppConfigTab1Fragment() {
+        BT = ConsoleApplication.getInstance();
     }
     public long getAppLanguage() {
         return spAppLanguage.getSelectedItemId();

@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_flash_firmware.xml
+
+    Author: boris.dureau@neuf.fr
+    Used by: FlashFirmware
+
+    Description:
+    Firmware flashing: firmware and baud rate selection, picture of the selected board, buttons
+    to detect the board, read its current firmware version, flash it or flash the recovery
+    firmware, and the scrolling log (tvRead).
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

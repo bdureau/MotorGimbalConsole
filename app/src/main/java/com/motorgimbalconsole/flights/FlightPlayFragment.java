@@ -56,13 +56,32 @@ public class FlightPlayFragment extends Fragment {
         super();
     }
 
+    /** Key of the flight name in the arguments Bundle. */
+    private static final String ARG_FLIGHT_NAME = "flightName";
+
     /**
-     * Constructor used by ViewPager / Activity adapter.
+     * Creates the replay tab of a downloaded flight. The flight name is stored in the arguments
+     * Bundle (kept when Android re-creates the fragment); the data itself is read from the
+     * application FlightData. The former constructor parameters were lost on re-creation.
+     *
+     * @param pFlightName name of the flight in the application FlightData
+     * @return the fragment
      */
-    public FlightPlayFragment(ConsoleApplication pBT, XYSeriesCollection pAllFlightData, String pFlightName) {
-        this.consoleApp = pBT;
-        this.allFlightData = pAllFlightData;
-        this.flightName = pFlightName;
+    public static FlightPlayFragment newInstance(String pFlightName) {
+        FlightPlayFragment fragment = new FlightPlayFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_FLIGHT_NAME, pFlightName);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            flightName = getArguments().getString(ARG_FLIGHT_NAME);
+        }
+        consoleApp = ConsoleApplication.getInstance();
     }
 
     @Nullable

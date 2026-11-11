@@ -6,9 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
+import com.motorgimbalconsole.utils.BackgroundTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,7 +31,15 @@ import com.motorgimbalconsole.R;
 import com.physicaloid.lib.Physicaloid;
 import com.physicaloid.lib.usb.driver.uart.UartConfig;
 
-
+/**
+ * ConfigBT.java
+ *
+ * @author boris.dureau@neuf.fr
+ *
+ * Description: Configuration of an HC-05 / HC-06 Bluetooth module plugged into the phone with a
+ * USB serial adapter: reads and changes its name, PIN code and baud rate with AT commands, so
+ * that the module matches the connection speed of the gimbal board.
+ */
 public class ConfigBT extends AppCompatActivity {
 
     Physicaloid mPhysicaloid;
@@ -208,7 +217,7 @@ public class ConfigBT extends AppCompatActivity {
     GetAllConfig
 
      */
-    private class getAllConfigAsyc extends AsyncTask<Void, Void, Void>  // UI thread
+    private class getAllConfigAsyc extends BackgroundTask  // replaces the deprecated AsyncTask (same callbacks)
     {
 
         String value = "";
@@ -288,7 +297,7 @@ public class ConfigBT extends AppCompatActivity {
         }
     }
 
-    private class saveAllConfigAsyc extends AsyncTask<Void, Void, Void>  // UI thread
+    private class saveAllConfigAsyc extends BackgroundTask  // replaces the deprecated AsyncTask (same callbacks)
     {
 
         String value = "";
@@ -407,7 +416,7 @@ public class ConfigBT extends AppCompatActivity {
     }
 
 
-    private class connectRetrieveAsyc extends AsyncTask<Void, Void, Void>  // UI thread
+    private class connectRetrieveAsyc extends BackgroundTask  // replaces the deprecated AsyncTask (same callbacks)
     {
 
         @Override
@@ -484,7 +493,7 @@ public class ConfigBT extends AppCompatActivity {
         }
     }
 
-    private class connectSaveAsyc extends AsyncTask<Void, Void, Void>  // UI thread
+    private class connectSaveAsyc extends BackgroundTask  // replaces the deprecated AsyncTask (same callbacks)
     {
 
         @Override
@@ -714,7 +723,7 @@ public class ConfigBT extends AppCompatActivity {
 
     }
 
-    Handler mHandler = new Handler();
+    Handler mHandler = new Handler(Looper.getMainLooper());
 
     private void dialogAppend(CharSequence text) {
         final CharSequence ftext = text;

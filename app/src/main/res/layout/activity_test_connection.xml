@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_test_connection.xml
+
+    Author: boris.dureau@neuf.fr
+    Used by: TestConnection
+
+    Description:
+    Telemetry link test: counters of packets sent, received, valid and invalid, scrolling log
+    of the received frames (tvRead), and the Start / Stop and Dismiss buttons.
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"

@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_config_lorae32.xml
+
+    Author: boris.dureau@neuf.fr
+    Used by: ConfigLoraE32
+
+    Description:
+    Ebyte E32 LoRa module configuration: baud rate, parity, air rate, channel, IO mode, fixed
+    transmission mode, wake-up time, FEC and TX power, and the Retrieve / Save / Dismiss
+    buttons.
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"

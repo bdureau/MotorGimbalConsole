@@ -8,6 +8,16 @@ import android.graphics.Color;
 
 import com.motorgimbalconsole.config.AppConfigData;
 
+/**
+ * GlobalConfig.java
+ *
+ * @author boris.dureau@neuf.fr
+ *
+ * Description: Application settings, stored in the "GimbalConsoleCfg" SharedPreferences:
+ * language, altitude units, chart colors and font size, connection type and baud rate,
+ * graphic library, talking telemetry events and voice. Also converts the stored indexes into
+ * colors and font sizes for the charts.
+ */
 public class GlobalConfig {
     private Context context;
     private SharedPreferences appConfig = null;

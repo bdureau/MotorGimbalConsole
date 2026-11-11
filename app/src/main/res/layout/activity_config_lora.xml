@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_config_lora.xml
+
+    Author: boris.dureau@neuf.fr
+    Used by: ConfigLoraE220
+
+    Description:
+    Ebyte E220 LoRa module configuration: baud rate, parity, air rate, packet size, channel, TX
+    power, transmission mode, WOR cycle, LBT and RSSI options, and the Retrieve / Save /
+    Dismiss buttons.
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"

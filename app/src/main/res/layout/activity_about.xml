@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_about.xml
+
+    Author: boris.dureau@neuf.fr
+    Used by: AboutActivity
+
+    Description:
+    About screen: application logo, title, version, copyright and credits, with a button to
+    close it.
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"

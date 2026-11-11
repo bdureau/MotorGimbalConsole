@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_flight_view_tab.xml
+
+    Author: boris.dureau@neuf.fr
+    Used by: FlightViewTabActivity
+
+    Description:
+    Tab pager screen: app bar, ViewPager "container" holding the tabs, page indicator dots
+    (idFlightLinearDots), the curve selection button (butSelectCurves, visible on the curves
+    tab only) and the Dismiss button.
+-->
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"

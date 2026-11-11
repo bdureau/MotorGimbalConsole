@@ -1,10 +1,9 @@
 package com.motorgimbalconsole.flights.FlightView;
 
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -25,22 +24,20 @@ import androidx.fragment.app.Fragment;
 import com.motorgimbalconsole.ConsoleApplication;
 import com.motorgimbalconsole.GlobalConfig;
 import com.motorgimbalconsole.R;
+import com.motorgimbalconsole.flights.AccelerationUtils;
 import com.motorgimbalconsole.flights.FlightData;
+import com.motorgimbalconsole.flights.FlightFileExporter;
 
 import org.afree.data.xy.XYSeries;
 import org.afree.data.xy.XYSeriesCollection;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Locale;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
+import java.util.Map;
 
 /**
  * FlightViewInfoFragment.java
@@ -60,6 +57,11 @@ import java.util.zip.ZipOutputStream;
 public class FlightViewInfoFragment extends Fragment {
 
     private static final String TAG = "FlightViewInfoFragment";
+
+    // Indexes of the raw accelerometer curves (see FlightData.createFlight)
+    private static final int SERIE_ACCEL_X = 14;
+    private static final int SERIE_ACCEL_Y = 15;
+    private static final int SERIE_ACCEL_Z = 16;
 
     // Application context and flight repository handles
     private FlightData myflight;
@@ -89,8 +91,6 @@ public class FlightViewInfoFragment extends Fragment {
     private Button buttonExportToCsv;
     private Button butShareFiles;
 
-    private String savedCurvesLog = "";
-
     /**
      * Default empty constructor required by the Android framework.
      */
@@ -98,25 +98,43 @@ public class FlightViewInfoFragment extends Fragment {
         super();
     }
 
+    // Keys of the arguments Bundle (survives the re-creation of the fragment by Android)
+    private static final String ARG_FLIGHT_NAME = "flightName";
+    private static final String ARG_UNITS = "units";
+
     /**
-     * Parameterized constructor used to initialize flight telemetry data and units.
+     * Creates the statistics tab of a downloaded flight. The flight name and units are stored
+     * in the arguments Bundle; the former constructor parameters were lost when Android
+     * re-created the fragment, and the tab then stayed empty.
      *
-     * @param data        Global FlightData repository
-     * @param data2       Complete XYSeriesCollection for the target flight
-     * @param bt          ConsoleApplication reference for Bluetooth and settings
-     * @param pUnits      Array of units corresponding to each telemetry curve
-     * @param pFlightName Specific identifier of the selected flight
+     * @param pFlightName name of the flight in the application FlightData
+     * @param pUnits      unit label of each telemetry curve (used in the CSV headers)
+     * @return the fragment
      */
-    public FlightViewInfoFragment(FlightData data,
-                                  XYSeriesCollection data2,
-                                  ConsoleApplication bt,
-                                  String[] pUnits,
-                                  String pFlightName) {
-        this.myflight = data;
-        this.allFlightData = data2;
-        this.myBT = bt;
-        this.units = pUnits;
-        this.flightName = pFlightName;
+    public static FlightViewInfoFragment newInstance(String pFlightName, String[] pUnits) {
+        FlightViewInfoFragment fragment = new FlightViewInfoFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_FLIGHT_NAME, pFlightName);
+        args.putStringArray(ARG_UNITS, pUnits);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle args = getArguments();
+        if (args != null) {
+            flightName = args.getString(ARG_FLIGHT_NAME);
+            units = args.getStringArray(ARG_UNITS);
+        }
+        myBT = ConsoleApplication.getInstance();
+        if (myBT != null) {
+            myflight = myBT.getFlightData();
+            if (flightName != null) {
+                allFlightData = myflight.GetFlightData(flightName);
+            }
+        }
     }
 
     @Nullable
@@ -235,20 +253,52 @@ public class FlightViewInfoFragment extends Fragment {
         // 6. Landing speed (regression over the last 30 m / 100 ft of the descent)
         landingSpeedValue.setText(format("%.1f " + speedUnit, stats.landingSpeed));
 
-        // 7. Maximum acceleration converted to Gs (unchanged for now)
-        if (accelSeries != null && accelSeries.getItemCount() > 0) {
-            double rawMaxAccel = accelSeries.getMaxY();
-            double accelG;
-            if (isMeters) {
-                accelG = rawMaxAccel / 9.80665;
-            } else {
-                // Imperial: 1 ft = 0.3048 m
-                accelG = (rawMaxAccel * 0.3048) / 9.80665;
-            }
-            maxAccelerationValue.setText(String.format(Locale.US, "%.1f G", accelG));
-        } else {
+        // 7. Maximum acceleration, in G. The acceleration curve is filled when the flight is
+        // downloaded (ConsoleApplication, "$data" sentence) with the magnitude of the IMU
+        // acceleration vector, already converted to G: no unit conversion is needed here.
+        displayMaxAcceleration();
+    }
+
+    /**
+     * Displays the maximum acceleration of the flight.
+     * With an MPU6050 board, if an axis hit the end of the sensor range during the flight the
+     * real peak was higher than the recorded one, so the value is shown as a lower bound (">").
+     */
+    private void displayMaxAcceleration() {
+        if (accelSeries == null || accelSeries.getItemCount() == 0) {
             maxAccelerationValue.setText("N/A");
+            return;
         }
+        double maxG = accelSeries.getMaxY();
+        String text = String.format(Locale.US, "%.1f G", maxG);
+        if (isAccelerometerSaturated()) {
+            text = ">" + text;
+        }
+        maxAccelerationValue.setText(text);
+    }
+
+    /**
+     * Tells whether at least one raw accelerometer sample of the flight reached the end of the
+     * MPU6050 range (always false for a BNO055 board).
+     *
+     * @return true if the recorded acceleration is clipped
+     */
+    private boolean isAccelerometerSaturated() {
+        if (allFlightData == null || allFlightData.getSeriesCount() <= SERIE_ACCEL_Z || myBT == null) {
+            return false;
+        }
+        String boardName = myBT.getGimbalConfigData().getAltimeterName();
+        XYSeries ax = allFlightData.getSeries(SERIE_ACCEL_X);
+        XYSeries ay = allFlightData.getSeries(SERIE_ACCEL_Y);
+        XYSeries az = allFlightData.getSeries(SERIE_ACCEL_Z);
+        int count = Math.min(ax.getItemCount(), Math.min(ay.getItemCount(), az.getItemCount()));
+        for (int i = 0; i < count; i++) {
+            if (AccelerationUtils.isSaturated(ax.getY(i).doubleValue(), ay.getY(i).doubleValue(),
+                    az.getY(i).doubleValue(), boardName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /** Formats a value, or returns "N/A" if it could not be determined (NaN). */
@@ -277,21 +327,33 @@ public class FlightViewInfoFragment extends Fragment {
     }
 
     /**
-     * Exports all telemetry series to individual CSV files in the device's public Downloads directory.
+     * Exports every non empty curve of the flight as one CSV file in
+     * Download/MotorGimbalConsoleFlights (see FlightFileExporter for the storage rules).
      */
     private void exportFlightCurvesToCsv() {
         if (allFlightData == null) return;
 
-        savedCurvesLog = "";
-        int seriesCount = allFlightData.getSeriesCount();
-
-        for (int j = 0; j < seriesCount; j++) {
-            saveData(j, allFlightData);
+        // One timestamp for the whole export, so that the files of one export sort together
+        String dateString = exportTimestamp();
+        StringBuilder savedFiles = new StringBuilder();
+        boolean allSaved = true;
+        for (int j = 0; j < allFlightData.getSeriesCount(); j++) {
+            String csv = buildCsv(j, allFlightData);
+            if (csv == null) continue; // empty curve
+            String fileName = csvFileName(j, dateString);
+            if (FlightFileExporter.saveToDownloads(requireContext(), fileName, csv, FlightFileExporter.MIME_CSV)) {
+                savedFiles.append(fileName).append("\n");
+            } else {
+                allSaved = false;
+            }
+        }
+        if (!allSaved) {
+            Log.w(TAG, "Some curves could not be saved");
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setMessage(getString(R.string.save_curve_msg) + Environment.DIRECTORY_DOWNLOADS +
-                        File.separator + "MotorGimbalConsoleFlights\n" + savedCurvesLog)
+                        File.separator + FlightFileExporter.EXPORT_FOLDER + "\n" + savedFiles)
                 .setTitle(getString(R.string.save_curves_title))
                 .setCancelable(false)
                 .setPositiveButton(R.string.save_curve_ok, new DialogInterface.OnClickListener() {
@@ -306,98 +368,76 @@ public class FlightViewInfoFragment extends Fragment {
     }
 
     /**
-     * Bundles all exported CSV curves into a single ZIP archive and opens the Android share sheet.
+     * Zips every non empty curve of the flight in the application cache and opens the Android
+     * share sheet. Nothing is written to the Download folder any more.
      */
     private void exportAndShareFlightZipArchive() {
         if (allFlightData == null) return;
 
-        savedCurvesLog = "";
-        ArrayList<String> fileNames = new ArrayList<>();
-        int seriesCount = allFlightData.getSeriesCount();
-
-        File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        File zipFile = new File(downloadsDir, "gimbalData.zip");
-
-        for (int j = 0; j < seriesCount; j++) {
-            String relativeFilePath = saveData(j, allFlightData);
-            if (relativeFilePath != null && !relativeFilePath.isEmpty()) {
-                fileNames.add(relativeFilePath);
+        String dateString = exportTimestamp();
+        Map<String, String> entries = new LinkedHashMap<>();
+        for (int j = 0; j < allFlightData.getSeriesCount(); j++) {
+            String csv = buildCsv(j, allFlightData);
+            if (csv != null) {
+                entries.put(csvFileName(j, dateString), csv);
             }
         }
 
-        try (FileOutputStream fos = new FileOutputStream(zipFile);
-             ZipOutputStream zos = new ZipOutputStream(fos)) {
-
-            byte[] buffer = new byte[2048];
-            for (String relativeName : fileNames) {
-                File fileToZip = new File(downloadsDir, relativeName);
-                if (!fileToZip.exists()) continue;
-
-                ZipEntry ze = new ZipEntry(fileToZip.getName());
-                zos.putNextEntry(ze);
-
-                try (FileInputStream fis = new FileInputStream(fileToZip)) {
-                    int length;
-                    while ((length = fis.read(buffer)) > 0) {
-                        zos.write(buffer, 0, length);
-                    }
-                }
-                zos.closeEntry();
-            }
-        } catch (Exception e) {
+        try {
+            File zipFile = FlightFileExporter.writeZipToSharedCache(requireContext(), "gimbalData.zip", entries);
+            shareFile(zipFile);
+        } catch (IOException e) {
             Log.e(TAG, "Failed creating flight ZIP archive", e);
+            msg("Unable to create the flight archive");
         }
+    }
 
-        shareFile(zipFile);
+    /** @return the date suffix of the exported file names, e.g. "_24-05-2026_14-03-59" */
+    private static String exportTimestamp() {
+        SimpleDateFormat sdf = new SimpleDateFormat("_dd-MM-yyyy_HH-mm-ss", Locale.US);
+        return sdf.format(System.currentTimeMillis());
     }
 
     /**
-     * Serializes a single telemetry series channel into a standardized CSV file.
+     * @param seriesIndex index of the curve
+     * @param dateString  date suffix of the export
+     * @return CSV file name, e.g. "Flight 01-altitude_24-05-2026_14-03-59.csv"
+     */
+    private String csvFileName(int seriesIndex, String dateString) {
+        return flightName + "-" + allFlightData.getSeries(seriesIndex).getKey().toString() + dateString + ".csv";
+    }
+
+    /**
+     * Serializes one curve as CSV: a "time(ms),name unit" header, then one "time,value" line per
+     * sample. Numbers use the dot as decimal separator whatever the phone language.
      *
      * @param seriesIndex Index of the target series
      * @param dataSet     Dataset collection holding telemetry series
-     * @return Relative path to the generated CSV file
+     * @return the CSV text, or null if the curve is empty or does not exist
      */
-    private String saveData(int seriesIndex, XYSeriesCollection dataSet) {
+    private String buildCsv(int seriesIndex, XYSeriesCollection dataSet) {
         if (dataSet == null || seriesIndex < 0 || seriesIndex >= dataSet.getSeriesCount()) {
-            return "";
+            return null;
         }
 
         XYSeries series = dataSet.getSeries(seriesIndex);
+        int sampleCount = series.getItemCount();
+        if (sampleCount == 0) {
+            return null; // e.g. the speed curve, not computed yet
+        }
         String valHeader = getSeriesHeaderName(seriesIndex);
         String unitSuffix = (units != null && seriesIndex < units.length && units[seriesIndex] != null)
                 ? units[seriesIndex] : "";
 
         StringBuilder csvData = new StringBuilder();
         csvData.append("time(ms),").append(valHeader).append(" ").append(unitSuffix).append("\n");
-
-        int sampleCount = series.getItemCount();
         for (int i = 0; i < sampleCount; i++) {
             csvData.append(series.getX(i).doubleValue())
                     .append(",")
                     .append(series.getY(i).doubleValue())
                     .append("\n");
         }
-
-        File baseDownloads = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        File targetFolder = new File(baseDownloads, "MotorGimbalConsoleFlights");
-        if (!targetFolder.exists()) {
-            targetFolder.mkdirs();
-        }
-
-        SimpleDateFormat sdf = new SimpleDateFormat("_dd-MM-yyyy_HH-mm-ss", Locale.US);
-        String dateString = sdf.format(System.currentTimeMillis());
-        String fileName = flightName + "-" + series.getKey().toString() + dateString + ".csv";
-        File csvFile = new File(targetFolder, fileName);
-
-        try (FileOutputStream fout = new FileOutputStream(csvFile)) {
-            fout.write(csvData.toString().getBytes());
-            savedCurvesLog += fileName + "\n";
-        } catch (IOException e) {
-            Log.e(TAG, "Error writing CSV telemetry file: " + fileName, e);
-        }
-
-        return "MotorGimbalConsoleFlights" + File.separator + fileName;
+        return csvData.toString();
     }
 
     /**
@@ -451,16 +491,14 @@ public class FlightViewInfoFragment extends Fragment {
         intent.setType("application/zip");
         intent.putExtra(Intent.EXTRA_TEXT, "Motor Gimbal telemetry flight package attached.");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
+        // The URI is also attached as ClipData: this is what makes Android pass the temporary
+        // read permission through the chooser to the application picked by the user. The
+        // former loop on queryIntentActivities() returns nothing on Android 11+ (package
+        // visibility rules), so no permission was granted.
+        intent.setClipData(ClipData.newRawUri("", uri));
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         Intent chooser = Intent.createChooser(intent, "Share Telemetry File");
-        List<ResolveInfo> resInfoList = requireContext().getPackageManager()
-                .queryIntentActivities(chooser, PackageManager.MATCH_DEFAULT_ONLY);
-
-        for (ResolveInfo resolveInfo : resInfoList) {
-            String packageName = resolveInfo.activityInfo.packageName;
-            requireContext().grantUriPermission(packageName, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        }
 
         try {
             startActivity(chooser);

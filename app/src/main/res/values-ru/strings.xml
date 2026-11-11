@@ -399,4 +399,17 @@
     <string name="no">No</string>
     <string name="flash_nfirmware">Flash\nfirmware</string>
     <string name="about_button">About</string>
+    <!-- Bluetooth device selection (SearchBluetooth) -->
+    <string name="BT_msg3">Разрешение Bluetooth отклонено: невозможно показать сопряжённые модули.</string>
+    <string name="BT_msg4">Для выбора модуля платы необходимо включить Bluetooth.</string>
+    <!-- Gimbal configuration checks before upload (GimbalConfigValidator) -->
+    <string name="cfg_err_title">Конфигурация не отправлена</string>
+    <string name="cfg_err_empty_fields">Эти поля пусты или содержат недопустимые числа: %1$s</string>
+    <string name="cfg_err_servo">Сервопривод %1$s: минимум (%2$s) должен быть меньше максимума (%3$s), оба в диапазоне от 0 до 180°.</string>
+    <string name="cfg_err_pid">%1$s = %2$s: коэффициент ПИД должен быть от 0 до 100.</string>
+    <string name="cfg_err_offset">%1$s = %2$s: смещение должно быть от -32768 до 32767.</string>
+    <string name="cfg_err_sensor_range">Диапазон %1$s: выберите одно из предложенных значений.</string>
+    <string name="cfg_err_beep">Частота сигнала %1$s Гц: должна быть от 20 до 20000 Гц.</string>
+    <string name="cfg_err_end_record">Высота окончания записи %1$s: должна быть от 0 до 10000.</string>
+    <string name="cfg_err_timeout">Максимальная длительность записи %1$s: должна быть от 0 до 32767.</string>
 </resources>

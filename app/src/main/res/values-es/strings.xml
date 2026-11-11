@@ -399,4 +399,17 @@
     <string name="no">No</string>
     <string name="flash_nfirmware">Flash\nfirmware</string>
     <string name="about_button">About</string>
+    <!-- Bluetooth device selection (SearchBluetooth) -->
+    <string name="BT_msg3">Permiso Bluetooth denegado: no se pueden mostrar los módulos emparejados.</string>
+    <string name="BT_msg4">El Bluetooth debe estar activado para elegir el módulo de la placa.</string>
+    <!-- Gimbal configuration checks before upload (GimbalConfigValidator) -->
+    <string name="cfg_err_title">Configuración no enviada</string>
+    <string name="cfg_err_empty_fields">Estos campos están vacíos o no son números válidos: %1$s</string>
+    <string name="cfg_err_servo">Servo %1$s: el mínimo (%2$s) debe ser menor que el máximo (%3$s), ambos entre 0 y 180°.</string>
+    <string name="cfg_err_pid">%1$s = %2$s: una ganancia PID debe estar entre 0 y 100.</string>
+    <string name="cfg_err_offset">%1$s = %2$s: un offset debe estar entre -32768 y 32767.</string>
+    <string name="cfg_err_sensor_range">Rango %1$s: elija uno de los valores propuestos.</string>
+    <string name="cfg_err_beep">Frecuencia del pitido %1$s Hz: debe estar entre 20 y 20000 Hz.</string>
+    <string name="cfg_err_end_record">Altitud de fin de grabación %1$s: debe estar entre 0 y 10000.</string>
+    <string name="cfg_err_timeout">Tiempo máximo de grabación %1$s: debe estar entre 0 y 32767.</string>
 </resources>

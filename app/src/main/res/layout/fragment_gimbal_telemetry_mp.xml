@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    fragment_gimbal_telemetry_mp.xml
+
+    Author: boris.dureau@neuf.fr
+    Used by: GimbalMpFlightFragment
+
+    Description:
+    Telemetry, tab 0 (MPAndroidChart): grid of the flight events (lift-off, apogee, main chute,
+    landing) with their altitude and time, current altitude, and the live altitude chart.
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"

@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_main_screen.xml
+
+    Author: boris.dureau@neuf.fr
+    Used by: MainActivityScreen
+
+    Description:
+    Main screen: one card per feature (connect / disconnect, settings, flights, telemetry,
+    status, reset, firmware flashing and about). The cards are enabled according to the
+    connection state.
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"

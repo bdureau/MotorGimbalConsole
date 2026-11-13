@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .btn-entry { margin-bottom: 14px; }
+        .btn-entry strong { color: #0277BD; }
+        img { vertical-align: middle; margin: 4px 6px 4px 0; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Bear Altimeter Motor Gimbal konzol súgó</h1>
+
+<p>Ez az útmutató bemutatja az Android Bear Altimeter Motor Gimbal konzol használatát. Az Android konzol praktikus terepi eszköz a PID-stabilizálás beállításához, a repülési görbék áttekintéséhez és a valós idejű telemetria figyeléséhez közvetlenül az indítóállásnál.</p>
+
+<h2>Kezdeti beállítás és Bluetooth-párosítás</h2>
+<ol>
+    <li><strong>Firmware ellenőrzése:</strong> Győződjön meg róla, hogy a gimbal fedélzeti számítógépén kompatibilis firmware-verzió fut.</li>
+    <li><strong>Modul csatlakoztatása:</strong> Ellenőrizze, hogy a vezeték nélküli Bluetooth-modul (HC-05, HC-06 vagy HC-07) biztonságosan csatlakozik-e a gimbal vezérlőjéhez.</li>
+    <li><strong>Eszköz párosítása:</strong> Nyissa meg Android-eszközén a <em>Beállítások &gt; Bluetooth</em> menüt, és keresse meg az elérhető eszközöket. Párosítsa a modult (az alapértelmezett PIN általában <code>1234</code> vagy <code>0000</code>).</li>
+</ol>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; FIGYELEM</div>
+    <div>Erősen javasoljuk, hogy az Android Bluetooth-beállításaiban nevezze át az összes párosított Bluetooth-modult (pl. <em>„Rocket-Gimbal-1”</em>), hogy biztosan a megfelelő rakétához csatlakozzon az indítósínen.</div>
+</div>
+
+<ol start="4">
+    <li><strong>Bekapcsolás:</strong> Kapcsolja be a gimbal panelt, és tartsa a rakétát függőlegesen és mozdulatlanul, amíg az IMU-kalibráció és a giroszkóp inicializálása be nem fejeződik.</li>
+    <li><strong>Csatlakozás:</strong> Nyissa meg az alkalmazást, koppintson a <em>Csatlakozás/Bontás</em> gombra, és válassza ki a párosított modult. A kapcsolat állapotjelzője megerősíti a sikeres kapcsolatot.</li>
+</ol>
+
+<h2>A Gimbal konzol használata</h2>
+
+<h3>A főképernyő műveletei</h3>
+
+<div class="btn-entry">
+    <p><strong>[Gimbal beállítása]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal config75x91.png" alt="Config"/>
+        Kiolvassa a fedélzeti konfigurációt a repülésvezérlőből, és lehetővé teszi a szervókorlátok, a PID-paraméterek és az érzékelők tájolásának hangolását.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Repülések]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Flights75x91.png" alt="Flights"/>
+        Letölti a repülési naplókat a flash memóriából. Lehetővé teszi a magassággörbék és gyorsulási profilok ábrázolását, valamint a szervók működésének visszajátszását a hajtómű égése alatt.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Telemetria]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Telemetry75x90.png" alt="Telemetry"/>
+        Élő repülési telemetria-megjelenítő opcionális hang-/beszédbejelentésekkel a csúcspontról, a magasságról és a pálya állapotáról.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Visszaállítás]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Reset75x90.png" alt="Reset"/>
+        Visszaállítja a gimbal gyári beállításait, és lehetővé teszi a repülési naplók vagy csak a legutóbbi repülés törlését.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Állapot]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Status75x90.png" alt="Status"/>
+        Valós idejű diagnosztikai telemetriát, akkumulátorfeszültséget, szervó-középállásokat és érzékelő-állapotellenőrzést jelenít meg.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Firmware frissítése]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Flash firmware75x91.png" alt="Flash"/>
+        Frissített firmware-t ír a gimbal vezérlőjére USB-n vagy soros bootloaderen keresztül.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Névjegy]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal about75x91.png" alt="About"/>
+        Megjeleníti az alkalmazás verzióját, a build adatait és a fejlesztők listáját.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Csatlakozás / Bontás]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Connect75x91.png" alt="Connect"/>
+        <img src="file:///android_asset/help/images/Gimbal disconnect75x90.png" alt="Disconnect"/>
+        Létrehozza vagy bontja a Bluetooth / USB soros kapcsolatot a gimballal.</p>
+</div>
+
+<h3>Az alkalmazás beállítási menüje</h3>
+<p>A műveletsáv menüjéből elérheti ezt a súgót, megnyithatja a Névjegy ablakot, beállíthatja a kapcsolati modul paramétereit (Bluetooth, 3DR, LoRa), vagy testre szabhatja a felület beállításait.</p>
+
+<h3>Támogatott gimbal hardver</h3>
+<p>Több, különböző IMU- vagy barometrikus érzékelővel szerelt panel érhető el, amelyek kompatibilisek az alkalmazással.</p>
+<p>&bull; <strong>Gimbal (MPU6050 6 tengelyes IMU)</strong></p>
+<p><img src="file:///android_asset/help/images/altiGimbal-small.jpg" alt="MPU6050 Gimbal"/></p>
+<p>&bull; <strong>Gimbal (BNO055 abszolút tájolásérzékelő)</strong></p>
+<p><img src="file:///android_asset/help/images/altiGimbal-bno055-small.jpg" alt="BNO055 Gimbal"/></p>
+
+</body>
+</html>

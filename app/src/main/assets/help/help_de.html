@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; padding: 12px; color: #212121; }
+        h1 { font-size: 1.4em; color: #1976D2; border-bottom: 2px solid #1976D2; padding-bottom: 6px; }
+        h2 { font-size: 1.2em; color: #0D47A1; margin-top: 18px; }
+        h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
+        .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
+        .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
+        .btn-entry { margin-bottom: 14px; }
+        .btn-entry strong { color: #0277BD; }
+        img { vertical-align: middle; margin: 4px 6px 4px 0; }
+        ul, ol { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<h1>Hilfe zur Bear Altimeter Motor Gimbal-Konsole</h1>
+
+<p>Diese Anleitung erklärt die Verwendung Ihrer Android-Konsole Bear Altimeter Motor Gimbal. Die Android-Konsole ist ein praktisches Werkzeug für den Einsatz vor Ort, um die PID-Stabilisierung zu konfigurieren, Flugkurven auszuwerten und die Echtzeit-Telemetrie direkt an der Startrampe zu überwachen.</p>
+
+<h2>Ersteinrichtung &amp; Bluetooth-Kopplung</h2>
+<ol>
+    <li><strong>Firmware-Prüfung:</strong> Stellen Sie sicher, dass auf dem Flugcomputer des Gimbals eine kompatible Firmware-Version installiert ist.</li>
+    <li><strong>Modulanschluss:</strong> Prüfen Sie, ob das drahtlose Bluetooth-Modul (HC-05, HC-06 oder HC-07) fest mit dem Gimbal-Controller verbunden ist.</li>
+    <li><strong>Gerätekopplung:</strong> Öffnen Sie auf Ihrem Android-Gerät <em>Einstellungen &gt; Bluetooth</em> und suchen Sie nach verfügbaren Geräten. Koppeln Sie das Modul (die Standard-PIN lautet meist <code>1234</code> oder <code>0000</code>).</li>
+</ol>
+
+<div class="warning-box">
+    <div class="warning-title">&#9888; ACHTUNG</div>
+    <div>Wir empfehlen dringend, jedes gekoppelte Bluetooth-Modul in den Android-Bluetooth-Einstellungen umzubenennen (z. B. <em>„Rocket-Gimbal-1“</em>), damit Sie sich sicher mit der richtigen Rakete auf der Startschiene verbinden.</div>
+</div>
+
+<ol start="4">
+    <li><strong>Einschalten:</strong> Schalten Sie die Gimbal-Platine ein und halten Sie die Rakete senkrecht und unbewegt, bis die IMU-Kalibrierung und die Initialisierung des Gyroskops abgeschlossen sind.</li>
+    <li><strong>Verbinden:</strong> Öffnen Sie die App, tippen Sie auf <em>Verbinden/Trennen</em> und wählen Sie Ihr gekoppeltes Modul aus. Die Verbindungsstatusanzeige bestätigt eine erfolgreiche Verbindung.</li>
+</ol>
+
+<h2>Verwendung der Gimbal-Konsole</h2>
+
+<h3>Aktionen im Hauptbildschirm</h3>
+
+<div class="btn-entry">
+    <p><strong>[Gimbal-Konfiguration]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal config75x91.png" alt="Config"/>
+        Liest die interne Konfiguration aus dem Flugcomputer und ermöglicht das Einstellen von Servogrenzen, PID-Parametern und Sensorausrichtungen.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Flüge]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Flights75x91.png" alt="Flights"/>
+        Lädt Flugaufzeichnungen aus dem Flash-Speicher herunter. Ermöglicht die Darstellung von Höhenkurven und Beschleunigungsprofilen sowie die Wiedergabe der Servobewegungen während des Motorbrands.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Telemetrie]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Telemetry75x90.png" alt="Telemetry"/>
+        Live-Anzeige der Flugtelemetrie mit optionalen Ton-/Sprachansagen zu Apogäum, Höhe und Flugbahnstatus.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Zurücksetzen]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Reset75x90.png" alt="Reset"/>
+        Setzt die Gimbal-Konfiguration auf Werkseinstellungen zurück und ermöglicht das Löschen aller Flugaufzeichnungen oder nur des letzten Flugs.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Status]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Status75x90.png" alt="Status"/>
+        Zeigt Diagnose-Telemetrie in Echtzeit, Akkuspannung, Servo-Mittelstellungen und Sensor-Zustandsprüfungen an.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Firmware flashen]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Flash firmware75x91.png" alt="Flash"/>
+        Spielt eine aktualisierte Firmware per USB oder seriellem Bootloader auf den Gimbal-Controller auf.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Info]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal about75x91.png" alt="About"/>
+        Zeigt App-Version, Build-Informationen und die Entwickler an.</p>
+</div>
+
+<div class="btn-entry">
+    <p><strong>[Verbinden / Trennen]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Connect75x91.png" alt="Connect"/>
+        <img src="file:///android_asset/help/images/Gimbal disconnect75x90.png" alt="Disconnect"/>
+        Stellt die Bluetooth- / USB-Seriell-Verbindung zum Gimbal her oder trennt sie.</p>
+</div>
+
+<h3>Optionsmenü der App</h3>
+<p>Über das Menü der Aktionsleiste können Sie diese Hilfe öffnen, den Info-Dialog anzeigen, die Parameter des Verbindungsmoduls (Bluetooth, 3DR, LoRa) konfigurieren oder die Oberflächeneinstellungen anpassen.</p>
+
+<h3>Unterstützte Gimbal-Hardware</h3>
+<p>Es sind mehrere Platinen mit unterschiedlichen IMU- oder barometrischen Sensoren erhältlich, die mit der App kompatibel sind.</p>
+<p>&bull; <strong>Gimbal (MPU6050 6-Achsen-IMU)</strong></p>
+<p><img src="file:///android_asset/help/images/altiGimbal-small.jpg" alt="MPU6050 Gimbal"/></p>
+<p>&bull; <strong>Gimbal (BNO055 absoluter Orientierungssensor)</strong></p>
+<p><img src="file:///android_asset/help/images/altiGimbal-bno055-small.jpg" alt="BNO055 Gimbal"/></p>
+
+</body>
+</html>

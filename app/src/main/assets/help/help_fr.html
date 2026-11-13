@@ -10,116 +10,97 @@
         h3 { font-size: 1.05em; color: #37474F; margin-top: 14px; }
         .warning-box { background-color: #FFEBEE; border-left: 4px solid #D32F2F; padding: 10px; margin: 12px 0; }
         .warning-title { color: #D32F2F; font-weight: bold; margin-bottom: 4px; }
-        .info-box { background-color: #E3F2FD; border-left: 4px solid #1976D2; padding: 10px; margin: 12px 0; }
         .btn-entry { margin-bottom: 14px; }
         .btn-entry strong { color: #0277BD; }
-        .hardware-item { margin-bottom: 12px; }
-        img { vertical-align: middle; margin: 4px 6px 4px 0; max-width: 100%; height: auto; }
+        img { vertical-align: middle; margin: 4px 6px 4px 0; }
         ul, ol { padding-left: 20px; }
     </style>
 </head>
 <body>
 
-<h1>Fichier d'aide pour Banc de Test Moteur</h1>
+<h1>Aide de la console Bear Altimeter Motor Gimbal</h1>
 
-<p>Ceci est une aide rapide pour utiliser votre application Test Stand. L'application Test Stand est un moyen très pratique d'enregistrer les courbes de poussée de vos moteurs directement sur le terrain.</p>
+<p>Ce guide explique comment utiliser votre console Android Bear Altimeter Motor Gimbal. La console Android est un outil de terrain pratique pour configurer la stabilisation PID, consulter les courbes de vol et surveiller la télémétrie en temps réel directement sur le pas de tir.</p>
 
 <h2>Configuration initiale et appairage Bluetooth</h2>
 <ol>
-    <li><strong>Compatibilité du firmware :</strong> Assurez-vous que votre carte de banc de test est compatible (c'est-à-dire que le bon firmware y a été chargé).</li>
-    <li><strong>Connexion du module :</strong> Vérifiez que le module Bluetooth est bien raccordé à la carte du banc de test.</li>
-    <li><strong>Appairage système :</strong> Ouvrez les paramètres de votre appareil Android, puis les réglages Bluetooth, et recherchez le module HC-05, HC-06 ou tout autre module Bluetooth. Saisissez le code PIN d'appairage (par défaut <strong>1234</strong>).</li>
+    <li><strong>Vérification du firmware:</strong> Assurez-vous qu'une version de firmware compatible est installée sur l'ordinateur de vol du gimbal.</li>
+    <li><strong>Connexion du module:</strong> Vérifiez que le module Bluetooth sans fil (HC-05, HC-06 ou HC-07) est correctement raccordé au contrôleur du gimbal.</li>
+    <li><strong>Appairage de l'appareil:</strong> Ouvrez <em>Paramètres &gt; Bluetooth</em> sur votre appareil Android et recherchez les appareils disponibles. Appairez le module (le code PIN par défaut est généralement <code>1234</code> ou <code>0000</code>).</li>
 </ol>
 
 <div class="warning-box">
     <div class="warning-title">&#9888; ATTENTION</div>
-    <div>Donnez un nom explicite à chaque appareil Bluetooth appairé sur votre téléphone, afin d'être certain de configurer le bon banc de test.</div>
+    <div>Nous vous recommandons vivement de renommer chaque module Bluetooth appairé dans les paramètres Bluetooth d'Android (par ex. <em>« Rocket-Gimbal-1 »</em>) afin d'être certain de vous connecter à la bonne fusée sur le rail de lancement.</div>
 </div>
 
 <ol start="4">
-    <li><strong>Mise sous tension :</strong> Allumez le banc de test et attendez qu'il cesse d'émettre des bips.</li>
-    <li><strong>Connexion :</strong> Lancez l'application sur votre appareil Android, touchez « Montrer les périphériques » et sélectionnez votre module HC-05 ou HC-06. La console tente alors de se connecter.</li>
+    <li><strong>Mise sous tension:</strong> Allumez la carte du gimbal et maintenez la fusée verticale et immobile jusqu'à la fin de l'étalonnage de l'IMU et de l'initialisation du gyroscope.</li>
+    <li><strong>Connexion:</strong> Ouvrez l'application, appuyez sur <em>Connecter/Déconnecter</em> et sélectionnez votre module appairé. L'indicateur d'état de connexion confirmera que la liaison est établie.</li>
 </ol>
 
-<p>Une fois connecté, vous pouvez utiliser l'application pour configurer votre banc de test ou lire les courbes de poussée enregistrées. Si la connexion échoue, vérifiez que la carte est bien alimentée et que le bon adaptateur Bluetooth est sélectionné.</p>
+<h2>Utilisation de la console Gimbal</h2>
 
-<h2>Utilisation de l'application Test Stand</h2>
-
-<h3>Commandes de l'écran principal</h3>
+<h3>Actions du tableau de bord principal</h3>
 
 <div class="btn-entry">
-    <p><strong>[Config Banc de Test Moteur]</strong></p>
-    <p><img src="file:///android_asset/help/images/Motor settings75x91.png" alt="Config Banc de Test Moteur"/>
-        Lit la configuration actuelle du banc de test et vous permet de la modifier.</p>
+    <p><strong>[Configuration du gimbal]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal config75x91.png" alt="Config"/>
+        Lit la configuration embarquée de l'ordinateur de vol et permet de régler les limites des servos, les paramètres PID et l'orientation des capteurs.</p>
 </div>
 
 <div class="btn-entry">
-    <p><strong>[Chargement Courbes de Poussées]</strong></p>
-    <p><img src="file:///android_asset/help/images/Motor Thrust Curves75x87.png" alt="Chargement Courbes de Poussées"/>
-        Lit toutes les courbes de poussée enregistrées en mémoire et les affiche sous forme de graphiques interactifs.</p>
+    <p><strong>[Vols]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Flights75x91.png" alt="Flights"/>
+        Télécharge les journaux de vol depuis la mémoire flash. Permet de tracer les courbes d'altitude et les profils d'accélération, et de rejouer l'action des servos pendant la combustion du moteur.</p>
 </div>
 
 <div class="btn-entry">
     <p><strong>[Télémétrie]</strong></p>
-    <p><img src="file:///android_asset/help/images/Motor Telemetry75x91.png" alt="Télémétrie"/>
-        Ouvre la télémétrie en temps réel transmise par le banc de test.</p>
+    <p><img src="file:///android_asset/help/images/Gimbal Telemetry75x90.png" alt="Telemetry"/>
+        Suivi en direct de la télémétrie de vol, avec annonces sonores/vocales optionnelles pour l'apogée, l'altitude et l'état de la trajectoire.</p>
 </div>
 
 <div class="btn-entry">
-    <p><strong>[Réinit Config]</strong></p>
-    <p><img src="file:///android_asset/help/images/Motor reset settings75x90.png" alt="Réinit Config"/>
-        Restaure les paramètres d'usine. Permet aussi d'effacer toutes les courbes de poussée enregistrées.</p>
+    <p><strong>[Réinitialisation]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Reset75x90.png" alt="Reset"/>
+        Restaure la configuration d'usine du gimbal et permet d'effacer les journaux de vol ou uniquement le vol le plus récent.</p>
 </div>
 
 <div class="btn-entry">
     <p><strong>[État]</strong></p>
-    <p><img src="file:///android_asset/help/images/Motor Status75x90.png" alt="État"/>
-        Ouvre l'écran de diagnostic matériel, qui affiche l'état des capteurs, la tension de la batterie et l'état de la carte.</p>
+    <p><img src="file:///android_asset/help/images/Gimbal Status75x90.png" alt="Status"/>
+        Affiche la télémétrie de diagnostic en temps réel, la tension de la batterie, les positions centrales des servos et l'état de santé des capteurs.</p>
 </div>
 
 <div class="btn-entry">
-    <p><strong>[Flash Firmware]</strong></p>
-    <p><img src="file:///android_asset/help/images/Motor flash75x85.png" alt="Flash Firmware"/>
-        Permet de mettre à jour le firmware de la carte directement par câble USB.</p>
+    <p><strong>[Flasher le firmware]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Flash firmware75x91.png" alt="Flash"/>
+        Flashe un firmware mis à jour sur le contrôleur du gimbal via USB ou un bootloader série.</p>
 </div>
 
 <div class="btn-entry">
-    <p><strong>[Connexion / Déconnexion]</strong></p>
-    <p>
-        <img src="file:///android_asset/help/images/Motor connect75x87.png" alt="Connexion"/>
-        <img src="file:///android_asset/help/images/Motor disconnect75x86.png" alt="Déconnexion"/>
-    </p>
-    <p>Établit ou interrompt la communication avec le banc de test.</p>
+    <p><strong>[À propos]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal about75x91.png" alt="About"/>
+        Affiche la version de l'application, les informations de build et les crédits des développeurs.</p>
 </div>
 
-<h3>Menu de l'écran principal</h3>
-<p>Depuis le menu d'options, vous pouvez ouvrir ce guide d'aide, accéder à l'écran « À propos » qui affiche les informations de version, et personnaliser l'apparence de l'application.</p>
-
-<h3>Matériel pris en charge</h3>
-<p>Cette application prend en charge les cartes de banc de test suivantes :</p>
-
-<div class="hardware-item">
-    <p>&bull; <strong>Banc de test ATmega328</strong></p>
-    <p>Il s'agit du prototype de banc de test d'origine, que j'ai réalisé avec un ATmega328.</p>
+<div class="btn-entry">
+    <p><strong>[Connecter / Déconnecter]</strong></p>
+    <p><img src="file:///android_asset/help/images/Gimbal Connect75x91.png" alt="Connect"/>
+        <img src="file:///android_asset/help/images/Gimbal disconnect75x90.png" alt="Disconnect"/>
+        Établit ou interrompt la liaison Bluetooth / série USB avec le gimbal.</p>
 </div>
 
-<div class="hardware-item">
-    <p>&bull; <strong>Banc de test STM32 (version 1)</strong></p>
-    <p>Il s'agit du premier banc de test de série, équipé d'une carte STM32. Il n'a qu'une seule entrée pour le capteur de force (jauge) : il ne peut donc mesurer que la poussée.</p>
-    <p><img src="file:///android_asset/help/images/testStandV1-small.jpg" alt="Banc de test STM32 (version 1)"/></p>
-</div>
+<h3>Menu des options de l'application</h3>
+<p>Depuis le menu de la barre d'action, vous pouvez accéder à cette aide, afficher la boîte de dialogue À propos, configurer les paramètres du module de connexion (Bluetooth, 3DR, LoRa) ou personnaliser les préférences de l'interface.</p>
 
-<div class="hardware-item">
-    <p>&bull; <strong>Banc de test STM32 (version 2)</strong></p>
-    <p>Il s'agit de la deuxième version du banc de test, elle aussi équipée d'une carte STM32. Elle dispose d'une entrée pour le capteur de force afin de mesurer la poussée, et de 2 entrées analogiques pour mesurer la pression à l'intérieur du corps du moteur.</p>
-    <p><img src="file:///android_asset/help/images/testStandV2-small-1.jpg" alt="Banc de test STM32 (version 2)"/></p>
-</div>
-
-<div class="hardware-item">
-    <p>&bull; <strong>Banc de test ESP32 (version 3)</strong></p>
-    <p>Il s'agit de la troisième version du banc de test, qui utilise une puce ESP32. Elle dispose d'une entrée pour le capteur de force afin de mesurer la poussée, et de 2 entrées analogiques pour mesurer la pression à l'intérieur du corps du moteur. Notez que, pour une raison inconnue, elle enregistre moins</p>
-    <p><img src="file:///android_asset/help/images/testStandESP32-small.jpg" alt="Banc de test ESP32 (version 3)"/></p>
-</div>
+<h3>Matériel gimbal pris en charge</h3>
+<p>Plusieurs cartes équipées de différents capteurs IMU ou barométriques sont disponibles et compatibles avec l'application.</p>
+<p>&bull; <strong>Gimbal (IMU 6 axes MPU6050)</strong></p>
+<p><img src="file:///android_asset/help/images/altiGimbal-small.jpg" alt="MPU6050 Gimbal"/></p>
+<p>&bull; <strong>Gimbal (capteur d'orientation absolue BNO055)</strong></p>
+<p><img src="file:///android_asset/help/images/altiGimbal-bno055-small.jpg" alt="BNO055 Gimbal"/></p>
 
 </body>
 </html>
